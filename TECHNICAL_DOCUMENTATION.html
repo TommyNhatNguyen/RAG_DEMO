@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multimodal RAG — Software Engineering Technical Specification</title>
+<style>
+:root {
+  --bg: #f6f4ef; --paper: #fffdf8; --ink: #1c1917; --muted: #57534e; --line: #e7e0d4;
+  --accent: #1d4ed8; --accent-soft: #dbeafe; --ok: #166534; --warn: #92400e; --bad: #991b1b;
+  --code: #0f172a; --code-bg: #1e293b; --thead: #f4efe6;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.55 "Iowan Old Style", Palatino, "Times New Roman", serif; }
+.wrap { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+nav.toc { position: sticky; top: 0; height: 100vh; overflow: auto; background: #1c1917; color: #e7e5e4; padding: 1.25rem 1rem 3rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; }
+nav.toc h1 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #a8a29e; margin: 0 0 1rem; }
+nav.toc a { color: #e7e5e4; text-decoration: none; display: block; padding: .22rem 0; }
+nav.toc a:hover { color: #93c5fd; }
+nav.toc .l2 { padding-left: .9rem; color: #a8a29e; }
+main { padding: 2.25rem 2.5rem 5rem; max-width: 980px; }
+.doc-banner { background: var(--paper); border: 1px solid var(--line); padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
+.doc-banner h1 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.85rem; margin: 0 0 .4rem; letter-spacing: -.02em; }
+.doc-banner p { margin: .25rem 0; color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
+.meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: .35rem 1rem; margin-top: 1rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; }
+.meta-grid dt { color: var(--muted); }
+h2 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.35rem; margin: 2.4rem 0 .8rem; padding-top: .4rem; border-top: 1px solid var(--line); }
+h3 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.08rem; margin: 1.6rem 0 .5rem; }
+p { margin: .7rem 0; }
+ul, ol { margin: .4rem 0 .8rem; padding-left: 1.35rem; }
+li { margin: .22rem 0; }
+a { color: var(--accent); }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86em; background: #efeae1; padding: .08em .28em; }
+pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.45; background: var(--code-bg); color: #e2e8f0; padding: 1rem 1.1rem; overflow-x: auto; border-radius: 4px; }
+pre code { background: none; color: inherit; padding: 0; }
+table { width: 100%; border-collapse: collapse; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; margin: .8rem 0 1.2rem; }
+th, td { border: 1px solid var(--line); padding: .45rem .55rem; text-align: left; vertical-align: top; }
+th { background: var(--thead); }
+.note, .warn { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; padding: .75rem .9rem; margin: 1rem 0; border-left: 4px solid; }
+.note { background: var(--accent-soft); border-color: var(--accent); }
+.warn { background: #fef3c7; border-color: var(--warn); }
+.kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin: 1rem 0 1.4rem; }
+.kpi div { background: var(--paper); border: 1px solid var(--line); padding: .8rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+.kpi b { display: block; font-size: 1.15rem; }
+.kpi span { color: var(--muted); font-size: 12px; }
+@media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } nav.toc { position: relative; height: auto; } .kpi, .meta-grid { grid-template-columns: 1fr; } }
+@media print { nav.toc { display: none; } .wrap { display: block; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="toc" aria-label="Table of contents">
+<h1>Contents</h1>
+<a href="#control">0. Document control</a>
+<a href="#intro">1. Introduction</a>
+<a href="#glossary">2. Glossary</a>
+<a href="#overview">3. System overview</a>
+<a href="#arch">4. Architecture</a>
+<a href="#stack">5. Stack &amp; extras</a>
+<a href="#datamodel">6. Data model</a>
+<a href="#ids">7. IDs &amp; incremental ingest</a>
+<a href="#meta">8. Metadata</a>
+<a href="#modal">9. Per-modality ingest</a>
+<a href="#video">10. Long video</a>
+<a href="#index">11. Indexing</a>
+<a href="#retrieve">12. Retrieval</a>
+<a href="#gen">13. Generation (LLM)</a>
+<a href="#cli">14. CLI</a>
+<a href="#cache">15. Model cache vs RAM</a>
+<a href="#config">16. Configuration</a>
+<a href="#storage">17. Storage layout</a>
+<a href="#test">18. Tests</a>
+<a href="#ops">19. Operations</a>
+<a href="#limits">20. Limitations</a>
+<a href="#inventory">21. Source inventory</a>
+</nav>
+<main>
+<header class="doc-banner" id="control">
+<h1>Multimodal RAG<br>Software Engineering Technical Specification</h1>
+<p>Ingestion, embedding, retrieval, and Qwen3-1.7B generation for PDF, DOCX, PPTX, TXT, Markdown, images, and long video. Describes the system as implemented in the live tree.</p>
+<dl class="meta-grid">
+<dt>System</dt><dd>multimodal-rag 0.1.0 (<code>app/__init__.py</code>)</dd>
+<dt>Status</dt><dd>Implemented. LLM generation and long-video representative-frame pipeline (<code>video_pipeline_version=v2-long</code>) are in tree.</dd>
+<dt>Audience</dt><dd>Software engineers and new AI/context sessions</dd>
+<dt>Code snapshot</dt><dd>2026-09-07 · pair with <code>CODEBASE_CONTEXT.html</code> and <code>README.md</code></dd>
+<dt>Python</dt><dd>3.11 or 3.12 (<code>&gt;=3.11,&lt;3.14</code>)</dd>
+<dt>CLI</dt><dd><code>python -m app.main ingest|search|ask|stats</code> · console script <code>multimodal-rag</code></dd>
+<dt>Entry</dt><dd><code>app.main:main</code> · factory <code>build_services(settings)</code></dd>
+</dl>
+</header>
+
+<div class="kpi">
+<div><b>Two collections</b><span>text vs VL vector spaces</span></div>
+<div><b>SHA-256 IDs</b><span>Idempotent ingest</span></div>
+<div><b>Rep. video frames</b><span>VL only on selected frames</span></div>
+<div><b>Qwen3-1.7B</b><span>thinking OFF, stream ask</span></div>
+</div>
+
+<h2 id="intro">1. Introduction</h2>
+<p>This document describes the system as implemented. It replaces older statements that generation was out of scope or that video used a uniform 3-frame / 15s OpenCV sampler with a silent duration cap.</p>
+<p><strong>In scope:</strong> ingest (Docling / text / image / video), dual Chroma collections, retrieval + score rerank, Vietnamese tutoring answers via Qwen3-1.7B, long-video coarse sampling and representative frame selection, checkpoints for Whisper/WAV reuse, SHA-256 incremental ingest.</p>
+<p><strong>Out of scope (not in this slice):</strong> UI, auth, HTTP API, vLLM/Ollama, Qwen3-VL as the chat model, unified single vector collection, quantization, interactive <code>chat</code> REPL (weights still reload per <code>ask</code> process), <code>HF_LOCAL_FILES_ONLY</code> flag, benchmark/ingest-video CLI variants from the long-video prompt.</p>
+<div class="note">Do not mix Qwen3-Embedding and Qwen3-VL-Embedding in one collection. Do not load the LLM on ingest/search/stats. Retrieval returns <code>list[RetrievalResult]</code>, not LangChain Documents. OCR is preprocessing, not an embedder. Binaries stay on disk; Chroma holds paths. <code>project_root</code> is <code>cwd()</code>.</div>
+
+<h2 id="glossary">2. Glossary</h2>
+<table>
+<thead><tr><th>Term</th><th>Definition</th></tr></thead>
+<tbody>
+<tr><td>document_id</td><td>SHA-256 of file bytes (<code>app.ids.file_sha256</code>)</td></tr>
+<tr><td>vector_id</td><td><code>{document_id}:{kind}:{chunk_index}</code> — <code>kind</code> in the id is not always equal to metadata <code>content_type</code></td></tr>
+<tr><td>content_type</td><td>Metadata: <code>text</code> | <code>table</code> | <code>image</code> | <code>page</code> | <code>video_segment</code> | <code>video_frame</code>. Literal also allows unused <code>video</code>.</td></tr>
+<tr><td>processed_duration</td><td>Seconds actually ingested (probed duration unless <code>VIDEO_MAX_DURATION</code> caps)</td></tr>
+<tr><td>video_pipeline_version</td><td>Constant <code>v2-long</code> in <code>app/processors/video_checkpoint.py</code></td></tr>
+<tr><td>Coarse candidate</td><td>Cheap JPEG sampled every <code>VIDEO_COARSE_SAMPLE_INTERVAL</code> (default 10s) via FFmpeg</td></tr>
+<tr><td>Representative frame</td><td>Subset selected by pHash / OCR / optional scene / temporal coverage; VL-embedded</td></tr>
+<tr><td>Score</td><td><code>1.0 - cosine_distance</code> (Chroma <code>hnsw:space=cosine</code>)</td></tr>
+<tr><td>Instruct query</td><td>Text embed query wrapped as <code>Instruct: {QUERY_TASK}\nQuery:{text}</code></td></tr>
+<tr><td>DURATION_TOLERANCE</td><td>1.0 second; used for video completeness and checkpoint match</td></tr>
+</tbody>
+</table>
+
+<h2 id="overview">3. System overview</h2>
+<pre><code>PDF/DOCX/PPTX ── Docling ── chunks ── Qwen3-Embedding ── text_embeddings
+                 └── pictures/pages ── Qwen3-VL-Embedding ── visual_embeddings
+TXT/MD ──────── splitter ────────── Qwen3-Embedding
+Image ───────── Pillow + OCR ────── text + VL
+Video ───────── FFmpeg WAV + Whisper (CPU int8)
+            └── coarse frames → pHash / OCR / optional PySceneDetect
+            └── 1–3 frames / 30s window ── VL ── visual (video_frame)
+            └── transcript windows ────── text ── text (metadata video_segment)
+                                                      │
+                                            retriever merge + score sort
+                                                      │
+                              Qwen3-1.7B (thinking OFF, max_new_tokens=4096)</code></pre>
+<p>Ingestion, retrieval, and generation are separate packages. Factory wires them. LLM loads only on first generate. VL loads only if visual search/index runs. Text embedder also lazy-loads.</p>
+
+<h2 id="arch">4. Architecture</h2>
+<p><code>build_services(settings)</code> in <code>app/factory.py</code> returns <code>AppServices</code>: vector store, object store, manifest, text/VL embedders, pipeline, retriever, <code>GenerationService</code>. If <code>HF_TOKEN</code> / <code>HUGGING_FACE_HUB_TOKEN</code> is set, <code>login_hub()</code> runs on <em>every</em> command (Hub <code>whoami-v2</code>).</p>
+<table>
+<thead><tr><th>Package</th><th>Role</th></tr></thead>
+<tbody>
+<tr><td><code>app.config</code></td><td>Pydantic Settings, <code>resolve_device</code>, cached <code>get_settings</code></td></tr>
+<tr><td><code>app.loaders</code></td><td>Parse files; <code>detect_kind</code> / <code>iter_input_files</code>; video orchestrates checkpoints</td></tr>
+<tr><td><code>app.processors</code></td><td>OCR, ffmpeg, coarse frames, pHash selection, scenes, metadata, leftover OpenCV sampler</td></tr>
+<tr><td><code>app.chunking</code></td><td>RecursiveCharacterTextSplitter; video time windows + Whisper piece assignment</td></tr>
+<tr><td><code>app.pipeline</code></td><td>Ingest report; index to Chroma</td></tr>
+<tr><td><code>app.embeddings</code></td><td>Lazy HF text + SentenceTransformer VL</td></tr>
+<tr><td><code>app.vectorstore</code></td><td>Chroma PersistentClient</td></tr>
+<tr><td><code>app.storage</code></td><td>LocalFilesystemStore (ObjectStore protocol)</td></tr>
+<tr><td><code>app.retrieval</code></td><td>Dual kNN, merge by id, ScoreReranker</td></tr>
+<tr><td><code>app.generation</code></td><td>Prompt, think-filter, ChatHuggingFace stream</td></tr>
+<tr><td><code>app.main</code></td><td>CLI only; argparse subcommands</td></tr>
+</tbody>
+</table>
+<p>Swap points are Protocols: <code>TextEmbedder</code>, <code>VLEmbedder</code>, <code>VectorStore</code>, <code>ObjectStore</code>, <code>OCREngine</code>, <code>Generator</code>, <code>FrameSelectionStrategy</code>, <code>DocumentLoader</code>. <code>Reranker</code> currently subclasses <code>ScoreReranker</code> (cosine sort, not a cross-encoder).</p>
+
+<h2 id="stack">5. Stack and extras</h2>
+<p><code>pyproject.toml</code> extras:</p>
+<table>
+<thead><tr><th>Extra</th><th>Packages</th></tr></thead>
+<tbody>
+<tr><td>core</td><td>pydantic-settings, python-dotenv, chromadb, langchain-huggingface, langchain-text-splitters, huggingface-hub, pillow</td></tr>
+<tr><td><code>document</code></td><td>docling, langchain-docling</td></tr>
+<tr><td><code>vision</code></td><td>sentence-transformers, pytesseract</td></tr>
+<tr><td><code>video</code></td><td>opencv-python-headless, faster-whisper, scenedetect</td></tr>
+<tr><td><code>generation</code></td><td>transformers&gt;=4.51, langchain-core, langchain-huggingface</td></tr>
+<tr><td><code>dev</code></td><td>pytest</td></tr>
+<tr><td><code>all</code></td><td>union of the above</td></tr>
+</tbody>
+</table>
+<p>System: Tesseract, FFmpeg <strong>and</strong> ffprobe. Missing either raises <code>RuntimeError</code> with install text (<code>app/processors/ffmpeg_check.py</code>). OpenCV is a video extra dependency; the live sampler is FFmpeg. <code>app/processors/video.py::sample_frames</code> (uniform OpenCV) is unused by <code>VideoLoader</code>.</p>
+<p><code>docker-compose.yml</code> is a placeholder (<code>services: {}</code>) documenting future volume names; Chroma is embedded, not a Compose service.</p>
+
+<h2 id="datamodel">6. Data model</h2>
+<p>Pydantic models in <code>app/models/</code>:</p>
+<table>
+<thead><tr><th>Type</th><th>Fields (principal)</th></tr></thead>
+<tbody>
+<tr><td><code>DocumentAsset</code></td><td>id, source, file_name, relative_path, file_type, metadata</td></tr>
+<tr><td><code>TableAsset</code></td><td>id, document_id, page_number, section, rows/columns, markdown, image_path</td></tr>
+<tr><td><code>TextChunk</code></td><td>id, document_id, text, page_number, section, chunk_index</td></tr>
+<tr><td><code>ImageAsset</code></td><td>id, document_id, path, page_number, caption, ocr_text</td></tr>
+<tr><td><code>VideoAsset</code></td><td>id, source, file_name, relative_path, duration, metadata (stats + checkpoint_path)</td></tr>
+<tr><td><code>VideoSegment</code></td><td>id, video_id, start/end, transcript, frame_paths, frame_timestamps, ocr_texts</td></tr>
+<tr><td><code>RetrievalResult</code></td><td>id, score, content_type, content, metadata</td></tr>
+<tr><td><code>EmbeddingRecord</code></td><td>unused at runtime; schema only</td></tr>
+</tbody>
+</table>
+<p>Loader DTOs: <code>LoadedDocument</code> (asset, text_blocks, tables, images, page_images, native_text_by_page), <code>LoadedVideo</code> (asset, segments, full_transcript). Frame DTO: <code>FrameCandidate</code> (timestamp, path, phash, ocr_text, is_scene_boundary, visual_change).</p>
+<p>Ingest DTOs: <code>FileIngestResult</code> (path, status, document_id, error, duration_s), <code>IngestReport</code> with lists indexed / skipped_unchanged / reindexed_changed / failed.</p>
+
+<h2 id="ids">7. Identifiers and incremental ingest</h2>
+<p>Document identity is SHA-256 of bytes (1 MiB chunks). Paths and names are NFC-normalized. If a path is outside <code>project_root</code>, <code>relative_posix</code> stores the filename only.</p>
+<h3>Vector ID encoding</h3>
+<table>
+<thead><tr><th>Id pattern</th><th>Metadata content_type</th><th>chunk_index</th></tr></thead>
+<tbody>
+<tr><td><code>{hash}:text:{n}</code></td><td><code>text</code></td><td>sequential from TextChunker</td></tr>
+<tr><td><code>{hash}:text:{n}</code></td><td><code>video_segment</code></td><td>window index (id kind is <code>text</code>, not <code>video_segment</code>)</td></tr>
+<tr><td><code>{hash}:text:{10000+i}</code></td><td><code>text</code></td><td>OCR sidecar from pictures/pages</td></tr>
+<tr><td><code>{hash}:table:{n}</code></td><td><code>table</code></td><td>Docling table index</td></tr>
+<tr><td><code>{hash}:image:{n}</code></td><td><code>image</code></td><td>picture index or 0 for standalone</td></tr>
+<tr><td><code>{hash}:page:{page}</code></td><td><code>page</code></td><td>page number</td></tr>
+<tr><td><code>{hash}:video_frame:{ms}</code></td><td><code>video_frame</code></td><td>round(timestamp×1000), +1 on collision</td></tr>
+</tbody>
+</table>
+<div class="warn">Video transcript vectors use <code>vector_id(id, "text", window_index)</code> while metadata <code>content_type</code> is <code>video_segment</code>. Do not assume the id’s middle token equals <code>content_type</code>.</div>
+<h3>Skip / reindex rules</h3>
+<ul>
+<li>Same hash already in the current ingest batch → skip (duplicate files in one tree).</li>
+<li>Same path, different hash → delete old vectors + object prefixes (<code>images/</code>, <code>frames/</code>, <code>audio/{id}.wav</code>, <code>videos/</code>, <code>tmp/</code>) + manifest hash; status <code>reindexed_changed</code>.</li>
+<li>Non-video: skip if manifest has hash <em>and</em> Chroma has vectors in either collection.</li>
+<li>Video: skip only if <code>is_video_complete(hash, target_duration)</code> and vectors exist. Complete means same <code>video_pipeline_version</code> and <code>processed_duration + 1.0 ≥ target</code>. Target is min(probed, cap) when cap is set.</li>
+<li>Incomplete / old pipeline video: delete Chroma vectors only (keep WAV/transcript if checkpoint still matches duration); status <code>reindexed_changed</code>.</li>
+</ul>
+
+<h2 id="meta">8. Metadata</h2>
+<p><code>base_metadata()</code> always writes: <code>document_id</code>, <code>source</code>, <code>file_name</code>, <code>filename</code> (duplicate of file_name), <code>relative_path</code>, <code>file_type</code>, <code>content_type</code>, <code>chunk_index</code>. None values dropped. Non-scalars stringified for Chroma (<code>flatten_metadata</code> allows str/int/float/bool only).</p>
+<p>Extras by type: text/table/page → <code>page_number</code>, <code>section</code>, <code>image_path</code>, <code>caption</code>. Video segment → <code>video_id</code>, <code>start_time</code>, <code>end_time</code>. Video frame → those plus <code>timestamp</code>, <code>segment_id</code>, <code>image_path</code>.</p>
+<p>Manifest extra for video: <code>processed_duration</code>, <code>video_pipeline_version</code>, <code>candidate_frames</code>, <code>selected_frames</code>.</p>
+<div class="warn">Video <code>DocumentAsset.file_type</code> is forced to <code>mp4</code> in <code>IndexingService.index_video</code> even for .mov/.mkv. Manifest <code>file_type</code> still uses the real suffix.</div>
+
+<h2 id="modal">9. Per-modality ingest (non-video)</h2>
+<h3>PDF / DOCX / PPTX — <code>DoclingLoader</code></h3>
+<ul>
+<li>Docling <code>PdfPipelineOptions</code>: <code>do_ocr=False</code>, <code>do_table_structure=True</code>, picture/page images from settings, <code>images_scale=1.0</code>.</li>
+<li>Text iterate skips PAGE_FOOTER, PAGE_HEADER, FOOTNOTE, PICTURE, TABLE. TITLE / SECTION_HEADER become <code>section</code>.</li>
+<li>Tables: <code>export_to_markdown</code>; empty markdown skipped.</li>
+<li>Pictures always stored as PNG under <code>storage/images/{id}/picture_NNN.png</code>.</li>
+<li>Page images stored for every PPTX page, or for any page whose native text is shorter than <code>MIN_NATIVE_TEXT=40</code>.</li>
+<li>If <em>no</em> page has ≥40 native chars and page images exist, Tesseract runs on page images and OCR text is appended as extra text blocks.</li>
+</ul>
+<h3>TXT / Markdown — <code>TextLoader</code></h3>
+<p>UTF-8 with replace. Markdown ATX headings (<code>#{1,6}</code>) split sections; heading line itself is not stored as a block. Plain TXT is one block.</p>
+<h3>Images — <code>ImageLoader</code></h3>
+<p>Pillow RGB (alpha flattened onto white). Stored as <code>storage/images/{id}/original.png</code>. OCR text becomes both a text block and <code>ImageAsset.ocr_text</code>.</p>
+<h3>Text chunking</h3>
+<p><code>RecursiveCharacterTextSplitter(chunk_size, chunk_overlap)</code>. Blocks shorter than chunk_size stay whole. Empty parts dropped.</p>
+
+<h2 id="video">10. Long video</h2>
+<p>Default: process the <strong>full</strong> probed duration. Empty <code>VIDEO_MAX_DURATION</code> = no cap. If set and probed duration exceeds it, logs WARNING, records <code>processed_duration</code>, does not silently pretend the file is fully indexed.</p>
+<pre><code>[1/7] metadata (ffprobe: duration, size, fps, has_audio)
+[2/7] audio WAV 16 kHz mono pcm_s16le (reuse if checkpoint matches)
+[3/7] faster-whisper CPU int8 → timestamped pieces → transcript.json
+[4/7] coarse JPEG every 10s (storage/tmp/{id}/candidates/candidate_NNNNNN.jpg, q=5)
+[5/7] SemanticFrameSelectionStrategy (pHash, OCR interval, optional scenes, temporal spread)
+[6–7] index: text windows + VL on selected frames only; delete tmp candidates; stage=indexed</code></pre>
+<h3>Checkpoints</h3>
+<p>Work dir <code>storage/videos/{sha256}/</code>: <code>checkpoint.json</code>, <code>transcript.json</code>. WAV at <code>storage/audio/{sha256}.wav</code>. Stages: metadata → audio → transcript → coarse_frames → selected → indexed. Reuse requires same video_id, pipeline <code>v2-long</code>, and processed_duration within 1.0s. If checkpoint does not match, WAV/transcript/tmp candidates are deleted and the job restarts.</p>
+<p>Whisper has no MPS; CTranslate2 CPU. Progress logs every ~10% of processed duration. Audio extract applies FFmpeg <code>-t</code> when capped; Whisper then reads that WAV.</p>
+<h3>Windows and transcripts</h3>
+<p><code>build_time_windows(processed, VIDEO_SEGMENT_DURATION)</code> produces contiguous [start, end) slices. Each Whisper piece is assigned to the window that contains its <strong>start</strong> time (full text, no mid-sentence clip). <code>transcript_for_window</code> (overlap join) exists but is unused by the loader.</p>
+<h3>Frame selection</h3>
+<p>Average-hash 8×8. Near-duplicates skipped when similarity ≥ <code>VIDEO_FRAME_SIMILARITY_THRESHOLD</code> (0.90). Score:</p>
+<pre><code>0.35 * visual_change + 0.30 * ocr_change + 0.20 * scene_boundary + 0.15 * temporal_coverage</code></pre>
+<p>Cap <code>VIDEO_MAX_REPRESENTATIVE_FRAMES</code> (3) per window. If selection is empty, fallback strides coarse frames using <code>VIDEO_FRAMES_PER_SEGMENT</code>. Selected JPEGs copied to <code>storage/frames/{id}/t{ms:09d}.jpg</code>.</p>
+<p>OCR on coarse frames at most every <code>VIDEO_OCR_INTERVAL</code> (30s) when enabled. Failure is logged; abort only if <code>OCR_REQUIRED=true</code>. PySceneDetect ContentDetector when <code>VIDEO_SCENE_ENABLED=true</code>; import/runtime failure returns no boundaries.</p>
+<p>Do not VL-embed every coarse frame. Frame extraction is cheap; VL is expensive.</p>
+
+<h2 id="index">11. Indexing</h2>
+<p><code>IndexingService.index_document</code>: batched text embed of chunks + tables + OCR strings; VL on pictures/pages. VL failure keeps text (exception logged). Visual payload is a path string, or <code>{"text": caption|ocr, "image": path}</code> when text exists. Page vs image distinguished by <code>:page:</code> in the image id.</p>
+<p><code>index_video</code>: one text vector per window with non-empty transcript; one visual vector per selected frame. After success, checkpoint stage <code>indexed</code> and <code>storage/tmp/{id}</code> is deleted.</p>
+<p>Chroma <code>add</code> skips ids that already exist (chunked <code>get</code> of 100). Returns (added, skipped).</p>
+<p>Embeddings: lazy load, normalize, <code>trust_remote_code</code>. Text query uses instruct prefix. VL query prompt: “Retrieve relevant documents for the query.” Text dtype follows device via LangChain; LLM uses float16 on mps/cuda and float32 on CPU.</p>
+
+<h2 id="retrieve">12. Retrieval</h2>
+<p><code>process_user_query</code>: NFC, collapse whitespace, strip most Unicode control chars (keep newline then strip). Empty after process → <code>ValueError</code>.</p>
+<p><code>MultimodalRetriever.search</code>: k defaults to <code>retriever_k</code>. Dual kNN unless <code>include_visual=False</code> or VL embedder is None. Merge by id (keep max score). <code>ScoreReranker</code> sorts descending. Return top k. VL search failure → text only (logged).</p>
+<p>Empty collections return no hits. Query k is min(k, collection count).</p>
+
+<h2 id="gen">13. Generation</h2>
+<p><code>GenerationService</code> consumes <code>list[RetrievalResult]</code>. k = <code>max(retriever_k, generation_k)</code> unless CLI <code>-k</code>. Stores <code>last_hits</code> for <code>--show-hits</code>.</p>
+<ul>
+<li>Model: <code>Qwen/Qwen3-1.7B</code>, <code>enable_thinking=False</code> via patched <code>apply_chat_template</code> passed into <code>ChatHuggingFace</code> (must pass the patched tokenizer, not a second copy).</li>
+<li><code>max_new_tokens=4096</code>, <code>do_sample=False</code>, <code>generation_config.max_length=None</code> on model and pipeline.</li>
+<li><code>low_cpu_mem_usage=True</code>; tries <code>dtype=</code> then falls back to <code>torch_dtype=</code>.</li>
+<li><code>generate_answer</code> blocking; <code>generate_answer_stream</code> prints tokens; <code>iter_answer_tokens</code> yields filtered chunks. Protocol aliases: <code>generate</code> / <code>stream</code>.</li>
+<li><code>ThinkStreamFilter</code> hides leftover <code>&lt;think&gt;</code> while streaming (holds last 6 chars; if stuck in think &gt;8000 chars, keeps last 200). <code>strip_think</code> on the final string.</li>
+<li>Context: <code>format_hits</code> (type, relative_path, page, times, chunk #); sources unique relative paths. Visual-only empty body uses a stub line. Absolute paths reduced to basename. 1.7B does not receive image pixels.</li>
+<li>Prompt: Vietnamese UIT tutor; cite relative paths; no invented http URLs; no internal chain-of-thought.</li>
+</ul>
+<p>Missing extra → <code>RuntimeError</code> instructing <code>pip install -e ".[generation]"</code> or <code>".[all]"</code>. Injected <code>chat_model</code> in tests bypasses Hugging Face.</p>
+
+<h2 id="cli">14. CLI</h2>
+<table>
+<thead><tr><th>Command</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>ingest PATH</code></td><td>File or directory. Exit 1 if any failed. Prints counts + FAIL lines on stderr.</td></tr>
+<tr><td><code>search QUERY [-k] [--text-only]</code></td><td>Hits: score, content_type, relative_path, page, times, 240-char preview</td></tr>
+<tr><td><code>ask QUERY [-k] [--text-only] [--no-stream] [--show-hits]</code></td><td>Retrieve + generate. Default streams. Exit 1 on ValueError/RuntimeError/other</td></tr>
+<tr><td><code>stats</code></td><td>Counts, paths, device, embedding + llm_model names (no weight load)</td></tr>
+</tbody>
+</table>
+<p>Per-type generation smoke: <code>scripts/test_llm_by_type.sh</code> (<code>ONLY=</code>, <code>SKIP_VIDEO=1</code>, <code>SKIP_INGEST=1</code>, <code>LOG_DIR</code>, <code>PYTHON</code>). Cases: docx/pdf/pptx from assets, txt/md/png fixtures, optional <code>buoi_3.mp4</code> with <code>VIDEO_MAX_DURATION=60</code>. Fail if ask exit ≠ 0 or answer length 0. Warn if filename not in output.</p>
+<p>Logging: <code>%(asctime)s %(levelname)s [%(name)s] %(message)s</code> on stderr. <code>LOG_LEVEL</code> default INFO.</p>
+
+<h2 id="cache">15. Hugging Face cache vs RAM</h2>
+<p>Weights live under <code>~/.cache/huggingface/hub/models--Qwen--*</code> after the first download (Embedding-0.6B ~1.2 GB, 1.7B ~4.1 GB, VL-2B ~4.3 GB). Subsequent <code>ask</code> commands <strong>reuse the cache</strong>. Hub <code>404</code> on <code>sentence_bert_config.json</code> etc. is optional probing. <code>Loading weights: N/N</code> in a few seconds is disk→MPS, not a re-download.</p>
+<p>Each CLI process starts empty RAM, so 1.7B still loads ~5s per <code>ask</code>. Text and VL embedders are also per-process lazy singletons. <code>HF_HUB_OFFLINE=1</code> skips HEAD/GET after the cache exists. There is no <code>HF_LOCAL_FILES_ONLY</code> setting and no persistent REPL.</p>
+
+<h2 id="config">16. Configuration</h2>
+<p><code>Settings</code> via pydantic-settings: env file <code>.env</code>, case-insensitive, extra ignored. Empty string for tokens and <code>VIDEO_MAX_DURATION</code> becomes None. Relative paths resolve against <code>project_root</code> (cwd).</p>
+<p><code>resolve_device</code>: requested mps/cuda fall back to cpu if unavailable; unknown preferred tries mps then cuda then cpu. Missing torch → cpu.</p>
+<p>See <code>.env.example</code> and README table. Selection weights exist on Settings even if not all are copied into <code>.env.example</code>.</p>
+
+<h2 id="storage">17. Storage layout</h2>
+<pre><code>data/chroma/                  Chroma PersistentClient
+data/index_manifest.json      by_hash / by_path
+storage/documents/            reserved
+storage/images/{id}/          picture_*.png, page_*.png, original.png
+storage/videos/{id}/          checkpoint.json, transcript.json
+storage/frames/{id}/          tXXXXXXXXX.jpg selected frames
+storage/audio/{id}.wav        16 kHz mono
+storage/tmp/{id}/candidates/  coarse JPEGs (deleted after index)
+assets/                       PoC corpus (not copied; ingested in place)
+</code></pre>
+<p>Object-store keys are concatenated onto <code>storage_root</code> with no sandbox against <code>..</code>.</p>
+
+<h2 id="test">18. Tests</h2>
+<p><code>pytest</code> (<code>testpaths=tests</code>, <code>pythonpath=.</code>, <code>addopts=-q</code>). Marker <code>integration</code> exists for real models/assets; default tests mock embedders.</p>
+<table>
+<thead><tr><th>File</th><th>Coverage</th></tr></thead>
+<tbody>
+<tr><td><code>test_ids.py</code></td><td>SHA-256, vector_id, relative_posix, NFC</td></tr>
+<tr><td><code>test_unicode.py</code></td><td>NFC path handling</td></tr>
+<tr><td><code>test_file_detection.py</code></td><td>extensions, skip names, directory walk</td></tr>
+<tr><td><code>test_chunking.py</code> / <code>test_text_loader.py</code></td><td>splitter, MD sections</td></tr>
+<tr><td><code>test_chroma.py</code> / <code>test_metadata.py</code></td><td>add/skip, flatten, cosine score</td></tr>
+<tr><td><code>test_ocr.py</code> / <code>test_image_processing.py</code></td><td>NullOCR, RGB convert</td></tr>
+<tr><td><code>test_retrieval.py</code></td><td>merge, query process, k</td></tr>
+<tr><td><code>test_incremental.py</code></td><td>skip / reindex / fail report</td></tr>
+<tr><td><code>test_video_chunker.py</code></td><td>windows, piece assign, ffmpeg missing</td></tr>
+<tr><td><code>test_frame_selection.py</code></td><td>dupes, cap, temporal, OCR/scene</td></tr>
+<tr><td><code>test_video_indexing.py</code></td><td>one vector per selected frame</td></tr>
+<tr><td><code>test_video_manifest.py</code></td><td>capped ingest not complete</td></tr>
+<tr><td><code>test_generation_*.py</code></td><td>format_hits, think filter, injected chat</td></tr>
+<tr><td><code>test_cli.py</code></td><td>parser flags</td></tr>
+</tbody>
+</table>
+<p>Do not download 1.7B in unit tests. Live <code>assets/</code> is manual.</p>
+
+<h2 id="ops">19. Operations</h2>
+<pre><code>python3.12 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -e ".[all]"
+cp .env.example .env
+python -m app.main ingest "./assets/test/bai_tap_chuong_3.docx"
+python -m app.main ask "Quan hệ phản xạ trên tập {1,2,3,4}" --text-only
+pytest
+</code></pre>
+<p>Reset index: <code>rm -rf data storage</code> (keep assets). Backup triple: chroma + manifest + storage. Video checkpoints under <code>storage/videos/{id}/</code>.</p>
+<p>Troubleshooting: Python 3.14 unsupported; MPS OOM → <code>--text-only</code> / <code>DEVICE=cpu</code>; FFmpeg missing → clear error; Tesseract missing → disable video OCR; thinking ON wastes tokens; Hub 404 probes are normal; <code>ask</code> reload is RAM, not re-download.</p>
+
+<h2 id="limits">20. Known limitations</h2>
+<ol>
+<li>No HTTP API, UI, or multi-turn <code>chat</code> process.</li>
+<li>Reranker is cosine sort, not a cross-encoder.</li>
+<li>Queries are text-only (no image-as-query).</li>
+<li>Video file_type metadata forced to mp4; transcript vector ids use kind <code>text</code>.</li>
+<li>Whisper CPU-only; CTranslate2 has no MPS.</li>
+<li>PySceneDetect off by default.</li>
+<li>Object-store keys not sandboxed against <code>..</code>.</li>
+<li>Manifest is single-process JSON (no file lock).</li>
+<li>Each <code>ask</code> reloads LLM into RAM from cache; Hub login on every command if token set.</li>
+<li>LLM may still hallucinate details even with citations in the prompt.</li>
+<li>Leftover OpenCV <code>sample_frames</code> is not on the ingest path.</li>
+<li>No <code>HF_LOCAL_FILES_ONLY</code>; rely on <code>HF_HUB_OFFLINE=1</code>.</li>
+<li>Coarse-frame reuse reconstructs timestamps as <code>index * interval</code>, not stored stamps.</li>
+</ol>
+
+<h2 id="inventory">21. Source inventory</h2>
+<table>
+<thead><tr><th>Path</th><th>Role</th></tr></thead>
+<tbody>
+<tr><td>app/main.py</td><td>CLI ingest/search/ask/stats</td></tr>
+<tr><td>app/factory.py</td><td>DI + Hub login</td></tr>
+<tr><td>app/config/settings.py</td><td>All env-backed knobs + resolve_device</td></tr>
+<tr><td>app/ids.py</td><td>SHA-256, vector_id, NFC, relative_posix</td></tr>
+<tr><td>app/index_manifest.py</td><td>by_hash / by_path JSON; is_video_complete</td></tr>
+<tr><td>app/generation/*</td><td>LLM service, prompt, think filter, hit formatting, Generator protocol</td></tr>
+<tr><td>app/loaders/base.py</td><td>Extensions, DTOs, detect_kind</td></tr>
+<tr><td>app/loaders/docling_loader.py</td><td>PDF/DOCX/PPTX</td></tr>
+<tr><td>app/loaders/text_loader.py</td><td>TXT/MD</td></tr>
+<tr><td>app/loaders/image_loader.py</td><td>Standalone images</td></tr>
+<tr><td>app/loaders/video_loader.py</td><td>Long-video orchestration [1/7]–[5/7]</td></tr>
+<tr><td>app/pipeline/ingestion.py</td><td>Walk, skip/reindex, report</td></tr>
+<tr><td>app/pipeline/indexing.py</td><td>text + visual + video_frame vectors</td></tr>
+<tr><td>app/processors/frame_selection.py</td><td>pHash + scored selection</td></tr>
+<tr><td>app/processors/video_frames.py</td><td>Coarse FFmpeg sampling</td></tr>
+<tr><td>app/processors/video.py</td><td>Unused OpenCV uniform sampler</td></tr>
+<tr><td>app/processors/video_checkpoint.py</td><td>v2-long stages</td></tr>
+<tr><td>app/processors/audio.py</td><td>FFmpeg WAV extract</td></tr>
+<tr><td>app/processors/ffmpeg_check.py</td><td>Require ffmpeg+ffprobe</td></tr>
+<tr><td>app/processors/scene_detection.py</td><td>Optional PySceneDetect</td></tr>
+<tr><td>app/processors/ocr.py</td><td>Tesseract / NullOCR</td></tr>
+<tr><td>app/chunking/*</td><td>Text splitter; video windows</td></tr>
+<tr><td>app/embeddings/*</td><td>Lazy Qwen3 + Qwen3-VL</td></tr>
+<tr><td>app/vectorstore/chroma.py</td><td>Persistent cosine collections</td></tr>
+<tr><td>app/retrieval/*</td><td>search, merge, ScoreReranker</td></tr>
+<tr><td>app/storage/local.py</td><td>Local object store</td></tr>
+<tr><td>scripts/test_llm_by_type.sh</td><td>Per-modality ask smoke</td></tr>
+<tr><td>README.md</td><td>Operator guide</td></tr>
+<tr><td>CODEBASE_CONTEXT.html</td><td>Verbatim source dump for AI</td></tr>
+</tbody>
+</table>
+<p style="margin-top:2.5rem;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;">End of specification · multimodal-rag 0.1.0 · regenerated 2026-09-07 from the live tree (generation + v2-long video).</p>
+</main>
+</div>
+</body>
+</html>

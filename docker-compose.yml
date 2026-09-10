@@ -1,0 +1,7 @@
+services: {}
+
+# Chroma is an embedded PersistentClient at ./data/chroma.
+# This file only documents local volume layout for later tooling.
+volumes:
+  chroma-data:
+  object-storage:

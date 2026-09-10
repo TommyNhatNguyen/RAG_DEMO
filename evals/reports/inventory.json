@@ -1,0 +1,1590 @@
+{
+  "assets": {
+    "root": "/Users/tommynguyen/Downloads/RAG Multimodal/assets",
+    "n_files": 128,
+    "bytes": 24788668394,
+    "by_kind": {
+      "video": 49,
+      "document": 78,
+      "text": 1
+    },
+    "by_suffix": {
+      "mp4": 49,
+      "pdf": 63,
+      "pptx": 11,
+      "docx": 4,
+      "txt": 1
+    },
+    "bytes_by_kind": {
+      "video": 24644033490,
+      "document": 144632748,
+      "text": 2156
+    },
+    "by_course": {
+      "cau_truc_du_lieu_va_giai_thuat": {
+        "files": 10,
+        "bytes": 5382783134,
+        "by_kind": {
+          "video": 10
+        },
+        "by_suffix": {
+          "mp4": 10
+        }
+      },
+      "cau_truc_roi_rac": {
+        "files": 24,
+        "bytes": 7559246628,
+        "by_kind": {
+          "document": 14,
+          "video": 10
+        },
+        "by_suffix": {
+          "pdf": 4,
+          "pptx": 7,
+          "mp4": 10,
+          "docx": 3
+        }
+      },
+      "gioi_thieu_nganh_cong_nghe_thong_tin": {
+        "files": 3,
+        "bytes": 2448654,
+        "by_kind": {
+          "document": 3
+        },
+        "by_suffix": {
+          "pptx": 3
+        }
+      },
+      "internet_va_cong_nghe_web": {
+        "files": 21,
+        "bytes": 3075079486,
+        "by_kind": {
+          "document": 13,
+          "video": 8
+        },
+        "by_suffix": {
+          "pdf": 13,
+          "mp4": 8
+        }
+      },
+      "ky_thuat_lap_trinh_python": {
+        "files": 20,
+        "bytes": 5236271147,
+        "by_kind": {
+          "document": 10,
+          "video": 10
+        },
+        "by_suffix": {
+          "pdf": 10,
+          "mp4": 10
+        }
+      },
+      "lap_trinh_huong_doi_tuong": {
+        "files": 22,
+        "bytes": 332354729,
+        "by_kind": {
+          "document": 20,
+          "video": 1,
+          "text": 1
+        },
+        "by_suffix": {
+          "pptx": 1,
+          "pdf": 19,
+          "mp4": 1,
+          "txt": 1
+        }
+      },
+      "nhap_mon_lap_trinh": {
+        "files": 28,
+        "bytes": 3200484616,
+        "by_kind": {
+          "document": 18,
+          "video": 10
+        },
+        "by_suffix": {
+          "pdf": 17,
+          "mp4": 10,
+          "docx": 1
+        }
+      }
+    },
+    "videos": [
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 615040518,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_10/buoi_10.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 299908961,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 619668855,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_3/buoi_3.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 621159853,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 524381970,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 485321875,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_6/buoi_6.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 617411261,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_7/buoi_7.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 610769844,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_8/buoi_8.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 491654761,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_9/buoi_9.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 497465236,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 721431857,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_10/buoi_10.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 558086737,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 848165682,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_3/buoi_3.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 750607341,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 720670239,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 843781466,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_6/buoi_6.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 876999741,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_7/buoi_7.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 678980812,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_8/buoi_8.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 837001244,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_9/buoi_9.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 706763586,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 357495089,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 390282587,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_3/buoi_3_internet.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 388673232,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 491337493,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 262294773,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_6/buoi_6_laptrinhkichban.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 370483903,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_7/buoi_7_cochetruyendulieu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 395463723,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_8/buoi_8_laptrinhphp.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 345620042,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_1/buoi1_kieudulieu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 551570837,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_10/buoi_10_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 322671907,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_2/buoi2_kieudulieuvatoantu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 553789655,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_3/buoi_3_cautruclapvamotsoham.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 477150480,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_4/buoi_4_hamtieptheo.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 512244773,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_5/buoi_5_oop.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 609894907,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_6/buoi_6_oopvadonggoi.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 555012038,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_7/buoi_7_oopdahinhtruutuong.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 489199931,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_8/buoi_8_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 611517882,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_9/buoi_9_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 540107248,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 303802844,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 348687891,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_10/buoi_10_on_tap.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 224490956,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/buoi_2_thuat_toan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 356838490,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 376543347,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_4/buoi_4_cau_truc_dieu_khien.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 307776862,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_5/buoi_5_function.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 346783477,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/buoi_6_mang.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 366526713,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_7/buoi_7_mang_hai_chieu_chuoi.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 365292215,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_8/buoi_8_con_tro.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 234669899,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/buoi_9_struct.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 262538457,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      }
+    ],
+    "files": [
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 615040518,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_10/buoi_10.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 299908961,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 619668855,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_3/buoi_3.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 621159853,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 524381970,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 485321875,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_6/buoi_6.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 617411261,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_7/buoi_7.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 610769844,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_8/buoi_8.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 491654761,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_9/buoi_9.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 497465236,
+        "course": "cau_truc_du_lieu_va_giai_thuat",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong 1. Cơ sở logic (slides + bài tập).pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1054889,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong 1. Cơ sở logic (slides + bài tập).pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 895008,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 721431857,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_10/buoi_10.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 558086737,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_2/Chuong 2. Phep dem.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 1739203,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 848165682,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_3/Chuong 3. Quan he.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 1653322,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_3/bai tap chuong 3.docx",
+        "kind": "document",
+        "suffix": "docx",
+        "bytes": 86887,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_3/buoi_3.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 750607341,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_4/Chương 4. Đại số Bool (slides +bài tập).pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 7672979,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_4/bai tap chuong 4 (phan 1).docx",
+        "kind": "document",
+        "suffix": "docx",
+        "bytes": 62901,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_4/bai tap chuong 4 (phan 2).docx",
+        "kind": "document",
+        "suffix": "docx",
+        "bytes": 115339,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 720670239,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_5/Chương 5. Các khái niệm cơ bản về lý thuyết đồ thị (phần 1).pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 555165,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_5/Chương 5. Các khái niệm cơ bản về lý thuyết đồ thị (phần 2).pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 1016932,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_5/bai tap chuong 5.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 220735,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 843781466,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_6/Chương 6. Cây.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 766836,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_6/bai tap chuong 6.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 219269,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_6/buoi_6.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 876999741,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_7/buoi_7.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 678980812,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_8/buoi_8.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 837001244,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/buoi_9/buoi_9.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 706763586,
+        "course": "cau_truc_roi_rac",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/cau_truc_roi_rac/Đề cương môn học.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 698458,
+        "course": "cau_truc_roi_rac",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/gioi_thieu_nganh_cong_nghe_thong_tin/buoi_1/buoi_1.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 634966,
+        "course": "gioi_thieu_nganh_cong_nghe_thong_tin",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/gioi_thieu_nganh_cong_nghe_thong_tin/buoi_2/buoi_2_giới_thiệu_ngành_CNTT.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 177562,
+        "course": "gioi_thieu_nganh_cong_nghe_thong_tin",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/gioi_thieu_nganh_cong_nghe_thong_tin/buoi_3/buoi_3_kỹ_năng_học_trong_ngành_CNTT.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 1636126,
+        "course": "gioi_thieu_nganh_cong_nghe_thong_tin",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_1/Bai1_TongQuan.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 2750504,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 357495089,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_10/Bootstrap_V1.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 2325787,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_2/Bai2.1_HTML.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 7035429,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_2/Bai2.2_HTML5.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 7493561,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_2/buoi_2.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 390282587,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_3/Bai3.2_CSS3.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 3914720,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_3/buoi_3_internet.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 388673232,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_4/Bai4_1_CSS.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 5423644,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_4/Bai4_JavaScript.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 10523087,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_4/buoi_4.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 491337493,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_5/Bai5_Jquery.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 8842061,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_5/buoi_5.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 262294773,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_6/Bai6.1_PHPMySQL.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 4119303,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_6/Bai6_PHP.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 9822381,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_6/buoi_6_laptrinhkichban.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 370483903,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_7/Bai7.2_MySQL.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 2399051,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_7/buoi_7_cochetruyendulieu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 395463723,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_8/Bai8_Get_Post_Session_Cookie.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 6547923,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_8/buoi_8_laptrinhphp.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 345620042,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/internet_va_cong_nghe_web/buoi_9/Bai9_Ajax.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 2231193,
+        "course": "internet_va_cong_nghe_web",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_1/Python Programming - Chapter01 - Intro.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 2757297,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_1/buoi1_kieudulieu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 551570837,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_10/Python Programming - Chapter10 - Database_connection.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1345541,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_10/buoi_10_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 322671907,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_2/Python Programming - Chapter02 - Data type.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1573277,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_2/buoi2_kieudulieuvatoantu.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 553789655,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_3/Python Programming - Chapter03 - if.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 682639,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_3/buoi_3_cautruclapvamotsoham.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 477150480,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_4/Python Programming - Chapter04 - Loop.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 810260,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_4/buoi_4_hamtieptheo.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 512244773,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_5/Python Programming - Chapter05 - Function.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1383374,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_5/buoi_5_oop.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 609894907,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_6/Python Programming - Chapter06 - Module_Package.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 713334,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_6/buoi_6_oopvadonggoi.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 555012038,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_7/Python Programming - Chapter07 - Exception.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 686656,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_7/buoi_7_oopdahinhtruutuong.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 489199931,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_8/Python Programming - Chapter08 - OOP.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1609515,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_8/buoi_8_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 611517882,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_9/Python Programming - Chapter09 - Part1_GUI.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1549596,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/ky_thuat_lap_trinh_python/buoi_9/buoi_9_huongdandoan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 540107248,
+        "course": "ky_thuat_lap_trinh_python",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/Session03-ClassesAndObjects.pptx",
+        "kind": "document",
+        "suffix": "pptx",
+        "bytes": 1866884,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/Cai_dat_JDK-Eclipse.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1021889,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/Lab1.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 230534,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/baitap_1.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 274554,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/buoi_1.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 303802844,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_1/firstJavaProgram.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1036849,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_10/Tổng hợp 2.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 315243,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_2/Lab2.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 272957,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_2/baiThucHanh_2.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 316259,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_3/BaiThucHanh_3.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 342835,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_3/Lab3.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 269024,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_4/BaiThucHanh_4.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 320005,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_4/Lab4.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 235853,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_5/Lab5.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 262066,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_6/Lab6.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 243332,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_7/Lab7.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 323573,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_8/Lab8.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 249134,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/buoi_9/Tổng hợp 1.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 316376,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/can_ban_ve_nnlt_java.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 12785928,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/kiem_tra_giua_ky.txt",
+        "kind": "text",
+        "suffix": "txt",
+        "bytes": 2156,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/slide_bai_giang_oop.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 6605874,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/lap_trinh_huong_doi_tuong/tong_quan.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1260560,
+        "course": "lap_trinh_huong_doi_tuong",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/01.GioithieuMonhoc.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 544964,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/03.CacKDL_Bien.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 516251,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/04.Cacpheptoan.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 668004,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 348687891,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_10/Struct.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 427818,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_10/buoi_10_on_tap.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 224490956,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/Cautrucrenhanh.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 467547,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/Thuat toan.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 587640,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/buoi_2_thuat_toan.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 356838490,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/Cautruclap.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 633375,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 376543347,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_4/Ham.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 932881,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_4/buoi_4_cau_truc_dieu_khien.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 307776862,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_5/De_quy.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 849530,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_5/buoi_5_function.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 346783477,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/Mang1Chieu.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 567571,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/buoi_6_mang.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 366526713,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_7/Mang2Chieu.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 374569,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_7/buoi_7_mang_hai_chieu_chuoi.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 365292215,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_8/Chuoikytu.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 208126,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_8/buoi_8_con_tro.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 234669899,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/Contro_P1.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1422642,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/Contro_P2.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 1133055,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/buoi_9_struct.mp4",
+        "kind": "video",
+        "suffix": "mp4",
+        "bytes": 262538457,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "skip"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.M21.VB2_.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 225692,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.CNVN.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 535726,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.VB2_.pdf",
+        "kind": "document",
+        "suffix": "pdf",
+        "bytes": 225692,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      },
+      {
+        "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/Noi_dung.docx",
+        "kind": "document",
+        "suffix": "docx",
+        "bytes": 15226,
+        "course": "nhap_mon_lap_trinh",
+        "ingest": "yes"
+      }
+    ]
+  },
+  "images": {
+    "page": 381,
+    "picture": 6583,
+    "other": 0,
+    "bytes": 97551732,
+    "video_frames_on_disk": 0,
+    "video_frame_bytes": 0
+  },
+  "vectors": {
+    "text_count": 15020,
+    "visual_count": 6964,
+    "by_content_type": {
+      "text": 14803,
+      "table": 217,
+      "image": 6583,
+      "page": 381,
+      "video_segment": 0,
+      "video_frame": 0
+    },
+    "by_file_type": {
+      "pdf": 17921,
+      "pptx": 3582,
+      "docx": 477,
+      "txt": 4
+    },
+    "by_course": {
+      "cau_truc_roi_rac": 4139,
+      "gioi_thieu_nganh_cong_nghe_thong_tin": 427,
+      "internet_va_cong_nghe_web": 8564,
+      "ky_thuat_lap_trinh_python": 3274,
+      "lap_trinh_huong_doi_tuong": 2485,
+      "nhap_mon_lap_trinh": 3095
+    },
+    "text_by_content_type": {
+      "text": 14803,
+      "table": 217,
+      "page": 0,
+      "image": 0,
+      "video_segment": 0,
+      "video_frame": 0
+    },
+    "visual_by_content_type": {
+      "image": 6583,
+      "page": 381,
+      "text": 0,
+      "table": 0,
+      "video_segment": 0,
+      "video_frame": 0
+    }
+  },
+  "chroma_path": "/Users/tommynguyen/Downloads/RAG Multimodal/data/chroma",
+  "storage_root": "/Users/tommynguyen/Downloads/RAG Multimodal/storage",
+  "manifest": "/Users/tommynguyen/Downloads/RAG Multimodal/data/index_manifest.json",
+  "flags": {
+    "query_hyde": false,
+    "max_retrieve_loops": 0,
+    "no_video": true
+  }
+}

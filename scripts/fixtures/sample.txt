@@ -1,0 +1,2 @@
+Quan hệ phản xạ trên tập {1,2,3,4} là quan hệ R sao cho mọi phần tử a đều thỏa (a,a) thuộc R.
+Đây là file TXT dùng để kiểm tra pipeline text loader và câu trả lời LLM.

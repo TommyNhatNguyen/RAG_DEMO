@@ -1,0 +1,19 @@
+{
+  "decision": "skip",
+  "reason": "weakest_metric is still path_precision after per-type chunk reingest; HyDE/loops stay off",
+  "query_hyde": false,
+  "max_retrieve_loops": 0,
+  "baseline": {
+    "n": 35,
+    "path_recall": 0.975,
+    "path_precision": 0.392,
+    "weakest_metric": "path_precision"
+  },
+  "post_chunk": {
+    "n": 35,
+    "path_recall": 0.889,
+    "path_precision": 0.363,
+    "weakest_metric": "path_precision",
+    "notes": "Text/PDF/PPTX/DOCX reingested with GENERATE_PAGE_IMAGES=false after Chroma HNSW segfault (data/chroma.corrupt-20260908). Video buoi_3.mp4 was not reingested; video path_recall dropped to 0 and pulled overall recall down. Catalog path_recall stayed 0.71. Precision did not improve."
+  }
+}

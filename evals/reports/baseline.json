@@ -1,0 +1,1166 @@
+{
+  "n": 35,
+  "scores": {
+    "path_recall": 0.975,
+    "path_precision": 0.3919047619047619,
+    "faithfulness": null,
+    "answer_relevancy": null,
+    "context_precision": null,
+    "context_recall": null
+  },
+  "by_kind": {
+    "catalog": {
+      "n": 3,
+      "path_recall": 0.7083333333333334,
+      "path_precision": 0.5666666666666667
+    },
+    "theory": {
+      "n": 12,
+      "path_recall": 1.0,
+      "path_precision": 0.23194444444444443
+    },
+    "table": {
+      "n": 5,
+      "path_recall": 1.0,
+      "path_precision": 0.47333333333333333
+    },
+    "slide": {
+      "n": 7,
+      "path_recall": 1.0,
+      "path_precision": 0.4095238095238095
+    },
+    "exercise": {
+      "n": 5,
+      "path_recall": 1.0,
+      "path_precision": 0.4333333333333333
+    },
+    "video": {
+      "n": 3,
+      "path_recall": 1.0,
+      "path_precision": 0.611111111111111
+    }
+  },
+  "weakest_metric": "path_precision",
+  "next_step": "chunking / metadata filters",
+  "warnings": [],
+  "items": [
+    {
+      "id": "cat-qt-01",
+      "kind": "catalog",
+      "question": "Tạo lộ trình môn quy trình nghiệp vụ, cho tôi tài liệu nếu có",
+      "ground_truth": "Lộ trình môn hệ thống quy trình nghiệp vụ dùng các file chap01.pdf đến chap08.pdf trong assets/hethongquytrinhnghiepvu.",
+      "answer": "",
+      "contexts": [
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ MỤC TIÊU MÔN HỌC ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ\nBÀI 2: MÔ HÌNH HÓA QUY TRÌNH KINH DOANH\nKhái niệm\nVòng đời quản lý quy trình kinh doanh\nMô hình hóa quy trình kinh doanh\nKết luận",
+        "Phương pháp khám phá quy trình Document Analysis  (Phân tích Tài liệu) Tài liệu chỉ ra vai trò, hoạt động và đối tượng kinh doanh hiện có: Mô tả quy trình Chính sách nội bộ",
+        "Phân tích quy trình định tính Xác định và ghi lại các vấn đề về quy trình Stakeholder  analysis  (Phân  tích  các  bên  liên  quan) :  Cho  phép chúng ta thu thập các vấn đề từ các quan điểm bổ sung. Issue register (Đăng ký vấn đề) : Cho phép chúng tôi ghi lại các vấn đề và tác động của chúng một cách có cấu trúc.",
+        "Process Mining (Khai thác quy trình) Kỹ thuật khai thác quy trình Automated process discovery (Khám phá quy trình tự động) Đầu ra: một mô hình quy trình nghiệp vụ phù hợp chặt chẽ với hành vi được quan sát trong nhật ký sự kiện"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap02.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ],
+      "cosines": [
+        0.6767489314079285,
+        0.6321330070495605,
+        0.6297224760055542,
+        0.6244032979011536,
+        0.6377058625221252
+      ],
+      "path_recall": 0.625,
+      "path_precision": 1.0,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap02.pdf",
+        "assets/hethongquytrinhnghiepvu/chap03.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf",
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ]
+    },
+    {
+      "id": "cat-qt-02",
+      "kind": "catalog",
+      "question": "Danh sách giáo trình môn quy trình nghiệp vụ",
+      "ground_truth": "Tài liệu gốc là chap01.pdf, chap02.pdf, chap03.pdf, chap04.pdf, chap05.pdf, chap06.pdf, chap07.pdf, chap08.pdf.",
+      "answer": "",
+      "contexts": [
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ MỤC TIÊU MÔN HỌC ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ],
+      "cosines": [
+        0.6483198404312134,
+        0.58954918384552,
+        0.58954918384552,
+        0.58954918384552,
+        0.58954918384552
+      ],
+      "path_recall": 0.5,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ]
+    },
+    {
+      "id": "qt-01",
+      "kind": "theory",
+      "question": "Chương 1 môn quy trình nghiệp vụ nói về nội dung gì?",
+      "ground_truth": "Chap01 là chương mở đầu môn hệ thống quy trình nghiệp vụ, gồm mục lục và giới thiệu học phần.",
+      "answer": "",
+      "contexts": [
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ MỤC TIÊU MÔN HỌC ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "Nội dung\nThiết lập khám phá quy trình\nPhương pháp khám phá quy trình\nPhương pháp mô hình hóa quy trình\nĐảm bảo chất lượng quy trình",
+        "Nội dung\nPhân tích định tính\nPhân tích định lượng\nKết luận",
+        "Nội dung\nGiới thiệu\nQuy trình tái cấu trúc doanh nghiệp (BPR)\nThiết kế quy trình theo phương pháp Heuristic 4. Kết luận",
+        "Nội dung\nHệ thống quản trị quy trình kinh doanh\nTriển khai quy trình\nKết luận"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ],
+      "cosines": [
+        0.6532606482505798,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf"
+      ]
+    },
+    {
+      "id": "qt-02",
+      "kind": "theory",
+      "question": "Chap02 quy trình nghiệp vụ trình bày chủ đề nào?",
+      "ground_truth": "Chap02 tiếp nối lộ trình môn hệ thống quy trình nghiệp vụ, là tài liệu chương 2 của học phần.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CNTT\nBÀI 02 MÔ HÌNH HÓA QUY TRÌNH KINH DOANH\nBusiness Process Modeling (BPM)\nCBGD: ThS. Hà Lê Hoài Trung\nEmail: trunghlh@hcmuit.edu.vn",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap02.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf"
+      ],
+      "cosines": [
+        0.5600287914276123,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap02.pdf"
+      ]
+    },
+    {
+      "id": "qt-03",
+      "kind": "theory",
+      "question": "Nội dung chương 3 quy trình nghiệp vụ nằm ở file nào?",
+      "ground_truth": "Chương 3 nằm trong assets/hethongquytrinhnghiepvu/chap03.pdf.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nBÀI 03 Mô hình hóa quy trình kinh doanh\nvới BPMN\nCBGD: ThS. Hà Lê Hoài Trung\nEmail: trunghlh@hcmuit.edu.vn",
+        "Nội dung\nThiết lập khám phá quy trình\nPhương pháp khám phá quy trình\nPhương pháp mô hình hóa quy trình\nĐảm bảo chất lượng quy trình",
+        "Nội dung\nPhân tích định tính\nPhân tích định lượng\nKết luận",
+        "Nội dung\nGiới thiệu\nQuy trình tái cấu trúc doanh nghiệp (BPR)\nThiết kế quy trình theo phương pháp Heuristic 4. Kết luận",
+        "Nội dung\nHệ thống quản trị quy trình kinh doanh\nTriển khai quy trình\nKết luận"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap03.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ],
+      "cosines": [
+        0.6701308488845825,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap03.pdf"
+      ]
+    },
+    {
+      "id": "qt-04",
+      "kind": "theory",
+      "question": "Tìm tài liệu chương 6 quy trình nghiệp vụ",
+      "ground_truth": "Chương 6 là chap06.pdf trong thư mục hethongquytrinhnghiepvu.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nCHƯƠNG 6 THIẾT KẾ LẠI QUY TRÌNH (PROCESS REDESIGN)\nTHS. HÀ LÊ HOÀI TRUNG\nEMAIL: TRUNGHLH@UIT.EDU.VN",
+        "Phân tích quy trình định tính 1.3 Waste Analysis (Phân tích lãng phí) Gửi hoặc nhận tài liệu, hoặc lấy tài liệu làm đầu vào hoặc đầu ra theo quy trình Để nộp đơn xin nhập học tại một trường đại học, sinh viên điền vào một mẫu trực tuyến. Khi học sinh khai báo biểu mẫu trực tuyến, một tài liệu PDF sẽ được tạo ra. Sinh viên được yêu cầu tải xuống, ký tên và gửi qua đường bưu điện cùng với các tài liệu cần thiết: Bản sao có chứng thực bằng cấp và bảng điểm học tập. Khi các tài liệu đến văn phòng tuyển sinh, một nhân viên kiểm tra tính đầy đủ của chúng. Nếu một tài liệu bị thiếu, một e-mail sẽ được gửi đến học sinh. Học sinh phải gửi các tài liệu bị thiếu qua e-mail hoặc bưu điện tùy thuộc vào loại tài liệu.",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ TỔNG QUAN VỀ HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ (BPMS) Business  Process  Management  System  (BPMS) là  một  hệ  thống quản trị quy trình nghiệp vụ có sự tích hợp của các nguồn tài nguyên như: con người, dữ liệu và hệ thống nhằm phục vụ cho hoạt động kinh doanh của doanh nghiệp. BPMS được thiết kế để giúp các doanh nghiệp tối ưu hóa quy trình kinh doanh hàng ngày để đạt hiệu quả và năng suất tối đa .",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ],
+      "cosines": [
+        0.6126683354377747,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap06.pdf"
+      ]
+    },
+    {
+      "id": "qt-05",
+      "kind": "theory",
+      "question": "Chap07 môn quy trình nghiệp vụ dùng để học phần nào của lộ trình?",
+      "ground_truth": "Chap07.pdf là chương 7 trong lộ trình hệ thống quy trình nghiệp vụ.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ TỔNG QUAN VỀ HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ (BPMS) 2.3 Mô hình hóa quy trình nghiệp vụ là gì (BPMN)? Là ngôn ngữ mô hình hóa trực quan cho các ứng dụng phân tích nghiệp vụ và chỉ định quy trình công việc của quy trình doanh nghiệp, là ký hiệu tiêu chuẩn mở cho lưu đồ đồ họa được sử dụng để xác định quy trình công việc của quy trình nghiệp vụ",
+        "Thiết kế quy trình theo phương pháp Heuristic Chuyên môn hóa quy trình Một quy trình được chia thành nhiều quy trình: theo hạng khách hàng, theo vị trí địa lý, theo khoảng thời gian (mùa đông, mùa hè…) Chuẩn hóa quy trình Hai quy trình được tích hợp",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap07.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf"
+      ],
+      "cosines": [
+        0.5135582089424133,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ]
+    },
+    {
+      "id": "qt-06",
+      "kind": "theory",
+      "question": "Chương cuối môn quy trình nghiệp vụ là file nào?",
+      "ground_truth": "Chương 8 / chap08.pdf là tài liệu cuối lộ trình hethongquytrinhnghiepvu.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ MỤC TIÊU MÔN HỌC ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "Thiết kế quy trình theo phương pháp Heuristic Chuyên môn hóa quy trình Một quy trình được chia thành nhiều quy trình: theo hạng khách hàng, theo vị trí địa lý, theo khoảng thời gian (mùa đông, mùa hè…) Chuẩn hóa quy trình Hai quy trình được tích hợp",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap08.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf"
+      ],
+      "cosines": [
+        0.5693718194961548,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ]
+    },
+    {
+      "id": "qt-tab-04",
+      "kind": "table",
+      "question": "Chap04 quy trình nghiệp vụ có bảng biểu nào cần đọc?",
+      "ground_truth": "Chap04.pdf chứa bảng (table) của môn hệ thống quy trình nghiệp vụ, cần trích từ nội dung bảng chứ không bịa số liệu.",
+      "answer": "",
+      "contexts": [
+        "| Document Analysis (Phân tích tài liệu) | • Thông tin có cấu trúc • Độc lập với sự sẵn có của các bên liên quan | • Tài liệu lỗi thời • Sai mức độ trừu tượng                                                                     | | Observation (Quan sát)                 | • Cái nhìn sâu sắc phong phú về bối cảnh về quy trình                 | • Có khả năng xâm nhập • Các bên liên quan có khả năng quan sát khác nhau • Chỉ có vài trường hợp               | | Interview (Phỏng vấn)                  | • Điều tra chi tiết về quy trình                                      | • Đòi hỏi thời gian thưa thớt của các bên liên quan quy trình • Một số lần lặp lại cần thiết trước khi kết thúc | | Workshop (Hội thảo)                    | • Giải quyết trực tiếp các quan điểm mâu thuẫn                        | • Yêu cầu sự sẵn có của một số bên liên quan cùng một lúc                                                       | Phương pháp khám phá quy trình",
+        "Phương pháp khám phá quy trình"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf"
+      ],
+      "cosines": [
+        0.49129021167755127,
+        0.35783469676971436
+      ],
+      "path_recall": 1.0,
+      "path_precision": 1.0,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap04.pdf"
+      ]
+    },
+    {
+      "id": "qt-tab-05",
+      "kind": "table",
+      "question": "Các bảng trong chap05 quy trình nghiệp vụ nằm ở đâu?",
+      "ground_truth": "Bảng biểu chương 5 nằm trong assets/hethongquytrinhnghiepvu/chap05.pdf.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ ❖ Cung cấp kiến thức về quy trình nghiệp vụ ❖ Mô hình hóa quy trình nghiệp vụ ❖ Kỹ năng mô hình hóa quy trình ❖ Kỹ năng xây dựng ứng dụng quản lý điều hành theo các quy trình đã mô hình hóa ❖ Các ứng dụng hỗ trợ thiết kế, mô hình hóa quy trình",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf"
+      ],
+      "cosines": [
+        0.5146133899688721,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap05.pdf"
+      ]
+    },
+    {
+      "id": "qt-tab-08",
+      "kind": "table",
+      "question": "Chap08 có bảng tóm tắt quy trình không?",
+      "ground_truth": "Chap08.pdf có content_type table trong index; đọc bảng trong file đó.",
+      "answer": "",
+      "contexts": [
+        "Process Performance Dashboards (Bảng điều khiển hiệu suất quy trình) ❖ Tactical Process Dashboards (Bảng điều khiển quy trình chiến thuật) Nhắm mục tiêu chủ sở hữu quy trình, người quản lý chức năng giám sát các phần của quy trình và các nhà phân tích mà những người quản lý này dựa vào. Cung cấp một bức tranh về hiệu suất của một quy trình trong một khoảng thời gian tương đối dài (tháng, quý, năm) Đưa ra bằng chứng về các thay đổi hiệu suất không mong muốn và các nguyên nhân có thể xảy ra của chúng.",
+        "PHÂN TÍCH QUY TRÌNH ĐỊNH LƯỢNG 2.2 Simulation (Mô phỏng) ❖ Tóm tắt: Chạy một số lượng lớn các phiên bản quy trinh",
+        "Process Performance Dashboards (Bảng điều khiển hiệu suất quy trình) ❖ Operational Process Dashboards (Bảng điều khiển quy trình hoạt động) Nhắm đến những người tham gia quy trình và người quản lý hoạt động của họ (bao gồm cả chủ sở hữu quy trình). Cho phép những người tham gia quy trình và người quản lý của họ lên kế hoạch cho công việc ngắn hạn của họ Ví dụ: trong bối cảnh của quy trình đặt hàng thành tiền mặt, bảng điều khiển hoạt động có thể nhắm mục tiêu đến một nhân viên tài chính tham gia vào quy trình kinh doanh hoặc một nhân viên điều phối tại một nhà kho.",
+        "Phân tích quy trình định tính ▪ Dạng bảng: Possible improvement actions (Các hành động cải tiến có thể)"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap08.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap08.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf"
+      ],
+      "cosines": [
+        0.5144387483596802,
+        null,
+        0.5043236613273621,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ]
+    },
+    {
+      "id": "sec-01",
+      "kind": "theory",
+      "question": "Chương 4 nhập môn bảo mật và an ninh mạng nói về gì?",
+      "ground_truth": "Chuong 4.pdf là giáo trình chương 4 môn nhập môn bảo mật và an ninh mạng.",
+      "answer": "",
+      "contexts": [
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 4. Mã ho Mã hoá á kho khoá á công khai v công khai và à qu qu ả ả n lý kho n lý khoá á B B ả ả o m o m ậ ậ t m t m ạ ạ ng v ng và ành đ ai nh đ ai",
+        "Nội dung Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng 4. Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng Worm, virus và trojan horse Các lớp kiến trúc An toàn thông tin doanh nghiệp",
+        "Quy mô, tính chất, chính sách an ninh của hệ thống mạng. Ví dụ: trong mô hình mạng nhỏ với 1 máy chủ an ninh, thì giải pháp IPS thương được cân nhắc. Do nó có thể phát hiện và trực tiếp ngăn chặn tấn công. Với quy mô lớn hơn thì có thể kết hợp IDS và IPS lại để hỗ trợ cho nhau. Ví dụ: thiết bị IDS có thể thêm vào hệ thống mạng đã được triển khai IPS để kiểm tra sự hoạt động của IPS.",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 4. Mã ho Mã hoá á kho khoá á công khai v công khai và à qu qu ả ả n lý kho n lý khoá á B B ả ả o m o m ậ ậ t m t m ạ ạ ng v ng và ành đ ai nh đ ai",
+        "Tr Trì ình b nh bà ày t y t ổ ổ ng quan v ng quan v ề ề c ơ ch c ơ ch ế ế ho ho ạ ạ t t đ độ ộ ng c ng c ủ ủ a c a cá ác gi c gi ả ả i thu i thu ậ ậ t RC4 v t RC4 và à RSA. Vi Vi ế ế t t ứ ứ ng d ng d ụ ụ ng mã ho ng mã hoá á v và à gi gi ả ả i mã cho i mã cho m m ộ ộ t gi t gi ả ả i thu i thu ậ ậ t mã ho t mã hoá á hi hi ệ ệ n đ n đạ ạ i tu i tu ỳ ỳ ch ch ọ ọ n."
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf"
+      ],
+      "cosines": [
+        0.4444812536239624,
+        null,
+        null,
+        null,
+        0.5298023223876953
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.25,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf"
+      ]
+    },
+    {
+      "id": "sec-02",
+      "kind": "theory",
+      "question": "Tài liệu chương 5 an ninh mạng là file nào?",
+      "ground_truth": "Chương 5 nằm ở assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf.",
+      "answer": "",
+      "contexts": [
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 5.",
+        "Nội dung Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng 5. Các mối đe dọa và tấn công mạng Các lớp kiến trúc An toàn thông tin doanh nghiệp",
+        "Quy mô, tính chất, chính sách an ninh của hệ thống mạng. Ví dụ: trong mô hình mạng nhỏ với 1 máy chủ an ninh, thì giải pháp IPS thương được cân nhắc. Ví dụ: thiết bị IDS có thể thêm vào hệ thống mạng đã được triển khai IPS để kiểm tra sự hoạt động của IPS.",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 5.",
+        "Từ khóa: logto\nTừ khóa logto được sử dụng để ghi log các gói dữ liệu vào trong 1 file đặc biệt.\nCú pháp: logto:logto_log\nVí dụ:\nalert icmp any any -> any any (logto:logto_log; ttl: 100;)"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/chương 3.pptx"
+      ],
+      "cosines": [
+        0.3853563666343689,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf"
+      ]
+    },
+    {
+      "id": "sec-tab-04",
+      "kind": "table",
+      "question": "Bảng trong chương 4 bảo mật mạng nằm ở đâu?",
+      "ground_truth": "Các bảng chương 4 nằm trong Chuong 4.pdf của môn nhập môn bảo mật và an ninh mạng.",
+      "answer": "",
+      "contexts": [
+        "6. B 6. Bà ài t i t ậ ậ p p\n5. Nêu chi ti Nêu chi ti ế ế t c ơ ch t c ơ ch ế ế ho ho ạ ạ t đ t độ ộ ng c ng c ủ ủ a gi a gi ả ả i i thu thu ậ ậ t mã ho t mã hoá á DES. DES.\n6. Tr Trì ình b nh bà ày t y t ổ ổ ng quan v ng quan v ề ề c ơ ch c ơ ch ế ế ho ho ạ ạ t t đ độ ộ ng c ng c ủ ủ a c a cá ác gi c gi ả ả i thu i thu ậ ậ t RC4 v t RC4 và à RSA. RSA.\n7. Vi Vi ế ế t t ứ ứ ng d ng d ụ ụ ng mã ho ng mã hoá á v và à gi gi ả ả i mã cho i mã cho m m ộ ộ t gi t gi ả ả i thu i thu ậ ậ t mã ho t mã hoá á hi hi ệ ệ n đ n đạ ạ i tu i tu ỳ ỳ ch ch ọ ọ n. n.",
+        "Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng 4. Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng",
+        "Khi nào cần tăng số lượng cảm biến IPS trong hệ thống mạng? Thực thi chính sách bảo mật: tăng số lượng cảm biến IPS để thực thi các ranh giới bảo mật dựa trên chính sách bảo mật hoặc thiết kế của hệ thống mạng Vượt quá khả năng lưu lượng mạng: yêu cầu thêm băng thông có thể làm tăng thêm các đường link trong hệ thống mạng. Do đó, tăng số lượng cảm biến IPS để đáp ứng yêu cầu bảo mật. Khả năng hiệu suất của cảm biến: cảm biến hiện tại không đáp ứng được lưu lượng trong hệ thống mạng",
+        "4. Gi 4.   Vi Vi ệ ệ c bi c bi ế ế n đ n đổ ổ i v ă n b i v ă n b ả ả n đư n đượ ợ c th c th ự ự c hi c hi ệ ệ n n nhi nhi ề ề u l u l ầ ầ n trong m n trong m ộ ộ t s t s ố ố vòng l vòng l ặ ặ p.",
+        "Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng 4. Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ],
+      "cosines": [
+        0.5109258890151978,
+        null,
+        null,
+        0.40713250637054443,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf"
+      ]
+    },
+    {
+      "id": "sec-tab-05",
+      "kind": "table",
+      "question": "Chương 5 bảo mật có bảng so sánh không?",
+      "ground_truth": "Chuong 5.pdf có bảng (table) trong index môn an ninh mạng.",
+      "answer": "",
+      "contexts": [
+        "Có ó m m ộ ộ t s t s ố ố ph ươ ng ph ph ươ ng phá áp ti p ti ế ế p c p c ậ ậ n kh n khá ác nhau liên c nhau liên quan đ quan đế ế n c n cá ác kh c khó óa b a bí í m m ậ ậ t c t c ủ ủ a m a m ộ ộ t ho t ho ặ ặ c c c c ả ả hai bên. Ch Ch ỉ ỉ c có ó ng ư ng ườ ờ i nh i nh ậ ậ n đ ã x n đ ã xá ác đ c đị ị nh tr ư nh tr ướ ớ c m c m ớ ớ i c i có ó kho khoá á secret c secret c ủ ủ a ng ư a ng ườ ờ i nh i nh ậ ậ n v n và à kho khoá á public c public c ủ ủ a ng ư a ng ườ ờ i i g g ở ở i đ i để ể gi gi ả ả i mã hai l i mã hai l ầ ầ n đ n để ể đư đượ ợ c X.",
+        "Cảm biến so sánh  lưu lượng",
+        "Chính sách bảo mật nên có những gì? Chính sách sử dụng có thể chấp nhận được",
+        "2. H 2. H ệ ệ mã ho mã hoá á kho khoá á công khai công khai\nEncryption",
+        "Ưu và nhược điểm của IDS\nNhược điểm:\nKhông thể ngưng các trigger packet\nCần có chính sách bảo mật tốt\nCác kỹ thuật tránh né (được dùng bởi kẻ xâm nhập) dễ dàng đánh lừa IDS"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx"
+      ],
+      "cosines": [
+        0.4997164011001587,
+        null,
+        null,
+        0.49458181858062744,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf"
+      ]
+    },
+    {
+      "id": "sec-slide-01",
+      "kind": "slide",
+      "question": "Slide chương 1 nhập môn bảo mật là file nào?",
+      "ground_truth": "Slide chương 1 là Chương 1.pptx trong assets/nhapmonbaomatvaanninhmang.",
+      "answer": "",
+      "contexts": [
+        "Bảo mật hành chính (Administrative)\nBảo mật tài liệu (document security)\nQui trình quản lý rủi ro (risk management)\nBảo mật thông tin cá nhân (personnel security)\nĐào tạo bảo mật (security training)",
+        "Khi nào cần tăng số lượng cảm biến IPS trong hệ thống mạng? Thực thi chính sách bảo mật: tăng số lượng cảm biến IPS để thực thi các ranh giới bảo mật dựa trên chính sách bảo mật hoặc thiết kế của hệ thống mạng Do đó, tăng số lượng cảm biến IPS để đáp ứng yêu cầu bảo mật.",
+        "Nội dung 1. 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng",
+        "Ưu và nhược điểm của IDS\nNhược điểm:\nKhông thể ngưng các trigger packet\nCần có chính sách bảo mật tốt\nCác kỹ thuật tránh né (được dùng bởi kẻ xâm nhập) dễ dàng đánh lừa IDS"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx"
+      ],
+      "cosines": [
+        0.6628314852714539,
+        null,
+        0.6113618612289429,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ]
+    },
+    {
+      "id": "sec-slide-02",
+      "kind": "slide",
+      "question": "Nội dung slide chương 2 an ninh mạng ở đâu?",
+      "ground_truth": "Chương 2.pptx là bài giảng slide chương 2 môn nhập môn bảo mật và an ninh mạng.",
+      "answer": "",
+      "contexts": [
+        "Quy mô, tính chất, chính sách an ninh của hệ thống mạng. Ví dụ: trong mô hình mạng nhỏ với 1 máy chủ an ninh, thì giải pháp IPS thương được cân nhắc. Ví dụ: thiết bị IDS có thể thêm vào hệ thống mạng đã được triển khai IPS để kiểm tra sự hoạt động của IPS.",
+        "Nội dung Mạng riêng (closed network) và mạng chung (open network) 2. 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng Các lớp kiến trúc An toàn thông tin doanh nghiệp",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 2.",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng 2.",
+        "Mỗi chuỗi sẽ nằm trên các dòng riêng biệt trong nội dung tập tin. Ví dụ: tập tin có tên là porn với nội dung sau:"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/chương 3.pptx"
+      ],
+      "cosines": [
+        0.4162783622741699,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx"
+      ]
+    },
+    {
+      "id": "sec-slide-03",
+      "kind": "slide",
+      "question": "Slide chương 3 bảo mật mạng file nào?",
+      "ground_truth": "chương 3.pptx là slide chương 3 môn nhập môn bảo mật và an ninh mạng.",
+      "answer": "",
+      "contexts": [
+        "Kiến trúc Snort",
+        "Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng 3. Tiến trình bảo mật mạng Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng",
+        "Khi nào cần tăng số lượng cảm biến IPS trong hệ thống mạng? Thực thi chính sách bảo mật: tăng số lượng cảm biến IPS để thực thi các ranh giới bảo mật dựa trên chính sách bảo mật hoặc thiết kế của hệ thống mạng Vượt quá khả năng lưu lượng mạng: yêu cầu thêm băng thông có thể làm tăng thêm các đường link trong hệ thống mạng. Do đó, tăng số lượng cảm biến IPS để đáp ứng yêu cầu bảo mật. Khả năng hiệu suất của cảm biến: cảm biến hiện tại không đáp ứng được lưu lượng trong hệ thống mạng",
+        "Các cơ chế hoạt động của Snort\nNetwork Intrusion Detection System mode:\nỞ chế độ IDS, snort không ghi lại từng gói tin bắt được như trong chế độ sniffer mode. Thay vào đó, nó so sánh các rules vào tất cả các gói tin bắt được. Nếu 1 gói tin phù hợp với rules, thì nó sẽ được ghi lại và một cảnh báo sẽ được phát ra.",
+        "Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng 3. Tiến trình bảo mật mạng Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/chương 3.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/chương 3.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ],
+      "cosines": [
+        0.46696585416793823,
+        null,
+        null,
+        0.45079636573791504,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/chương 3.pptx"
+      ]
+    },
+    {
+      "id": "ex-01",
+      "kind": "exercise",
+      "question": "Quan hệ phản xạ trên tập {1,2,3,4}",
+      "ground_truth": "Quan hệ phản xạ trên tập {1,2,3,4} được nêu trong bài tập chương 3 (bai_tap_chuong_3.docx).",
+      "answer": "",
+      "contexts": [
+        "Bài 5:\nĐối với mỗi quan hệ được cho dưới đây trên tập {1, 2, 3, 4}, hãy xác định xem nó có phản xạ, đối xứng, bắc cầu không ?\na) {(1, 2), (2, 3), (3, 2)}",
+        "Quan hệ hai ngôi 2. Các tính chất của quan hệ. Định nghĩa: Giả sử R là một quan hệ hai ngôi trên tập A. (a) Ta nói quan hệ R có tính phản xạ nếu và chỉ nếu Ví dụ: Trên tập A = {1, 2, 3, 4}, quan hệ R1 = {(1,1), (1,2), (2,1), (2, 2), (3, 4), (4, 1), (4, 4)} không phản xạ vì (3, 3)R1 R2 = {(1,1), (1,2), (1,4), (2, 2), (3, 3), (4, 1), (4, 4)} phản xạ vì (1,1), (2, 2), (3, 3), (4, 4)R2 4",
+        "Bài 6:\nCho tập A = {1, 2, 3, 4} và các quan hệ R1 ={(1, 1); (2, 2); (3, 3); (4, 4)} và R2  = {(1, 1); (2, 2);  (3,1 ); ( 3, 3); (3, 4); (4,1); (4, 4)} trên A.\na) Xác định xem các quan hệ trên có là quan hệ thứ tự trên A?"
+      ],
+      "paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx"
+      ],
+      "cosines": [
+        0.7432184219360352,
+        null,
+        0.6051931381225586
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx"
+      ]
+    },
+    {
+      "id": "ex-02",
+      "kind": "exercise",
+      "question": "Định nghĩa quan hệ phản xạ trong bài tập chương 3",
+      "ground_truth": "Quan hệ R trên tập A là phản xạ nếu mọi phần tử a thuộc A đều có (a,a) thuộc R. Bài tập nằm trong bai_tap_chuong_3.docx.",
+      "answer": "",
+      "contexts": [
+        "Bài 5:\nĐối với mỗi quan hệ được cho dưới đây trên tập {1, 2, 3, 4}, hãy xác định xem nó có phản xạ, đối xứng, bắc cầu không ?\na) {(1, 2), (2, 3), (3, 2)}",
+        "Quan hệ thứ tự Định nghĩa: Quan hệ R trên tập A được gọi là quan hệ thứ tự nếu và chỉ nếu nó có tính chất phản xạ, phản xứng và bắc cầu. Ta thường kí hiệu quan hệ thứ tự bởi ≺. Cặp (A, ≺) được gọi là tập sắp thứ tự (tập được sắp) hay poset.",
+        "Bài 6:\nXác định xem quan hệ R trên tập loài người có phản xạ, đối xứng, phản đối xứng, bắc cầu hay không, với (a, b)  R nếu và chỉ nếu.\na) a và b cùng chiều cao.",
+        "Quan hệ tương đương Định nghĩa: Quan hệ R trên tập A được gọi là tương đương nếu và chỉ nếu nó có tính chất phản xạ, đối xứng và bắc cầu. Ví dụ: Quan hệ R trên tập các chuỗi ký tự xác định bởi aRb nếu a và b có cùng độ dài. Khi đó R là quan hệ tương đương. Ví dụ: Cho R là quan hệ trên tập R sao cho CM: R là quan hệ tương đương trên R."
+      ],
+      "paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        0.6723173260688782,
+        null,
+        0.6280964016914368,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx"
+      ]
+    },
+    {
+      "id": "ex-03",
+      "kind": "exercise",
+      "question": "Bài tập quan hệ đối xứng, bắc cầu trên tập {1,2,3,4}",
+      "ground_truth": "Các bài tập quan hệ phản xạ, đối xứng, bắc cầu trên tập {1,2,3,4} nằm trong assets/test/bai_tap_chuong_3.docx.",
+      "answer": "",
+      "contexts": [
+        "Bài 5:\nĐối với mỗi quan hệ được cho dưới đây trên tập {1, 2, 3, 4}, hãy xác định xem nó có phản xạ, đối xứng, bắc cầu không ?\na) {(1, 2), (2, 3), (3, 2)}",
+        "Quan hệ hai ngôi 2. Các tính chất của quan hệ. Định nghĩa: Giả sử R là một quan hệ hai ngôi trên tập A. (b) Ta nói quan hệ R có tính đối xứng nếu và chỉ nếu (c) Ta nói quan hệ R có tính phản xứng nếu và chỉ nếu - Quan hệ R1 = {(1,1), (1,2), (2,1)} trên tập A = {1, 2, 3, 4} là đối xứng. - Quan hệ  ≤  trên Z không đối xứng, tuy nhiên nó phản xứng vì (a ≤  b)   (b  ≤  a)   (a = b). - Quan hệ“ | ” (“ước số”) trên Z+  không đối xứng, tuy nhiên nó có tính phản xứng vì (a | b)   (b | a)  (a = b).",
+        "khá ra, thầy đóng cái trong móc lạng, thì cái dạng chứ các vết tờng này, người ta gọi là dạng liệt kê của hẹn hẹn rồi, nó có bài số 2, thì sách 1 cái tập hợp ít, nó có 7 phần tử, là trường 2 không 1, 2, 3 với 5, là ở phía trên, cái tập bài số 2 là trường 2, trường 1 không, 1, 2, 3, 4, 4, cái tập hợp ít, trong các bài 2 nó có 7 phần tử, và era là 1 quan hẹn, hẹn ngồi trên it, hẹn ngồi trên it, có nghĩa là tập ít sách với chính nó, nó hổng đi qua tập ít, nó hổng đi qua tập ít, mà ít lớn, so với ít lớn, người ta định nghĩa, trời ơi, khi và chỉ khi, khi và chỉ khi, các bài này là khi và chỉ khi, ít cộng cho hay tất cả chỉ hết cho bà, phần tử ít, phần tử ít, có qua hẹn với phần tử ít, khi cái tổng, ít cộng hay tất cả chỉ hết cho bà,",
+        "Bài 6:\nXác định xem quan hệ R trên tập loài người có phản xạ, đối xứng, phản đối xứng, bắc cầu hay không, với (a, b)  R nếu và chỉ nếu.\na) a và b cùng chiều cao.",
+        "Quan hệ hai ngôi 2. Các tính chất của quan hệ Định nghĩa: Giả sử R là một quan hệ hai ngôi trên tập A. (d) Ta nói quan hệ R có tính bắc cầu (truyền) nếu và chỉ nếu - Quan hệ R = {(1,1), (1,2), (2,1), (2, 2), (1, 3), (2, 3)} trên tập A = {1, 2, 3, 4} có tính bắc cầu. - Quan hệ ≤ và “|”trên Z có tính bắc cầu vì"
+      ],
+      "paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/buoi_3.mp4",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        0.7948591113090515,
+        null,
+        null,
+        0.69173663854599,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx"
+      ]
+    },
+    {
+      "id": "ex-04",
+      "kind": "exercise",
+      "question": "Link bài tập lý thuyết quan hệ",
+      "ground_truth": "Đường dẫn tài liệu gốc là assets/test/bai_tap_chuong_3.docx, không dùng URL http.",
+      "answer": "",
+      "contexts": [
+        "QUAN HỆ TƯƠNG ĐƯƠNG Bài 1: Các quan hệ nào trong số các quan hệ sau đây trên tập A= {0, 1, 2, 3} là quan hệ tương đương? Xác định các tính chất nào của một quan hệ tương đương mà quan hệ này không có.",
+        "Bì hay ngôi có nghĩa là cần có 2 tập hợp mấy sách được Là 2 phần tử mấy sách được quan hệ thì người đại gọi là quan hệ hay ngôi Là 1 tập hợp mỗi quan hệ hay ngôi dưa tập biết với tập bì là 1 tập hợp Chứ các bế tường là 1 tập hợp era Chứ các bộ vết tờ gần có 2 thành phần Thành phần đầu là a nhỏ nó nằm trong ít lớn Và thành phần sau là bì nhỏ nó nằm trong ít lớn Nó như vậy 1 quan hệ hay ngôi là 1 tập hợp Là 1 tập hợp trước các bộ vết tờ gần 2 thành phần",
+        "Quan hệ hai ngôi Các tính chất của quan hệ. Định nghĩa: Giả sử R là một quan hệ hai ngôi trên tập A. (a) Ta nói quan hệ R có tính phản xạ nếu và chỉ nếu Ví dụ: Trên tập A = {1, 2, 3, 4}, quan hệ",
+        "Bài 8: Cho quan hệ R = {(a, b) a > b } trên tập các số nguyên, tìm quan hệ ngược từ tập B đến tập A và quan hệ bù của R. (Quan hệ ngược từ tập B đến tập A, được ký hiệu là       , là tập các cặp được sắp {(b, a) (a, b)  R}. Quan hệ bù",
+        "Quan hệ thứ tự - Quan hệ “≤ ” trên tập số Z+ là thứ tự toàn phần. - Quan hệ ước số “ | ”trên tập hợp số Z+ là thứ tự bán phần, vì các số 5 và 7 là không so sánh được, tức là -Với tập A cho trước, tập P(A) tất cả các tập con của A với quan hệ  là một tập được sắp, nhưng không toàn phần khi A có nhiều hơn một phần tử."
+      ],
+      "paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        0.569104015827179,
+        null,
+        null,
+        0.5392943620681763,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx"
+      ]
+    },
+    {
+      "id": "slide-qh-01",
+      "kind": "slide",
+      "question": "Slide chương 3 quan hệ ở file nào?",
+      "ground_truth": "Bài giảng slide là assets/test/Chuong_3_quan_he.pptx.",
+      "answer": "",
+      "contexts": [
+        "một nguyên lý giúp cho mình tìm kiếm ra số phần tử thải ở cầu của đầy bài. mình đó là một phần của chương số 2 và sau đó mình đi qua cái nổi dung của chương số 3 luôn. hôm nay các thúc chương 1 đi qua cái nổi dung của chương số 2 về nguyên lý chụng bộ cầu. và đi qua một phần đầu của chương số 3 cái định nghĩa về quan hệ. và một quan hệ ra người ta gọi tên nó là một quan hệ tương đương. hay là một quan hệ thứ tự.",
+        "Chương 3. Quan hệ 3.1. Quan hệ hai ngôi trên một tập hợp và các Biểu diễn quan hệ hai ngôi. 3.2. Quan hệ tương đương. 3.3. Quan hệ thứ tự.",
+        "QUAN HỆ TƯƠNG ĐƯƠNG Bài 1: Các quan hệ nào trong số các quan hệ sau đây trên tập A= {0, 1, 2, 3} là quan hệ tương đương? Xác định các tính chất nào của một quan hệ tương đương mà quan hệ này không có. R1={(0, 0), (1, 1), (2, 2), (3, 3)}",
+        "số 3 coo quan hệ với số 4 bởi vì cái dòng ứng với số 3 coo ứng với số 4 nó là 1 thì số 3 coo quan hệ với 4 còn nếu thể sát theo cộng quá là số nào coo quan hệ với nó vị dụ trên cái cộng với số 4 nó coo quan hệ với số 1 là trường 2 coo quan hệ với 4 1 cũng coo quan hệ với 4 và 3 nó cũng coo quan hệ với 4 bởi vì nó coo 3 số 1 trên cái cộng này thì sát theo cộng là số nào coo quan hệ với nó sát theo dòng là nó coo quan hệ với số nào còn cái mà trận bự dĩnh cho các bạn số vị dụ số 2 là sát trình tập ít lớn với chính nó thôi mà tập ít lớn nó có 7 phần tử trường 2 trường 1 không 1 2 3 4 cũng cho nên mà trận bự dĩnh cho các bạn số 2 nó là mà trận bùn cấp 7",
+        "Quan hệ hai ngôi 3. Biểu diễn Quan hệ Cho R là quan hệ từ A = {a1, a2, …, am} đến B = {b1, b2, …, bn}. Ví dụ: Cho R là quan hệ từ A = {1, 2, 3} đến B = {1, 2}: a R b  a > b."
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        null,
+        0.7603399753570557,
+        null,
+        null,
+        0.6577589511871338
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/test/Chuong_3_quan_he.pptx"
+      ]
+    },
+    {
+      "id": "slide-qh-02",
+      "kind": "slide",
+      "question": "Quan hệ hai ngôi được trình bày trên slide nào?",
+      "ground_truth": "Nội dung quan hệ hai ngôi nằm trong Chuong_3_quan_he.pptx.",
+      "answer": "",
+      "contexts": [
+        "Quan hệ hai ngôi Định nghĩa: Cho hai tập A, B. Ta gọi tập R là một quan hệ hai ngôi từ A đến B nếu R  A x B. Nếu (a, b)R thì ta nói a có quan hệ R với b và ký hiệu Khi A = B, ta gọi R là một quan hệ hai ngôi trên A.",
+        "Bài 1:\nTrên tập hợp X, ta xét quan hệ hai ngôi sau:\nx R y ⇔ x",
+        "Quan hệ hai ngôi\n1. Định nghĩa.\nVí dụ: Cho A = {1, 2, 3, 4}, R là một quan hệ (hai ngôi) trên A và R = {(a, b) A2 | a là ước của b}.\nKhi đó\nR = {(1, 1), (1, 2), (1, 3), (1, 4), (2, 2), (2, 4), (3, 3), (4,4)}\n3",
+        "Bài 3:\nCho R là quan hệ hai ngôi trên tập số phức C được xác định như sau:\n(a, b) R (c, d) ⇔ a"
+      ],
+      "paths": [
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx"
+      ],
+      "cosines": [
+        0.6865158081054688,
+        null,
+        0.6865158081054688,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/test/Chuong_3_quan_he.pptx"
+      ]
+    },
+    {
+      "id": "cross-01",
+      "kind": "slide",
+      "question": "Quan hệ phản xạ: bài tập và slide chương 3",
+      "ground_truth": "Lý thuyết/slide trong Chuong_3_quan_he.pptx và bài tập trong bai_tap_chuong_3.docx.",
+      "answer": "",
+      "contexts": [
+        "và tất cả các một hoặc khách không có cái nguyên lý này. một nguyên lý giúp cho mình tìm kiếm ra số phần tử thải ở cầu của đầy bài. mình đó là một phần của chương số 2 và sau đó mình đi qua cái nổi dung của chương số 3 luôn. hôm nay các thúc chương 1 đi qua cái nổi dung của chương số 2 về nguyên lý chụng bộ cầu. và đi qua một phần đầu của chương số 3 cái định nghĩa về quan hệ. và một quan hệ ra người ta gọi tên nó là một quan hệ tương đương. hay là một quan hệ thứ tự. nó có những cái tín chất phản xả đối xứng phản đối xứng.",
+        "Chương 3. Quan hệ 3.1. Quan hệ hai ngôi trên một tập hợp và các Biểu diễn quan hệ hai ngôi. 3.2. Quan hệ tương đương. 3.3. Quan hệ thứ tự. Thứ tự toàn phần và bán Phần tử min và max. Các phần tử tối tiểu và tối đại.",
+        "Bài 5:\nĐối với mỗi quan hệ được cho dưới đây trên tập {1, 2, 3, 4}, hãy xác định xem nó có phản xạ, đối xứng, bắc cầu không ?\na) {(1, 2), (2, 3), (3, 2)}",
+        "Sông rồi, hôm sau mình đi củ thể hơn, mình gọi tên 1 cái quan hệ là quan hệ tương đường. Hề quan hệ tương tự, nó có những tín chất diễn, nó có tín phản xả, nó có tín đối xứng, hề tín phản đối xứng, hoặc là nó có tín trị. Từ đó mình gọi tên nếu quan hệ đó là quan hệ tương đường hay là quan hệ tương tự. Cái dạng của hỏi quan hệ này cũng sẽ có trong cái đề bài kiểm tra hệ dưới kỳ. Đề bài kiểm tra để lấy điểm dưới kỳ. Cho nên thì nếu quà cái quan hệ nó là cái gì và một vài cái cách bự diễn, thứ nhất là bự diễn theo dạng liệt kê. Thứ hai là bự diễn bằng công thức, thứ 3 là bự diễn quan hệ bằng mà trận. Mà trận bự diễn cho quan hệ, cái thứ tư lần người ta dùng bíu đồn.",
+        "Quan hệ tương đương Ví dụ: Cho m là số nguyên dương và R là quan hệ trên Z : Khi đó R là quan hệ tương đương trên Z. - Rõ ràng quan hệ này có tính phản xạ và đối xứng. - Cho a, b, c sao cho a – b và b – c chia hết cho m, khi đó Quan hệ này được gọi là quan hệ đồng dư modulo m và chúng ta viết a  b (mod m) thay vì aRb. Ví dụ: Cho | là quan hệ trên Z được xác định như sau: Quan hệ | có là quan hệ tương đương?"
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        0.4909322261810303,
+        0.6136109232902527,
+        0.5828112363815308,
+        0.5086228847503662,
+        0.5749769806861877
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.6666666666666666,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ]
+    },
+    {
+      "id": "vid-01",
+      "kind": "video",
+      "question": "Giảng viên nói gì ở đầu buổi học?",
+      "ground_truth": "Nội dung đầu buổi nằm trong transcript video assets/test/buoi_3.mp4, cần nêu mốc thời gian nếu có trong ngữ cảnh.",
+      "answer": "",
+      "contexts": [
+        "và hôm nay lấp mình chạy tư ghi đêm cầm bây giờ chí sẻ cái destoq mình hình để chín bài cái bài giảng buổi hôm nay. bây giờ thì nếu qua một chút, một bài ý tưởng thì nói qua để chờ lớp mình nắm được tinh thần trong bài giảng buổi hôm nay.",
+        "và hôm nay lấp mình chạy tư ghi đêm cầm bây giờ chí sẻ cái destoq mình hình để chín bài cái bài giảng buổi hôm nay. bây giờ thì nếu qua một chút, một bài ý tưởng thì nói qua để chờ lớp mình nắm được tinh thần trong bài giảng buổi hôm nay. cho có một số cái tưởng làm ở một bài lớp khác."
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/buoi_3.mp4"
+      ],
+      "cosines": [
+        0.5097967982292175,
+        0.45876580476760864
+      ],
+      "path_recall": 1.0,
+      "path_precision": 1.0,
+      "expected_paths": [
+        "assets/test/buoi_3.mp4"
+      ]
+    },
+    {
+      "id": "vid-02",
+      "kind": "video",
+      "question": "Transcript buổi 3 nói về chủ đề nào?",
+      "ground_truth": "buoi_3.mp4 là video bài giảng; câu trả lời phải dựa trên đoạn video_segment đã truy xuất.",
+      "answer": "",
+      "contexts": [
+        "Các 3 cầu còn lại là ổn. Tên 3 tiếp nổi dùng của bài học ngày hôm nay, về sử dụng một số quý tạng, suy diễn,",
+        "Trái lại thì ta nói a và b không so sánh được. Ta cũng nói rằng ≺ là thứ tự toàn phần hay thứ tự tuyến tính trên S. Trái lại thì ta nói ≺ là thứ tự bán phần.",
+        "Cho nên theo lực về phần tứ buồn. Là giận đến số 1 của theo lực về phần tứ buồn. Cho nên thể giám cái lực màn đề này là một phát biểu đúng. Một màn đề này là màn đề đúng bởi vì tôi ra được số 1 theo lực về phần tứ buồn. Có các bạn hỏi em chọn ít bằng 3 được không? ít bằng 3 thì lập lực để đưa về số 1 không phải dễ hả? ít bằng 3, mình chọn ít bằng 3, nó sẽ thấy vô nó là ít bình bằng 3 bình."
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/buoi_3.mp4"
+      ],
+      "cosines": [
+        0.5310447216033936,
+        null,
+        0.4356250762939453
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/test/buoi_3.mp4"
+      ]
+    },
+    {
+      "id": "vid-03",
+      "kind": "video",
+      "question": "Tìm đoạn video giảng viên nhắc quan hệ phản xạ",
+      "ground_truth": "Nếu có trong transcript buoi_3.mp4 thì trích kèm start_time/end_time; không bịa timestamp.",
+      "answer": "",
+      "contexts": [
+        "Nó một chút về cái dương quan hệ nữa, mình cắt thúc cái bụi học để mình nắm qua 1 vài cái tín chất và cái cách bự diễn cho quan hệ. Sông rồi, hôm sau mình đi củ thể hơn, mình gọi tên 1 cái quan hệ là quan hệ tương đường. Hề quan hệ tương tự, nó có những tín chất diễn, nó có tín phản xả, nó có tín đối xứng, hề tín phản đối xứng, hoặc là nó có tín trị. Từ đó mình gọi tên nếu quan hệ đó là quan hệ tương đường hay là quan hệ tương tự. Cái dạng của hỏi quan hệ này cũng sẽ có trong cái đề bài kiểm tra hệ dưới kỳ. Cho nên thì nếu quà cái quan hệ nó là cái gì và một vài cái cách bự diễn, thứ nhất là bự diễn theo dạng liệt kê.",
+        "Quan hệ hai ngôi Các tính chất của quan hệ - Quan hệ  ≤  trên Z phản xạ vì a  ≤  a, a   Z. - Quan hệ > trên Z không phản xạ vì 1 không lớn hơn 1. - Quan hệ “ | ” (“ước số”) trên Z+ là phản xạ vì mọi số",
+        "Bài 18:\nLàm thế nào để xác định được tính phản xạ, tính phản xứng của một quan hệ, thông qua ma trận biểu diễn của nó?\nÁp dụng :",
+        "và đi qua một phần đầu của chương số 3 cái định nghĩa về quan hệ. và một quan hệ ra người ta gọi tên nó là một quan hệ tương đương. hay là một quan hệ thứ tự. nó có những cái tín chất phản xả đối xứng phản đối xứng."
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/buoi_3.mp4"
+      ],
+      "cosines": [
+        0.48929762840270996,
+        null,
+        null,
+        0.4429425001144409
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/test/buoi_3.mp4"
+      ]
+    },
+    {
+      "id": "cat-sec-01",
+      "kind": "catalog",
+      "question": "Cho tôi danh sách tài liệu môn nhập môn bảo mật và an ninh mạng",
+      "ground_truth": "Học liệu gồm Chuong 4.pdf, Chuong 5.pdf, Chương 1.pptx, Chương 2.pptx, chương 3.pptx.",
+      "answer": "",
+      "contexts": [
+        "Nội dung Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng Worm, virus và trojan horse Các lớp kiến trúc An toàn thông tin doanh nghiệp",
+        "Quy mô, tính chất, chính sách an ninh của hệ thống mạng. Ví dụ: trong mô hình mạng nhỏ với 1 máy chủ an ninh, thì giải pháp IPS thương được cân nhắc. Do nó có thể phát hiện và trực tiếp ngăn chặn tấn công. Với quy mô lớn hơn thì có thể kết hợp IDS và IPS lại để hỗ trợ cho nhau. Ví dụ: thiết bị IDS có thể thêm vào hệ thống mạng đã được triển khai IPS để kiểm tra sự hoạt động của IPS.",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng Mã ho Mã hoá á kho khoá á công khai v công khai và à qu qu ả ả n lý kho n lý khoá á B B ả ả o m o m ậ ậ t m t m ạ ạ ng v ng và ành đ ai nh đ ai",
+        "N N Ộ Ộ I DUNG MÔN H I DUNG MÔN H Ọ Ọ C C T T ổ ổ ng quan v ng quan v ề ề an ninh m an ninh m ạ ạ ng ng Mã ho Mã hoá á kho khoá á công khai v công khai và à qu qu ả ả n lý kho n lý khoá á B B ả ả o m o m ậ ậ t m t m ạ ạ ng v ng và ành đ ai nh đ ai",
+        "Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng Các mối đe dọa và tấn công mạng Worm, virus và trojan horse Các lớp kiến trúc An toàn thông tin doanh nghiệp"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ],
+      "cosines": [
+        0.6282933354377747,
+        null,
+        null,
+        null,
+        0.6282933354377747
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 4.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ]
+    },
+    {
+      "id": "qt-cross-01",
+      "kind": "theory",
+      "question": "Chap01 và chap02 môn quy trình nghiệp vụ khác nhau chỗ nào?",
+      "ground_truth": "Hai file riêng: chap01.pdf (chương 1) và chap02.pdf (chương 2) trong assets/hethongquytrinhnghiepvu.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CNTT\nBÀI 02 MÔ HÌNH HÓA QUY TRÌNH KINH DOANH\nBusiness Process Modeling (BPM)\nCBGD: ThS. Hà Lê Hoài Trung\nEmail: trunghlh@hcmuit.edu.vn",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ Các khái niệm về quy trình, quy trình kinh doanh Tìm hiểu về quản trị quy trình kinh doanh Tổng quan về hệ thống quản trị quy trình nghiệp vụ Các vai trò của BPM trong doanh nghiệp Các ứng dụng hỗ trợ xây dựng BPM và BPMS trong học tập và công việc",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nCHƯƠNG 5 PHÂN TÍCH QUY TRÌNH (PROCESS ANALYSIS)\nTHS. HÀ LÊ HOÀI TRUNG\nEMAIL: TRUNGHLH@UIT.EDU.VN",
+        "Thiết kế quy trình theo phương pháp Heuristic Chuyên môn hóa quy trình Một quy trình được chia thành nhiều quy trình: theo hạng khách hàng, theo vị trí địa lý, theo khoảng thời gian (mùa đông, mùa hè…) Chuẩn hóa quy trình Hai quy trình được tích hợp Các nguồn lực được gộp lại với nhau",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap02.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf"
+      ],
+      "cosines": [
+        0.6173714399337769,
+        0.6152191162109375,
+        0.6126446723937988,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.4,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap02.pdf"
+      ]
+    },
+    {
+      "id": "qt-03b",
+      "kind": "theory",
+      "question": "Môn quy trình nghiệp vụ chương 3 tài liệu gốc",
+      "ground_truth": "Tài liệu gốc: assets/hethongquytrinhnghiepvu/chap03.pdf.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nBÀI 03 Mô hình hóa quy trình kinh doanh\nvới BPMN\nCBGD: ThS. Hà Lê Hoài Trung\nEmail: trunghlh@hcmuit.edu.vn",
+        "Phân tích quy trình định tính 1.3 Waste Analysis (Phân tích lãng phí) Gửi hoặc nhận tài liệu, hoặc lấy tài liệu làm đầu vào hoặc đầu ra theo quy trình Để nộp đơn xin nhập học tại một trường đại học, sinh viên điền vào một mẫu trực tuyến. Khi học sinh khai báo biểu mẫu trực tuyến, một tài liệu PDF sẽ được tạo ra. Sinh viên được yêu cầu tải xuống, ký tên và gửi qua đường bưu điện cùng với các tài liệu cần thiết: Bản sao có chứng thực bằng cấp và bảng điểm học tập. Khi các tài liệu đến văn phòng tuyển sinh, một nhân viên kiểm tra tính đầy đủ của chúng. Nếu một tài liệu bị thiếu, một e-mail sẽ được gửi đến học sinh. Học sinh phải gửi các tài liệu bị thiếu qua e-mail hoặc bưu điện tùy thuộc vào loại tài liệu.",
+        "HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ TỔNG QUAN VỀ HỆ THỐNG QUẢN TRỊ QUI TRÌNH NGHIỆP VỤ (BPMS) 2.3 Mô hình hóa quy trình nghiệp vụ là gì (BPMN)? Là ngôn ngữ mô hình hóa trực quan cho các ứng dụng phân tích nghiệp vụ và chỉ định quy trình công việc của quy trình doanh nghiệp, là ký hiệu tiêu chuẩn mở cho lưu đồ đồ họa được sử dụng để xác định quy trình công việc của quy trình nghiệp vụ",
+        "3. Thiết kế quy trình theo phương pháp Heuristic Chuyên môn hóa quy trình Một quy trình được chia thành nhiều quy trình: theo hạng khách hàng, theo vị trí địa lý, theo khoảng thời gian (mùa đông, mùa hè…) Chuẩn hóa quy trình Hai quy trình được tích hợp",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap03.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap01.pdf",
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf"
+      ],
+      "cosines": [
+        0.6652801632881165,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap03.pdf"
+      ]
+    },
+    {
+      "id": "qt-06b",
+      "kind": "theory",
+      "question": "Giáo trình chương 6 hệ thống quy trình nghiệp vụ",
+      "ground_truth": "Dùng chap06.pdf, không bịa URL.",
+      "answer": "",
+      "contexts": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN\nTRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CNTT\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. NGUYỄN QUỐC VIỆT\nTHS.EMAIL: VIETNQU@HCMUE.EDU.VN EMAIL: VIETNQ@UIT.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN",
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN TRUNG TÂM PHÁT TRIỂN CÔNG NGHỆ THÔNG TIN\nHỆ THỐNG QUẢN TRỊ QUY TRÌNH NGHIỆP VỤ\nTHS. HÀ LÊ HOÀI TRUNG\nTHS. NGUYỄN QUỐC VIỆT EMAIL: TRUNGHLH@UIT.EDU.VN\nEMAIL: VIETNQU@HCMUE.EDU.VN"
+      ],
+      "paths": [
+        "assets/hethongquytrinhnghiepvu/chap06.pdf",
+        "assets/hethongquytrinhnghiepvu/chap04.pdf",
+        "assets/hethongquytrinhnghiepvu/chap05.pdf",
+        "assets/hethongquytrinhnghiepvu/chap07.pdf",
+        "assets/hethongquytrinhnghiepvu/chap08.pdf"
+      ],
+      "cosines": [
+        0.5530509948730469,
+        null,
+        null,
+        null,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.2,
+      "expected_paths": [
+        "assets/hethongquytrinhnghiepvu/chap06.pdf"
+      ]
+    },
+    {
+      "id": "ex-05",
+      "kind": "exercise",
+      "question": "Cho ví dụ quan hệ phản xạ trên tập hữu hạn trong bài tập",
+      "ground_truth": "Bài tập chương 3 dùng tập {1,2,3,4}; trích đề từ bai_tap_chuong_3.docx, không bịa đề mới.",
+      "answer": "",
+      "contexts": [
+        "Bài 5:\nĐối với mỗi quan hệ được cho dưới đây trên tập {1, 2, 3, 4}, hãy xác định xem nó có phản xạ, đối xứng, bắc cầu không ?\na) {(1, 2), (2, 3), (3, 2)}",
+        "Quan hệ tương đương Định nghĩa: Quan hệ R trên tập A được gọi là tương đương nếu và chỉ nếu nó có tính chất phản xạ, đối xứng và bắc cầu. Ví dụ: Quan hệ R trên tập các chuỗi ký tự xác định bởi aRb nếu a và b có cùng độ dài. Khi đó R là quan hệ tương đương. Ví dụ: Cho R là quan hệ trên tập R sao cho CM: R là quan hệ tương đương trên R.",
+        "Bài 6:\nXác định xem quan hệ R trên tập loài người có phản xạ, đối xứng, phản đối xứng, bắc cầu hay không, với (a, b)  R nếu và chỉ nếu.\na) a và b cùng chiều cao.",
+        "Quan hệ tương đương\nĐịnh nghĩa:\nVí dụ: Cho R là quan hệ trên tập R sao cho\na,bR, aRb  a – bZ\nCM: R là quan hệ tương đương trên R.\n16"
+      ],
+      "paths": [
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx"
+      ],
+      "cosines": [
+        0.629730761051178,
+        null,
+        0.5886617302894592,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.5,
+      "expected_paths": [
+        "assets/test/bai_tap_chuong_3.docx"
+      ]
+    },
+    {
+      "id": "slide-qh-03",
+      "kind": "slide",
+      "question": "Slide định nghĩa quan hệ trên tập hợp",
+      "ground_truth": "Nội dung nằm trong Chuong_3_quan_he.pptx.",
+      "answer": "",
+      "contexts": [
+        "Bì hay ngôi có nghĩa là cần có 2 tập hợp mấy sách được Là 2 phần tử mấy sách được quan hệ thì người đại gọi là quan hệ hay ngôi Là 1 tập hợp mỗi quan hệ hay ngôi dưa tập biết với tập bì là 1 tập hợp Chứ các bế tường là 1 tập hợp era Chứ các bộ vết tờ gần có 2 thành phần Thành phần đầu là a nhỏ nó nằm trong ít lớn Và thành phần sau là bì nhỏ nó nằm trong ít lớn Nó như vậy 1 quan hệ hay ngôi là 1 tập hợp Là 1 tập hợp trước các bộ vết tờ gần 2 thành phần",
+        "Quan hệ Quan hệ hai ngôi trên một tập hợp và các Biểu diễn quan hệ hai ngôi. Quan hệ tương đương. Quan hệ thứ tự.",
+        "Bài 14:\nXét quan hệ R trên tập số nguyên Z được định nghĩa như sau:\n∀m,n∈ Z, mRn ⇔ \"m cùng tính chất chẵn lẻ với n\".",
+        "Quan hệ hai ngôi Các tính chất của quan hệ. Định nghĩa: Giả sử R là một quan hệ hai ngôi trên tập A. (a) Ta nói quan hệ R có tính phản xạ nếu và chỉ nếu Ví dụ: Trên tập A = {1, 2, 3, 4}, quan hệ",
+        "Bài 1:\nTrên tập hợp X, ta xét quan hệ hai ngôi sau:\nx R y ⇔ x"
+      ],
+      "paths": [
+        "assets/test/buoi_3.mp4",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx",
+        "assets/test/Chuong_3_quan_he.pptx",
+        "assets/test/bai_tap_chuong_3.docx"
+      ],
+      "cosines": [
+        null,
+        0.6103641986846924,
+        null,
+        0.5149388313293457,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/test/Chuong_3_quan_he.pptx"
+      ]
+    },
+    {
+      "id": "sec-03",
+      "kind": "theory",
+      "question": "Chương 5 PDF bảo mật mạng khác slide chương 1 chỗ nào?",
+      "ground_truth": "Chuong 5.pdf là giáo trình PDF; Chương 1.pptx là slide. Hai file khác loại trong cùng môn.",
+      "answer": "",
+      "contexts": [
+        "2. H 2. H ệ ệ mã ho mã hoá á kho khoá á công khai công khai\n  Ứ Ứ ng d ng d ụ ụ ng ng : :\n- Trao đ Trao đổ ổ i kho i khoá á: Hai bên h : Hai bên h ợ ợ p t p tá ác đ c để ể trao đ trao đổ ổ i session i session key. C key. Có ó m m ộ ộ t s t s ố ố ph ươ ng ph ph ươ ng phá áp ti p ti ế ế p c p c ậ ậ n kh n khá ác nhau liên c nhau liên quan đ quan đế ế n c n cá ác kh c khó óa b a bí í m m ậ ậ t c t c ủ ủ a m a m ộ ộ t ho t ho ặ ặ c c c c ả ả hai bên. hai bên.\nTr ư Tr ướ ớ c tiên, mã ho c tiên, mã hoá á thông đ i thông đ i ệ ệ p X s p X s ử ử d d ụ ụ ng kho ng khoá á secret c secret c ủ ủ a ng ư a ng ườ ờ i g i g ở ở i (cung c i (cung c ấ ấ p ch p ch ữ ữ ký s ký s ố ố ) ) đ để ể đư đượ ợ c c Y. Y.\nK K ế ế đ đ ó ó, mã ho , mã hoá á ti ti ế ế p Y v p Y v ớ ớ i kho i khoá á public c public c ủ ủ a ng ư a ng ườ ờ i i nh nh ậ ậ n. n.\nCh Ch ỉ ỉ c có ó ng ư ng ườ ờ i nh i nh ậ ậ n đ ã x n đ ã xá ác đ c đị ị nh tr ư nh tr ướ ớ c m c m ớ ớ i c i có ó kho khoá á secret c secret c ủ ủ a ng ư a ng ườ ờ i nh i nh ậ ậ n v n và à kho khoá á public c public c ủ ủ a ng ư a ng ườ ờ i i g g ở ở i đ i để ể gi gi ả ả i mã hai l i mã hai l ầ ầ n đ n để ể đư đượ ợ c X. c X.",
+        "Bảo mật mạng là 1 tiến trình  liên tục",
+        "Khi nào cần tăng số lượng cảm biến IPS trong hệ thống mạng? Thực thi chính sách bảo mật: tăng số lượng cảm biến IPS để thực thi các ranh giới bảo mật dựa trên chính sách bảo mật hoặc thiết kế của hệ thống mạng Vượt quá khả năng lưu lượng mạng: yêu cầu thêm băng thông có thể làm tăng thêm các đường link trong hệ thống mạng. Do đó, tăng số lượng cảm biến IPS để đáp ứng yêu cầu bảo mật. Khả năng hiệu suất của cảm biến: cảm biến hiện tại không đáp ứng được lưu lượng trong hệ thống mạng",
+        "6. B 6. Bà ài t i t ậ ậ p p\n3. Hacker c Hacker có ó th th ể ể l l ợ ợ i d i d ụ ụ ng đ i ng đ i ể ể m y m y ế ế u trong u trong giao th giao th ứ ứ c trao đ c trao đổ ổ i kho i khoá á Diffie Diffie- -Hellman Hellman đ để ể th th ự ự c hi c hi ệ ệ n m n m ộ ộ t cu t cu ộ ộ c t c t ấ ấ n công Man n công Man- -in in- - the the- -Middle. Middle.\nz z Mô t Mô t ả ả cu cu ộ ộ c t c t ấ ấ n công n n công nà ày. y.\nz z V V ẽ ẽ h hì ình minh ho nh minh ho ạ ạ . .",
+        "1. Mạng riêng (closed network) và mạng chung (open network) 3 tiêu chí chính của an ninh mạng Tiến trình bảo mật mạng Chính sách bảo mật mạng 5. Các mối đe dọa và tấn công mạng"
+      ],
+      "paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chương 2.pptx",
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf",
+        "assets/nhapmonbaomatvaanninhmang/Chương 1.pptx"
+      ],
+      "cosines": [
+        0.4860573410987854,
+        null,
+        null,
+        0.44268232583999634,
+        null
+      ],
+      "path_recall": 1.0,
+      "path_precision": 0.3333333333333333,
+      "expected_paths": [
+        "assets/nhapmonbaomatvaanninhmang/Chuong 5.pdf"
+      ]
+    }
+  ]
+}

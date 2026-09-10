@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multimodal-rag"
+version = "0.1.0"
+description = "E-learning virtual assistant: multimodal RAG over heterogeneous course materials"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pydantic-settings>=2.4",
+    "python-dotenv>=1.0",
+    "chromadb>=0.5",
+    "langchain-huggingface>=0.1",
+    "langchain-text-splitters>=0.3",
+    "huggingface-hub>=0.24",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+document = [
+    "docling>=2.0",
+    "langchain-docling>=0.2",
+]
+vision = [
+    "sentence-transformers>=3.0",
+    "pytesseract>=0.3",
+]
+video = [
+    "opencv-python-headless>=4.8",
+    "faster-whisper>=1.0",
+    "scenedetect>=0.6",
+]
+generation = [
+    "transformers>=4.51",
+    "langchain-core>=0.3",
+    "langchain-huggingface>=0.1",
+]
+retrieval = [
+    "rank-bm25>=0.2",
+]
+eval = [
+    "ragas>=0.4",
+]
+dev = [
+    "pytest>=8.0",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "uvicorn[standard]>=0.32",
+    "sse-starlette>=2.1",
+    "rank-bm25>=0.2",
+    "ragas>=0.4",
+]
+api = [
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "uvicorn[standard]>=0.32",
+    "sse-starlette>=2.1",
+]
+all = [
+    "docling>=2.0",
+    "langchain-docling>=0.2",
+    "sentence-transformers>=3.0",
+    "pytesseract>=0.3",
+    "opencv-python-headless>=4.8",
+    "faster-whisper>=1.0",
+    "scenedetect>=0.6",
+    "transformers>=4.51",
+    "langchain-core>=0.3",
+    "langchain-huggingface>=0.1",
+    "pytest>=8.0",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "uvicorn[standard]>=0.32",
+    "sse-starlette>=2.1",
+    "rank-bm25>=0.2",
+    "ragas>=0.4",
+]
+
+[project.scripts]
+multimodal-rag = "app.main:main"
+multimodal-rag-api = "app.api.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: tests that load real models or ingest assets/",
+]
+addopts = "-q"
