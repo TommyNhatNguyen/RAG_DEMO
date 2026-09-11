@@ -81,6 +81,10 @@ class Settings(BaseSettings):
     llm_max_context_chars: int = 10000
     llm_do_sample: bool = False
 
+    vl_llm_model: str = "Qwen/Qwen3-VL-2B-Instruct"
+    vl_llm_max_new_tokens: int = 768
+    vl_max_images: int = 3
+
     query_enhance: bool = True
     query_enhance_max_subqueries: int = 3
     query_enhance_max_new_tokens: int = 256

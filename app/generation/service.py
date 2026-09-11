@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import gc
 import logging
 from collections.abc import Callable, Iterator
+from pathlib import Path
 from typing import Any, NamedTuple
 
 from app.config.settings import Settings, resolve_device
@@ -80,12 +82,15 @@ class GenerationService:
         retriever: MultimodalRetriever,
         chat_model: Any | None = None,
         manifest: IndexManifest | None = None,
+        vl_answerer: Any | None = None,
     ) -> None:
         self.settings = settings
         self.retriever = retriever
         self.manifest = manifest
         self._chat = chat_model
         self._injected = chat_model is not None
+        self._vl_answerer = vl_answerer
+        self._vl_injected = vl_answerer is not None
         self.last_hits: list[RetrievalResult] = []
         self.last_enhanced: EnhancedQuery | None = None
         self.last_retrieve_loops: int = 0
@@ -154,9 +159,12 @@ class GenerationService:
         )
         if fallback:
             return fallback
-        raw = self._invoke(
-            {"context": context, "question": question, "source_paths": source_paths}
-        )
+        if include_visual and self._document_visual_hits(self.last_hits):
+            raw = self._invoke_visual(question)
+        else:
+            raw = self._invoke(
+                {"context": context, "question": question, "source_paths": source_paths}
+            )
         return strip_think(raw)
 
     def generate_answer_stream(
@@ -252,6 +260,12 @@ class GenerationService:
             yield AskEvent("done", {})
             return
         yield AskEvent("status", {"stage": "generating"})
+        if include_visual and self._document_visual_hits(self.last_hits):
+            answer = strip_think(self._invoke_visual(question))
+            if answer:
+                yield AskEvent("delta", {"text": answer})
+            yield AskEvent("done", {})
+            return
         filt = ThinkStreamFilter()
         for chunk in self._stream(
             {"context": context, "question": question, "source_paths": source_paths}
@@ -483,6 +497,73 @@ class GenerationService:
         return getattr(model, "generation_config", None)
 
     @staticmethod
+    def _document_visual_hits(
+        hits: list[RetrievalResult],
+    ) -> list[RetrievalResult]:
+        """Return retrieved page/picture assets usable by Qwen-VL."""
+        valid: list[RetrievalResult] = []
+        for hit in hits:
+            if hit.content_type not in {"page", "image"}:
+                continue
+            metadata = hit.metadata or {}
+            file_type = str(metadata.get("file_type") or "").lower().lstrip(".")
+            relative = str(metadata.get("relative_path") or "")
+            if not file_type:
+                file_type = Path(relative).suffix.lower().lstrip(".")
+            if file_type not in {"pdf", "ppt", "pptx", "docx"}:
+                continue
+            image_path = Path(str(metadata.get("image_path") or ""))
+            if image_path.is_file():
+                valid.append(hit)
+        return valid
+
+    def _ensure_vl_loaded(self) -> Any:
+        if self._vl_answerer is not None:
+            return self._vl_answerer
+        self._release_text_model()
+        from app.generation.vl_answerer import LocalQwenVLAnswerer
+
+        self._vl_answerer = LocalQwenVLAnswerer(
+            model_name=self.settings.vl_llm_model,
+            device=self.settings.device,
+            max_new_tokens=self.settings.vl_llm_max_new_tokens,
+        )
+        return self._vl_answerer
+
+    def _invoke_visual(self, question: str) -> str:
+        answerer = self._ensure_vl_loaded()
+        return answerer.answer(
+            question,
+            self.last_hits,
+            max_images=self.settings.vl_max_images,
+        )
+
+    def _release_text_model(self) -> None:
+        if self._injected or self._chat is None:
+            return
+        self._chat = None
+        gc.collect()
+        try:
+            import torch
+
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
+        except (ImportError, AttributeError):
+            pass
+
+    def _release_vl_model(self) -> None:
+        if self._vl_injected or self._vl_answerer is None:
+            return
+        answerer = self._vl_answerer
+        self._vl_answerer = None
+        close = getattr(answerer, "close", None)
+        if callable(close):
+            close()
+        else:
+            del answerer
+            gc.collect()
+
+    @staticmethod
     def _as_text(result: Any) -> str:
         if isinstance(result, str):
             return result
@@ -491,6 +572,7 @@ class GenerationService:
     def _ensure_loaded(self) -> None:
         if self._chat is not None:
             return
+        self._release_vl_model()
         try:
             import torch
             from langchain_huggingface import ChatHuggingFace, HuggingFacePipeline
@@ -576,12 +658,14 @@ class GenerationService:
         return build_answer_prompt() | self._chat | StrOutputParser()
 
     def _invoke(self, payload: dict[str, str]) -> str:
+        self._release_vl_model()
         if self._injected:
             result = self._chat.invoke(payload)
             return result if isinstance(result, str) else str(getattr(result, "content", result))
         return self._real_chain().invoke(payload)
 
     def _stream(self, payload: dict[str, str]) -> Iterator[str]:
+        self._release_vl_model()
         if self._injected:
             yield from self._chat.stream(payload)
             return

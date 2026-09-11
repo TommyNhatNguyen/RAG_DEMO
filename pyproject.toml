@@ -33,9 +33,11 @@ video = [
     "scenedetect>=0.6",
 ]
 generation = [
-    "transformers>=4.51",
+    "transformers>=4.57.0",
     "langchain-core>=0.3",
     "langchain-huggingface>=0.1",
+    "qwen-vl-utils>=0.0.14",
+    "torch>=2.1",
 ]
 retrieval = [
     "rank-bm25>=0.2",
@@ -66,9 +68,11 @@ all = [
     "opencv-python-headless>=4.8",
     "faster-whisper>=1.0",
     "scenedetect>=0.6",
-    "transformers>=4.51",
+    "transformers>=4.57.0",
     "langchain-core>=0.3",
     "langchain-huggingface>=0.1",
+    "qwen-vl-utils>=0.0.14",
+    "torch>=2.1",
     "pytest>=8.0",
     "fastapi>=0.115",
     "httpx>=0.27",

@@ -238,7 +238,14 @@ class DoclingLoader:
         for page_no, page in pages.items():
             page_int = int(page_no)
             native = native_by_page.get(page_int, "")
-            need_page = is_pptx or len(native.strip()) < MIN_NATIVE_TEXT
+            # Keep a page image for every PDF/PPTX page so the VL retriever and
+            # Qwen-VL answerer can use layout, formulas, diagrams, and text
+            # that native extraction may flatten or omit. DOCX keeps the
+            # lightweight fallback for image-heavy pages and embedded pictures.
+            need_page = (
+                asset.file_type in {"pdf", "pptx"}
+                or len(native.strip()) < MIN_NATIVE_TEXT
+            )
             if not need_page:
                 continue
             pil = None

@@ -20,12 +20,15 @@ Video ───────── FFmpeg audio + Whisper transcript
                                                       │
                                                   Reranker
                                                       │
-                                          Qwen3-1.7B (thinking OFF)
+                              Qwen3-1.7B / Qwen3-VL-2B-Instruct
 ```
 
 Ingestion, retrieval, and generation are separate packages. `build_services()` always constructs a `GenerationService`, but the 1.7B chat weights load only on the first `ask` call (query rewrite, then generate). `ingest` / `search` / `stats` never load the LLM. Chroma uses two collections because Qwen3-Embedding and Qwen3-VL-Embedding are different vector spaces.
 
-Qwen3-1.7B is a text generator. Visual hits are passed as OCR/caption/transcript text plus citations (path, page, timestamps). Images are not sent into the chat model.
+Qwen3-1.7B handles text-only answers and query planning. When retrieval returns a
+PDF/PPTX/DOCX page or picture with a local image path, `ask` passes the top images
+directly to Qwen3-VL-2B-Instruct together with the retrieved text context. Video
+remains on the existing transcript/OCR path and is not sent to the VL answerer.
 
 ## Requirements
 
@@ -141,7 +144,7 @@ curl -s http://127.0.0.1:8000/v1/ask -H 'Content-Type: application/json' \
 curl -I http://127.0.0.1:8000/v1/files/assets/test/buoi_3.mp4
 ```
 
-`--source` is a filename (`buoi_3.mp4`), a repo-relative file path, or a course folder (`assets/hethongquytrinhnghiepvu`). `--course` is the folder slug under `assets/`. `--show-hits` prints rewritten queries, RRF `score`, and dense `cosine`. `--text-only` is recommended on M1 16GB so VL stays unloaded.
+`--source` is a filename (`buoi_3.mp4`), a repo-relative file path, or a course folder (`assets/hethongquytrinhnghiepvu`). `--course` is the folder slug under `assets/`. `--show-hits` prints rewritten queries, RRF `score`, and dense `cosine`. `--text-only` skips visual retrieval and is recommended on M1 16GB for text-only questions. For PDF/PPTX visual questions, the service releases the text model before loading Qwen3-VL-2B-Instruct and sends up to three retrieved pages/images.
 
 The HTTP API (`python -m app.api`) keeps embedding and LLM weights in one process. `POST /v1/ask` streams SSE events (`status`, `query`, `sources`, `delta`, `done`). Concatenate every `delta.text` for the answer; render Download/Watch from `sources.assets` (`download_url`, `watch_url`). Browsers must use `fetch` + `ReadableStream`, not `EventSource`. Video `watch_url` uses `#t=START,END`; PDFs use `#page=N`. Files are served from `GET /v1/files/{path}` under `assets/` or `storage/` only.
 
@@ -196,6 +199,9 @@ See `.env.example`. Defaults from `app/config/settings.py`:
 | `LLM_ENABLE_THINKING` | `false` (keep off for ChatGPT-like answers) |
 | `LLM_MAX_CONTEXT_CHARS` | `10000` |
 | `LLM_DO_SAMPLE` | `false` |
+| `VL_LLM_MODEL` | `Qwen/Qwen3-VL-2B-Instruct` |
+| `VL_LLM_MAX_NEW_TOKENS` | `768` |
+| `VL_MAX_IMAGES` | `3` |
 | `QUERY_ENHANCE` | `true` (`ask` rewrites the question with 1.7B before retrieve; `search` does not) |
 | `QUERY_ENHANCE_MAX_SUBQUERIES` | `3` |
 | `QUERY_ENHANCE_MAX_NEW_TOKENS` | `256` |
@@ -218,9 +224,9 @@ Each `python -m app.main ask` is a new process, so weights still load from cache
 HF_HUB_OFFLINE=1 python -m app.main ask "Quan hệ phản xạ trên tập {1,2,3,4}" --text-only
 ```
 
-Qwen embedding models are public. Text embeddings use `langchain_huggingface.HuggingFaceEmbeddings` with `trust_remote_code` and L2 normalize. Visual embeddings use Sentence Transformers (`Qwen/Qwen3-VL-Embedding-2B`). Generation uses `ChatHuggingFace` with a patched tokenizer so `enable_thinking=False`.
+Qwen embedding models are public. Text embeddings use `langchain_huggingface.HuggingFaceEmbeddings` with `trust_remote_code` and L2 normalize. Visual embeddings use Sentence Transformers (`Qwen/Qwen3-VL-Embedding-2B`). Text generation uses `ChatHuggingFace` with a patched tokenizer so `enable_thinking=False`; PDF/PPTX/DOCX visual answers use the Transformers multimodal interface for `Qwen/Qwen3-VL-2B-Instruct`.
 
-On 16 GB Apple Silicon, keep the defaults. `ask` loads the 0.6B text embedder plus 1.7B. Adding the 2B VL embedder on the same MPS device can run out of memory — use `ask --text-only` so VL weights stay unloaded. If MPS still runs out of memory: set `DEVICE=cpu`, `VL_BATCH_SIZE=1`, or close other apps. Do not also switch to 4B/8B embeddings while generating.
+On 16 GB Apple Silicon, keep the defaults. `ask --text-only` loads the 0.6B text embedder plus 1.7B text model. A visual PDF/PPTX question loads the 2B VL embedder for retrieval, releases the text model, and then loads Qwen3-VL-2B-Instruct for the answer. If MPS still runs out of memory: set `DEVICE=cpu`, `VL_BATCH_SIZE=1`, `VL_MAX_IMAGES=1`, or close other apps. Do not also switch to 4B/8B embeddings while generating.
 
 ## Running ingestion
 
@@ -384,6 +390,6 @@ Do not download 1.7B in unit tests. Integration against `assets/` is manual via 
 
 ## Future architecture
 
-Interfaces exist so these can be swapped later without rewriting the pipeline: S3/MinIO object store, Qdrant/Milvus/pgvector, Qwen rerankers, unified VL collection if benchmarking supports it. Generation already uses Qwen3-1.7B; quantization, vLLM/Ollama, Qwen3-VL as the generator, and a persistent `chat` REPL are out of scope for this slice.
+Interfaces exist so these can be swapped later without rewriting the pipeline: S3/MinIO object store, Qdrant/Milvus/pgvector, Qwen rerankers, unified VL collection if benchmarking supports it. Text generation uses Qwen3-1.7B, while document visual generation uses Qwen3-VL-2B-Instruct. Quantization, vLLM/Ollama, and a persistent `chat` REPL remain out of scope for this slice.
 
 `app/processors/video.py` still contains an unused OpenCV uniform sampler (`sample_frames`). The live video path is FFmpeg coarse JPEGs plus `SemanticFrameSelectionStrategy`.

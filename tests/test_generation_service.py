@@ -75,6 +75,57 @@ def _hits() -> list[RetrievalResult]:
     ]
 
 
+class FakeVLAnswerer:
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, list[RetrievalResult], int]] = []
+
+    def answer(self, question, results, *, max_images=3):
+        self.calls.append((question, list(results), max_images))
+        return "Câu trả lời từ ảnh [V1]."
+
+
+def test_visual_document_hits_use_vl_answerer(settings, tmp_path):
+    image_path = tmp_path / "page-1.png"
+    image_path.write_bytes(b"fake image")
+    hits = [
+        RetrievalResult(
+            id="text",
+            score=0.9,
+            content_type="text",
+            content="Nội dung chữ liên quan",
+            metadata={"relative_path": "assets/cau_truc_roi_rac/buoi_1/a.pdf"},
+        ),
+        RetrievalResult(
+            id="page",
+            score=0.8,
+            content_type="page",
+            content="Trang chứa sơ đồ",
+            metadata={
+                "relative_path": "assets/cau_truc_roi_rac/buoi_1/a.pdf",
+                "file_type": "pdf",
+                "page_number": 1,
+                "image_path": str(image_path),
+            },
+        ),
+    ]
+    chat = FakeChatModel("text answer should not run")
+    vl = FakeVLAnswerer()
+    service = GenerationService(
+        settings,
+        FakeRetriever(hits),
+        chat_model=chat,
+        vl_answerer=vl,
+    )
+
+    answer = service.generate_answer("Sơ đồ trong trang nói gì?", enhance=False)
+
+    assert answer == "Câu trả lời từ ảnh [V1]."
+    assert len(vl.calls) == 1
+    assert vl.calls[0][0] == "Sơ đồ trong trang nói gì?"
+    assert vl.calls[0][2] == settings.vl_max_images
+    assert chat.invoked == []
+
+
 def test_generate_answer_strips_think(settings):
     chat = FakeChatModel("<think>secret</think> Quan hệ phản xạ là...")
     service = GenerationService(settings, FakeRetriever(_hits()), chat_model=chat)
