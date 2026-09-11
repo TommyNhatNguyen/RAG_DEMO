@@ -134,7 +134,13 @@ class VideoLoader:
 
         t0 = time.perf_counter()
         logger.info("[3/7] Transcribing audio")
-        pieces = self._load_or_transcribe(transcript_path, wav_path, processed, usable and checkpoint.reached("transcript"))
+        pieces = self._load_or_transcribe(
+            path,
+            transcript_path,
+            wav_path,
+            processed,
+            usable and checkpoint.reached("transcript"),
+        )
         timings["transcription"] = timings.get("transcription") or (time.perf_counter() - t0)
         checkpoint.update(stage="transcript", timings=timings)
 
@@ -208,6 +214,7 @@ class VideoLoader:
 
     def _load_or_transcribe(
         self,
+        video_path: Path,
         transcript_path: Path,
         wav_path: Path,
         duration: float,
@@ -216,12 +223,54 @@ class VideoLoader:
         if reuse and transcript_path.exists():
             logger.info("Reusing transcript checkpoint %s", transcript_path.name)
             return json.loads(transcript_path.read_text(encoding="utf-8"))
+        sidecar = self._find_timestamp_sidecar(video_path)
+        if sidecar is not None:
+            pieces = self._read_timestamp_sidecar(sidecar, duration)
+            transcript_path.write_text(json.dumps(pieces, ensure_ascii=False), encoding="utf-8")
+            logger.info("Loaded timestamp transcript sidecar %s (%s segments)", sidecar.name, len(pieces))
+            return pieces
         pieces = self._transcribe(wav_path, duration)
         transcript_path.write_text(json.dumps(pieces, ensure_ascii=False), encoding="utf-8")
         return pieces
 
+    @staticmethod
+    def _find_timestamp_sidecar(video_path: Path) -> Path | None:
+        candidates = (
+            video_path.with_name(f"{video_path.stem}_segments.json"),
+            video_path.with_name(f"{video_path.stem}.segments.json"),
+        )
+        return next((candidate for candidate in candidates if candidate.is_file()), None)
+
+    @staticmethod
+    def _read_timestamp_sidecar(sidecar: Path, duration: float) -> list[dict]:
+        payload = json.loads(sidecar.read_text(encoding="utf-8"))
+        raw_segments = payload.get("segments", []) if isinstance(payload, dict) else payload
+        if not isinstance(raw_segments, list):
+            raise ValueError(f"Timestamp sidecar must contain a list in 'segments': {sidecar}")
+
+        pieces: list[dict] = []
+        for item in raw_segments:
+            if not isinstance(item, dict):
+                continue
+            text = str(item.get("text", "")).strip()
+            if not text:
+                continue
+            start = max(0.0, float(item.get("start", 0.0)))
+            end = max(start, float(item.get("end", start)))
+            if duration > 0:
+                start = min(start, duration)
+                end = min(end, duration)
+            pieces.append({"start": start, "end": end, "text": text})
+        return pieces
+
     def _transcribe(self, audio_path: Path, duration: float) -> list[dict]:
-        model = self._whisper_model()
+        try:
+            model = self._whisper_model()
+        except ModuleNotFoundError as exc:
+            raise RuntimeError(
+                "Video transcription requires faster-whisper, or a timestamp sidecar "
+                "named '<video>_segments.json' beside the video."
+            ) from exc
         segments, _info = model.transcribe(str(audio_path))
         pieces: list[dict] = []
         last_pct = -10

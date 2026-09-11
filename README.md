@@ -249,6 +249,26 @@ A full Whisper pass on M1 16GB is still the long stage (CPU only). Default `WHIS
 VIDEO_MAX_DURATION=60 python -m app.main ingest "./assets/test/buoi_3.mp4"
 ```
 
+If you already create timestamps with the MLX Whisper tool from the previous
+project, save the result beside the video as `<video_stem>_segments.json`, for
+example `buoi_1_segments.json`. RAG_DEMO detects this sidecar automatically,
+normalizes its `start` / `end` / `text` records, and skips a second Whisper pass.
+This is useful on Apple Silicon when `faster-whisper` is not installed in the
+RAG_DEMO environment:
+
+```bash
+# Run once in the old project, using the MLX Whisper environment:
+cd "/Users/VoThiXuanHoa/Downloads/UIT-Intelligent-virtual-assistant-integrating-multimodal-RAG-for-e-learning-systems"
+source .venv/bin/activate
+PYTHONPATH=src python -m edu_rag.cli transcribe \
+  "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4"
+
+# Then ingest video + its timestamp sidecar in RAG_DEMO:
+cd "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO"
+source "/Users/VoThiXuanHoa/Downloads/rag_test/.venv311/bin/activate"
+python -m app.main ingest "./assets/cau_truc_roi_rac/buoi_1"
+```
+
 That cap logs a **WARNING** and records `processed_duration=60`. Unset `VIDEO_MAX_DURATION` and ingest again to index the rest — the same file hash is **not** skipped while the cap is incomplete (`IndexManifest.is_video_complete`).
 
 If you previously ingested with a 60s cap (or the old uniform-frame pipeline), run ingest again with the cap unset after pulling this code.
