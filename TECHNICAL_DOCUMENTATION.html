@@ -1,409 +1,648 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multimodal RAG — Software Engineering Technical Specification</title>
+<title>Multimodal RAG — Tài liệu kỹ thuật cho developer</title>
 <style>
 :root {
   --bg: #f6f4ef; --paper: #fffdf8; --ink: #1c1917; --muted: #57534e; --line: #e7e0d4;
-  --accent: #1d4ed8; --accent-soft: #dbeafe; --ok: #166534; --warn: #92400e; --bad: #991b1b;
+  --accent: #1d4ed8; --accent-soft: #dbeafe; --ok: #166534; --ok-soft:#dcfce7; --warn: #92400e; --warn-soft:#fef3c7; --bad: #991b1b; --bad-soft:#fee2e2;
   --code: #0f172a; --code-bg: #1e293b; --thead: #f4efe6;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.55 "Iowan Old Style", Palatino, "Times New Roman", serif; }
-.wrap { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.6 "Iowan Old Style", Palatino, "Times New Roman", serif; }
+.wrap { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 100vh; }
 nav.toc { position: sticky; top: 0; height: 100vh; overflow: auto; background: #1c1917; color: #e7e5e4; padding: 1.25rem 1rem 3rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13px; }
-nav.toc h1 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #a8a29e; margin: 0 0 1rem; }
-nav.toc a { color: #e7e5e4; text-decoration: none; display: block; padding: .22rem 0; }
+nav.toc h1 { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #a8a29e; margin: 0 0 1rem; }
+nav.toc a { color: #e7e5e4; text-decoration: none; display: block; padding: .2rem 0; }
 nav.toc a:hover { color: #93c5fd; }
-nav.toc .l2 { padding-left: .9rem; color: #a8a29e; }
-main { padding: 2.25rem 2.5rem 5rem; max-width: 980px; }
+nav.toc .l2 { padding-left: .9rem; color: #a8a29e; font-size: 12px; }
+main { padding: 2.25rem 2.5rem 6rem; max-width: 1000px; }
 .doc-banner { background: var(--paper); border: 1px solid var(--line); padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
 .doc-banner h1 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.85rem; margin: 0 0 .4rem; letter-spacing: -.02em; }
 .doc-banner p { margin: .25rem 0; color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
-.meta-grid { display: grid; grid-template-columns: 160px 1fr; gap: .35rem 1rem; margin-top: 1rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; }
+.meta-grid { display: grid; grid-template-columns: 170px 1fr; gap: .35rem 1rem; margin-top: 1rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; }
 .meta-grid dt { color: var(--muted); }
-h2 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.35rem; margin: 2.4rem 0 .8rem; padding-top: .4rem; border-top: 1px solid var(--line); }
-h3 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.08rem; margin: 1.6rem 0 .5rem; }
+h2 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.4rem; margin: 2.6rem 0 .8rem; padding-top: .5rem; border-top: 1px solid var(--line); }
+h3 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 1.1rem; margin: 1.7rem 0 .5rem; }
+h4 { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .98rem; margin: 1.3rem 0 .4rem; color:#3b3733; }
 p { margin: .7rem 0; }
-ul, ol { margin: .4rem 0 .8rem; padding-left: 1.35rem; }
-li { margin: .22rem 0; }
+ul, ol { margin: .4rem 0 .9rem; padding-left: 1.4rem; }
+li { margin: .28rem 0; }
 a { color: var(--accent); }
-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86em; background: #efeae1; padding: .08em .28em; }
-pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.45; background: var(--code-bg); color: #e2e8f0; padding: 1rem 1.1rem; overflow-x: auto; border-radius: 4px; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .86em; background: #efeae1; padding: .08em .3em; border-radius:2px; }
+pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.5; background: var(--code-bg); color: #e2e8f0; padding: 1rem 1.1rem; overflow-x: auto; border-radius: 6px; }
 pre code { background: none; color: inherit; padding: 0; }
-table { width: 100%; border-collapse: collapse; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; margin: .8rem 0 1.2rem; }
+pre.diagram { font-size: 12px; }
+table { width: 100%; border-collapse: collapse; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 13.5px; margin: .8rem 0 1.3rem; }
 th, td { border: 1px solid var(--line); padding: .45rem .55rem; text-align: left; vertical-align: top; }
 th { background: var(--thead); }
-.note, .warn { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; padding: .75rem .9rem; margin: 1rem 0; border-left: 4px solid; }
+td code, th code { white-space: nowrap; }
+.note, .warn, .bad { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; padding: .75rem .9rem; margin: 1rem 0; border-left: 4px solid; border-radius: 0 4px 4px 0; }
 .note { background: var(--accent-soft); border-color: var(--accent); }
-.warn { background: #fef3c7; border-color: var(--warn); }
+.warn { background: var(--warn-soft); border-color: var(--warn); }
+.bad { background: var(--bad-soft); border-color: var(--bad); }
+.badge { display:inline-block; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight:600; letter-spacing:.03em; padding:.12rem .5rem; border-radius:999px; text-transform:uppercase; }
+.badge.done { background:var(--ok-soft); color:var(--ok); }
+.badge.partial { background:var(--warn-soft); color:var(--warn); }
+.badge.todo { background:var(--bad-soft); color:var(--bad); }
+.badge.off { background:#e7e0d4; color:var(--muted); }
 .kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin: 1rem 0 1.4rem; }
 .kpi div { background: var(--paper); border: 1px solid var(--line); padding: .8rem; font-family: ui-sans-serif, system-ui, sans-serif; }
 .kpi b { display: block; font-size: 1.15rem; }
 .kpi span { color: var(--muted); font-size: 12px; }
-@media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } nav.toc { position: relative; height: auto; } .kpi, .meta-grid { grid-template-columns: 1fr; } }
+.grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } nav.toc { position: relative; height: auto; } .kpi, .meta-grid, .grid2 { grid-template-columns: 1fr; } }
 @media print { nav.toc { display: none; } .wrap { display: block; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav class="toc" aria-label="Table of contents">
-<h1>Contents</h1>
-<a href="#control">0. Document control</a>
-<a href="#intro">1. Introduction</a>
-<a href="#glossary">2. Glossary</a>
-<a href="#overview">3. System overview</a>
-<a href="#arch">4. Architecture</a>
-<a href="#stack">5. Stack &amp; extras</a>
-<a href="#datamodel">6. Data model</a>
-<a href="#ids">7. IDs &amp; incremental ingest</a>
-<a href="#meta">8. Metadata</a>
-<a href="#modal">9. Per-modality ingest</a>
-<a href="#video">10. Long video</a>
-<a href="#index">11. Indexing</a>
-<a href="#retrieve">12. Retrieval</a>
-<a href="#gen">13. Generation (LLM)</a>
-<a href="#cli">14. CLI</a>
-<a href="#cache">15. Model cache vs RAM</a>
-<a href="#config">16. Configuration</a>
-<a href="#storage">17. Storage layout</a>
-<a href="#test">18. Tests</a>
-<a href="#ops">19. Operations</a>
-<a href="#limits">20. Limitations</a>
-<a href="#inventory">21. Source inventory</a>
+<nav class="toc" aria-label="Mục lục">
+<h1>Mục lục</h1>
+<a href="#control">0. Thông tin tài liệu</a>
+<a href="#overview">1. Tổng quan hệ thống</a>
+<a href="#stack">2. Công nghệ sử dụng</a>
+<a href="#repo-map">3. Bản đồ repo</a>
+<a href="#config">4. Cấu hình (Settings)</a>
+<a href="#datamodel">5. Data model</a>
+<a href="#ingest">6. Ingestion pipeline</a>
+<div class="l2"><a href="#ingest-doc">6.1 Document (PDF/DOCX/PPTX)</a></div>
+<div class="l2"><a href="#ingest-text">6.2 Text/Markdown &amp; Image</a></div>
+<div class="l2"><a href="#ingest-video">6.3 Video (7 bước)</a></div>
+<div class="l2"><a href="#ingest-dedup">6.4 Dedup &amp; manifest</a></div>
+<a href="#index">7. Indexing &amp; ChromaDB</a>
+<a href="#retrieval">8. Retrieval pipeline</a>
+<a href="#generation">9. Generation (LLM)</a>
+<a href="#api">10. HTTP API &amp; SSE</a>
+<a href="#eval">11. Evaluation framework</a>
+<a href="#cli">12. CLI reference</a>
+<a href="#run">13. Chạy dự án (setup → ingest → ask)</a>
+<a href="#howeval">14. Cách đánh giá chất lượng</a>
+<a href="#test">15. Testing</a>
+<a href="#gaps">16. Known gaps / rủi ro kỹ thuật</a>
+<a href="#roadmap">17. Hướng phát triển tiếp</a>
+<a href="#fileindex">18. Phụ lục: chỉ mục toàn bộ file</a>
 </nav>
 <main>
+
 <header class="doc-banner" id="control">
-<h1>Multimodal RAG<br>Software Engineering Technical Specification</h1>
-<p>Ingestion, embedding, retrieval, and Qwen3-1.7B generation for PDF, DOCX, PPTX, TXT, Markdown, images, and long video. Describes the system as implemented in the live tree.</p>
+<h1>Multimodal RAG<br>Tài liệu kỹ thuật cho developer</h1>
+<p>Tài liệu này được viết bằng cách đọc toàn bộ source code hiện tại trong repo (không suy diễn từ tên file), nhằm giúp một developer mới tiếp nhận dự án hiểu toàn bộ flow, công nghệ, cách chạy, cách đánh giá và hướng phát triển tiếp — không cần hỏi lại người viết code trước.</p>
 <dl class="meta-grid">
-<dt>System</dt><dd>multimodal-rag 0.1.0 (<code>app/__init__.py</code>)</dd>
-<dt>Status</dt><dd>Implemented. LLM generation and long-video representative-frame pipeline (<code>video_pipeline_version=v2-long</code>) are in tree.</dd>
-<dt>Audience</dt><dd>Software engineers and new AI/context sessions</dd>
-<dt>Code snapshot</dt><dd>2026-09-07 · pair with <code>CODEBASE_CONTEXT.html</code> and <code>README.md</code></dd>
-<dt>Python</dt><dd>3.11 or 3.12 (<code>&gt;=3.11,&lt;3.14</code>)</dd>
-<dt>CLI</dt><dd><code>python -m app.main ingest|search|ask|stats</code> · console script <code>multimodal-rag</code></dd>
-<dt>Entry</dt><dd><code>app.main:main</code> · factory <code>build_services(settings)</code></dd>
+<dt>Package</dt><dd><code>multimodal-rag</code> v0.1.0</dd>
+<dt>Ngày viết tài liệu</dt><dd>2026-09-27</dd>
+<dt>Commit HEAD lúc viết</dt><dd><code>a466728</code> (nhánh <code>main</code>) + 1 file untracked: <code>app/storage/base.py</code></dd>
+<dt>Phạm vi</dt><dd>Toàn bộ <code>app/</code> (~9.400 dòng Python), <code>tests/</code>, <code>evals/</code>, cấu hình gốc</dd>
+<dt>Đối tượng đọc</dt><dd>Developer/AI kế tiếp sẽ sửa hoặc mở rộng pipeline này</dd>
+<dt>Tài liệu liên quan</dt><dd><code>README.md</code> (cheat-sheet lệnh), <code>docs/frontend-api.md</code> (hợp đồng API cho Next.js), <code>docs/rag-production-checklist-handoff.md</code> (roadmap kỹ thuật RAG — <strong>đã thực hiện gần hết</strong>, xem §17), <code>EXPERIMENT_LOG.md</code> (nhật ký benchmark retrieval), <code>evals/README.md</code> (schema golden set)</dd>
 </dl>
 </header>
 
-<div class="kpi">
-<div><b>Two collections</b><span>text vs VL vector spaces</span></div>
-<div><b>SHA-256 IDs</b><span>Idempotent ingest</span></div>
-<div><b>Rep. video frames</b><span>VL only on selected frames</span></div>
-<div><b>Qwen3-1.7B</b><span>thinking OFF, stream ask</span></div>
+<section id="overview">
+<h2>1. Tổng quan hệ thống</h2>
+<p><strong>Bài toán:</strong> trợ lý ảo e-learning trả lời câu hỏi của học viên dựa trên học liệu dị chất của khoá học (PDF/DOCX/PPTX, ảnh/slide, bảng, transcript audio, video bài giảng), luôn kèm căn cứ (đường dẫn tương đối + trang/slide/mốc thời gian). Đây là một hệ RAG (Retrieval-Augmented Generation) đa phương thức, single-turn (không có lịch sử hội thoại), chạy được offline trên máy Apple Silicon 16GB.</p>
+<p>Toàn bộ hệ thống chia 3 giai đoạn độc lập, nối bằng ChromaDB:</p>
+<pre class="diagram">
+  INGESTION                         RETRIEVAL                          GENERATION
+  ─────────                         ─────────                          ──────────
+  file → loader → chunk → embed     query → enhance → multi-source     hits → prompt → LLM
+       → ChromaDB (2 collections)        search → fuse (RRF) → rerank       → Qwen3-1.7B (text)
+       → data/index_manifest.json        → diversify → expand → compress   → hoặc Qwen3-VL-2B (ảnh trang/slide)
+                                                                             → stream trả lời + trích dẫn
+</pre>
+<p><code>app/factory.py::build_services()</code> là điểm lắp ráp duy nhất — tạo tất cả service (vector store, embedders, loaders, pipeline, retriever, generator) và trả về một <code>AppServices</code> dataclass. CLI (<code>app/main.py</code>) và HTTP API (<code>app/api/app.py</code>) đều gọi hàm này để lấy service, không có logic khởi tạo trùng lặp ở nơi khác.</p>
+<div class="note">Model 1.7B (text) và Qwen3-VL-2B (ảnh) <strong>không</strong> load khi chạy <code>ingest</code>/<code>search</code>/<code>stats</code> — chỉ load lười (lazy) khi thực sự gọi <code>ask</code> lần đầu. Điều này quan trọng để hiểu log "im lặng" lúc chạy CLI: không phải treo máy, mà model chưa cần load.</div>
+</section>
+
+<section id="stack">
+<h2>2. Công nghệ sử dụng</h2>
+<table>
+<thead><tr><th>Lớp</th><th>Công nghệ</th><th>Vai trò trong repo</th><th>Extra (<code>pyproject.toml</code>)</th></tr></thead>
+<tbody>
+<tr><td>Ngôn ngữ / runtime</td><td>Python 3.11–3.12 (không hỗ trợ 3.14)</td><td>Toàn bộ backend</td><td>base</td></tr>
+<tr><td>Config</td><td><code>pydantic-settings</code> 2.4+</td><td><code>Settings</code> đọc <code>.env</code>, validate kiểu</td><td>base</td></tr>
+<tr><td>Parse tài liệu</td><td><code>docling</code> 2.0+, <code>langchain-docling</code></td><td>Parse PDF/DOCX/PPTX layout-aware: text, table→markdown, ảnh trang/hình</td><td><code>document</code></td></tr>
+<tr><td>Text splitting</td><td><code>langchain-text-splitters</code></td><td><code>RecursiveCharacterTextSplitter</code> — chunk theo ký tự, không theo token</td><td>base</td></tr>
+<tr><td>Text embedding</td><td><code>langchain-huggingface</code> → <code>Qwen/Qwen3-Embedding-0.6B</code></td><td>Vector hoá văn bản (0.6B, có thể nâng lên 4B qua env)</td><td>base (model tải qua <code>generation</code>/<code>vision</code> transformers stack)</td></tr>
+<tr><td>Visual embedding</td><td><code>sentence-transformers</code> → <code>Qwen/Qwen3-VL-Embedding-2B</code></td><td>Vector hoá ảnh/slide/frame video vào cùng không gian có thể query bằng text</td><td><code>vision</code></td></tr>
+<tr><td>OCR</td><td><code>pytesseract</code> (Tesseract)</td><td>OCR ảnh trang thiếu text native, frame video, ảnh đơn</td><td><code>vision</code></td></tr>
+<tr><td>Vector DB</td><td><code>chromadb</code> 0.5+ (PersistentClient)</td><td>2 collection: <code>text_embeddings</code>, <code>visual_embeddings</code>; cosine similarity</td><td>base</td></tr>
+<tr><td>Sparse retrieval</td><td><code>rank-bm25</code></td><td>BM25 sidecar trên text collection, fuse bằng RRF</td><td><code>retrieval</code></td></tr>
+<tr><td>Video</td><td><code>ffmpeg</code>/<code>ffprobe</code> (subprocess), <code>faster-whisper</code>, <code>opencv-python-headless</code>, <code>scenedetect</code> (tuỳ chọn)</td><td>Audio extraction, ASR transcript, coarse-frame sampling, scene boundary (off mặc định)</td><td><code>video</code></td></tr>
+<tr><td>LLM text</td><td><code>transformers</code>, <code>torch</code>, <code>langchain-core</code>, <code>langchain-huggingface</code> → <code>Qwen/Qwen3-1.7B</code></td><td>Query-planner JSON, HyDE, reflect-loop, câu trả lời cuối (streaming)</td><td><code>generation</code></td></tr>
+<tr><td>LLM đa phương thức</td><td><code>transformers</code> (<code>AutoModelForMultimodalLM</code>), <code>qwen-vl-utils</code> → <code>Qwen/Qwen3-VL-2B-Instruct</code></td><td>Đọc trực tiếp ảnh trang/slide PDF/PPTX/DOCX để trả lời câu hỏi thị giác</td><td><code>generation</code></td></tr>
+<tr><td>Rerank (tuỳ chọn)</td><td><code>transformers</code> → <code>Qwen/Qwen3-Reranker-0.6B</code></td><td>Cross-encoder rerank, mặc định <strong>tắt</strong> (16GB)</td><td><code>generation</code></td></tr>
+<tr><td>Eval</td><td><code>ragas</code> 0.4+</td><td>Faithfulness/answer relevancy/context precision/recall trên golden set</td><td><code>eval</code></td></tr>
+<tr><td>API</td><td><code>fastapi</code>, <code>uvicorn[standard]</code>, <code>sse-starlette</code>, <code>httpx</code></td><td>REST + SSE cho frontend (Next.js), 1 worker, giữ model trong RAM giữa request</td><td><code>api</code></td></tr>
+<tr><td>Test</td><td><code>pytest</code></td><td>29 file test, mock embedding/LLM, không tải model thật</td><td><code>dev</code></td></tr>
+</tbody>
+</table>
+<p>Extra tổng hợp <code>all</code> gộp hết các nhóm trên. Cài tối thiểu cho từng nhu cầu: xem §13.</p>
+</section>
+
+<section id="repo-map">
+<h2>3. Bản đồ repo</h2>
+<table>
+<thead><tr><th>Package</th><th>Vai trò</th></tr></thead>
+<tbody>
+<tr><td><code>app/config/</code></td><td>1 file <code>settings.py</code> — toàn bộ tham số hệ thống (Pydantic <code>BaseSettings</code>)</td></tr>
+<tr><td><code>app/models/</code></td><td>Pydantic schema thuần dữ liệu: <code>DocumentAsset</code>, <code>TableAsset</code>, <code>ImageAsset</code>, <code>VideoAsset</code>/<code>VideoSegment</code>, <code>TextChunk</code>, <code>EmbeddingRecord</code>, <code>RetrievalResult</code></td></tr>
+<tr><td><code>app/loaders/</code></td><td>Đọc file thô → <code>LoadedDocument</code>/<code>LoadedVideo</code>: <code>DoclingLoader</code>, <code>TextLoader</code>, <code>ImageLoader</code>, <code>VideoLoader</code></td></tr>
+<tr><td><code>app/chunking/</code></td><td><code>TextChunker</code> (RecursiveCharacterTextSplitter theo <code>file_type</code>), <code>video_chunker</code> (cửa sổ thời gian cố định 30s)</td></tr>
+<tr><td><code>app/processors/</code></td><td>Xử lý mức thấp cho video/ảnh: ffmpeg audio/frame, ffprobe metadata, pHash frame selection, OCR engine, scene detection, checkpoint</td></tr>
+<tr><td><code>app/embeddings/</code></td><td><code>TextEmbeddingService</code>, <code>VLEmbeddingService</code> — load lười model embedding, batch, progress log</td></tr>
+<tr><td><code>app/storage/</code></td><td><code>LocalFilesystemStore</code> — lưu ảnh/frame sinh ra dưới <code>storage/</code>, sandbox theo root</td></tr>
+<tr><td><code>app/vectorstore/</code></td><td><code>ChromaVectorStore</code> — add/search/get/delete, flatten metadata về kiểu nguyên thuỷ</td></tr>
+<tr><td><code>app/pipeline/</code></td><td><code>IngestionPipeline</code> (walk file, hash-dedup, gọi loader→chunk→index) và <code>IndexingService</code> (ghi Chroma, xây <code>base_metadata</code>)</td></tr>
+<tr><td><code>app/retrieval/</code></td><td><code>MultimodalRetriever</code> + module con: <code>merger</code> (RRF), <code>sparse</code> (BM25), <code>filters</code> (Chroma <code>where</code>), <code>diversity</code>, <code>expand</code> (ghép parent/neighbor), <code>compress</code> (extractive), <code>reranker</code></td></tr>
+<tr><td><code>app/generation/</code></td><td><code>GenerationService</code> (nhạc trưởng: enhance→retrieve→generate→stream), <code>query_enhance</code> (JSON planner/HyDE/reflect), <code>context</code>/<code>prompts</code>/<code>catalog</code>/<code>think</code>, <code>vl_answerer</code> (Qwen-VL cho ảnh)</td></tr>
+<tr><td><code>app/api/</code></td><td>FastAPI app: <code>app.py</code> (route), <code>schemas.py</code>, <code>citations.py</code> (hits→Citation/Asset), <code>files.py</code> (file server sandbox), <code>deps.py</code>, <code>sse.py</code></td></tr>
+<tr><td><code>app/eval/</code></td><td>Golden-set eval (<code>golden</code>, <code>metrics</code>, <code>judge</code>, <code>ragas_backend</code>, <code>runner</code>, <code>report</code>), inventory/dashboard, và <code>retrieval_benchmark.py</code> — harness benchmark leakage-free cho luận văn/báo cáo</td></tr>
+<tr><td><code>app/main.py</code></td><td>CLI (argparse) — 11 subcommand, xem §12</td></tr>
+<tr><td><code>app/factory.py</code></td><td><code>build_services()</code> — điểm lắp ráp DI duy nhất</td></tr>
+<tr><td><code>app/ids.py</code>, <code>index_manifest.py</code>, <code>progress.py</code>, <code>log_setup.py</code></td><td>Tiện ích chung: hash/NFC/vector-id, manifest incremental-ingest, progress log, logging setup</td></tr>
+<tr><td><code>tests/</code></td><td>29 file, mock model theo <code>tests/conftest.py</code></td></tr>
+<tr><td><code>evals/</code></td><td><code>golden.jsonl</code> (golden set), <code>benchmark_queries.jsonl</code> + <code>results/</code> + <code>reports/</code> (benchmark retrieval)</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="config">
+<h2>4. Cấu hình (<code>app/config/settings.py</code>)</h2>
+<p><code>Settings</code> là <code>pydantic_settings.BaseSettings</code>, đọc <code>.env</code> (case-insensitive, field lạ bị <code>ignore</code>), cache singleton qua <code>get_settings()</code> (<code>lru_cache</code>) — nhưng lưu ý: CLI (<code>app/main.py::main()</code>) và test đều tự tạo <code>Settings()</code> trực tiếp, không phải lúc nào cũng đi qua <code>get_settings()</code>, nên override bằng constructor argument trong test vẫn hoạt động độc lập với cache.</p>
+<table>
+<thead><tr><th>Nhóm</th><th>Biến chính</th><th>Mặc định</th><th>Ghi chú</th></tr></thead>
+<tbody>
+<tr><td>Model</td><td><code>EMBEDDING_MODEL</code>, <code>VL_EMBEDDING_MODEL</code>, <code>LLM_MODEL</code>, <code>VL_LLM_MODEL</code></td><td>Qwen3-Embedding-0.6B / Qwen3-VL-Embedding-2B / Qwen3-1.7B / Qwen3-VL-2B-Instruct</td><td>Nâng cấp = đổi env, không sửa code</td></tr>
+<tr><td>Path</td><td><code>CHROMA_PATH</code>, <code>MANIFEST_PATH</code>, <code>STORAGE_ROOT</code>, <code>BM25_PATH</code></td><td><code>./data/chroma</code>, <code>./data/index_manifest.json</code>, <code>./storage</code>, <code>./data/bm25.pkl</code></td><td>Tương đối so với <code>project_root</code> (=<code>Path.cwd()</code> lúc chạy)</td></tr>
+<tr><td>Collection</td><td><code>TEXT_COLLECTION</code>, <code>VISUAL_COLLECTION</code></td><td><code>text_embeddings</code>, <code>visual_embeddings</code></td><td>Không gian vector khác nhau — không gộp</td></tr>
+<tr><td>Chunk</td><td><code>CHUNK_SIZE(_PDF/_DOCX/_PPTX/_TXT)</code>, <code>CHUNK_OVERLAP_*</code></td><td>500/50 fallback; PDF 350/60; DOCX 350/60; PPTX 280/40; TXT 500/50</td><td>Đơn vị <strong>ký tự</strong>, không phải token. Đổi → cần <code>ingest --rechunk</code></td></tr>
+<tr><td>Device/batch</td><td><code>DEVICE</code>, <code>TEXT_BATCH_SIZE</code>, <code>VL_BATCH_SIZE</code></td><td><code>mps</code> (fallback CPU tự động), 8, 1</td><td><code>resolve_device()</code> kiểm tra MPS/CUDA khả dụng thật</td></tr>
+<tr><td>Retrieval</td><td><code>RETRIEVER_K</code>, <code>GENERATION_K</code>, <code>RETRIEVER_FETCH_K</code>, <code>RETRIEVE_MAX_PER_FILE</code>, <code>COSINE_FALLBACK_THRESHOLD</code>, <code>COURSE_PREFILTER</code></td><td>5, 8, 20, 2, 0.15, false</td><td><code>ask</code> dùng <code>max(RETRIEVER_K, GENERATION_K)</code> trừ khi có <code>-k</code></td></tr>
+<tr><td>Hybrid/rerank/context</td><td><code>HYBRID_SEARCH</code>, <code>RERANK_ENABLED</code>, <code>RERANK_MODEL</code>, <code>CONTEXT_EXPAND</code>, <code>CONTEXT_COMPRESS</code>, <code>QUERY_HYDE</code>, <code>MAX_RETRIEVE_LOOPS</code></td><td>true, <strong>false</strong>, Qwen3-Reranker-0.6B, true, true, <strong>false</strong>, 0</td><td>Rerank/HyDE/reflect-loop tắt mặc định để giữ 16GB. Bật theo <code>weakest_metric</code> từ eval (§14)</td></tr>
+<tr><td>Video</td><td><code>VIDEO_SEGMENT_DURATION</code>, <code>VIDEO_COARSE_SAMPLE_INTERVAL</code>, <code>VIDEO_MAX_REPRESENTATIVE_FRAMES</code>, <code>VIDEO_FRAME_SIMILARITY_THRESHOLD</code>, <code>VIDEO_OCR_ENABLED/_INTERVAL</code>, <code>VIDEO_SCENE_ENABLED/_THRESHOLD</code>, <code>VIDEO_MAX_DURATION</code>, 4 trọng số selection</td><td>30s / 10s / 3 / 0.90 / true,30s / false,27.0 / rỗng (full video)</td><td>Trọng số chọn frame: visual_change 0.35, ocr_change 0.30, scene_boundary 0.20, temporal_coverage 0.15 (không có trong <code>.env.example</code>, chỉ hard-code trong <code>Settings</code>)</td></tr>
+<tr><td>Whisper</td><td><code>WHISPER_MODEL</code>, <code>WHISPER_COMPUTE_TYPE</code></td><td><code>base</code>, <code>int8</code></td><td>CTranslate2 không có backend MPS → luôn CPU</td></tr>
+<tr><td>LLM text</td><td><code>LLM_MAX_NEW_TOKENS</code>, <code>LLM_ENABLE_THINKING</code>, <code>LLM_MAX_CONTEXT_CHARS</code>, <code>LLM_DO_SAMPLE</code></td><td>4096, <strong>false</strong>, 10000, false</td><td><code>LLM_ENABLE_THINKING</code> phải giữ <code>false</code> — xem §9 (tokenizer bị patch)</td></tr>
+<tr><td>LLM ảnh</td><td><code>VL_LLM_MAX_NEW_TOKENS</code>, <code>VL_MAX_IMAGES</code></td><td>768, 3</td><td></td></tr>
+<tr><td>Query enhance</td><td><code>QUERY_ENHANCE</code>, <code>QUERY_ENHANCE_MAX_SUBQUERIES</code>, <code>QUERY_ENHANCE_MAX_NEW_TOKENS</code>, <code>QUERY_TASK</code></td><td>true, 3, 256, prompt e-learning cố định</td><td><code>ask</code> luôn enhance; <code>search</code> không</td></tr>
+<tr><td>HF Hub</td><td><code>HF_TOKEN</code>/<code>HUGGING_FACE_HUB_TOKEN</code></td><td>rỗng</td><td>Nếu có token → mọi CLI command gọi <code>huggingface_hub.login()</code> (xem <code>factory.login_hub</code>)</td></tr>
+<tr><td>API</td><td><code>API_HOST</code>, <code>API_PORT</code>, <code>API_CORS_ORIGINS</code>, <code>API_KEY</code></td><td>127.0.0.1:8000, <code>*</code>, rỗng</td><td>Rỗng = PoC mở, không auth</td></tr>
+</tbody>
+</table>
+<p>Hàm hữu ích trên <code>Settings</code>: <code>resolve_path()</code> (tương đối→tuyệt đối theo <code>project_root</code>), <code>chunk_params(file_type)</code>, <code>chunk_profile()</code> (chuỗi fingerprint để phát hiện đổi chunk size mà kích hoạt rechunk), <code>resolved_token()</code>.</p>
+</section>
+
+<section id="datamodel">
+<h2>5. Data model</h2>
+<p>Toàn bộ model là Pydantic <code>BaseModel</code>, thuần dữ liệu, không có logic — dùng để truyền giữa loader → chunker → indexer → retriever mà không phụ thuộc chi tiết Chroma.</p>
+<div class="grid2">
+<div>
+<h4><code>app/models/document.py</code></h4>
+<p><code>DocumentAsset</code>{id, source, file_name, relative_path, file_type, metadata}<br><code>TableAsset</code>{id, document_id, page_number, section, rows, columns, markdown, image_path}</p>
+<h4><code>app/models/image.py</code></h4>
+<p><code>ImageAsset</code>{id, document_id, path, page_number, caption, ocr_text, metadata}</p>
+<h4><code>app/models/video.py</code></h4>
+<p><code>VideoAsset</code>{id, source, file_name, relative_path, duration, metadata}<br><code>VideoSegment</code>{id, video_id, start_time, end_time, transcript, frame_paths[], frame_timestamps[], ocr_texts[]}</p>
 </div>
+<div>
+<h4><code>app/models/chunk.py</code></h4>
+<p><code>TextChunk</code>{id, document_id, text, page_number, section, chunk_index}<br><code>EmbeddingRecord</code>{id, document_id, collection, content_type, content, embedding[], metadata} — định nghĩa nhưng hiện chưa được dùng trực tiếp bởi <code>IndexingService</code> (service tự build list song song thay vì instantiate record này)</p>
+<h4><code>app/models/retrieval.py</code></h4>
+<p><code>RetrievalResult</code>{id, score, content_type, content, metadata} — kiểu trả về xuyên suốt retrieval→generation→eval→API. <code>ContentType</code> literal: text/image/table/video/video_segment/video_frame/page</p>
+<h4><code>app/loaders/base.py</code></h4>
+<p><code>LoadedDocument</code>{asset, text_blocks[], tables[], images[], page_images[], native_text_by_page}<br><code>LoadedVideo</code>{asset, segments[], full_transcript}</p>
+</div>
+</div>
+</section>
 
-<h2 id="intro">1. Introduction</h2>
-<p>This document describes the system as implemented. It replaces older statements that generation was out of scope or that video used a uniform 3-frame / 15s OpenCV sampler with a silent duration cap.</p>
-<p><strong>In scope:</strong> ingest (Docling / text / image / video), dual Chroma collections, retrieval + score rerank, Vietnamese tutoring answers via Qwen3-1.7B, long-video coarse sampling and representative frame selection, checkpoints for Whisper/WAV reuse, SHA-256 incremental ingest.</p>
-<p><strong>Out of scope (not in this slice):</strong> UI, auth, HTTP API, vLLM/Ollama, Qwen3-VL as the chat model, unified single vector collection, quantization, interactive <code>chat</code> REPL (weights still reload per <code>ask</code> process), <code>HF_LOCAL_FILES_ONLY</code> flag, benchmark/ingest-video CLI variants from the long-video prompt.</p>
-<div class="note">Do not mix Qwen3-Embedding and Qwen3-VL-Embedding in one collection. Do not load the LLM on ingest/search/stats. Retrieval returns <code>list[RetrievalResult]</code>, not LangChain Documents. OCR is preprocessing, not an embedder. Binaries stay on disk; Chroma holds paths. <code>project_root</code> is <code>cwd()</code>.</div>
+<section id="ingest">
+<h2>6. Ingestion pipeline</h2>
+<p>Điều phối bởi <code>app/pipeline/ingestion.py::IngestionPipeline</code>. <code>ingest(path)</code> gọi <code>iter_input_files()</code> (đệ quy nếu path là folder, bỏ qua <code>.DS_Store</code>/file ẩn), rồi với mỗi file gọi <code>ingest_file()</code>:</p>
+<pre class="diagram">
+ingest_file(path)
+ ├─ document_id = sha256(bytes file)           (app/ids.py::file_sha256)
+ ├─ nếu hash đã thấy trong lần chạy này → skip (chống trùng khi 1 lệnh ingest quét nhiều path)
+ ├─ kind = detect_kind(path)  # document|text|image|video, theo suffix
+ ├─ so hash mới với hash cũ theo relative_path trong manifest:
+ │    • path cũ có hash khác → _delete_document() (xoá vector + toàn bộ file sinh ra) rồi tiến hành index lại
+ │    • video: is_video_complete() kiểm tra processed_duration + video_pipeline_version → mới quyết định skip
+ │    • non-video: _should_rechunk() so `chunk_profile()` hiện tại với cái lưu trong manifest, hoặc `--rechunk`
+ ├─ _process(path, id, kind) → loader tương ứng → chunk (nếu cần) → IndexingService
+ └─ manifest.record(...) ghi lại content_types + chunk_profile/video stats
+</pre>
+<p>Sau khi ingest xong toàn bộ file, <code>_maybe_rebuild_bm25()</code> tự rebuild <code>data/bm25.pkl</code> nếu có gì thay đổi (hoặc file BM25 chưa tồn tại) — không cần chạy lệnh riêng, trừ khi bạn chỉ muốn rebuild BM25 mà không ingest gì (<code>rebuild-bm25</code>, §12).</p>
 
-<h2 id="glossary">2. Glossary</h2>
-<table>
-<thead><tr><th>Term</th><th>Definition</th></tr></thead>
-<tbody>
-<tr><td>document_id</td><td>SHA-256 of file bytes (<code>app.ids.file_sha256</code>)</td></tr>
-<tr><td>vector_id</td><td><code>{document_id}:{kind}:{chunk_index}</code> — <code>kind</code> in the id is not always equal to metadata <code>content_type</code></td></tr>
-<tr><td>content_type</td><td>Metadata: <code>text</code> | <code>table</code> | <code>image</code> | <code>page</code> | <code>video_segment</code> | <code>video_frame</code>. Literal also allows unused <code>video</code>.</td></tr>
-<tr><td>processed_duration</td><td>Seconds actually ingested (probed duration unless <code>VIDEO_MAX_DURATION</code> caps)</td></tr>
-<tr><td>video_pipeline_version</td><td>Constant <code>v2-long</code> in <code>app/processors/video_checkpoint.py</code></td></tr>
-<tr><td>Coarse candidate</td><td>Cheap JPEG sampled every <code>VIDEO_COARSE_SAMPLE_INTERVAL</code> (default 10s) via FFmpeg</td></tr>
-<tr><td>Representative frame</td><td>Subset selected by pHash / OCR / optional scene / temporal coverage; VL-embedded</td></tr>
-<tr><td>Score</td><td><code>1.0 - cosine_distance</code> (Chroma <code>hnsw:space=cosine</code>)</td></tr>
-<tr><td>Instruct query</td><td>Text embed query wrapped as <code>Instruct: {QUERY_TASK}\nQuery:{text}</code></td></tr>
-<tr><td>DURATION_TOLERANCE</td><td>1.0 second; used for video completeness and checkpoint match</td></tr>
-</tbody>
-</table>
-
-<h2 id="overview">3. System overview</h2>
-<pre><code>PDF/DOCX/PPTX ── Docling ── chunks ── Qwen3-Embedding ── text_embeddings
-                 └── pictures/pages ── Qwen3-VL-Embedding ── visual_embeddings
-TXT/MD ──────── splitter ────────── Qwen3-Embedding
-Image ───────── Pillow + OCR ────── text + VL
-Video ───────── FFmpeg WAV + Whisper (CPU int8)
-            └── coarse frames → pHash / OCR / optional PySceneDetect
-            └── 1–3 frames / 30s window ── VL ── visual (video_frame)
-            └── transcript windows ────── text ── text (metadata video_segment)
-                                                      │
-                                            retriever merge + score sort
-                                                      │
-                              Qwen3-1.7B (thinking OFF, max_new_tokens=4096)</code></pre>
-<p>Ingestion, retrieval, and generation are separate packages. Factory wires them. LLM loads only on first generate. VL loads only if visual search/index runs. Text embedder also lazy-loads.</p>
-
-<h2 id="arch">4. Architecture</h2>
-<p><code>build_services(settings)</code> in <code>app/factory.py</code> returns <code>AppServices</code>: vector store, object store, manifest, text/VL embedders, pipeline, retriever, <code>GenerationService</code>. If <code>HF_TOKEN</code> / <code>HUGGING_FACE_HUB_TOKEN</code> is set, <code>login_hub()</code> runs on <em>every</em> command (Hub <code>whoami-v2</code>).</p>
-<table>
-<thead><tr><th>Package</th><th>Role</th></tr></thead>
-<tbody>
-<tr><td><code>app.config</code></td><td>Pydantic Settings, <code>resolve_device</code>, cached <code>get_settings</code></td></tr>
-<tr><td><code>app.loaders</code></td><td>Parse files; <code>detect_kind</code> / <code>iter_input_files</code>; video orchestrates checkpoints</td></tr>
-<tr><td><code>app.processors</code></td><td>OCR, ffmpeg, coarse frames, pHash selection, scenes, metadata, leftover OpenCV sampler</td></tr>
-<tr><td><code>app.chunking</code></td><td>RecursiveCharacterTextSplitter; video time windows + Whisper piece assignment</td></tr>
-<tr><td><code>app.pipeline</code></td><td>Ingest report; index to Chroma</td></tr>
-<tr><td><code>app.embeddings</code></td><td>Lazy HF text + SentenceTransformer VL</td></tr>
-<tr><td><code>app.vectorstore</code></td><td>Chroma PersistentClient</td></tr>
-<tr><td><code>app.storage</code></td><td>LocalFilesystemStore (ObjectStore protocol)</td></tr>
-<tr><td><code>app.retrieval</code></td><td>Dual kNN, merge by id, ScoreReranker</td></tr>
-<tr><td><code>app.generation</code></td><td>Prompt, think-filter, ChatHuggingFace stream</td></tr>
-<tr><td><code>app.main</code></td><td>CLI only; argparse subcommands</td></tr>
-</tbody>
-</table>
-<p>Swap points are Protocols: <code>TextEmbedder</code>, <code>VLEmbedder</code>, <code>VectorStore</code>, <code>ObjectStore</code>, <code>OCREngine</code>, <code>Generator</code>, <code>FrameSelectionStrategy</code>, <code>DocumentLoader</code>. <code>Reranker</code> currently subclasses <code>ScoreReranker</code> (cosine sort, not a cross-encoder).</p>
-
-<h2 id="stack">5. Stack and extras</h2>
-<p><code>pyproject.toml</code> extras:</p>
-<table>
-<thead><tr><th>Extra</th><th>Packages</th></tr></thead>
-<tbody>
-<tr><td>core</td><td>pydantic-settings, python-dotenv, chromadb, langchain-huggingface, langchain-text-splitters, huggingface-hub, pillow</td></tr>
-<tr><td><code>document</code></td><td>docling, langchain-docling</td></tr>
-<tr><td><code>vision</code></td><td>sentence-transformers, pytesseract</td></tr>
-<tr><td><code>video</code></td><td>opencv-python-headless, faster-whisper, scenedetect</td></tr>
-<tr><td><code>generation</code></td><td>transformers&gt;=4.51, langchain-core, langchain-huggingface</td></tr>
-<tr><td><code>dev</code></td><td>pytest</td></tr>
-<tr><td><code>all</code></td><td>union of the above</td></tr>
-</tbody>
-</table>
-<p>System: Tesseract, FFmpeg <strong>and</strong> ffprobe. Missing either raises <code>RuntimeError</code> with install text (<code>app/processors/ffmpeg_check.py</code>). OpenCV is a video extra dependency; the live sampler is FFmpeg. <code>app/processors/video.py::sample_frames</code> (uniform OpenCV) is unused by <code>VideoLoader</code>.</p>
-<p><code>docker-compose.yml</code> is a placeholder (<code>services: {}</code>) documenting future volume names; Chroma is embedded, not a Compose service.</p>
-
-<h2 id="datamodel">6. Data model</h2>
-<p>Pydantic models in <code>app/models/</code>:</p>
-<table>
-<thead><tr><th>Type</th><th>Fields (principal)</th></tr></thead>
-<tbody>
-<tr><td><code>DocumentAsset</code></td><td>id, source, file_name, relative_path, file_type, metadata</td></tr>
-<tr><td><code>TableAsset</code></td><td>id, document_id, page_number, section, rows/columns, markdown, image_path</td></tr>
-<tr><td><code>TextChunk</code></td><td>id, document_id, text, page_number, section, chunk_index</td></tr>
-<tr><td><code>ImageAsset</code></td><td>id, document_id, path, page_number, caption, ocr_text</td></tr>
-<tr><td><code>VideoAsset</code></td><td>id, source, file_name, relative_path, duration, metadata (stats + checkpoint_path)</td></tr>
-<tr><td><code>VideoSegment</code></td><td>id, video_id, start/end, transcript, frame_paths, frame_timestamps, ocr_texts</td></tr>
-<tr><td><code>RetrievalResult</code></td><td>id, score, content_type, content, metadata</td></tr>
-<tr><td><code>EmbeddingRecord</code></td><td>unused at runtime; schema only</td></tr>
-</tbody>
-</table>
-<p>Loader DTOs: <code>LoadedDocument</code> (asset, text_blocks, tables, images, page_images, native_text_by_page), <code>LoadedVideo</code> (asset, segments, full_transcript). Frame DTO: <code>FrameCandidate</code> (timestamp, path, phash, ocr_text, is_scene_boundary, visual_change).</p>
-<p>Ingest DTOs: <code>FileIngestResult</code> (path, status, document_id, error, duration_s), <code>IngestReport</code> with lists indexed / skipped_unchanged / reindexed_changed / failed.</p>
-
-<h2 id="ids">7. Identifiers and incremental ingest</h2>
-<p>Document identity is SHA-256 of bytes (1 MiB chunks). Paths and names are NFC-normalized. If a path is outside <code>project_root</code>, <code>relative_posix</code> stores the filename only.</p>
-<h3>Vector ID encoding</h3>
-<table>
-<thead><tr><th>Id pattern</th><th>Metadata content_type</th><th>chunk_index</th></tr></thead>
-<tbody>
-<tr><td><code>{hash}:text:{n}</code></td><td><code>text</code></td><td>sequential from TextChunker</td></tr>
-<tr><td><code>{hash}:text:{n}</code></td><td><code>video_segment</code></td><td>window index (id kind is <code>text</code>, not <code>video_segment</code>)</td></tr>
-<tr><td><code>{hash}:text:{10000+i}</code></td><td><code>text</code></td><td>OCR sidecar from pictures/pages</td></tr>
-<tr><td><code>{hash}:table:{n}</code></td><td><code>table</code></td><td>Docling table index</td></tr>
-<tr><td><code>{hash}:image:{n}</code></td><td><code>image</code></td><td>picture index or 0 for standalone</td></tr>
-<tr><td><code>{hash}:page:{page}</code></td><td><code>page</code></td><td>page number</td></tr>
-<tr><td><code>{hash}:video_frame:{ms}</code></td><td><code>video_frame</code></td><td>round(timestamp×1000), +1 on collision</td></tr>
-</tbody>
-</table>
-<div class="warn">Video transcript vectors use <code>vector_id(id, "text", window_index)</code> while metadata <code>content_type</code> is <code>video_segment</code>. Do not assume the id’s middle token equals <code>content_type</code>.</div>
-<h3>Skip / reindex rules</h3>
+<h3 id="ingest-doc">6.1 Document — PDF/DOCX/PPTX (<code>app/loaders/docling_loader.py</code>)</h3>
 <ul>
-<li>Same hash already in the current ingest batch → skip (duplicate files in one tree).</li>
-<li>Same path, different hash → delete old vectors + object prefixes (<code>images/</code>, <code>frames/</code>, <code>audio/{id}.wav</code>, <code>videos/</code>, <code>tmp/</code>) + manifest hash; status <code>reindexed_changed</code>.</li>
-<li>Non-video: skip if manifest has hash <em>and</em> Chroma has vectors in either collection.</li>
-<li>Video: skip only if <code>is_video_complete(hash, target_duration)</code> and vectors exist. Complete means same <code>video_pipeline_version</code> and <code>processed_duration + 1.0 ≥ target</code>. Target is min(probed, cap) when cap is set.</li>
-<li>Incomplete / old pipeline video: delete Chroma vectors only (keep WAV/transcript if checkpoint still matches duration); status <code>reindexed_changed</code>.</li>
+<li>Dùng <code>docling.DocumentConverter</code> với <code>PdfPipelineOptions(do_ocr=False, do_table_structure=True, generate_picture_images=True, generate_page_images=True)</code> — Docling tự OCR <em>tắt</em>, hệ thống tự quyết định OCR bằng Tesseract khi cần (không phải Docling OCR).</li>
+<li><strong>Text blocks:</strong> đi qua <code>doc.iterate_items()</code>, heading/title → cập nhật <code>section</code> hiện tại; bỏ page header/footer/footnote/picture/table label.</li>
+<li><strong>Tables</strong> → <code>table.export_to_markdown(doc)</code> → lưu là 1 "text-like" record content_type=<code>table</code> trong <code>text_embeddings</code> (không embed ảnh bảng riêng).</li>
+<li><strong>Pictures</strong> (ảnh nhúng) → PNG dưới <code>storage/images/{doc_id}/picture_NNN.png</code>.</li>
+<li><strong>Page images</strong> — luôn giữ cho PDF/PPTX (mọi trang); với DOCX chỉ giữ khi native text &lt; 40 ký tự (<code>MIN_NATIVE_TEXT</code>). Lý do: PDF/PPTX cần ảnh trang để retrieval thị giác + Qwen-VL đọc trực tiếp; DOCX phần lớn có text sạch nên tiết kiệm.</li>
+<li><strong>OCR fallback:</strong> nếu <em>không</em> trang nào có ≥40 ký tự native mà vẫn có page image → chạy Tesseract trên từng page image, text OCR được thêm vào cả <code>text_blocks</code> (để chunk & search) và <code>ImageAsset.ocr_text</code>.</li>
 </ul>
 
-<h2 id="meta">8. Metadata</h2>
-<p><code>base_metadata()</code> always writes: <code>document_id</code>, <code>source</code>, <code>file_name</code>, <code>filename</code> (duplicate of file_name), <code>relative_path</code>, <code>file_type</code>, <code>content_type</code>, <code>chunk_index</code>. None values dropped. Non-scalars stringified for Chroma (<code>flatten_metadata</code> allows str/int/float/bool only).</p>
-<p>Extras by type: text/table/page → <code>page_number</code>, <code>section</code>, <code>image_path</code>, <code>caption</code>. Video segment → <code>video_id</code>, <code>start_time</code>, <code>end_time</code>. Video frame → those plus <code>timestamp</code>, <code>segment_id</code>, <code>image_path</code>.</p>
-<p>Manifest extra for video: <code>processed_duration</code>, <code>video_pipeline_version</code>, <code>candidate_frames</code>, <code>selected_frames</code>.</p>
-<div class="warn">Video <code>DocumentAsset.file_type</code> is forced to <code>mp4</code> in <code>IndexingService.index_video</code> even for .mov/.mkv. Manifest <code>file_type</code> still uses the real suffix.</div>
+<h3 id="ingest-text">6.2 Text/Markdown &amp; Image</h3>
+<p><code>TextLoader</code> (txt/md): heading ATX (<code>#</code>..<code>######</code>) tách <code>section</code> boundary, không có khái niệm page. <code>ImageLoader</code> (ảnh đơn): chuẩn hoá RGB (<code>to_rgb</code>, xử lý alpha/paste nền trắng), lưu <code>original.png</code>, chạy OCR — nếu có text OCR thì cũng đẩy vào <code>text_blocks</code> để có bản text-embedding song song với visual-embedding.</p>
 
-<h2 id="modal">9. Per-modality ingest (non-video)</h2>
-<h3>PDF / DOCX / PPTX — <code>DoclingLoader</code></h3>
-<ul>
-<li>Docling <code>PdfPipelineOptions</code>: <code>do_ocr=False</code>, <code>do_table_structure=True</code>, picture/page images from settings, <code>images_scale=1.0</code>.</li>
-<li>Text iterate skips PAGE_FOOTER, PAGE_HEADER, FOOTNOTE, PICTURE, TABLE. TITLE / SECTION_HEADER become <code>section</code>.</li>
-<li>Tables: <code>export_to_markdown</code>; empty markdown skipped.</li>
-<li>Pictures always stored as PNG under <code>storage/images/{id}/picture_NNN.png</code>.</li>
-<li>Page images stored for every PPTX page, or for any page whose native text is shorter than <code>MIN_NATIVE_TEXT=40</code>.</li>
-<li>If <em>no</em> page has ≥40 native chars and page images exist, Tesseract runs on page images and OCR text is appended as extra text blocks.</li>
-</ul>
-<h3>TXT / Markdown — <code>TextLoader</code></h3>
-<p>UTF-8 with replace. Markdown ATX headings (<code>#{1,6}</code>) split sections; heading line itself is not stored as a block. Plain TXT is one block.</p>
-<h3>Images — <code>ImageLoader</code></h3>
-<p>Pillow RGB (alpha flattened onto white). Stored as <code>storage/images/{id}/original.png</code>. OCR text becomes both a text block and <code>ImageAsset.ocr_text</code>.</p>
-<h3>Text chunking</h3>
-<p><code>RecursiveCharacterTextSplitter(chunk_size, chunk_overlap)</code>. Blocks shorter than chunk_size stay whole. Empty parts dropped.</p>
+<h3 id="ingest-video">6.3 Video — pipeline 7 bước (<code>app/loaders/video_loader.py</code>)</h3>
+<pre class="diagram">
+[1/7] probe_video (ffprobe)         duration/width/height/fps/has_audio
+        └─ VIDEO_MAX_DURATION cắt "processed" duration cho smoke test (WARNING log, không cắt file thật)
+[2/7] extract_audio (ffmpeg)        → storage/audio/{id}.wav (16kHz mono PCM), reuse nếu checkpoint đã qua "audio"
+[3/7] transcribe                    ưu tiên sidecar "<stem>_segments.json" cạnh file video (từ MLX Whisper ngoài),
+                                     nếu không có → faster-whisper (WhisperModel, compute_type=int8, CPU-only)
+[4/7] sample_coarse_frames (ffmpeg) 1 frame mỗi VIDEO_COARSE_SAMPLE_INTERVAL=10s, JPEG rẻ, không decode cả video vào RAM
+[5/7] SemanticFrameSelectionStrategy  với mỗi cửa sổ VIDEO_SEGMENT_DURATION=30s:
+        • pHash near-duplicate filter (VIDEO_FRAME_SIMILARITY_THRESHOLD=0.90)
+        • score = 0.35·visual_change + 0.30·ocr_change + 0.20·scene_boundary + 0.15·temporal_coverage
+        • giữ tối đa VIDEO_MAX_REPRESENTATIVE_FRAMES=3 frame/cửa sổ
+[6/7] embed transcript windows (text_embedder)   → text_embeddings, content_type=video_segment
+[7/7] embed selected frames (vl_embedder)         → visual_embeddings, content_type=video_frame
+</pre>
+<p><strong>Checkpoint &amp; resume</strong> (<code>app/processors/video_checkpoint.py</code>): <code>VideoCheckpoint</code> ghi <code>storage/videos/{id}/checkpoint.json</code> với <code>stage</code> ∈ {metadata, audio, transcript, coarse_frames, selected, indexed} và <code>video_pipeline_version="v2-long"</code>. Nếu tiến trình bị crash giữa đường, lần chạy lại tái sử dụng WAV/transcript đã có (miễn <code>processed_duration</code> khớp trong dung sai <code>DURATION_TOLERANCE=1.0s</code>) — không transcribe lại từ đầu. <code>IndexManifest.is_video_complete()</code> quyết định video đã hoàn chỉnh (đủ duration + đúng pipeline version) hay cần index lại.</p>
+<p>Cửa sổ transcript được gán theo <code>assign_pieces_to_windows()</code> (<code>app/chunking/video_chunker.py</code>) — mỗi câu Whisper thuộc về cửa sổ chứa <em>thời điểm bắt đầu</em> của nó, không cắt giữa câu.</p>
+<div class="note">Tuỳ chọn hiếm gặp: nếu bạn từng dùng công cụ Whisper MLX riêng để transcribe trước (ví dụ trên máy khác nhanh hơn), đặt kết quả cạnh video theo tên <code>&lt;video_stem&gt;_segments.json</code> — hệ thống tự phát hiện và bỏ qua bước transcribe (<code>VideoLoader._find_timestamp_sidecar</code>).</div>
 
-<h2 id="video">10. Long video</h2>
-<p>Default: process the <strong>full</strong> probed duration. Empty <code>VIDEO_MAX_DURATION</code> = no cap. If set and probed duration exceeds it, logs WARNING, records <code>processed_duration</code>, does not silently pretend the file is fully indexed.</p>
-<pre><code>[1/7] metadata (ffprobe: duration, size, fps, has_audio)
-[2/7] audio WAV 16 kHz mono pcm_s16le (reuse if checkpoint matches)
-[3/7] faster-whisper CPU int8 → timestamped pieces → transcript.json
-[4/7] coarse JPEG every 10s (storage/tmp/{id}/candidates/candidate_NNNNNN.jpg, q=5)
-[5/7] SemanticFrameSelectionStrategy (pHash, OCR interval, optional scenes, temporal spread)
-[6–7] index: text windows + VL on selected frames only; delete tmp candidates; stage=indexed</code></pre>
-<h3>Checkpoints</h3>
-<p>Work dir <code>storage/videos/{sha256}/</code>: <code>checkpoint.json</code>, <code>transcript.json</code>. WAV at <code>storage/audio/{sha256}.wav</code>. Stages: metadata → audio → transcript → coarse_frames → selected → indexed. Reuse requires same video_id, pipeline <code>v2-long</code>, and processed_duration within 1.0s. If checkpoint does not match, WAV/transcript/tmp candidates are deleted and the job restarts.</p>
-<p>Whisper has no MPS; CTranslate2 CPU. Progress logs every ~10% of processed duration. Audio extract applies FFmpeg <code>-t</code> when capped; Whisper then reads that WAV.</p>
-<h3>Windows and transcripts</h3>
-<p><code>build_time_windows(processed, VIDEO_SEGMENT_DURATION)</code> produces contiguous [start, end) slices. Each Whisper piece is assigned to the window that contains its <strong>start</strong> time (full text, no mid-sentence clip). <code>transcript_for_window</code> (overlap join) exists but is unused by the loader.</p>
-<h3>Frame selection</h3>
-<p>Average-hash 8×8. Near-duplicates skipped when similarity ≥ <code>VIDEO_FRAME_SIMILARITY_THRESHOLD</code> (0.90). Score:</p>
-<pre><code>0.35 * visual_change + 0.30 * ocr_change + 0.20 * scene_boundary + 0.15 * temporal_coverage</code></pre>
-<p>Cap <code>VIDEO_MAX_REPRESENTATIVE_FRAMES</code> (3) per window. If selection is empty, fallback strides coarse frames using <code>VIDEO_FRAMES_PER_SEGMENT</code>. Selected JPEGs copied to <code>storage/frames/{id}/t{ms:09d}.jpg</code>.</p>
-<p>OCR on coarse frames at most every <code>VIDEO_OCR_INTERVAL</code> (30s) when enabled. Failure is logged; abort only if <code>OCR_REQUIRED=true</code>. PySceneDetect ContentDetector when <code>VIDEO_SCENE_ENABLED=true</code>; import/runtime failure returns no boundaries.</p>
-<p>Do not VL-embed every coarse frame. Frame extraction is cheap; VL is expensive.</p>
-
-<h2 id="index">11. Indexing</h2>
-<p><code>IndexingService.index_document</code>: batched text embed of chunks + tables + OCR strings; VL on pictures/pages. VL failure keeps text (exception logged). Visual payload is a path string, or <code>{"text": caption|ocr, "image": path}</code> when text exists. Page vs image distinguished by <code>:page:</code> in the image id.</p>
-<p><code>index_video</code>: one text vector per window with non-empty transcript; one visual vector per selected frame. After success, checkpoint stage <code>indexed</code> and <code>storage/tmp/{id}</code> is deleted.</p>
-<p>Chroma <code>add</code> skips ids that already exist (chunked <code>get</code> of 100). Returns (added, skipped).</p>
-<p>Embeddings: lazy load, normalize, <code>trust_remote_code</code>. Text query uses instruct prefix. VL query prompt: “Retrieve relevant documents for the query.” Text dtype follows device via LangChain; LLM uses float16 on mps/cuda and float32 on CPU.</p>
-
-<h2 id="retrieve">12. Retrieval</h2>
-<p><code>process_user_query</code>: NFC, collapse whitespace, strip most Unicode control chars (keep newline then strip). Empty after process → <code>ValueError</code>.</p>
-<p><code>MultimodalRetriever.search</code>: k defaults to <code>retriever_k</code>. Dual kNN unless <code>include_visual=False</code> or VL embedder is None. Merge by id (keep max score). <code>ScoreReranker</code> sorts descending. Return top k. VL search failure → text only (logged).</p>
-<p>Empty collections return no hits. Query k is min(k, collection count).</p>
-
-<h2 id="gen">13. Generation</h2>
-<p><code>GenerationService</code> consumes <code>list[RetrievalResult]</code>. k = <code>max(retriever_k, generation_k)</code> unless CLI <code>-k</code>. Stores <code>last_hits</code> for <code>--show-hits</code>.</p>
-<ul>
-<li>Model: <code>Qwen/Qwen3-1.7B</code>, <code>enable_thinking=False</code> via patched <code>apply_chat_template</code> passed into <code>ChatHuggingFace</code> (must pass the patched tokenizer, not a second copy).</li>
-<li><code>max_new_tokens=4096</code>, <code>do_sample=False</code>, <code>generation_config.max_length=None</code> on model and pipeline.</li>
-<li><code>low_cpu_mem_usage=True</code>; tries <code>dtype=</code> then falls back to <code>torch_dtype=</code>.</li>
-<li><code>generate_answer</code> blocking; <code>generate_answer_stream</code> prints tokens; <code>iter_answer_tokens</code> yields filtered chunks. Protocol aliases: <code>generate</code> / <code>stream</code>.</li>
-<li><code>ThinkStreamFilter</code> hides leftover <code>&lt;think&gt;</code> while streaming (holds last 6 chars; if stuck in think &gt;8000 chars, keeps last 200). <code>strip_think</code> on the final string.</li>
-<li>Context: <code>format_hits</code> (type, relative_path, page, times, chunk #); sources unique relative paths. Visual-only empty body uses a stub line. Absolute paths reduced to basename. 1.7B does not receive image pixels.</li>
-<li>Prompt: Vietnamese UIT tutor; cite relative paths; no invented http URLs; no internal chain-of-thought.</li>
-</ul>
-<p>Missing extra → <code>RuntimeError</code> instructing <code>pip install -e ".[generation]"</code> or <code>".[all]"</code>. Injected <code>chat_model</code> in tests bypasses Hugging Face.</p>
-
-<h2 id="cli">14. CLI</h2>
+<h3 id="ingest-dedup">6.4 Dedup &amp; manifest (<code>app/index_manifest.py</code>)</h3>
 <table>
-<thead><tr><th>Command</th><th>Notes</th></tr></thead>
+<thead><tr><th>Trường hợp</th><th>Hành vi</th></tr></thead>
 <tbody>
-<tr><td><code>ingest PATH</code></td><td>File or directory. Exit 1 if any failed. Prints counts + FAIL lines on stderr.</td></tr>
-<tr><td><code>search QUERY [-k] [--text-only]</code></td><td>Hits: score, content_type, relative_path, page, times, 240-char preview</td></tr>
-<tr><td><code>ask QUERY [-k] [--text-only] [--no-stream] [--show-hits]</code></td><td>Retrieve + generate. Default streams. Exit 1 on ValueError/RuntimeError/other</td></tr>
-<tr><td><code>stats</code></td><td>Counts, paths, device, embedding + llm_model names (no weight load)</td></tr>
+<tr><td>Cùng bytes, cùng/khác path</td><td>Skip, không tạo vector mới (nhưng vẫn "chạm" lại manifest nếu path khác — <code>_touch_manifest</code>)</td></tr>
+<tr><td>Cùng bytes video, <code>processed_duration</code> ngắn hơn (do <code>VIDEO_MAX_DURATION</code> trước đó)</td><td>Reindex tiếp, không skip</td></tr>
+<tr><td>Cùng path, bytes mới</td><td>Xoá toàn bộ vector + object-store cũ theo prefix (<code>images/</code>, <code>frames/</code>, <code>audio/</code>, <code>videos/</code>, <code>tmp/</code>), index hash mới</td></tr>
+<tr><td>Video pipeline cũ/không hoàn chỉnh</td><td>Chỉ xoá vector Chroma, giữ WAV/transcript checkpoint để tái dùng</td></tr>
+<tr><td><code>chunk_profile</code> đổi (hoặc <code>--rechunk</code>)</td><td>Xoá vector text+visual của <em>document đó</em>, index lại theo chunk size mới; video không bị rechunk theo cách này</td></tr>
 </tbody>
 </table>
-<p>Per-type generation smoke: <code>scripts/test_llm_by_type.sh</code> (<code>ONLY=</code>, <code>SKIP_VIDEO=1</code>, <code>SKIP_INGEST=1</code>, <code>LOG_DIR</code>, <code>PYTHON</code>). Cases: docx/pdf/pptx from assets, txt/md/png fixtures, optional <code>buoi_3.mp4</code> with <code>VIDEO_MAX_DURATION=60</code>. Fail if ask exit ≠ 0 or answer length 0. Warn if filename not in output.</p>
-<p>Logging: <code>%(asctime)s %(levelname)s [%(name)s] %(message)s</code> on stderr. <code>LOG_LEVEL</code> default INFO.</p>
+<p><code>IngestReport</code> phân loại từng file vào <code>indexed / skipped_unchanged / reindexed_changed / skipped_video / failed</code>; CLI in tổng hợp và exit code 1 nếu có <code>failed</code>.</p>
+</section>
 
-<h2 id="cache">15. Hugging Face cache vs RAM</h2>
-<p>Weights live under <code>~/.cache/huggingface/hub/models--Qwen--*</code> after the first download (Embedding-0.6B ~1.2 GB, 1.7B ~4.1 GB, VL-2B ~4.3 GB). Subsequent <code>ask</code> commands <strong>reuse the cache</strong>. Hub <code>404</code> on <code>sentence_bert_config.json</code> etc. is optional probing. <code>Loading weights: N/N</code> in a few seconds is disk→MPS, not a re-download.</p>
-<p>Each CLI process starts empty RAM, so 1.7B still loads ~5s per <code>ask</code>. Text and VL embedders are also per-process lazy singletons. <code>HF_HUB_OFFLINE=1</code> skips HEAD/GET after the cache exists. There is no <code>HF_LOCAL_FILES_ONLY</code> setting and no persistent REPL.</p>
-
-<h2 id="config">16. Configuration</h2>
-<p><code>Settings</code> via pydantic-settings: env file <code>.env</code>, case-insensitive, extra ignored. Empty string for tokens and <code>VIDEO_MAX_DURATION</code> becomes None. Relative paths resolve against <code>project_root</code> (cwd).</p>
-<p><code>resolve_device</code>: requested mps/cuda fall back to cpu if unavailable; unknown preferred tries mps then cuda then cpu. Missing torch → cpu.</p>
-<p>See <code>.env.example</code> and README table. Selection weights exist on Settings even if not all are copied into <code>.env.example</code>.</p>
-
-<h2 id="storage">17. Storage layout</h2>
-<pre><code>data/chroma/                  Chroma PersistentClient
-data/index_manifest.json      by_hash / by_path
-storage/documents/            reserved
-storage/images/{id}/          picture_*.png, page_*.png, original.png
-storage/videos/{id}/          checkpoint.json, transcript.json
-storage/frames/{id}/          tXXXXXXXXX.jpg selected frames
-storage/audio/{id}.wav        16 kHz mono
-storage/tmp/{id}/candidates/  coarse JPEGs (deleted after index)
-assets/                       PoC corpus (not copied; ingested in place)
-</code></pre>
-<p>Object-store keys are concatenated onto <code>storage_root</code> with no sandbox against <code>..</code>.</p>
-
-<h2 id="test">18. Tests</h2>
-<p><code>pytest</code> (<code>testpaths=tests</code>, <code>pythonpath=.</code>, <code>addopts=-q</code>). Marker <code>integration</code> exists for real models/assets; default tests mock embedders.</p>
+<section id="index">
+<h2>7. Indexing &amp; ChromaDB (<code>app/pipeline/indexing.py</code>, <code>app/vectorstore/chroma.py</code>)</h2>
+<p><code>IndexingService.index_document()</code>/<code>index_video()</code> gộp text chunk + table + OCR-sidecar-string thành 1 batch cho <code>text_embeddings</code>, và ảnh/page/frame thành 1 batch cho <code>visual_embeddings</code>. <code>base_metadata()</code> luôn gắn: <code>document_id, source, file_name, filename, relative_path, file_type, content_type, chunk_index</code>, và <code>course</code> nếu path có dạng <code>assets/&lt;course&gt;/...</code> (<code>course_from_relative_path</code>). Giá trị <code>None</code> bị loại trước khi gửi Chroma.</p>
 <table>
-<thead><tr><th>File</th><th>Coverage</th></tr></thead>
+<thead><tr><th>Vector id (<code>{sha256}:{kind}:{chunk_index}</code>)</th><th><code>content_type</code></th><th>Collection</th><th>Ghi chú</th></tr></thead>
 <tbody>
-<tr><td><code>test_ids.py</code></td><td>SHA-256, vector_id, relative_posix, NFC</td></tr>
-<tr><td><code>test_unicode.py</code></td><td>NFC path handling</td></tr>
-<tr><td><code>test_file_detection.py</code></td><td>extensions, skip names, directory walk</td></tr>
-<tr><td><code>test_chunking.py</code> / <code>test_text_loader.py</code></td><td>splitter, MD sections</td></tr>
-<tr><td><code>test_chroma.py</code> / <code>test_metadata.py</code></td><td>add/skip, flatten, cosine score</td></tr>
-<tr><td><code>test_ocr.py</code> / <code>test_image_processing.py</code></td><td>NullOCR, RGB convert</td></tr>
-<tr><td><code>test_retrieval.py</code></td><td>merge, query process, k</td></tr>
-<tr><td><code>test_incremental.py</code></td><td>skip / reindex / fail report</td></tr>
-<tr><td><code>test_video_chunker.py</code></td><td>windows, piece assign, ffmpeg missing</td></tr>
-<tr><td><code>test_frame_selection.py</code></td><td>dupes, cap, temporal, OCR/scene</td></tr>
-<tr><td><code>test_video_indexing.py</code></td><td>one vector per selected frame</td></tr>
-<tr><td><code>test_video_manifest.py</code></td><td>capped ingest not complete</td></tr>
-<tr><td><code>test_generation_*.py</code></td><td>format_hits, think filter, injected chat</td></tr>
-<tr><td><code>test_cli.py</code></td><td>parser flags</td></tr>
+<tr><td><code>text</code></td><td><code>text</code></td><td>text_embeddings</td><td>Chunk từ RecursiveCharacterTextSplitter</td></tr>
+<tr><td><code>text</code></td><td><code>video_segment</code></td><td>text_embeddings</td><td>Transcript window (id vẫn dùng kind <code>text</code>)</td></tr>
+<tr><td><code>text</code> (chunk_index ≥10000)</td><td><code>text</code></td><td>text_embeddings</td><td>OCR sidecar string của ảnh trang — cộng offset 10.000 để không đụng chunk thường</td></tr>
+<tr><td><code>table</code></td><td><code>table</code></td><td>text_embeddings</td><td>Bảng markdown từ Docling</td></tr>
+<tr><td><code>image</code></td><td><code>image</code></td><td>visual_embeddings</td><td>Ảnh nhúng / ảnh đơn</td></tr>
+<tr><td><code>page</code></td><td><code>page</code></td><td>visual_embeddings</td><td>Render trang PDF/PPTX (và DOCX ít text)</td></tr>
+<tr><td><code>video_frame</code> (chunk_index = round(ts×1000))</td><td><code>video_frame</code></td><td>visual_embeddings</td><td>Frame video được chọn; đụng trùng millisecond thì tăng dần để tránh id trùng</td></tr>
 </tbody>
 </table>
-<p>Do not download 1.7B in unit tests. Live <code>assets/</code> is manual.</p>
+<p><code>ChromaVectorStore</code> dùng <code>hnsw:space=cosine</code>, telemetry tắt. <code>add()</code> tự kiểm tra id đã tồn tại (<code>_existing_ids</code>, batch 100) để không add trùng. <code>flatten_metadata()</code> chỉ giữ <code>str|int|float|bool</code>; giá trị khác (ví dụ list) bị <code>str()</code> hoá — <strong>lưu ý:</strong> đừng đưa list/dict vào metadata mà không tự flatten trước, vì Chroma sẽ lưu literal <code>"['a', 'b']"</code> và filter theo giá trị đó sẽ không hoạt động như mong đợi. <code>score = 1.0 - cosine_distance</code> trả về trong mọi kết quả <code>search()</code>.</p>
+</section>
 
-<h2 id="ops">19. Operations</h2>
-<pre><code>python3.12 -m venv .venv &amp;&amp; source .venv/bin/activate
-pip install -e ".[all]"
-cp .env.example .env
-python -m app.main ingest "./assets/test/bai_tap_chuong_3.docx"
-python -m app.main ask "Quan hệ phản xạ trên tập {1,2,3,4}" --text-only
-pytest
-</code></pre>
-<p>Reset index: <code>rm -rf data storage</code> (keep assets). Backup triple: chroma + manifest + storage. Video checkpoints under <code>storage/videos/{id}/</code>.</p>
-<p>Troubleshooting: Python 3.14 unsupported; MPS OOM → <code>--text-only</code> / <code>DEVICE=cpu</code>; FFmpeg missing → clear error; Tesseract missing → disable video OCR; thinking ON wastes tokens; Hub 404 probes are normal; <code>ask</code> reload is RAM, not re-download.</p>
+<section id="retrieval">
+<h2>8. Retrieval pipeline (<code>app/retrieval/retriever.py::MultimodalRetriever.search</code>)</h2>
+<pre class="diagram">
+raw_query
+  │ process_user_query()  — NFC normalize, collapse whitespace, strip control chars (giữ \n)
+  ▼
+[nếu có EnhancedQuery] text_queries = rewritten+subqueries+step_back (dedup, tối đa QUERY_ENHANCE_MAX_SUBQUERIES)
+                        visual_query = rewritten
+[nếu không, nhưng query "catalog" — chứa từ khoá lộ trình/tài liệu/giáo trình/môn/danh sách]
+                        → catalog_subqueries() sinh thêm 2 câu rule-based (không cần LLM)
+  ▼
+với mỗi text_query:  dense search text_embeddings (Qwen3-Embedding query) ×fetch_k  ──┐
+BM25Index.search() trên text sidecar (nếu HYBRID_SEARCH)                             ├─ groups
+[nếu QUERY_HYDE] dense search thêm bằng embedding của đoạn văn HyDE                   │  (mỗi group đã
+dense search visual_embeddings (Qwen3-VL-Embedding query) trừ khi --text-only ────────┘   post-filter
+                                                                                             theo source/
+                                                                                             course/content_type)
+  ▼ rrf_merge(groups, RRF_K=60)                         app/retrieval/merger.py — score=Σ1/(60+rank)
+  ▼ reranker.rerank(query, fused, source=...)             TypePriorReranker mặc định (§8.1)
+  ▼ diversify_by_file(k, max_per_file=RETRIEVE_MAX_PER_FILE=2)   round-robin theo relative_path, giữ thứ tự score
+  ▼ expand_hits() nếu CONTEXT_EXPAND                       ghép parent (cùng page) hoặc neighbor chunk_index±1
+  ▼ compress_hits(query, extra_queries) nếu CONTEXT_COMPRESS  giữ câu overlap token với query (extractive, không LLM)
+  ▼ [:k]  → list[RetrievalResult]
+</pre>
 
-<h2 id="limits">20. Known limitations</h2>
+<h3>8.1 Fetch/where/prefix logic</h3>
+<ul>
+<li><code>--source</code>: nếu là tên file/path có suffix hợp lệ → Chroma <code>where={relative_path|filename: ...}</code> chính xác (<code>source_clause</code>). Nếu là <em>folder</em> (không có suffix) → không dùng Chroma <code>where</code> mà lọc bằng <code>matches_prefix()</code> sau khi fetch (vì Chroma không hỗ trợ "starts with" tự nhiên) — khi đó <code>dense_n</code> được nhân 5 để có đủ candidate sau lọc.</li>
+<li><code>--course</code>: theo mặc định <em>không</em> đẩy vào Chroma <code>where</code> (để tương thích vector cũ thiếu field <code>course</code>) — chỉ post-filter bằng <code>matches_course()</code>. Chỉ khi <code>settings.course_prefilter=true</code> (dùng trong benchmark, §11) thì mới filter cứng ở Chroma.</li>
+<li><code>content_type</code>: luôn post-filter, không đẩy vào Chroma where trong code hiện tại của retriever (mặc dù <code>chroma_where()</code> có hỗ trợ) — kiểm tra kỹ nếu bạn định dựa vào Chroma-side filter cho content_type.</li>
+</ul>
+
+<h3>8.2 Reranker (<code>app/retrieval/reranker.py</code>)</h3>
+<table>
+<thead><tr><th>Class</th><th>Trạng thái</th><th>Mô tả</th></tr></thead>
+<tbody>
+<tr><td><code>ScoreReranker</code></td><td><span class="badge done">mặc định thấp nhất</span></td><td>Chỉ sort theo score gốc — no-op có ý nghĩa</td></tr>
+<tr><td><code>TypePriorReranker</code></td><td><span class="badge done">luôn dùng</span></td><td>Cộng bonus nhỏ (0.005–0.02) cho <code>video_segment</code>/<code>video_frame</code> khi query có tín hiệu "bài giảng" (<code>is_lecture_query</code>) hoặc <code>--source</code> là video. <strong>Không phải cross-encoder</strong>, chỉ heuristic rẻ.</td></tr>
+<tr><td><code>QwenReranker</code></td><td><span class="badge off">tắt mặc định (RERANK_ENABLED=false)</span></td><td>Cross-encoder thật, <code>Qwen/Qwen3-Reranker-0.6B</code>, chấm điểm yes/no token qua softmax logits. Lazy-load, tự fallback về TypePrior nếu load lỗi.</td></tr>
+<tr><td><code>SequentialReranker</code></td><td>hạ tầng</td><td>Chạy nhiều stage nối tiếp — <code>build_reranker()</code> dùng nó để nối TypePrior→QwenReranker khi <code>RERANK_ENABLED=true</code></td></tr>
+</tbody>
+</table>
+
+<h3>8.3 Expand &amp; Compress — "parent/child" và "contextual compression" không cần model mới</h3>
+<p><code>app/retrieval/expand.py::expand_hits()</code>: với hit <code>content_type</code> ∈ {text, table} có <code>page_number</code> → ghép toàn bộ chunk cùng <code>document_id</code>+<code>page_number</code> (join theo <code>chunk_index</code> tăng dần) làm "parent" context. Với <code>video_segment</code> (và text/table không có page) → ghép <code>chunk_index-1, chunk_index, chunk_index+1</code> (sentence-window kiểu neighbor). Không tạo embedding mới, chỉ query Chroma <code>get(where=...)</code> thêm.</p>
+<p><code>app/retrieval/compress.py::compress_hits()</code>: nếu nội dung hit &lt;240 ký tự thì giữ nguyên; dài hơn thì tách câu (regex trên <code>. ! ? … \n</code>) và chỉ giữ câu có token trùng với query gốc + các sub-query — <strong>hoàn toàn extractive, không gọi LLM thứ hai</strong> (đây là quyết định thiết kế rõ ràng trong <code>docs/rag-production-checklist-handoff.md</code>: không dùng <code>LLMChainExtractor</code>).</p>
+</section>
+
+<section id="generation">
+<h2>9. Generation (<code>app/generation/service.py::GenerationService</code>)</h2>
+<p>Đây là class trung tâm — CLI, API JSON, API SSE đều gọi cùng một service qua 3 cửa vào tương đương: <code>generate_answer()</code> (blocking), <code>generate_answer_stream()</code> (blocking nhưng in ra qua callback), <code>iter_ask_events()</code> (generator sự kiện dùng cho SSE — đây là "nguồn sự thật" duy nhất, hai hàm kia chỉ là wrapper tiêu thụ generator này).</p>
+<pre class="diagram">
+_retrieve(): question=process_user_query(raw)
+  ├─ enhance? (mặc định true cho ask, false cho search)
+  │    → _enhance_query(): invoke Qwen3-1.7B với prompt ENHANCE_SYSTEM (query_enhance.py)
+  │       → JSON {"rewritten","subqueries"≤3,"step_back"} → parse_enhanced_query() (chịu lỗi JSON, fallback identity)
+  ├─ QUERY_HYDE? → _hyde_paragraph(): 1 đoạn 3–5 câu mô tả chủ đề (KHÔNG viết đáp án/đề bài giả)
+  ├─ retriever.search(search_query, enhanced=...)   → hits
+  ├─ extra_paths = match_manifest_paths() nếu query "catalog" (khớp tên folder khoá học trong manifest)
+  ├─ _maybe_retrieve_loop(): nếu MAX_RETRIEVE_LOOPS>0 (tối đa 1 vòng) →
+  │       _reflect_need_more(): Qwen3-1.7B JSON {"needs_more","follow_up"} → nếu true, search thêm & merge theo id
+  ├─ context = format_hits(hits, LLM_MAX_CONTEXT_CHARS=10000)   (context.py, mỗi block có header [Đoạn i | type | path pN @start-endS])
+  ├─ source_paths = merge_source_paths(hits, extra_paths)        (danh sách "- path" duy nhất, dùng để chống bịa nguồn)
+  └─ fallback? nếu max(cosine của hits) < COSINE_FALLBACK_THRESHOLD=0.15 → trả câu fallback cố định, KHÔNG gọi LLM
+generate:
+  ├─ nếu include_visual và có hit page/image từ PDF/PPTX/DOCX với image_path tồn tại trên đĩa
+  │       → _invoke_visual(): giải phóng text LLM khỏi RAM (_release_text_model) → load Qwen3-VL-2B-Instruct
+  │         → LocalQwenVLAnswerer.answer(question, hits) đọc ảnh + text context, trả lời có trích [V1]/[T1]
+  └─ ngược lại → ChatHuggingFace(Qwen3-1.7B) .invoke()/.stream() với build_answer_prompt() (prompts.py)
+strip_think()/ThinkStreamFilter: luôn lọc bỏ &lt;think&gt;...&lt;/think&gt; dù đã enable_thinking=false (an toàn 2 lớp)
+</pre>
+
+<h3>9.1 Vì sao "thinking" luôn tắt</h3>
+<p><code>GenerationService._ensure_loaded()</code> patch <code>tokenizer.apply_chat_template</code> để luôn ép <code>enable_thinking=False</code> khi gọi, bất kể caller truyền gì — đây là cách duy nhất kiểm soát hành vi "suy nghĩ" của Qwen3 vì tham số này nằm trong template, không phải trong <code>generation_config</code>. README nhấn mạnh: nếu bật <code>LLM_ENABLE_THINKING=true</code> hoặc bỏ patch này, câu trả lời có thể trống hoặc chỉ chứa block <code>&lt;think&gt;</code> — <code>ThinkStreamFilter</code> là lưới an toàn thứ hai khi stream token.</p>
+
+<h3>9.2 Quản lý RAM giữa model text ↔ VL</h3>
+<p>Hai model KHÔNG cùng ở RAM một lúc theo thiết kế: <code>_ensure_vl_loaded()</code> gọi <code>_release_text_model()</code> trước khi load Qwen-VL; ngược lại mọi lời gọi <code>_invoke()</code>/<code>_stream()</code> (text) gọi <code>_release_vl_model()</code> trước. Cả hai release đều <code>gc.collect()</code> + <code>torch.mps.empty_cache()</code> nếu có MPS. Đây là lý do câu hỏi hỏi cả PDF ảnh và tiếp một câu text sẽ có độ trễ tải lại model — chấp nhận được trên máy 16GB, nhưng là điểm cần biết nếu bạn định thêm caching đa model.</p>
+
+<h3>9.3 Prompt &amp; chống bịa (<code>app/generation/prompts.py</code>)</h3>
+<p><code>SYSTEM_PROMPT</code> tiếng Việt, yêu cầu: course-aware, multimodal, evidence-grounded, không bịa chương/lộ trình/URL, trích dẫn chỉ gồm đường dẫn tương đối + trang/mốc thời gian (không markdown link, không <code>http://</code>, không "#chunk"). <code>_FALLBACK_ANSWER</code> (service.py) là câu trả lời "không đủ căn cứ" cứng khi cosine thấp — không đưa câu hỏi tới LLM trong trường hợp này, tránh LLM tự bịa khi ngữ cảnh rác.</p>
+</section>
+
+<section id="api">
+<h2>10. HTTP API &amp; SSE (<code>app/api/</code>)</h2>
+<p>FastAPI, 1 worker, model sống suốt lifespan process (<code>lifespan()</code> gọi <code>build_services()</code> một lần). Toàn bộ inference (search/ask) chạy qua <code>asyncio.Lock</code> — <strong>chỉ 1 generate tại một thời điểm</strong>, request thứ 2 phải chờ (đúng thiết kế cho 1 process/1 GPU, không phải bug).</p>
+<table>
+<thead><tr><th>Route</th><th>Auth</th><th>Ghi chú</th></tr></thead>
+<tbody>
+<tr><td><code>GET /health</code></td><td>không</td><td>Liveness, không load model</td></tr>
+<tr><td><code>GET /v1/stats</code></td><td><code>X-API-Key</code> nếu <code>API_KEY</code> set</td><td>Count 2 collection, device, model name</td></tr>
+<tr><td><code>POST /v1/search</code></td><td>như trên</td><td>Chỉ retrieval, không LLM</td></tr>
+<tr><td><code>POST /v1/ask</code></td><td>như trên</td><td><code>stream=true</code> (mặc định) → SSE qua <code>EventSourceResponse</code>; <code>false</code> → JSON đầy đủ</td></tr>
+<tr><td><code>GET /v1/files/{path}</code></td><td>không (cố ý, để <code>&lt;video&gt;</code> phát được)</td><td>Sandbox: chỉ phục vụ dưới <code>assets/</code> hoặc <code>storage/</code>, chặn <code>..</code>, hỗ trợ HTTP Range</td></tr>
+</tbody>
+</table>
+<p><strong>Chuỗi sự kiện SSE</strong> (<code>iter_ask_events</code> → <code>_ask_sse</code>): <code>status{stage: enhancing|retrieving|generating}</code> → <code>query{rewritten,subqueries,step_back,hyde}</code> (chỉ nếu có enhance) → <code>sources{citations,assets}</code> (gửi <strong>trước</strong> token đầu, để UI render card khi câu trả lời vẫn đang stream) → nhiều <code>delta{text}</code> → <code>done{request_id}</code>; lỗi giữa dòng → <code>error{message}</code>, HTTP vẫn 200. Chi tiết đầy đủ + code mẫu Next.js: <a href="../docs/frontend-api.md">docs/frontend-api.md</a> (không lặp lại toàn bộ ở đây).</p>
+<p><code>app/api/citations.py::hits_to_citations_and_assets()</code> là cầu nối <code>RetrievalResult</code> → <code>Citation</code>/<code>Asset</code> cho frontend: suy luận <code>AssetKind</code> (video/pdf/slide/image/document) từ suffix + content_type, build <code>watch_url</code> (video: <code>#t=start,end</code>; pdf: <code>#page=N</code>; slide: ảnh preview nếu có vì browser không render pptx trực tiếp), gộp nhiều citation cùng file vào 1 <code>Asset</code> với nhiều <code>locators</code>.</p>
+</section>
+
+<section id="eval">
+<h2>11. Evaluation framework (<code>app/eval/</code>)</h2>
+<p>Có <strong>2 hệ eval tách biệt</strong>, đừng nhầm hai concept này:</p>
+<div class="grid2">
+<div>
+<h4>A. Golden-set eval (nhanh, dùng hằng ngày)</h4>
+<p><code>evals/golden.jsonl</code> → CLI <code>eval</code> → <code>app/eval/runner.py::run_eval()</code>:</p>
+<ul>
+<li>Với mỗi item: retrieve (+generate nếu không <code>--retrieve-only</code>)</li>
+<li><code>path_recall_at_k</code>/<code>path_precision_at_k</code> (metrics.py) so <code>expected_paths</code> với path thực nhận được</li>
+<li>Nếu không <code>--retrieve-only</code>: chấm <code>faithfulness/answer_relevancy/context_precision/context_recall</code> bằng RAGAs (nếu extra <code>eval</code> cài) hoặc fallback: chính Qwen3-1.7B tự chấm JSON (<code>judge.py</code>)</li>
+<li><code>build_report()</code> tính <code>weakest_metric</code> + <code>next_step</code> theo <code>HANDOFF_MAPPING</code> (bảng ánh xạ metric yếu → hướng sửa, xem §14) + warning nếu faithfulness &lt;0.85 (chỉ warning, không fail CI)</li>
+</ul>
+</div>
+<div>
+<h4>B. Retrieval benchmark leakage-free (nghiên cứu/luận văn)</h4>
+<p><code>app/eval/retrieval_benchmark.py</code> — dùng cho so sánh hệ thống nghiêm ngặt (baseline vs proposed), tách biệt hoàn toàn ground-truth khỏi input retrieval:</p>
 <ol>
-<li>No HTTP API, UI, or multi-turn <code>chat</code> process.</li>
-<li>Reranker is cosine sort, not a cross-encoder.</li>
-<li>Queries are text-only (no image-as-query).</li>
-<li>Video file_type metadata forced to mp4; transcript vector ids use kind <code>text</code>.</li>
-<li>Whisper CPU-only; CTranslate2 has no MPS.</li>
-<li>PySceneDetect off by default.</li>
-<li>Object-store keys not sandboxed against <code>..</code>.</li>
-<li>Manifest is single-process JSON (no file lock).</li>
-<li>Each <code>ask</code> reloads LLM into RAM from cache; Hub login on every command if token set.</li>
-<li>LLM may still hallucinate details even with citations in the prompt.</li>
-<li>Leftover OpenCV <code>sample_frames</code> is not on the ingest path.</li>
-<li>No <code>HF_LOCAL_FILES_ONLY</code>; rely on <code>HF_HUB_OFFLINE=1</code>.</li>
-<li>Coarse-frame reuse reconstructs timestamps as <code>index * interval</code>, not stored stamps.</li>
+<li><code>prepare-retrieval-queries questions_draft.json</code> → chỉ giữ <code>question_id/question/course_id</code> vào <code>benchmark_queries.jsonl</code> (loader từ chối nếu có field khác — chống leakage cứng)</li>
+<li><code>benchmark-retrieve --profile baseline|proposed</code> → chạy retriever thật, lưu Top-K resumable (<code>--resume</code>) vào <code>results/*.jsonl</code></li>
+<li><code>score-retrieval</code> — chỉ bây giờ mới đọc lại <code>questions_draft.json</code> để đối chiếu <code>evidence</code> (resource_id + page/slide/timestamp-range match), tính Precision/Recall/F1 @1/5/10, có xử lý <code>answerable=null</code> (suy luận theo <code>evidence</code> rỗng hay không) và loại câu có ground-truth resource chưa được index (<code>corpus_coverage</code>)</li>
 </ol>
+</div>
+</div>
+<p><code>evals/reports/dashboard.html</code> (<code>app/eval/dashboard.py::render_dashboard</code>) tổng hợp assets-inventory + vector-inventory + eval scores thành 1 trang HTML tĩnh, sinh bằng CLI <code>report</code>.</p>
+<div class="warn"><strong>Kết quả benchmark hiện tại</strong> (xem <code>EXPERIMENT_LOG.md</code> đầy đủ): trên 400 câu hỏi (325 câu answerable có đủ ground-truth đã index — corpus coverage 85,53%), hệ <em>proposed</em> (hybrid BM25+dense+visual+RRF) chỉ nhích hơn <em>baseline</em> (dense-text-only) ở P@1/R@1/F1@1 và R@10; baseline lại nhích hơn ở P@5/R@5/F1@5 và P@10/F1@10. <strong>Chưa có bằng chứng nhất quán rằng hybrid tốt hơn baseline</strong>, và chưa có kiểm định ý nghĩa thống kê. Đừng dựa vào con số này để khẳng định "hybrid tốt hơn" trong báo cáo — coi là kết quả nghiên cứu dở dang.</div>
+</section>
 
-<h2 id="inventory">21. Source inventory</h2>
+<section id="cli">
+<h2>12. CLI reference (<code>app/main.py</code>)</h2>
 <table>
-<thead><tr><th>Path</th><th>Role</th></tr></thead>
+<thead><tr><th>Subcommand</th><th>Mục đích</th><th>Cờ quan trọng</th></tr></thead>
 <tbody>
-<tr><td>app/main.py</td><td>CLI ingest/search/ask/stats</td></tr>
-<tr><td>app/factory.py</td><td>DI + Hub login</td></tr>
-<tr><td>app/config/settings.py</td><td>All env-backed knobs + resolve_device</td></tr>
-<tr><td>app/ids.py</td><td>SHA-256, vector_id, NFC, relative_posix</td></tr>
-<tr><td>app/index_manifest.py</td><td>by_hash / by_path JSON; is_video_complete</td></tr>
-<tr><td>app/generation/*</td><td>LLM service, prompt, think filter, hit formatting, Generator protocol</td></tr>
-<tr><td>app/loaders/base.py</td><td>Extensions, DTOs, detect_kind</td></tr>
-<tr><td>app/loaders/docling_loader.py</td><td>PDF/DOCX/PPTX</td></tr>
-<tr><td>app/loaders/text_loader.py</td><td>TXT/MD</td></tr>
-<tr><td>app/loaders/image_loader.py</td><td>Standalone images</td></tr>
-<tr><td>app/loaders/video_loader.py</td><td>Long-video orchestration [1/7]–[5/7]</td></tr>
-<tr><td>app/pipeline/ingestion.py</td><td>Walk, skip/reindex, report</td></tr>
-<tr><td>app/pipeline/indexing.py</td><td>text + visual + video_frame vectors</td></tr>
-<tr><td>app/processors/frame_selection.py</td><td>pHash + scored selection</td></tr>
-<tr><td>app/processors/video_frames.py</td><td>Coarse FFmpeg sampling</td></tr>
-<tr><td>app/processors/video.py</td><td>Unused OpenCV uniform sampler</td></tr>
-<tr><td>app/processors/video_checkpoint.py</td><td>v2-long stages</td></tr>
-<tr><td>app/processors/audio.py</td><td>FFmpeg WAV extract</td></tr>
-<tr><td>app/processors/ffmpeg_check.py</td><td>Require ffmpeg+ffprobe</td></tr>
-<tr><td>app/processors/scene_detection.py</td><td>Optional PySceneDetect</td></tr>
-<tr><td>app/processors/ocr.py</td><td>Tesseract / NullOCR</td></tr>
-<tr><td>app/chunking/*</td><td>Text splitter; video windows</td></tr>
-<tr><td>app/embeddings/*</td><td>Lazy Qwen3 + Qwen3-VL</td></tr>
-<tr><td>app/vectorstore/chroma.py</td><td>Persistent cosine collections</td></tr>
-<tr><td>app/retrieval/*</td><td>search, merge, ScoreReranker</td></tr>
-<tr><td>app/storage/local.py</td><td>Local object store</td></tr>
-<tr><td>scripts/test_llm_by_type.sh</td><td>Per-modality ask smoke</td></tr>
-<tr><td>README.md</td><td>Operator guide</td></tr>
-<tr><td>CODEBASE_CONTEXT.html</td><td>Verbatim source dump for AI</td></tr>
+<tr><td><code>ingest &lt;path&gt;</code></td><td>Ingest 1 file hoặc quét đệ quy 1 folder</td><td><code>--rechunk</code>, <code>--no-video</code></td></tr>
+<tr><td><code>search &lt;query&gt;</code></td><td>Retrieval thuần, không load LLM</td><td><code>-k</code>, <code>--text-only</code>, <code>--source</code>, <code>--course</code>, <code>--content-type</code></td></tr>
+<tr><td><code>ask &lt;query&gt;</code></td><td>Retrieval + generate, mặc định stream ra stdout</td><td>như trên + <code>--no-stream</code>, <code>--show-hits</code>, <code>--no-enhance</code></td></tr>
+<tr><td><code>stats</code></td><td>Đếm 2 collection, in path/device/model, không load LLM</td><td><code>--detailed</code> (quét thêm <code>assets/</code> + storage + phân bố vector, ghi JSON)</td></tr>
+<tr><td><code>inventory [path]</code></td><td>Chỉ quét <code>assets/</code> trên đĩa (không đọc Chroma), ghi JSON kiểm kê</td><td><code>--out</code></td></tr>
+<tr><td><code>report [out]</code></td><td>Build <code>evals/reports/dashboard.html</code> từ các JSON report có sẵn</td><td><code>--reports-dir</code></td></tr>
+<tr><td><code>rebuild-bm25</code></td><td>Xây lại <code>data/bm25.pkl</code> từ Chroma text collection, không re-embed</td><td>—</td></tr>
+<tr><td><code>eval &lt;golden.jsonl&gt;</code></td><td>Chạy golden-set eval (§11.A)</td><td><code>--text-only</code> (mặc định true)/<code>--with-visual</code>, <code>--retrieve-only</code>, <code>--enhance</code>, <code>--limit</code>, <code>--out</code></td></tr>
+<tr><td><code>prepare-retrieval-queries &lt;questions_draft.json&gt;</code></td><td>Xuất query sạch, chống leakage (§11.B)</td><td><code>--out</code></td></tr>
+<tr><td><code>benchmark-retrieve &lt;queries.jsonl&gt;</code></td><td>Chạy 1 hệ retrieval, lưu Top-K</td><td><code>--system-id</code>, <code>--profile baseline|proposed</code>, <code>-k</code> (≥10), <code>--rerank</code>, <code>--no-course-filter</code>, <code>--resume</code></td></tr>
+<tr><td><code>score-retrieval &lt;questions&gt; &lt;results&gt;</code></td><td>Chấm P/R/F1@K sau khi retrieval xong (§11.B)</td><td><code>--null-policy infer|exclude|error</code>, <code>--allow-unindexed-ground-truth</code></td></tr>
 </tbody>
 </table>
-<p style="margin-top:2.5rem;color:var(--muted);font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;">End of specification · multimodal-rag 0.1.0 · regenerated 2026-09-07 from the live tree (generation + v2-long video).</p>
+</section>
+
+<section id="run">
+<h2>13. Chạy dự án</h2>
+<pre><code># 1. Cài đặt
+python3.12 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -e ".[all]"                 # hoặc chọn extra: document, vision, video, generation, retrieval, eval, api, dev
+cp .env.example .env
+
+# 2. Model runtime cần thêm bên ngoài Python
+brew install tesseract ffmpeg           # macOS; apt-get trên Debian/Ubuntu
+
+# 3. Ingest học liệu
+python -m app.main ingest "./assets/hethongquytrinhnghiepvu"
+python -m app.main ingest "./assets/test/buoi_3.mp4"     # video: rất chậm lần đầu (Whisper), có checkpoint
+
+# 4. Kiểm tra đã index
+python -m app.main stats
+
+# 5. Truy vấn không LLM
+python -m app.main search "quan hệ phản xạ" --text-only
+
+# 6. Hỏi có trả lời (load Qwen3-1.7B lần đầu, ~5s trên MPS)
+python -m app.main ask "Giải thích quan hệ phản xạ" --text-only --show-hits
+
+# 7. Chạy HTTP API cho frontend
+python -m app.api
+curl -s http://127.0.0.1:8000/v1/stats</code></pre>
+<p>Chạy lệnh CLI luôn từ <strong>repo root</strong> (<code>project_root = Path.cwd()</code>). Chi tiết đầy đủ từng cờ, biến env, và cách tích hợp Next.js: xem <code>README.md</code> và <code>docs/frontend-api.md</code> — tài liệu này không lặp lại nguyên văn để tránh hai nguồn sự thật lệch nhau, nhưng mọi hành vi mô tả ở trên đã được xác nhận đúng với source hiện tại.</p>
+</section>
+
+<section id="howeval">
+<h2>14. Cách đánh giá chất lượng khi bạn thay đổi pipeline</h2>
+<ol>
+<li>Chạy baseline: <code>python -m app.main eval evals/golden.jsonl --text-only --retrieve-only --out evals/reports/baseline.json</code> (nhanh, không load LLM).</li>
+<li>Đổi 1 thứ (chunk size, fetch_k, bật rerank...), rebuild BM25 nếu cần (<code>rebuild-bm25</code>), chạy lại, so <code>weakest_metric</code>.</li>
+<li>Theo bảng ánh xạ <code>HANDOFF_MAPPING</code> (<code>app/eval/metrics.py</code>) để chọn hướng sửa:</li>
+</ol>
+<table>
+<thead><tr><th>Metric yếu nhất</th><th>Hướng sửa gợi ý</th></tr></thead>
+<tbody>
+<tr><td><code>context_precision</code> / <code>path_precision</code></td><td>Chunking (<code>CHUNK_SIZE_*</code>) hoặc metadata filter (<code>--source</code>/<code>--course</code>/<code>--content-type</code>)</td></tr>
+<tr><td><code>faithfulness</code></td><td>Sửa prompt hoặc <code>CONTEXT_COMPRESS</code> (đừng nhồi ngữ cảnh dư)</td></tr>
+<tr><td><code>context_recall</code> / <code>path_recall</code></td><td>Hybrid/<code>RETRIEVER_FETCH_K</code>; chỉ khi vẫn yếu mới bật <code>QUERY_HYDE=true</code> hoặc <code>MAX_RETRIEVE_LOOPS=1</code></td></tr>
+<tr><td><code>answer_relevancy</code></td><td>Query enhance / prompt generation</td></tr>
+</tbody>
+</table>
+<p><strong>Không</strong> bật HyDE/reflect-loop mặc định — cả hai đều off theo thiết kế (đắt tài nguyên trên 16GB) và chỉ nên bật có chủ đích khi metric recall cụ thể yếu, có đo trước/sau.</p>
+<p>Với thay đổi lớn hoặc câu hỏi "hệ mới có thật sự tốt hơn không" cho mục đích báo cáo/luận văn — dùng benchmark leakage-free ở §11.B, không dùng golden-set 35 câu (quá nhỏ để kết luận thống kê).</p>
+</section>
+
+<section id="test">
+<h2>15. Testing</h2>
+<p><code>pytest</code> (29 file trong <code>tests/</code>). <code>tests/conftest.py</code> cung cấp <code>FakeTextEmbedder</code>/<code>FakeVLEmbedder</code> (vector giả deterministic theo <code>len(text) % 97</code>) và fixture <code>settings</code> với <code>device="cpu"</code>, chunk nhỏ (50/10) — <strong>không có test nào tải Qwen model thật</strong>. Điều này có nghĩa: test không phát hiện được lỗi runtime thật của model (ví dụ prompt template sai, tokenizer patch hỏng) — những lỗi đó chỉ lộ ra khi chạy CLI/API thật với model thật. Khi thêm module mới, viết test với fake tương tự, đừng tải model trong unit test.</p>
+<p>Phủ chính (theo tên file, khớp với những gì đã đọc trong source): ids/unicode, file detection, chunking, chroma add/search, metadata flatten, OCR protocol, text loader, retrieval merge/RRF, query-enhance JSON parse, incremental ingest, image RGB, video window/ffmpeg-missing, frame selection, video indexing + capped-video reingest + manifest, generation format/think/service, eval harness + inventory + retrieval benchmark, API routes, CLI parser.</p>
+<p>Test tích hợp với model thật là thủ công qua <code>scripts/test_llm_by_type.sh</code> (đọc <code>assets/</code> thật, log ra <code>tmp/llm_type_tests/</code>) — không chạy trong CI.</p>
+</section>
+
+<section id="gaps">
+<h2>16. Known gaps / rủi ro kỹ thuật</h2>
+<p>Những điểm này được phát hiện khi đọc trực tiếp source, không phải suy đoán — nên xử lý hoặc ghi nhận trước khi coi là "đã hiểu hết":</p>
+<ul>
+<li><span class="badge bad">MISMATCH</span> <code>app/storage/base.py</code> (file mới, <strong>chưa commit</strong> — xem git status) định nghĩa <code>ObjectStore</code> Protocol với 4 method: <code>put_bytes</code>, <code>put_image</code>, <code>put_file</code>, <code>delete_prefix() -&gt; int</code>. Nhưng <code>LocalFilesystemStore</code> (<code>app/storage/local.py</code>) — implementation thực tế đang dùng khắp pipeline — chỉ có <code>put_image()</code> và <code>delete_prefix()</code> (trả <code>None</code>, không phải <code>int</code>). Nếu bạn định dùng <code>ObjectStore</code> như type hint chỗ nào, code sẽ không thoả Protocol. Cần: hoặc bổ sung <code>put_bytes</code>/<code>put_file</code> vào <code>LocalFilesystemStore</code>, hoặc rút gọn Protocol cho khớp thực tế — quyết định này có vẻ đang làm nửa chừng.</li>
+<li><span class="badge partial">DEAD CODE</span> <code>app/processors/video.py::sample_frames()</code> (OpenCV uniform sampler) không còn được gọi ở đâu — pipeline video thật dùng <code>video_frames.py::sample_coarse_frames</code> (ffmpeg) + <code>frame_selection.py</code>. README cũng tự ghi nhận điều này. An toàn để xoá nếu không có kế hoạch dùng lại.</li>
+<li><span class="badge partial">CHƯA DÙNG</span> <code>app/models/chunk.py::EmbeddingRecord</code> được định nghĩa nhưng <code>IndexingService</code> không instantiate nó — service tự build list <code>ids/docs/metas/vectors</code> song song. Không phải bug, chỉ là model "để sẵn" chưa refactor vào.</li>
+<li><span class="badge off">TẮT MẶC ĐỊNH</span> Reranker cross-encoder thật (<code>QwenReranker</code>), HyDE, iterative retrieve-loop đều tồn tại đầy đủ code nhưng tắt theo <code>Settings</code> mặc định (ràng buộc RAM 16GB) — đừng tưởng chúng "chưa implement", chúng chỉ chưa được kích hoạt.</li>
+<li><span class="badge partial">CORPUS CHƯA ĐẦY</span> Theo <code>EXPERIMENT_LOG.md</code>: 25/65 file trong <code>assets/</code> local chưa được ingest vào Chroma (18 trong số đó có evidence được benchmark 400-câu tham chiếu tới) → corpus coverage đo được chỉ 85,53%. Số liệu benchmark hiện tại không đại diện cho toàn corpus.</li>
+<li><span class="badge todo">CHƯA ĐO</span> Benchmark hiện tại (§11.B) chỉ đo retrieval, <strong>chưa đo</strong> answer correctness, faithfulness end-to-end, citation correctness, hay rejection/abstention cho câu unanswerable — xem danh sách đầy đủ ở <code>EXPERIMENT_LOG.md</code> mục "Experiments NOT YET DONE".</li>
+<li><span class="badge partial">SO SÁNH LATENCY KHÔNG HỢP LỆ</span> Lần chạy benchmark ghi trong log: baseline chạy toàn CPU, proposed chạy 11 câu đầu CPU rồi chuyển MPS — không dùng <code>elapsed_ms</code> hai file kết quả để so tốc độ.</li>
+</ul>
+</section>
+
+<section id="roadmap">
+<h2>17. Hướng phát triển tiếp</h2>
+<p><code>docs/rag-production-checklist-handoff.md</code> là bản kế hoạch 16 kỹ thuật RAG production (theo 1 bài blog tham khảo), viết trước khi phần lớn được code. Đối chiếu với source hiện tại, hầu hết roadmap đó <strong>đã triển khai xong</strong>:</p>
+<table>
+<thead><tr><th>Kỹ thuật (theo handoff doc)</th><th>Trạng thái hiện tại</th></tr></thead>
+<tbody>
+<tr><td>Hybrid dense+BM25 (RRF)</td><td><span class="badge done">Done</span> <code>app/retrieval/sparse.py</code> + <code>merger.py</code>, <code>HYBRID_SEARCH=true</code></td></tr>
+<tr><td>Parent-child / sentence-window expand</td><td><span class="badge done">Done</span> <code>app/retrieval/expand.py</code>, query-time, không embedding mới</td></tr>
+<tr><td>Metadata pre-filter (course/content_type)</td><td><span class="badge done">Done</span> <code>--course</code>/<code>--content-type</code> trên CLI, API, retriever</td></tr>
+<tr><td>Cross-encoder rerank</td><td><span class="badge partial">Done nhưng tắt</span> <code>QwenReranker</code>, <code>RERANK_ENABLED=false</code></td></tr>
+<tr><td>Contextual compression (extractive)</td><td><span class="badge done">Done</span> <code>app/retrieval/compress.py</code>, không LLM phụ</td></tr>
+<tr><td>RAGAs + LLM-judge + golden set</td><td><span class="badge done">Done</span> <code>app/eval/</code> đầy đủ</td></tr>
+<tr><td>Query decomposition (agentic-lite)</td><td><span class="badge done">Done</span> <code>query_enhance.py</code> — rewritten/subqueries/step_back</td></tr>
+<tr><td>Iterative retrieval + self-reflection</td><td><span class="badge partial">Done nhưng tắt</span> <code>MAX_RETRIEVE_LOOPS=0</code>, tối đa 1 vòng khi bật</td></tr>
+<tr><td>HyDE</td><td><span class="badge partial">Done nhưng tắt</span> <code>QUERY_HYDE=false</code>, cấm sinh đề bài/đáp án giả</td></tr>
+<tr><td>Per-type chunk size calibration</td><td><span class="badge done">Done</span> <code>CHUNK_SIZE_PDF/DOCX/PPTX/TXT</code> riêng từng loại</td></tr>
+<tr><td>ColBERT / ColPali / CLIP / binary quantization</td><td><span class="badge off">Chủ động bỏ qua</span> — quyết định ghi rõ trong handoff doc, Qwen3-VL đã là "đối chọi multimodal" tương đương</td></tr>
+</tbody>
+</table>
+<p>Vậy phần backlog thật sự còn mở, theo thứ tự ưu tiên gợi ý:</p>
+<ol>
+<li><strong>Đóng gap corpus:</strong> ingest 25 file còn thiếu trong <code>assets/</code> (§16), chạy lại benchmark 400 câu trên corpus đầy đủ trước khi kết luận bất cứ so sánh hệ thống nào.</li>
+<li><strong>End-to-end answer eval:</strong> hiện chỉ có retrieval benchmark; thêm answer-correctness/faithfulness/citation-correctness đo trên câu trả lời thật (không chỉ path recall) — hạ tầng judge (<code>app/eval/judge.py</code>, RAGAs) đã có sẵn, chỉ thiếu nối vào benchmark 400 câu.</li>
+<li><strong>Ablation có kiểm soát:</strong> BM25-only, dense-only, +rerank, +expand/compress từng cái một, với kiểm định thống kê (bootstrap/CI) — hiện chưa có, nên mọi "X tốt hơn Y" trong log đều chưa có ý nghĩa thống kê.</li>
+<li><strong>Sửa gap Protocol <code>ObjectStore</code></strong> (§16) trước khi ai đó dựa vào nó để thêm backend S3/MinIO — README có nhắc "interfaces exist so these can be swapped later" (S3/MinIO, Qdrant/Milvus/pgvector), nhưng <code>ObjectStore</code> hiện chưa đủ để swap an toàn.</li>
+<li><strong>Ý tưởng chưa làm</strong> từ <code>rag_multimodal_improvements.md</code> (tài liệu tham khảo chung, không phải cam kết): semantic/concept-based chunking (hiện vẫn theo ký tự cố định per file-type, chưa theo ranh giới ngữ nghĩa thật); fine-tune embedding trên domain Việt/giáo trình; agentic tool-calling RAG thật (hiện chỉ có 1 vòng reflect tối đa, không có multi-tool); lọc nhiễu ảnh (logo/icon) trước khi visual-embed; audio-driven video segmentation theo ranh giới câu Whisper thay vì cửa sổ 30s cố định.</li>
+<li><strong>Abstention/rejection modeling</strong> cho câu unanswerable — hiện hệ thống luôn cố trả lời (có fallback theo cosine threshold, nhưng chưa có quyết định "abstained" tường minh để đo rejection rate như <code>EXPERIMENT_LOG.md</code> mục 13 đang chờ).</li>
+</ol>
+</section>
+
+<section id="fileindex">
+<h2>18. Phụ lục: chỉ mục toàn bộ file Python trong <code>app/</code></h2>
+<p>Sắp xếp theo package, số dòng tại thời điểm viết tài liệu (không tính file trống <code>__init__.py</code>).</p>
+<table>
+<thead><tr><th>File</th><th>Dòng</th><th>Vai trò 1 câu</th></tr></thead>
+<tbody>
+<tr><td colspan="3"><strong>config</strong></td></tr>
+<tr><td><code>config/settings.py</code></td><td>180</td><td>Toàn bộ tham số hệ thống, <code>resolve_device()</code>, <code>chunk_params()</code></td></tr>
+<tr><td colspan="3"><strong>models</strong></td></tr>
+<tr><td><code>models/chunk.py</code></td><td>25</td><td><code>TextChunk</code>, <code>EmbeddingRecord</code></td></tr>
+<tr><td><code>models/document.py</code></td><td>26</td><td><code>DocumentAsset</code>, <code>TableAsset</code></td></tr>
+<tr><td><code>models/image.py</code></td><td>15</td><td><code>ImageAsset</code></td></tr>
+<tr><td><code>models/video.py</code></td><td>26</td><td><code>VideoAsset</code>, <code>VideoSegment</code></td></tr>
+<tr><td><code>models/retrieval.py</code></td><td>23</td><td><code>RetrievalResult</code>, <code>ContentType</code></td></tr>
+<tr><td colspan="3"><strong>loaders</strong></td></tr>
+<tr><td><code>loaders/base.py</code></td><td>65</td><td><code>detect_kind</code>, <code>iter_input_files</code>, <code>LoadedDocument/Video</code></td></tr>
+<tr><td><code>loaders/docling_loader.py</code></td><td>281</td><td>Parse PDF/DOCX/PPTX bằng Docling</td></tr>
+<tr><td><code>loaders/image_loader.py</code></td><td>56</td><td>Load ảnh đơn + OCR</td></tr>
+<tr><td><code>loaders/text_loader.py</code></td><td>50</td><td>Load txt/md, tách heading</td></tr>
+<tr><td><code>loaders/video_loader.py</code></td><td>389</td><td>Pipeline video 7 bước, checkpoint</td></tr>
+<tr><td colspan="3"><strong>chunking</strong></td></tr>
+<tr><td><code>chunking/text_chunker.py</code></td><td>76</td><td>RecursiveCharacterTextSplitter theo file_type</td></tr>
+<tr><td><code>chunking/video_chunker.py</code></td><td>49</td><td>Cửa sổ thời gian cố định + gán transcript</td></tr>
+<tr><td colspan="3"><strong>processors</strong></td></tr>
+<tr><td><code>processors/audio.py</code></td><td>47</td><td>ffmpeg trích audio WAV</td></tr>
+<tr><td><code>processors/ffmpeg_check.py</code></td><td>13</td><td><code>require_ffmpeg()</code></td></tr>
+<tr><td><code>processors/frame_selection.py</code></td><td>163</td><td>pHash + scoring chọn frame đại diện</td></tr>
+<tr><td><code>processors/image.py</code></td><td>21</td><td><code>to_rgb</code>/<code>load_rgb</code></td></tr>
+<tr><td><code>processors/ocr.py</code></td><td>25</td><td><code>TesseractOCR</code>/<code>NullOCR</code> Protocol</td></tr>
+<tr><td><code>processors/scene_detection.py</code></td><td>36</td><td>PySceneDetect wrapper (tuỳ chọn)</td></tr>
+<tr><td><code>processors/video.py</code></td><td>50</td><td>OpenCV uniform sampler — <strong>dead code</strong> (§16)</td></tr>
+<tr><td><code>processors/video_checkpoint.py</code></td><td>57</td><td><code>VideoCheckpoint</code>, resume theo stage</td></tr>
+<tr><td><code>processors/video_frames.py</code></td><td>69</td><td>ffmpeg coarse-frame sampling</td></tr>
+<tr><td><code>processors/video_metadata.py</code></td><td>87</td><td>ffprobe → <code>VideoMetadata</code></td></tr>
+<tr><td colspan="3"><strong>embeddings</strong></td></tr>
+<tr><td><code>embeddings/base.py</code></td><td>15</td><td><code>TextEmbedder</code>/<code>VLEmbedder</code> Protocol</td></tr>
+<tr><td><code>embeddings/text_embedding.py</code></td><td>74</td><td>Qwen3-Embedding qua HuggingFaceEmbeddings</td></tr>
+<tr><td><code>embeddings/vl_embedding.py</code></td><td>75</td><td>Qwen3-VL-Embedding qua SentenceTransformer</td></tr>
+<tr><td colspan="3"><strong>storage</strong></td></tr>
+<tr><td><code>storage/base.py</code></td><td>16</td><td><code>ObjectStore</code> Protocol — <strong>chưa commit, lệch với local.py</strong> (§16)</td></tr>
+<tr><td><code>storage/local.py</code></td><td>36</td><td><code>LocalFilesystemStore</code>, sandbox theo root</td></tr>
+<tr><td colspan="3"><strong>vectorstore</strong></td></tr>
+<tr><td><code>vectorstore/base.py</code></td><td>30</td><td><code>VectorStore</code> Protocol</td></tr>
+<tr><td><code>vectorstore/chroma.py</code></td><td>171</td><td><code>ChromaVectorStore</code>, <code>flatten_metadata</code></td></tr>
+<tr><td colspan="3"><strong>pipeline</strong></td></tr>
+<tr><td><code>pipeline/ingestion.py</code></td><td>320</td><td><code>IngestionPipeline</code>, dedup/manifest logic</td></tr>
+<tr><td><code>pipeline/indexing.py</code></td><td>283</td><td><code>IndexingService</code>, <code>base_metadata</code></td></tr>
+<tr><td colspan="3"><strong>retrieval</strong></td></tr>
+<tr><td><code>retrieval/retriever.py</code></td><td>279</td><td><code>MultimodalRetriever.search()</code> — nhạc trưởng retrieval</td></tr>
+<tr><td><code>retrieval/merger.py</code></td><td>74</td><td><code>rrf_merge</code></td></tr>
+<tr><td><code>retrieval/sparse.py</code></td><td>126</td><td><code>BM25Index</code>, rebuild sidecar</td></tr>
+<tr><td><code>retrieval/filters.py</code></td><td>88</td><td>Chroma <code>where</code> builder, prefix/course match</td></tr>
+<tr><td><code>retrieval/diversity.py</code></td><td>40</td><td><code>diversify_by_file</code></td></tr>
+<tr><td><code>retrieval/expand.py</code></td><td>99</td><td>Ghép parent/neighbor context</td></tr>
+<tr><td><code>retrieval/compress.py</code></td><td>42</td><td>Extractive sentence compression</td></tr>
+<tr><td><code>retrieval/reranker.py</code></td><td>237</td><td><code>TypePriorReranker</code>, <code>QwenReranker</code></td></tr>
+<tr><td colspan="3"><strong>generation</strong></td></tr>
+<tr><td><code>generation/service.py</code></td><td>672</td><td><code>GenerationService</code> — nhạc trưởng generation, SSE events</td></tr>
+<tr><td><code>generation/query_enhance.py</code></td><td>223</td><td>JSON planner, HyDE, reflect prompt/parse</td></tr>
+<tr><td><code>generation/context.py</code></td><td>109</td><td><code>format_hits</code>, path helpers</td></tr>
+<tr><td><code>generation/prompts.py</code></td><td>39</td><td>System/human prompt câu trả lời cuối</td></tr>
+<tr><td><code>generation/catalog.py</code></td><td>93</td><td>Rule-based "catalog query" (lộ trình/tài liệu)</td></tr>
+<tr><td><code>generation/think.py</code></td><td>64</td><td><code>strip_think</code>, <code>ThinkStreamFilter</code></td></tr>
+<tr><td><code>generation/vl_answerer.py</code></td><td>196</td><td><code>LocalQwenVLAnswerer</code> — Qwen3-VL-2B-Instruct đọc ảnh</td></tr>
+<tr><td><code>generation/base.py</code></td><td>10</td><td><code>Generator</code> Protocol</td></tr>
+<tr><td colspan="3"><strong>api</strong></td></tr>
+<tr><td><code>api/app.py</code></td><td>234</td><td>FastAPI app, route, SSE loop</td></tr>
+<tr><td><code>api/citations.py</code></td><td>235</td><td><code>hits_to_citations_and_assets</code></td></tr>
+<tr><td><code>api/schemas.py</code></td><td>116</td><td>Pydantic request/response model</td></tr>
+<tr><td><code>api/files.py</code></td><td>47</td><td>File server sandbox + Range</td></tr>
+<tr><td><code>api/deps.py</code></td><td>28</td><td>DI + <code>require_api_key</code></td></tr>
+<tr><td><code>api/sse.py</code></td><td>10</td><td><code>sse_event</code> helper</td></tr>
+<tr><td><code>api/__main__.py</code></td><td>32</td><td><code>python -m app.api</code> entrypoint (uvicorn)</td></tr>
+<tr><td colspan="3"><strong>eval</strong></td></tr>
+<tr><td><code>eval/golden.py</code></td><td>74</td><td>Load <code>golden.jsonl</code></td></tr>
+<tr><td><code>eval/metrics.py</code></td><td>80</td><td>path recall/precision, <code>HANDOFF_MAPPING</code></td></tr>
+<tr><td><code>eval/judge.py</code></td><td>70</td><td>Qwen3-1.7B tự chấm JSON</td></tr>
+<tr><td><code>eval/ragas_backend.py</code></td><td>104</td><td>Cầu nối RAGAs</td></tr>
+<tr><td><code>eval/runner.py</code></td><td>139</td><td><code>run_eval()</code> orchestration</td></tr>
+<tr><td><code>eval/report.py</code></td><td>106</td><td><code>build_report</code>, <code>format_report</code></td></tr>
+<tr><td><code>eval/inventory.py</code></td><td>212</td><td>Kiểm kê assets/storage/vector</td></tr>
+<tr><td><code>eval/dashboard.py</code></td><td>369</td><td>Render HTML dashboard tĩnh</td></tr>
+<tr><td><code>eval/retrieval_benchmark.py</code></td><td>522</td><td>Harness benchmark leakage-free (§11.B)</td></tr>
+<tr><td colspan="3"><strong>root</strong></td></tr>
+<tr><td><code>main.py</code></td><td>588</td><td>CLI argparse, 11 subcommand</td></tr>
+<tr><td><code>factory.py</code></td><td>106</td><td><code>build_services()</code> — DI duy nhất</td></tr>
+<tr><td><code>ids.py</code></td><td>28</td><td>sha256/NFC/vector_id/relative_posix</td></tr>
+<tr><td><code>index_manifest.py</code></td><td>99</td><td><code>IndexManifest</code> — incremental ingest registry</td></tr>
+<tr><td><code>progress.py</code></td><td>47</td><td>Log tiến độ theo bậc 10%</td></tr>
+<tr><td><code>log_setup.py</code></td><td>20</td><td><code>setup_logging()</code></td></tr>
+</tbody>
+</table>
+<p><em>Tổng ~9.400 dòng Python trong <code>app/</code> (không kể <code>__init__.py</code> trống và test). File dài nhất: <code>generation/service.py</code> (672), <code>main.py</code> (588), <code>eval/retrieval_benchmark.py</code> (522), <code>loaders/video_loader.py</code> (389), <code>eval/dashboard.py</code> (369).</em></p>
+</section>
+
+<div class="note">Tài liệu này thay thế nội dung cũ của <code>TECHNICAL_DOCUMENTATION.html</code> (bản trước viết ngày 2026-09-07, thiếu toàn bộ API/eval/hybrid-retrieval/generation nâng cao vì được viết trước các commit sau đó). File <code>CODEBASE_CONTEXT.html</code> cùng thời điểm cũng đã lỗi thời tương tự — nếu cần, có thể yêu cầu tái tạo theo cùng cách.</div>
+
 </main>
 </div>
 </body>
