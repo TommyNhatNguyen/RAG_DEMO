@@ -275,6 +275,124 @@ def cmd_report(args: argparse.Namespace, settings: Settings) -> int:
     return 0
 
 
+def cmd_prepare_retrieval_queries(args: argparse.Namespace, settings: Settings) -> int:
+    from pathlib import Path
+
+    from app.eval.retrieval_benchmark import prepare_query_file
+
+    source = Path(args.questions)
+    if not source.is_absolute():
+        source = settings.resolve_path(source)
+    target = Path(args.out)
+    if not target.is_absolute():
+        target = settings.resolve_path(target)
+    count = prepare_query_file(source, target)
+    print(f"prepared={count} wrote {target}")
+    return 0
+
+
+def cmd_benchmark_retrieve(args: argparse.Namespace, settings: Settings) -> int:
+    from pathlib import Path
+
+    from app.eval.retrieval_benchmark import (
+        load_query_file,
+        query_set_sha256,
+        run_retrieval,
+    )
+
+    query_path = Path(args.queries)
+    if not query_path.is_absolute():
+        query_path = settings.resolve_path(query_path)
+    output_path = Path(args.out)
+    if not output_path.is_absolute():
+        output_path = settings.resolve_path(output_path)
+
+    settings.context_expand = False
+    settings.context_compress = False
+    settings.course_prefilter = not args.no_course_filter
+    # Fetch a wider candidate pool so diversity-by-file can still return a
+    # complete Top-10 instead of stopping at only a few source files.
+    settings.retriever_fetch_k = max(settings.retriever_fetch_k, args.k * 10)
+    if args.profile == "baseline":
+        settings.hybrid_search = False
+        settings.rerank_enabled = False
+        include_visual = False
+    else:
+        settings.hybrid_search = True
+        settings.rerank_enabled = bool(args.rerank)
+        include_visual = True
+
+    inputs = load_query_file(query_path)
+    query_hash = query_set_sha256(inputs)
+    start = max(1, int(args.start)) - 1
+    selected = inputs[start:]
+    if args.limit is not None:
+        selected = selected[: max(0, args.limit)]
+    services = build_services(settings)
+    summary = run_retrieval(
+        services.retriever,
+        selected,
+        output_path,
+        system_id=args.system_id,
+        top_k=args.k,
+        include_visual=include_visual,
+        use_course_filter=not args.no_course_filter,
+        resume=args.resume,
+        query_set_hash=query_hash,
+    )
+    print(
+        f"system={summary['system_id']} requested={summary['requested']} "
+        f"written={summary['written']} resumed={summary['resumed']} "
+        f"failed={summary['failed']} wrote {summary['output']}"
+    )
+    return 1 if summary["failed"] else 0
+
+
+def cmd_score_retrieval(args: argparse.Namespace, settings: Settings) -> int:
+    import json
+    from pathlib import Path
+
+    from app.eval.retrieval_benchmark import (
+        canonical_resource_id,
+        score_retrieval_file,
+    )
+
+    questions = Path(args.questions)
+    results = Path(args.results)
+    output = Path(args.out)
+    if not questions.is_absolute():
+        questions = settings.resolve_path(questions)
+    if not results.is_absolute():
+        results = settings.resolve_path(results)
+    if not output.is_absolute():
+        output = settings.resolve_path(output)
+    indexed_resources = None
+    if not args.allow_unindexed_ground_truth:
+        services = build_services(settings)
+        indexed_resources = set()
+        for collection in (settings.text_collection, settings.visual_collection):
+            got = services.vector_store.get(collection)
+            for metadata in got.get("metadatas") or []:
+                relative_path = str((metadata or {}).get("relative_path") or "")
+                if relative_path:
+                    indexed_resources.add(canonical_resource_id(relative_path))
+    report = score_retrieval_file(
+        questions,
+        results,
+        null_policy=args.null_policy,
+        indexed_resource_ids=indexed_resources,
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"answerable_scored={report['counts']['answerable_scored']}")
+    print(f"unanswerable_separate={report['counts']['unanswerable_separate']}")
+    for key, value in report["macro_average_answerable"].items():
+        if value is not None:
+            print(f"{key}={float(value):.6f}")
+    print(f"wrote {output}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m app.main",
@@ -402,6 +520,59 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--limit", type=int, default=None, help="Evaluate only the first N items")
     ev.add_argument("--out", default=None, help="Write full JSON report (e.g. evals/reports/baseline.json)")
     ev.set_defaults(func=cmd_eval)
+
+    prep = sub.add_parser(
+        "prepare-retrieval-queries",
+        help="Export question-only JSONL for leakage-free retrieval evaluation",
+    )
+    prep.add_argument("questions", help="questions_draft.json path")
+    prep.add_argument(
+        "--out",
+        default="evals/benchmark_queries.jsonl",
+        help="Sanitized JSONL containing only question_id, question, course_id",
+    )
+    prep.set_defaults(func=cmd_prepare_retrieval_queries)
+
+    bench = sub.add_parser(
+        "benchmark-retrieve",
+        help="Run one retrieval system over a sanitized query JSONL and save Top-K",
+    )
+    bench.add_argument("queries", help="Sanitized query JSONL")
+    bench.add_argument("--system-id", required=True, help="Stable system label")
+    bench.add_argument(
+        "--profile",
+        choices=("baseline", "proposed"),
+        required=True,
+        help="baseline=text dense; proposed=hybrid multimodal",
+    )
+    bench.add_argument("-k", type=int, default=10, help="Top-K to save (minimum 10)")
+    bench.add_argument("--out", required=True, help="retrieval_results.jsonl output")
+    bench.add_argument("--rerank", action="store_true", help="Enable reranker for proposed")
+    bench.add_argument("--no-course-filter", action="store_true", help="Do not pass course_id to retriever")
+    bench.add_argument("--start", type=int, default=1, help="1-based first query to run")
+    bench.add_argument("--limit", type=int, default=None, help="Run at most N queries")
+    bench.add_argument("--resume", action="store_true", help="Append only missing question_ids")
+    bench.set_defaults(func=cmd_benchmark_retrieve)
+
+    score = sub.add_parser(
+        "score-retrieval",
+        help="Score a retrieval JSONL against evidence after retrieval has finished",
+    )
+    score.add_argument("questions", help="Ground-truth questions_draft.json")
+    score.add_argument("results", help="Retrieval result JSONL")
+    score.add_argument("--out", required=True, help="Evaluation report JSON")
+    score.add_argument(
+        "--null-policy",
+        choices=("infer", "exclude", "error"),
+        default="infer",
+        help="infer: evidence=>answerable, empty evidence=>unanswerable",
+    )
+    score.add_argument(
+        "--allow-unindexed-ground-truth",
+        action="store_true",
+        help="Include questions whose ground-truth resources are absent from ChromaDB",
+    )
+    score.set_defaults(func=cmd_score_retrieval)
     return parser
 
 

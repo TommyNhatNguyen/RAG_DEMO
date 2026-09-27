@@ -65,6 +65,7 @@ class Settings(BaseSettings):
     retriever_fetch_k: int = 20
     retrieve_max_per_file: int = 2
     cosine_fallback_threshold: float = 0.15
+    course_prefilter: bool = False
 
     hybrid_search: bool = True
     bm25_path: Path = Path("./data/bm25.pkl")

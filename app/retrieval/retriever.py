@@ -71,8 +71,13 @@ class MultimodalRetriever:
         k = k or self.settings.retriever_k
         fetch_k = max(k, self.settings.retriever_fetch_k)
         prefix = folder_prefix(source)
-        # Legacy vectors may lack `course`; keep it out of Chroma `where`.
-        where = chroma_where(source, content_type=content_type)
+        # Normal app mode keeps compatibility with legacy vectors that may lack
+        # `course`. Controlled benchmarks can enable a strict Chroma pre-filter.
+        where = chroma_where(
+            source,
+            course=course if self.settings.course_prefilter else None,
+            content_type=content_type,
+        )
         dense_n = fetch_k * 5 if prefix or course else fetch_k
 
         text_queries = [query]
