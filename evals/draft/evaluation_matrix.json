@@ -1,0 +1,132 @@
+{
+  "dataset_name": "draft_elearning_multimodal_rag_eval",
+  "version": "draft-2026-09-15-batch-01",
+  "scope": {
+    "courses": [
+      "Cấu trúc rời rạc",
+      "Nhập môn Lập trình"
+    ],
+    "source_root": "assets/",
+    "question_scope": "Chỉ tạo truy vấn sinh viên dựa trên học liệu môn học trong assets/. Các file đề cương môn học chỉ dùng cho câu hỏi metadata và phạm vi, không dùng để tạo kiến thức bài học.",
+    "resource_id_policy": "Các resource_id trong resource_inventory.json là ID quản lý được tạo cho bộ đánh giá; không giả định chúng đã tồn tại trong hệ thống.",
+    "review_policy": "Tất cả nhãn, đáp án nháp, bằng chứng, locator và quyền sử dụng đều pending_human_review.",
+    "rights_confirmation": "confirmed_by_user"
+  },
+  "input_status": {
+    "original_resources": 48,
+    "by_file_type": {
+      "pdf": 20,
+      "pptx": 5,
+      "docx": 4,
+      "mp4": 19
+    },
+    "video_timestamp_sidecars": {
+      "videos": 19,
+      "available": 19,
+      "missing": 0,
+      "note": "Sidecar có timestamp nhưng vẫn cần nghe/đối chiếu mẫu để kiểm tra lỗi nhận dạng tiếng nói."
+    },
+    "current_chroma_snapshot": {
+      "text_vectors": 5163,
+      "visual_vectors": 1939,
+      "total_vectors": 7102,
+      "distinct_original_resource_paths_seen": 20,
+      "note": "Chroma hiện không phải nguồn duy nhất để tạo dataset. 28/48 resource path chưa xuất hiện trong snapshot Chroma; không dùng việc thiếu trong Chroma để kết luận học liệu không có nội dung."
+    },
+    "rights": {
+      "status": "confirmed_by_user",
+      "confirmed_on": "2026-09-15",
+      "note": "Người dùng xác nhận có đầy đủ quyền sử dụng các PDF, PPTX, DOCX và video hiện có trong assets/ cho dataset và repository."
+    }
+  },
+  "allocation": [
+    {
+      "primary_category": "video_grounded",
+      "target": 25,
+      "batch_01": 3,
+      "remaining_after_batch_01": 22,
+      "availability": "provisionally_sufficient",
+      "basis": "19 video có sidecar timestamp; cần kiểm tra thủ công timestamp và chất lượng transcript trước khi chốt."
+    },
+    {
+      "primary_category": "slide_grounded",
+      "target": 25,
+      "batch_01": 4,
+      "remaining_after_batch_01": 21,
+      "availability": "provisionally_sufficient",
+      "basis": "5 PPTX và một PDF slide pack; locator slide_number có thể xác minh từ file."
+    },
+    {
+      "primary_category": "pdf_grounded",
+      "target": 30,
+      "batch_01": 4,
+      "remaining_after_batch_01": 26,
+      "availability": "provisionally_sufficient",
+      "basis": "20 PDF; page_index_1based được kiểm tra ở mức inventory/Chroma với các file đã ingest."
+    },
+    {
+      "primary_category": "exercise_grounded",
+      "target": 20,
+      "batch_01": 4,
+      "remaining_after_batch_01": 16,
+      "availability": "provisionally_sufficient",
+      "basis": "Bài tập chương 3, 4, 5, 6 hiện có dưới DOCX/PDF; câu hỏi chỉ hỏi nội dung bài tập, không tự tạo lời giải."
+    },
+    {
+      "primary_category": "metadata_grounded",
+      "target": 20,
+      "batch_01": 2,
+      "remaining_after_batch_01": 18,
+      "availability": "provisionally_sufficient",
+      "basis": "Có đề cương Cấu trúc rời rạc và bốn file đề cương Nhập môn Lập trình; người dùng đã xác nhận tất cả file đề cương Nhập môn Lập trình là bản chính thức."
+    },
+    {
+      "primary_category": "cross_source",
+      "target": 40,
+      "batch_01": 3,
+      "remaining_after_batch_01": 37,
+      "availability": "available_with_verification",
+      "basis": "Có thể ghép các nguồn khác loại; mỗi câu phải chứng minh hai nguồn đóng góp khác nhau, không chỉ lặp cùng một định nghĩa."
+    },
+    {
+      "primary_category": "visual",
+      "target": 20,
+      "batch_01": 0,
+      "remaining_after_batch_01": 20,
+      "availability": "available_but_manual_inspection_required",
+      "basis": "PDF/PPTX và frame video có thể dùng làm visual evidence; chưa đưa vào batch 01 vì cần quan sát từng hình/sơ đồ trước khi mô tả."
+    },
+    {
+      "primary_category": "unanswerable",
+      "target": 20,
+      "batch_01": 0,
+      "remaining_after_batch_01": 20,
+      "availability": "guarded",
+      "basis": "Chưa gán câu không trả lời được trong batch 01. Cần ghi rõ corpus và quy trình kiểm tra toàn bộ trước khi kết luận thiếu thông tin."
+    }
+  ],
+  "batch_01_design": {
+    "record_ids": "Q001-Q020",
+    "counts": {
+      "video_grounded": 3,
+      "slide_grounded": 4,
+      "pdf_grounded": 4,
+      "exercise_grounded": 4,
+      "metadata_grounded": 2,
+      "cross_source": 3,
+      "visual": 0,
+      "unanswerable": 0
+    },
+    "not_yet_included": [
+      "Visual: chờ quan sát ảnh/sơ đồ thực tế.",
+      "Unanswerable: chờ kiểm tra absence trên toàn corpus, không suy ra từ một đoạn hoặc từ Chroma chưa đầy đủ."
+    ]
+  },
+  "next_validation_actions": [
+    "Người kiểm tra nghe lại các timestamp dùng trong Q001-Q003 và sửa transcript nếu ASR sai.",
+    "Xác minh slide/page locator và đối chiếu bản PDF/PPTX gốc.",
+    "Kiểm tra lại các biểu thức toán học bị Docling/ASR làm mất ký hiệu.",
+    "Xác nhận quyền sử dụng học liệu trước khi đưa dataset hoặc assets lên nơi công khai.",
+    "Ở batch sau, thêm visual records chỉ sau khi quan sát ảnh; bắt đầu thiết kế unanswerable sau khi có log tìm kiếm toàn corpus."
+  ]
+}

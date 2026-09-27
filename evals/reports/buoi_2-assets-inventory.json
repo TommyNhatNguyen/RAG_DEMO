@@ -1,0 +1,59 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/cau_truc_roi_rac/buoi_2",
+  "n_files": 2,
+  "bytes": 849904885,
+  "by_kind": {
+    "document": 1,
+    "video": 1
+  },
+  "by_suffix": {
+    "pptx": 1,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 1739203,
+    "video": 848165682
+  },
+  "by_course": {
+    "cau_truc_roi_rac": {
+      "files": 2,
+      "bytes": 849904885,
+      "by_kind": {
+        "document": 1,
+        "video": 1
+      },
+      "by_suffix": {
+        "pptx": 1,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_2/buoi_2.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 848165682,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_2/Chuong_2_Phep_dem.pptx",
+      "kind": "document",
+      "suffix": "pptx",
+      "bytes": 1739203,
+      "course": "cau_truc_roi_rac",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_2/buoi_2.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 848165682,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ]
+}

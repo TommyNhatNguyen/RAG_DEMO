@@ -1,35 +1,23 @@
 {
   "assets": {
     "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets",
-    "n_files": 65,
-    "bytes": 15910880257,
+    "n_files": 48,
+    "bytes": 10526584326,
     "by_kind": {
-      "document": 36,
-      "video": 29
+      "document": 29,
+      "video": 19
     },
     "by_suffix": {
-      "pptx": 12,
-      "mp4": 29,
       "pdf": 20,
+      "pptx": 5,
+      "mp4": 19,
       "docx": 4
     },
     "bytes_by_kind": {
-      "document": 19951067,
-      "video": 15890929190
+      "document": 18438270,
+      "video": 10508146056
     },
     "by_course": {
-      "cau_truc_du_lieu_va_giai_thuat": {
-        "files": 17,
-        "bytes": 5384295931,
-        "by_kind": {
-          "document": 7,
-          "video": 10
-        },
-        "by_suffix": {
-          "pptx": 7,
-          "mp4": 10
-        }
-      },
       "cau_truc_roi_rac": {
         "files": 22,
         "bytes": 7551018484,
@@ -59,86 +47,6 @@
       }
     },
     "videos": [
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_1/buoi_1.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 615040518,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_10/buoi_10.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 299908961,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_2/buoi_2.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 619668855,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_3/buoi_3.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 621159853,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_4/buoi_4.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 524381970,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_5/buoi_5.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 485321875,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_6/buoi_6.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 617411261,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_7/buoi_7.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 610769844,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_8/buoi_8.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 491654761,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_9/buoi_9.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 497465236,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
       {
         "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
         "kind": "video",
@@ -293,142 +201,6 @@
       }
     ],
     "files": [
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_1/CTDL_01_TQuan.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 86240,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_1/buoi_1.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 615040518,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_10/buoi_10.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 299908961,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_2/CTDL_02_SXTK.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 913860,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_2/buoi_2.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 619668855,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_3/CTDL_03_CTDuLieuDong.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 57049,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_3/buoi_3.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 621159853,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_4/CTDL_04_ListDon.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 247943,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_4/buoi_4.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 524381970,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_5/CTDL_05_ListKep.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 71926,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_5/buoi_5.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 485321875,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_6/CTDL_06_Cay.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 65208,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_6/buoi_6.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 617411261,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_7/CTDL_07_CayNhiPhanTimK.pptx",
-        "kind": "document",
-        "suffix": "pptx",
-        "bytes": 70571,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "yes"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_7/buoi_7.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 610769844,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_8/buoi_8.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 491654761,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
-      {
-        "relative_path": "assets/cau_truc_du_lieu_va_giai_thuat/buoi_9/buoi_9.mp4",
-        "kind": "video",
-        "suffix": "mp4",
-        "bytes": 497465236,
-        "course": "cau_truc_du_lieu_va_giai_thuat",
-        "ingest": "skip"
-      },
       {
         "relative_path": "assets/cau_truc_roi_rac/De_cuong_mon_hoc.pdf",
         "kind": "document",
@@ -816,47 +588,46 @@
     ]
   },
   "images": {
-    "page": 560,
-    "picture": 1027,
+    "page": 227,
+    "picture": 564,
     "other": 0,
-    "bytes": 45488695,
-    "video_frames_on_disk": 10696,
-    "video_frame_bytes": 1774044762
+    "bytes": 21918976,
+    "video_frames_on_disk": 1636,
+    "video_frame_bytes": 265608322
   },
   "vectors": {
-    "text_count": 19344,
-    "visual_count": 12283,
+    "text_count": 5163,
+    "visual_count": 1939,
     "by_content_type": {
-      "text": 9739,
-      "table": 90,
-      "video_segment": 9515,
-      "image": 1027,
-      "page": 560,
-      "video_frame": 10696
+      "text": 3694,
+      "table": 51,
+      "video_segment": 1418,
+      "image": 564,
+      "page": 227,
+      "video_frame": 1148
     },
     "by_file_type": {
-      "pptx": 6858,
-      "docx": 477,
-      "pdf": 4081,
-      "mp4": 20211
+      "pptx": 2241,
+      "docx": 467,
+      "pdf": 1828,
+      "mp4": 2566
     },
     "by_course": {
-      "cau_truc_roi_rac": 12414,
-      "nhap_mon_lap_trinh": 7655,
-      "cau_truc_du_lieu_va_giai_thuat": 11558
+      "cau_truc_roi_rac": 5532,
+      "nhap_mon_lap_trinh": 1570
     },
     "text_by_content_type": {
-      "text": 9739,
-      "table": 90,
-      "video_segment": 9515,
+      "text": 3694,
+      "table": 51,
+      "video_segment": 1418,
       "page": 0,
       "image": 0,
       "video_frame": 0
     },
     "visual_by_content_type": {
-      "image": 1027,
-      "page": 560,
-      "video_frame": 10696,
+      "image": 564,
+      "page": 227,
+      "video_frame": 1148,
       "text": 0,
       "table": 0,
       "video_segment": 0

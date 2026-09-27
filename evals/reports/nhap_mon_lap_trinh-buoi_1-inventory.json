@@ -1,0 +1,75 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/nhap_mon_lap_trinh/buoi_1",
+  "n_files": 4,
+  "bytes": 350417110,
+  "by_kind": {
+    "document": 3,
+    "video": 1
+  },
+  "by_suffix": {
+    "pdf": 3,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 1729219,
+    "video": 348687891
+  },
+  "by_course": {
+    "nhap_mon_lap_trinh": {
+      "files": 4,
+      "bytes": 350417110,
+      "by_kind": {
+        "document": 3,
+        "video": 1
+      },
+      "by_suffix": {
+        "pdf": 3,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 348687891,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/01_Gioi_thieu_mon_hoc.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 544964,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/03_Cac_KDL_Bien.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 516251,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/04_Cac_phep_toan.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 668004,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 348687891,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ]
+}

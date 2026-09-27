@@ -1,0 +1,1217 @@
+{
+  "scope": "Only learning materials currently present under RAG_DEMO/assets; research-outline files are labeled course_outline and are not used as knowledge answers.",
+  "generated_from": "filesystem_scan",
+  "generated_at": "2026-09-15",
+  "total_original_resources": 48,
+  "by_file_type": {
+    "pdf": 20,
+    "pptx": 5,
+    "mp4": 19,
+    "docx": 4
+  },
+  "by_course": {
+    "cau_truc_roi_rac": {
+      "course": "Cấu trúc rời rạc",
+      "resources": 22,
+      "by_file_type": {
+        "pdf": 4,
+        "pptx": 5,
+        "mp4": 10,
+        "docx": 3
+      }
+    },
+    "nhap_mon_lap_trinh": {
+      "course": "Nhập môn Lập trình",
+      "resources": 26,
+      "by_file_type": {
+        "pdf": 16,
+        "mp4": 9,
+        "docx": 1
+      }
+    }
+  },
+  "video_timestamp_coverage": {
+    "videos": 19,
+    "with_sidecar": 19,
+    "missing_sidecar": []
+  },
+  "resource_id_note": "IDs in this file are management IDs created for evaluation-dataset bookkeeping; they are not assumed to be pre-existing system IDs.",
+  "review_policy": "All resource metadata, rights, question labels, draft answers, and evidence locators require human review before official evaluation use.",
+  "resources": [
+    {
+      "resource_id": "CRR-W0-OUT-01",
+      "source_filename": "De_cuong_mon_hoc.pdf",
+      "relative_path": "assets/cau_truc_roi_rac/De_cuong_mon_hoc.pdf",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "de_cuong",
+      "source_role": "course_outline",
+      "file_type": "pdf",
+      "bytes": 698458,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 7
+    },
+    {
+      "resource_id": "CRR-W01-SLP-01",
+      "source_filename": "Chuong_1_Co_so_logic_slides_bai_tap.pdf",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong_1_Co_so_logic_slides_bai_tap.pdf",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_1",
+      "source_role": "slides_pdf",
+      "file_type": "pdf",
+      "bytes": 1054889,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 63
+    },
+    {
+      "resource_id": "CRR-W01-SLD-01",
+      "source_filename": "Chuong_1_Co_so_logic_slides_bai_tap.pptx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong_1_Co_so_logic_slides_bai_tap.pptx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_1",
+      "source_role": "slides",
+      "file_type": "pptx",
+      "bytes": 895008,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "slide_number"
+      ],
+      "derived_artifacts": {},
+      "slide_count": 63
+    },
+    {
+      "resource_id": "CRR-W01-VID-01",
+      "source_filename": "buoi_1.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_1",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 721431857,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_1/buoi_1_segments.json",
+      "timestamp_segment_count": 2403
+    },
+    {
+      "resource_id": "CRR-W10-VID-01",
+      "source_filename": "buoi_10.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_10/buoi_10.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_10",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 558086737,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_10/buoi_10_segments.json",
+      "timestamp_segment_count": 676
+    },
+    {
+      "resource_id": "CRR-W02-SLD-01",
+      "source_filename": "Chuong_2_Phep_dem.pptx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_2/Chuong_2_Phep_dem.pptx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_2",
+      "source_role": "slides",
+      "file_type": "pptx",
+      "bytes": 1739203,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "slide_number"
+      ],
+      "derived_artifacts": {},
+      "slide_count": 71
+    },
+    {
+      "resource_id": "CRR-W02-VID-01",
+      "source_filename": "buoi_2.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_2/buoi_2.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_2",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 848165682,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_2/buoi_2_segments.json",
+      "timestamp_segment_count": 4028
+    },
+    {
+      "resource_id": "CRR-W03-SLD-01",
+      "source_filename": "Chuong_3_Quan_he.pptx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/Chuong_3_Quan_he.pptx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_3",
+      "source_role": "slides",
+      "file_type": "pptx",
+      "bytes": 1653322,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "slide_number"
+      ],
+      "derived_artifacts": {},
+      "slide_count": 39
+    },
+    {
+      "resource_id": "CRR-W03-EX-01",
+      "source_filename": "bai_tap_chuong_3.docx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/bai_tap_chuong_3.docx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_3",
+      "source_role": "exercise",
+      "file_type": "docx",
+      "bytes": 86887,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text"
+      ],
+      "evidence_locator_types": [
+        "exercise_id",
+        "text_anchor"
+      ],
+      "derived_artifacts": {},
+      "paragraph_count": 176,
+      "table_count": 0
+    },
+    {
+      "resource_id": "CRR-W03-VID-01",
+      "source_filename": "buoi_3.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/buoi_3.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_3",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 750607341,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_3/buoi_3_segments.json",
+      "timestamp_segment_count": 1217
+    },
+    {
+      "resource_id": "CRR-W04-EX-01",
+      "source_filename": "bai_tap_chuong_4_phan_1.docx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_4/bai_tap_chuong_4_phan_1.docx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_4",
+      "source_role": "exercise",
+      "file_type": "docx",
+      "bytes": 62901,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text"
+      ],
+      "evidence_locator_types": [
+        "exercise_id",
+        "text_anchor"
+      ],
+      "derived_artifacts": {},
+      "paragraph_count": 76,
+      "table_count": 1
+    },
+    {
+      "resource_id": "CRR-W04-EX-02",
+      "source_filename": "bai_tap_chuong_4_phan_2.docx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_4/bai_tap_chuong_4_phan_2.docx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_4",
+      "source_role": "exercise",
+      "file_type": "docx",
+      "bytes": 115339,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text"
+      ],
+      "evidence_locator_types": [
+        "exercise_id",
+        "text_anchor"
+      ],
+      "derived_artifacts": {},
+      "paragraph_count": 52,
+      "table_count": 2
+    },
+    {
+      "resource_id": "CRR-W04-VID-01",
+      "source_filename": "buoi_4.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_4/buoi_4.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_4",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 720670239,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_4/buoi_4_segments.json",
+      "timestamp_segment_count": 3627
+    },
+    {
+      "resource_id": "CRR-W05-SLD-01",
+      "source_filename": "Chuong_5_Ly_thuyet_do_thi_phan_2.pptx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_5/Chuong_5_Ly_thuyet_do_thi_phan_2.pptx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_5",
+      "source_role": "slides",
+      "file_type": "pptx",
+      "bytes": 1016932,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "slide_number"
+      ],
+      "derived_artifacts": {},
+      "slide_count": 43
+    },
+    {
+      "resource_id": "CRR-W05-EX-01",
+      "source_filename": "bai_tap_chuong_5.pdf",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_5/bai_tap_chuong_5.pdf",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_5",
+      "source_role": "exercise",
+      "file_type": "pdf",
+      "bytes": 220735,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 8
+    },
+    {
+      "resource_id": "CRR-W05-VID-01",
+      "source_filename": "buoi_5.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_5/buoi_5.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_5",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 843781466,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_5/buoi_5_segments.json",
+      "timestamp_segment_count": 1917
+    },
+    {
+      "resource_id": "CRR-W06-SLD-01",
+      "source_filename": "Chuong_6_Cay.pptx",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_6/Chuong_6_Cay.pptx",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_6",
+      "source_role": "slides",
+      "file_type": "pptx",
+      "bytes": 766836,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "slide_number"
+      ],
+      "derived_artifacts": {},
+      "slide_count": 41
+    },
+    {
+      "resource_id": "CRR-W06-EX-01",
+      "source_filename": "bai_tap_chuong_6.pdf",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_6/bai_tap_chuong_6.pdf",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_6",
+      "source_role": "exercise",
+      "file_type": "pdf",
+      "bytes": 219269,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 3
+    },
+    {
+      "resource_id": "CRR-W06-VID-01",
+      "source_filename": "buoi_6.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_6/buoi_6.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_6",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 876999741,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_6/buoi_6_segments.json",
+      "timestamp_segment_count": 3301
+    },
+    {
+      "resource_id": "CRR-W07-VID-01",
+      "source_filename": "buoi_7.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_7/buoi_7.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_7",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 678980812,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_7/buoi_7_segments.json",
+      "timestamp_segment_count": 1463
+    },
+    {
+      "resource_id": "CRR-W08-VID-01",
+      "source_filename": "buoi_8.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_8/buoi_8.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_8",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 837001244,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_8/buoi_8_segments.json",
+      "timestamp_segment_count": 3603
+    },
+    {
+      "resource_id": "CRR-W09-VID-01",
+      "source_filename": "buoi_9.mp4",
+      "relative_path": "assets/cau_truc_roi_rac/buoi_9/buoi_9.mp4",
+      "course": "Cấu trúc rời rạc",
+      "course_slug": "cau_truc_roi_rac",
+      "session": "buoi_9",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 706763586,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "cau_truc_roi_rac/buoi_9/buoi_9_segments.json",
+      "timestamp_segment_count": 3031
+    },
+    {
+      "resource_id": "NMLT-W01-PDF-01",
+      "source_filename": "01_Gioi_thieu_mon_hoc.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/01_Gioi_thieu_mon_hoc.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_1",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 544964,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 18
+    },
+    {
+      "resource_id": "NMLT-W01-PDF-02",
+      "source_filename": "03_Cac_KDL_Bien.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/03_Cac_KDL_Bien.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_1",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 516251,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 39
+    },
+    {
+      "resource_id": "NMLT-W01-PDF-03",
+      "source_filename": "04_Cac_phep_toan.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/04_Cac_phep_toan.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_1",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 668004,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 45
+    },
+    {
+      "resource_id": "NMLT-W01-VID-01",
+      "source_filename": "buoi_1_gioi_thieu_mon_hoc.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_1",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 348687891,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_1/buoi_1_gioi_thieu_mon_hoc_segments.json",
+      "timestamp_segment_count": 204
+    },
+    {
+      "resource_id": "NMLT-W02-PDF-01",
+      "source_filename": "Cau_truc_re_nhanh.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/Cau_truc_re_nhanh.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_2",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 467547,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 19
+    },
+    {
+      "resource_id": "NMLT-W02-PDF-02",
+      "source_filename": "Thuat_toan.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/Thuat_toan.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_2",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 587640,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 25
+    },
+    {
+      "resource_id": "NMLT-W02-VID-01",
+      "source_filename": "buoi_2_thuat_toan.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_2/buoi_2_thuat_toan.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_2",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 356838490,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_2/buoi_2_thuat_toan_segments.json",
+      "timestamp_segment_count": 2790
+    },
+    {
+      "resource_id": "NMLT-W03-PDF-01",
+      "source_filename": "Cau_truc_lap.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/Cau_truc_lap.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_3",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 633375,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 58
+    },
+    {
+      "resource_id": "NMLT-W03-VID-01",
+      "source_filename": "buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_3",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 376543347,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban_segments.json",
+      "timestamp_segment_count": 2516
+    },
+    {
+      "resource_id": "NMLT-W04-PDF-01",
+      "source_filename": "Ham.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_4/Ham.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_4",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 932881,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 35
+    },
+    {
+      "resource_id": "NMLT-W04-VID-01",
+      "source_filename": "buoi_4_cau_truc_dieu_khien.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_4/buoi_4_cau_truc_dieu_khien.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_4",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 307776862,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_4/buoi_4_cau_truc_dieu_khien_segments.json",
+      "timestamp_segment_count": 1345
+    },
+    {
+      "resource_id": "NMLT-W05-PDF-01",
+      "source_filename": "De_quy.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_5/De_quy.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_5",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 849530,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 16
+    },
+    {
+      "resource_id": "NMLT-W05-VID-01",
+      "source_filename": "buoi_5_function.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_5/buoi_5_function.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_5",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 346783477,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_5/buoi_5_function_segments.json",
+      "timestamp_segment_count": 2566
+    },
+    {
+      "resource_id": "NMLT-W06-PDF-01",
+      "source_filename": "Mang1Chieu.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/Mang1Chieu.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_6",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 567571,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 28
+    },
+    {
+      "resource_id": "NMLT-W06-VID-01",
+      "source_filename": "buoi_6_mang.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/buoi_6_mang.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_6",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 366526713,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_6/buoi_6_mang_segments.json",
+      "timestamp_segment_count": 2644
+    },
+    {
+      "resource_id": "NMLT-W07-PDF-01",
+      "source_filename": "Mang2Chieu.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_7/Mang2Chieu.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_7",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 374569,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 24
+    },
+    {
+      "resource_id": "NMLT-W07-VID-01",
+      "source_filename": "buoi_7_mang_hai_chieu_chuoi.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_7/buoi_7_mang_hai_chieu_chuoi.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_7",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 365292215,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_7/buoi_7_mang_hai_chieu_chuoi_segments.json",
+      "timestamp_segment_count": 3265
+    },
+    {
+      "resource_id": "NMLT-W08-PDF-01",
+      "source_filename": "Chuoi_ky_tu.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_8/Chuoi_ky_tu.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_8",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 208126,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 18
+    },
+    {
+      "resource_id": "NMLT-W08-VID-01",
+      "source_filename": "buoi_8_con_tro.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_8/buoi_8_con_tro.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_8",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 234669899,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_8/buoi_8_con_tro_segments.json",
+      "timestamp_segment_count": 1785
+    },
+    {
+      "resource_id": "NMLT-W09-PDF-01",
+      "source_filename": "Contro_P1.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/Contro_P1.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_9",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 1422642,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 58
+    },
+    {
+      "resource_id": "NMLT-W09-PDF-02",
+      "source_filename": "Contro_P2.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/Contro_P2.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_9",
+      "source_role": "lecture_notes",
+      "file_type": "pdf",
+      "bytes": 1133055,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 64
+    },
+    {
+      "resource_id": "NMLT-W09-VID-01",
+      "source_filename": "buoi_9_struct.mp4",
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_9/buoi_9_struct.mp4",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "buoi_9",
+      "source_role": "video_lecture",
+      "file_type": "mp4",
+      "bytes": 262538457,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "audio",
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "derived_artifacts": {
+        "timestamp_status": "available"
+      },
+      "timestamp_sidecar": "nhap_mon_lap_trinh/buoi_9/buoi_9_struct_segments.json",
+      "timestamp_segment_count": 1854
+    },
+    {
+      "resource_id": "NMLT-W0-OUT-01",
+      "source_filename": "IT001.M21.VB2_.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.M21.VB2_.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "de_cuong",
+      "source_role": "course_outline",
+      "file_type": "pdf",
+      "bytes": 225692,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 16,
+      "official_outline_status": "user_confirmed_official"
+    },
+    {
+      "resource_id": "NMLT-W0-OUT-02",
+      "source_filename": "IT001.N11.CNVN.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.CNVN.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "de_cuong",
+      "source_role": "course_outline",
+      "file_type": "pdf",
+      "bytes": 535726,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 16,
+      "official_outline_status": "user_confirmed_official"
+    },
+    {
+      "resource_id": "NMLT-W0-OUT-03",
+      "source_filename": "IT001.N11.VB2_.pdf",
+      "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.VB2_.pdf",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "de_cuong",
+      "source_role": "course_outline",
+      "file_type": "pdf",
+      "bytes": 225692,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text",
+        "image"
+      ],
+      "evidence_locator_types": [
+        "page_index_1based"
+      ],
+      "derived_artifacts": {},
+      "page_count": 16,
+      "official_outline_status": "user_confirmed_official"
+    },
+    {
+      "resource_id": "NMLT-W0-OUT-04",
+      "source_filename": "Noi_dung.docx",
+      "relative_path": "assets/nhap_mon_lap_trinh/de_cuong/Noi_dung.docx",
+      "course": "Nhập môn Lập trình",
+      "course_slug": "nhap_mon_lap_trinh",
+      "session": "de_cuong",
+      "source_role": "course_outline",
+      "file_type": "docx",
+      "bytes": 15226,
+      "human_verification": "pending",
+      "rights_status": "confirmed_by_user",
+      "modalities_available": [
+        "text"
+      ],
+      "evidence_locator_types": [
+        "exercise_id",
+        "text_anchor"
+      ],
+      "derived_artifacts": {},
+      "paragraph_count": 39,
+      "table_count": 1,
+      "official_outline_status": "user_confirmed_official"
+    }
+  ],
+  "rights_confirmation": {
+    "status": "confirmed_by_user",
+    "confirmed_on": "2026-09-15",
+    "scope": "Các PDF, PPTX, DOCX và video hiện có trong assets/ được người dùng xác nhận có quyền sử dụng cho dataset và repository."
+  },
+  "official_outline_confirmation": {
+    "status": "confirmed_by_user",
+    "course": "Nhập môn Lập trình",
+    "resources": [
+      "assets/nhap_mon_lap_trinh/de_cuong/IT001.M21.VB2_.pdf",
+      "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.CNVN.pdf",
+      "assets/nhap_mon_lap_trinh/de_cuong/IT001.N11.VB2_.pdf",
+      "assets/nhap_mon_lap_trinh/de_cuong/Noi_dung.docx"
+    ],
+    "note": "Người dùng xác nhận tất cả các file đề cương này là bản chính thức."
+  }
+}

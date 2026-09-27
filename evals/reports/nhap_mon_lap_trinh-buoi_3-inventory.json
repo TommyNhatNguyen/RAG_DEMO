@@ -1,0 +1,59 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/nhap_mon_lap_trinh/buoi_3",
+  "n_files": 2,
+  "bytes": 377176722,
+  "by_kind": {
+    "document": 1,
+    "video": 1
+  },
+  "by_suffix": {
+    "pdf": 1,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 633375,
+    "video": 376543347
+  },
+  "by_course": {
+    "nhap_mon_lap_trinh": {
+      "files": 2,
+      "bytes": 377176722,
+      "by_kind": {
+        "document": 1,
+        "video": 1
+      },
+      "by_suffix": {
+        "pdf": 1,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 376543347,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/Cau_truc_lap.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 633375,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_3/buoi_3_cac_kieu_du_lieu_co_ban.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 376543347,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ]
+}

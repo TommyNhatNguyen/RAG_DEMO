@@ -1,0 +1,69 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/cau_truc_roi_rac/buoi_3",
+  "n_files": 3,
+  "bytes": 752347550,
+  "by_kind": {
+    "document": 2,
+    "video": 1
+  },
+  "by_suffix": {
+    "pptx": 1,
+    "docx": 1,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 1740209,
+    "video": 750607341
+  },
+  "by_course": {
+    "cau_truc_roi_rac": {
+      "files": 3,
+      "bytes": 752347550,
+      "by_kind": {
+        "document": 2,
+        "video": 1
+      },
+      "by_suffix": {
+        "pptx": 1,
+        "docx": 1,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/buoi_3.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 750607341,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/Chuong_3_Quan_he.pptx",
+      "kind": "document",
+      "suffix": "pptx",
+      "bytes": 1653322,
+      "course": "cau_truc_roi_rac",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/bai_tap_chuong_3.docx",
+      "kind": "document",
+      "suffix": "docx",
+      "bytes": 86887,
+      "course": "cau_truc_roi_rac",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_3/buoi_3.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 750607341,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ]
+}

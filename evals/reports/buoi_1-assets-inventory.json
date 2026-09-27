@@ -1,0 +1,69 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/cau_truc_roi_rac/buoi_1",
+  "n_files": 3,
+  "bytes": 723381754,
+  "by_kind": {
+    "document": 2,
+    "video": 1
+  },
+  "by_suffix": {
+    "pdf": 1,
+    "pptx": 1,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 1949897,
+    "video": 721431857
+  },
+  "by_course": {
+    "cau_truc_roi_rac": {
+      "files": 3,
+      "bytes": 723381754,
+      "by_kind": {
+        "document": 2,
+        "video": 1
+      },
+      "by_suffix": {
+        "pdf": 1,
+        "pptx": 1,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 721431857,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong_1_Co_so_logic_slides_bai_tap.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 1054889,
+      "course": "cau_truc_roi_rac",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/Chuong_1_Co_so_logic_slides_bai_tap.pptx",
+      "kind": "document",
+      "suffix": "pptx",
+      "bytes": 895008,
+      "course": "cau_truc_roi_rac",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/cau_truc_roi_rac/buoi_1/buoi_1.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 721431857,
+      "course": "cau_truc_roi_rac",
+      "ingest": "skip"
+    }
+  ]
+}

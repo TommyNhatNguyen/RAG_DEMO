@@ -1,0 +1,59 @@
+{
+  "root": "/Users/VoThiXuanHoa/Documents/RAG project/RAG_DEMO/assets/nhap_mon_lap_trinh/buoi_6",
+  "n_files": 2,
+  "bytes": 367094284,
+  "by_kind": {
+    "document": 1,
+    "video": 1
+  },
+  "by_suffix": {
+    "pdf": 1,
+    "mp4": 1
+  },
+  "bytes_by_kind": {
+    "document": 567571,
+    "video": 366526713
+  },
+  "by_course": {
+    "nhap_mon_lap_trinh": {
+      "files": 2,
+      "bytes": 367094284,
+      "by_kind": {
+        "document": 1,
+        "video": 1
+      },
+      "by_suffix": {
+        "pdf": 1,
+        "mp4": 1
+      }
+    }
+  },
+  "videos": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/buoi_6_mang.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 366526713,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ],
+  "files": [
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/Mang1Chieu.pdf",
+      "kind": "document",
+      "suffix": "pdf",
+      "bytes": 567571,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "yes"
+    },
+    {
+      "relative_path": "assets/nhap_mon_lap_trinh/buoi_6/buoi_6_mang.mp4",
+      "kind": "video",
+      "suffix": "mp4",
+      "bytes": 366526713,
+      "course": "nhap_mon_lap_trinh",
+      "ingest": "skip"
+    }
+  ]
+}

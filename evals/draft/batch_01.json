@@ -1,0 +1,1565 @@
+[
+  {
+    "question_id": "Q001",
+    "primary_category": "video_grounded",
+    "question": "Trong video Buổi 4, phần về quan hệ tương đương được giới thiệu cùng những nội dung nào?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 4",
+      "user_role": "sinh viên ôn phần quan hệ"
+    },
+    "task_type": "giải thích",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Hỏi khái quát các chủ đề xuất hiện liền nhau trong một đoạn giảng."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Video giới thiệu quan hệ tương đương, lớp tương đương, tập hợp thương và việc phân hoạch tập hợp theo quan hệ tương đương.",
+    "required_points": [
+      {
+        "point_id": "Q001-P1",
+        "text": "Nêu quan hệ tương đương."
+      },
+      {
+        "point_id": "Q001-P2",
+        "text": "Nêu lớp tương đương."
+      },
+      {
+        "point_id": "Q001-P3",
+        "text": "Nêu tập hợp thương."
+      },
+      {
+        "point_id": "Q001-P4",
+        "text": "Nêu phân hoạch theo quan hệ tương đương."
+      }
+    ],
+    "required_source_types": [
+      "video"
+    ],
+    "required_modalities": [
+      "audio",
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q001-1",
+        "supports_point_ids": [
+          "Q001-P1",
+          "Q001-P2",
+          "Q001-P3",
+          "Q001-P4"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W04-VID-01",
+            "source_filename": "buoi_4.mp4",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": 32.0,
+              "end_seconds": 57.0,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Đoạn transcript nói về định nghĩa quan hệ tương đương, lớp tương đương, tập hợp thương và phân hoạch.",
+            "support_reason": "Đây là đoạn video chứa các chủ đề được hỏi."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-REL-EQUIV-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Transcript có lỗi ASR nhẹ; cần nghe lại 32–57 giây trước khi chốt đáp án."
+  },
+  {
+    "question_id": "Q002",
+    "primary_category": "video_grounded",
+    "question": "Video Buổi 2 mô tả thuật toán là gì?",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 2",
+      "user_role": "sinh viên học khái niệm thuật toán"
+    },
+    "task_type": "định nghĩa",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Yêu cầu lấy định nghĩa trực tiếp từ một đoạn giảng."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Thuật toán là một dãy hữu hạn các thao tác hoặc chỉ thị được sắp xếp theo trình tự xác định để giải quyết một bài toán hay vấn đề cụ thể.",
+    "required_points": [
+      {
+        "point_id": "Q002-P1",
+        "text": "Thuật toán gồm một tập hợp hoặc dãy hữu hạn thao tác/chỉ thị."
+      },
+      {
+        "point_id": "Q002-P2",
+        "text": "Các thao tác được dùng để giải quyết một bài toán hoặc vấn đề cụ thể."
+      },
+      {
+        "point_id": "Q002-P3",
+        "text": "Các thao tác được thực hiện theo trình tự xác định."
+      }
+    ],
+    "required_source_types": [
+      "video"
+    ],
+    "required_modalities": [
+      "audio",
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q002-1",
+        "supports_point_ids": [
+          "Q002-P1",
+          "Q002-P2",
+          "Q002-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W02-VID-01",
+            "source_filename": "buoi_2_thuat_toan.mp4",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": 947.1,
+              "end_seconds": 977.0,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Video nêu thuật toán là một dãy hữu hạn các thao tác để giải quyết bài toán/vấn đề và tiếp tục nhắc đến tập hợp hữu hạn các chỉ thị.",
+            "support_reason": "Đoạn timestamp chứa phần giải thích trực tiếp về định nghĩa thuật toán."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "partial",
+    "leakage_group_id": "LG-NMLT-ALGORITHM-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Transcript có câu ASR sai chữ; cần nghe lại và đối chiếu với PDF trước khi xác nhận văn bản cuối."
+  },
+  {
+    "question_id": "Q003",
+    "primary_category": "video_grounded",
+    "question": "Trong phần nói về các tính chất của quan hệ, từ “symmetric” tương ứng với tính chất nào và video giải thích ngắn gọn ra sao?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 4",
+      "user_role": "sinh viên ôn các tính chất của quan hệ"
+    },
+    "task_type": "giải thích",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Cần nhận diện thuật ngữ tiếng Anh và diễn giải một mô tả ngắn trong video."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "“Symmetric” là tính đối xứng; video diễn đạt ngắn gọn là tính chất có qua có lại.",
+    "required_points": [
+      {
+        "point_id": "Q003-P1",
+        "text": "Symmetric tương ứng với tính đối xứng."
+      },
+      {
+        "point_id": "Q003-P2",
+        "text": "Mô tả trong video là quan hệ có qua có lại."
+      }
+    ],
+    "required_source_types": [
+      "video"
+    ],
+    "required_modalities": [
+      "audio",
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q003-1",
+        "supports_point_ids": [
+          "Q003-P1",
+          "Q003-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W04-VID-01",
+            "source_filename": "buoi_4.mp4",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": 1251.0,
+              "end_seconds": 1263.0,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Transcript nêu “Symmetric”, gọi là tính đối xứng và mô tả là có qua có lại.",
+            "support_reason": "Timestamp chứa cả thuật ngữ và phần diễn giải được hỏi."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-REL-PROPERTIES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Cần kiểm tra âm thanh vì transcript tự động có thể làm sai thuật ngữ tiếng Anh."
+  },
+  {
+    "question_id": "Q004",
+    "primary_category": "slide_grounded",
+    "question": "Theo slide, mệnh đề là gì và một mệnh đề có thể nhận những chân trị nào?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 1",
+      "chapter": "Chương 1: Cơ sở logic",
+      "user_role": "sinh viên học khái niệm mệnh đề"
+    },
+    "task_type": "định nghĩa",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Định nghĩa và hai giá trị chân trị nằm trực tiếp trên các slide đầu chương."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Mệnh đề là một khẳng định có giá trị chân lý xác định, đúng hoặc sai. Vì vậy, một mệnh đề chỉ có thể đúng hoặc sai, thường ký hiệu chân trị lần lượt là 1 và 0.",
+    "required_points": [
+      {
+        "point_id": "Q004-P1",
+        "text": "Mệnh đề là một khẳng định có giá trị chân lý xác định."
+      },
+      {
+        "point_id": "Q004-P2",
+        "text": "Hai khả năng chân trị là đúng và sai."
+      },
+      {
+        "point_id": "Q004-P3",
+        "text": "Ký hiệu được nêu là 1 cho đúng và 0 cho sai."
+      }
+    ],
+    "required_source_types": [
+      "pptx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q004-1",
+        "supports_point_ids": [
+          "Q004-P1",
+          "Q004-P2",
+          "Q004-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W01-SLD-01",
+            "source_filename": "Chuong_1_Co_so_logic_slides_bai_tap.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 3,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 3 định nghĩa mệnh đề là khẳng định có giá trị chân lý xác định, đúng hoặc sai.",
+            "support_reason": "Slide 3 hỗ trợ định nghĩa và hai khả năng đúng/sai."
+          },
+          {
+            "resource_id": "CRR-W01-SLD-01",
+            "source_filename": "Chuong_1_Co_so_logic_slides_bai_tap.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 4,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 4 nêu mệnh đề chỉ có thể đúng hoặc sai và ký hiệu chân trị đúng/sai lần lượt là 1 và 0.",
+            "support_reason": "Slide 4 hỗ trợ phần chân trị và ký hiệu."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-LOGIC-PROPOSITION-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Kiểm tra lại ký hiệu Đ/T và S/F nếu muốn đưa toàn bộ biến thể ký hiệu vào đáp án."
+  },
+  {
+    "question_id": "Q005",
+    "primary_category": "slide_grounded",
+    "question": "Tập lũy thừa P(X) được định nghĩa như thế nào? Nếu X có n phần tử thì P(X) có bao nhiêu phần tử?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 2",
+      "chapter": "Chương 2: Các phương pháp đếm",
+      "user_role": "sinh viên ôn tập hợp"
+    },
+    "task_type": "định nghĩa",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Yêu cầu định nghĩa và công thức được nêu trên một slide."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "P(X) là tập hợp gồm tất cả các tập con của X. Nếu X có n phần tử thì P(X) có 2^n phần tử.",
+    "required_points": [
+      {
+        "point_id": "Q005-P1",
+        "text": "P(X) gồm tất cả các tập con của X."
+      },
+      {
+        "point_id": "Q005-P2",
+        "text": "Nếu X có n phần tử thì lực lượng của P(X) là 2^n."
+      }
+    ],
+    "required_source_types": [
+      "pptx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q005-1",
+        "supports_point_ids": [
+          "Q005-P1",
+          "Q005-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W02-SLD-01",
+            "source_filename": "Chuong_2_Phep_dem.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 11,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 11 định nghĩa P(X) là tập các tập con của X và nêu nếu X có n phần tử thì P(X) có 2^n phần tử.",
+            "support_reason": "Một slide hỗ trợ cả định nghĩa và công thức."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-SET-POWERSET-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Xác minh cách hiển thị số mũ trên bản slide gốc khi chuẩn hóa đáp án."
+  },
+  {
+    "question_id": "Q006",
+    "primary_category": "slide_grounded",
+    "question": "Ba cách duyệt cây nhị phân được nêu trong slide là gì, và thứ tự thăm nút của từng cách ra sao?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 6",
+      "chapter": "Chương 6: Cây",
+      "user_role": "sinh viên học duyệt cây nhị phân"
+    },
+    "task_type": "so sánh",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "medium",
+      "reason": "Cần phân biệt ba quy tắc thứ tự thay vì chỉ nhớ tên."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Ba cách là tiền tự, trung tự và hậu tự. Tiền tự thăm gốc rồi con trái rồi con phải; trung tự thăm con trái, gốc rồi con phải; hậu tự thăm con trái, con phải rồi gốc.",
+    "required_points": [
+      {
+        "point_id": "Q006-P1",
+        "text": "Nêu đủ tiền tự, trung tự và hậu tự."
+      },
+      {
+        "point_id": "Q006-P2",
+        "text": "Tiền tự có thứ tự gốc - trái - phải."
+      },
+      {
+        "point_id": "Q006-P3",
+        "text": "Trung tự có thứ tự trái - gốc - phải."
+      },
+      {
+        "point_id": "Q006-P4",
+        "text": "Hậu tự có thứ tự trái - phải - gốc."
+      }
+    ],
+    "required_source_types": [
+      "pptx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q006-1",
+        "supports_point_ids": [
+          "Q006-P1",
+          "Q006-P2",
+          "Q006-P3",
+          "Q006-P4"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W06-SLD-01",
+            "source_filename": "Chuong_6_Cay.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 11,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 11 nêu ba phương pháp duyệt: Pre-Order, In-Order và Post-Order.",
+            "support_reason": "Slide 11 hỗ trợ danh sách phương pháp."
+          },
+          {
+            "resource_id": "CRR-W06-SLD-01",
+            "source_filename": "Chuong_6_Cay.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 12,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 12 trình bày tiền tự: gốc, con trái, con phải.",
+            "support_reason": "Slide 12 hỗ trợ thứ tự tiền tự."
+          },
+          {
+            "resource_id": "CRR-W06-SLD-01",
+            "source_filename": "Chuong_6_Cay.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 13,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 13 trình bày trung tự: con trái, gốc, con phải.",
+            "support_reason": "Slide 13 hỗ trợ thứ tự trung tự."
+          },
+          {
+            "resource_id": "CRR-W06-SLD-01",
+            "source_filename": "Chuong_6_Cay.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 14,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 14 trình bày hậu tự: con trái, con phải, gốc.",
+            "support_reason": "Slide 14 hỗ trợ thứ tự hậu tự."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-TREE-TRAVERSAL-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không dùng ví dụ cây cụ thể trong câu hỏi này; nếu dùng ví dụ cần kiểm tra lại nhãn nút trên hình."
+  },
+  {
+    "question_id": "Q007",
+    "primary_category": "slide_grounded",
+    "question": "Theo slide, điều kiện giới hạn nào cần lưu ý khi dùng thuật toán Dijkstra?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 5",
+      "chapter": "Chương 5: Lý thuyết đồ thị",
+      "user_role": "sinh viên ôn đường đi ngắn nhất"
+    },
+    "task_type": "giải thích",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Yêu cầu lấy một nhận xét giới hạn được ghi rõ trên slide."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Slide lưu ý Dijkstra chỉ đúng cho đồ thị có trọng số không âm.",
+    "required_points": [
+      {
+        "point_id": "Q007-P1",
+        "text": "Nêu Dijkstra chỉ áp dụng đúng khi trọng số không âm."
+      }
+    ],
+    "required_source_types": [
+      "pptx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q007-1",
+        "supports_point_ids": [
+          "Q007-P1"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W05-SLD-01",
+            "source_filename": "Chuong_5_Ly_thuyet_do_thi_phan_2.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 41,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 41 ghi nhận xét thuật toán Dijkstra chỉ đúng cho đồ thị có trọng số không âm.",
+            "support_reason": "Slide chứa trực tiếp điều kiện giới hạn được hỏi."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-GRAPH-DIJKSTRA-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Cần giữ rõ điều kiện không âm; không mở rộng thành kết luận về mọi thuật toán đường đi ngắn nhất."
+  },
+  {
+    "question_id": "Q008",
+    "primary_category": "pdf_grounded",
+    "question": "Cú pháp tổng quát của cấu trúc if-else được ghi trong tài liệu là gì?",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 2",
+      "chapter": "Cấu trúc rẽ nhánh",
+      "user_role": "sinh viên ôn cú pháp C++"
+    },
+    "task_type": "định nghĩa",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Cú pháp nằm trực tiếp ở một trang PDF."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Cú pháp được ghi là: if (btđk) lệnh 1; else lệnh 2;",
+    "required_points": [
+      {
+        "point_id": "Q008-P1",
+        "text": "Có từ khóa if và biểu thức điều kiện."
+      },
+      {
+        "point_id": "Q008-P2",
+        "text": "Có lệnh thứ nhất sau điều kiện."
+      },
+      {
+        "point_id": "Q008-P3",
+        "text": "Có nhánh else với lệnh thứ hai."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q008-1",
+        "supports_point_ids": [
+          "Q008-P1",
+          "Q008-P2",
+          "Q008-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W02-PDF-01",
+            "source_filename": "Cau_truc_re_nhanh.pdf",
+            "locator": {
+              "page_index_1based": 11,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Trang 11 ghi: if (btđk) lệnh 1; else lệnh 2;",
+            "support_reason": "Trang PDF chứa cú pháp if-else được hỏi."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-NMLT-BRANCH-IFELSE-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Kiểm tra lại ký hiệu viết tắt btđk trên bản PDF gốc khi chuẩn hóa."
+  },
+  {
+    "question_id": "Q009",
+    "primary_category": "pdf_grounded",
+    "question": "Tài liệu Thuật toán nêu những yêu cầu học tập nào liên quan đến biểu diễn và theo dõi một thuật toán?",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 2",
+      "chapter": "Thuật toán",
+      "user_role": "sinh viên xem mục chuẩn đầu ra của buổi học"
+    },
+    "task_type": "tổng hợp",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "medium",
+      "reason": "Cần gom nhiều ý ở mục chuẩn đầu ra, không chỉ lấy một dòng."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Tài liệu yêu cầu sinh viên hiểu khái niệm, tiêu chuẩn và phương pháp biểu diễn thuật toán; biết dùng lưu đồ hoặc mã giả để mô tả thuật toán đơn giản; và diễn tả quá trình thực hiện thuật toán trên một bộ dữ liệu cụ thể.",
+    "required_points": [
+      {
+        "point_id": "Q009-P1",
+        "text": "Hiểu khái niệm, tiêu chuẩn và phương pháp biểu diễn thuật toán."
+      },
+      {
+        "point_id": "Q009-P2",
+        "text": "Biết áp dụng lưu đồ hoặc mã giả cho thuật toán đơn giản."
+      },
+      {
+        "point_id": "Q009-P3",
+        "text": "Biết diễn tả quá trình thực hiện trên bộ dữ liệu cụ thể."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q009-1",
+        "supports_point_ids": [
+          "Q009-P1",
+          "Q009-P2",
+          "Q009-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W02-PDF-02",
+            "source_filename": "Thuat_toan.pdf",
+            "locator": {
+              "page_index_1based": 2,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Trang 2 nêu hiểu khái niệm cơ bản, tiêu chuẩn và phương pháp biểu diễn; áp dụng lưu đồ/mã giả; diễn tả quá trình thực hiện trên bộ dữ liệu cụ thể.",
+            "support_reason": "Các yêu cầu được trích từ mục chuẩn đầu ra của tài liệu."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-NMLT-ALGORITHM-OUTCOME-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Đây là câu hỏi về nội dung PDF, không phải metadata chính thức của toàn khóa học."
+  },
+  {
+    "question_id": "Q010",
+    "primary_category": "pdf_grounded",
+    "question": "Trong tài liệu Các kiểu dữ liệu cơ bản, tên hoặc identifier được định nghĩa là gì và được tạo thành từ những thành phần nào?",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 1",
+      "chapter": "Các kiểu dữ liệu cơ bản",
+      "user_role": "sinh viên ôn quy tắc đặt tên"
+    },
+    "task_type": "định nghĩa",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Định nghĩa và quy tắc tạo identifier nằm cùng mục trong PDF."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Identifier là một dãy ký tự dùng để đặt tên cho hằng, biến, kiểu dữ liệu hoặc hàm; tài liệu nêu nó được tạo từ chữ cái, chữ số và dấu gạch dưới.",
+    "required_points": [
+      {
+        "point_id": "Q010-P1",
+        "text": "Identifier dùng để đặt tên cho hằng, biến, kiểu dữ liệu hoặc hàm."
+      },
+      {
+        "point_id": "Q010-P2",
+        "text": "Identifier được tạo từ chữ cái, chữ số và dấu gạch dưới."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q010-1",
+        "supports_point_ids": [
+          "Q010-P1",
+          "Q010-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W01-PDF-02",
+            "source_filename": "03_Cac_KDL_Bien.pdf",
+            "locator": {
+              "page_index_1based": 7,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Trang 7 định nghĩa tên/Identifier và ghi identifier được tạo từ chữ cái, chữ số, dấu gạch nối dưới.",
+            "support_reason": "Trang PDF hỗ trợ định nghĩa và thành phần cấu tạo."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-NMLT-IDENTIFIER-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không đưa toàn bộ quy ước đặt tên vào đáp án vì câu hỏi chỉ yêu cầu định nghĩa và thành phần."
+  },
+  {
+    "question_id": "Q011",
+    "primary_category": "pdf_grounded",
+    "question": "Với x bắt đầu bằng 5, tài liệu minh họa sự khác nhau giữa ++x và x++ như thế nào?",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 1",
+      "chapter": "Các phép toán",
+      "user_role": "sinh viên ôn toán tử tăng"
+    },
+    "task_type": "so sánh",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "medium",
+      "reason": "Cần đọc hai ví dụ và so sánh giá trị của x và y."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Với int x = 5; int y = ++x;, x được tăng trước nên x = 6 và y = 6. Với int x = 5; int y = x++;, y nhận giá trị cũ 5 rồi x mới tăng thành 6.",
+    "required_points": [
+      {
+        "point_id": "Q011-P1",
+        "text": "++x tăng x trước khi gán cho y, nên x và y đều bằng 6 trong ví dụ."
+      },
+      {
+        "point_id": "Q011-P2",
+        "text": "x++ gán giá trị cũ cho y trước, nên y bằng 5 và x sau đó bằng 6."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q011-1",
+        "supports_point_ids": [
+          "Q011-P1",
+          "Q011-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W01-PDF-03",
+            "source_filename": "04_Cac_phep_toan.pdf",
+            "locator": {
+              "page_index_1based": 7,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Trang 7 có hai ví dụ: y = ++x cho x = 6, y = 6; y = x++ cho y = 5, x = 6.",
+            "support_reason": "Hai ví dụ trên cùng trang là bằng chứng trực tiếp cho phần so sánh."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-NMLT-OPERATORS-INCREMENT-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Đối chiếu lại mã nguồn hiển thị trên PDF để tránh nhầm thứ tự toán tử với phần diễn giải."
+  },
+  {
+    "question_id": "Q012",
+    "primary_category": "exercise_grounded",
+    "question": "Bài 03 trong tài liệu bài tập chương 5 yêu cầu người học vẽ những đồ thị nào?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 5",
+      "chapter": "Chương 5: Lý thuyết đồ thị",
+      "user_role": "sinh viên tìm bài tập cần làm"
+    },
+    "task_type": "tìm bài tập",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Chỉ cần định vị Bài 03 và liệt kê các mục trong đề bài."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Bài 03 yêu cầu vẽ K7, K1,8, K4,4, C7 và W7.",
+    "required_points": [
+      {
+        "point_id": "Q012-P1",
+        "text": "Nhận diện đúng đây là Bài 03."
+      },
+      {
+        "point_id": "Q012-P2",
+        "text": "Liệt kê đủ K7, K1,8, K4,4, C7 và W7 theo tài liệu."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q012-1",
+        "supports_point_ids": [
+          "Q012-P1",
+          "Q012-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W05-EX-01",
+            "source_filename": "bai_tap_chuong_5.pdf",
+            "locator": {
+              "page_index_1based": 1,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": "Bài 03",
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Bài 03 ghi yêu cầu vẽ K7, K1,8, K4,4, C7 và W7.",
+            "support_reason": "Trang đầu của tài liệu chứa trọn yêu cầu bài tập."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "partial",
+    "leakage_group_id": "LG-CRR-GRAPH-EXERCISES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "PDF có mã hóa ký tự cũ và ký hiệu chỉ số; cần kiểm tra hình thức viết K1,8 và K4,4 trên bản gốc."
+  },
+  {
+    "question_id": "Q013",
+    "primary_category": "exercise_grounded",
+    "question": "Bài 3 trong bài tập chương 3 yêu cầu làm những gì với quan hệ R trên tập A đã cho?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 3",
+      "chapter": "Chương 3: Quan hệ",
+      "user_role": "sinh viên xác định yêu cầu bài tập"
+    },
+    "task_type": "tìm bài tập",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Câu hỏi yêu cầu định vị và tóm tắt yêu cầu bài, chưa yêu cầu giải."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Bài 3 cho A = {-2, -1, 0, 2, 3} và quan hệ xRy khi x^2 - 2x = y^2 - 2y; yêu cầu liệt kê các cặp của R trên A và tìm một tập vô hạn X để R là quan hệ trên X, kèm giải thích.",
+    "required_points": [
+      {
+        "point_id": "Q013-P1",
+        "text": "Nêu đúng tập A và điều kiện xác định quan hệ."
+      },
+      {
+        "point_id": "Q013-P2",
+        "text": "Bài yêu cầu liệt kê các phần tử/cặp của R trên A."
+      },
+      {
+        "point_id": "Q013-P3",
+        "text": "Bài yêu cầu tìm tập X vô hạn và giải thích."
+      }
+    ],
+    "required_source_types": [
+      "docx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q013-1",
+        "supports_point_ids": [
+          "Q013-P1",
+          "Q013-P2",
+          "Q013-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W03-EX-01",
+            "source_filename": "bai_tap_chuong_3.docx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": "Bài 3",
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Bài 3 nêu A = {-2,-1,0,2,3}, xRy khi x^2 - 2x = y^2 - 2y; yêu cầu liệt kê R trên A và tìm X vô hạn.",
+            "support_reason": "Đoạn DOCX chứa đầy đủ yêu cầu của Bài 3."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-REL-EXERCISES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không đưa lời giải vào draft_answer; kiểm tra các số mũ sau khi mở DOCX bằng trình soạn thảo."
+  },
+  {
+    "question_id": "Q014",
+    "primary_category": "exercise_grounded",
+    "question": "Bài 4 trong bài tập chương 6 đặt bài toán gì về cây 5-phân đầy đủ?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 6",
+      "chapter": "Chương 6: Cây",
+      "user_role": "sinh viên tìm bài tập về cây m-phân"
+    },
+    "task_type": "tìm bài tập",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Câu hỏi chỉ yêu cầu nhận diện yêu cầu bài tập."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Bài 4 cho một cây 5-phân đầy đủ có 100 đỉnh trong và hỏi cây có tất cả bao nhiêu đỉnh.",
+    "required_points": [
+      {
+        "point_id": "Q014-P1",
+        "text": "Nhận diện cây 5-phân đầy đủ."
+      },
+      {
+        "point_id": "Q014-P2",
+        "text": "Nêu số đỉnh trong là 100."
+      },
+      {
+        "point_id": "Q014-P3",
+        "text": "Nêu yêu cầu tìm tổng số đỉnh."
+      }
+    ],
+    "required_source_types": [
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q014-1",
+        "supports_point_ids": [
+          "Q014-P1",
+          "Q014-P2",
+          "Q014-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W06-EX-01",
+            "source_filename": "bai_tap_chuong_6.pdf",
+            "locator": {
+              "page_index_1based": 1,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": "Bài 4",
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Bài 4 hỏi một cây 5-phân đầy đủ có 100 đỉnh trong có tất cả bao nhiêu đỉnh.",
+            "support_reason": "Trang 1 chứa trực tiếp đề bài."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-TREE-EXERCISES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Chỉ tóm tắt yêu cầu, chưa đưa công thức hay kết quả số."
+  },
+  {
+    "question_id": "Q015",
+    "primary_category": "exercise_grounded",
+    "question": "Bài 5 của phần bài tập Đại số Bool yêu cầu thiết kế mạch cho tình huống bỏ phiếu như thế nào?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 4",
+      "chapter": "Chương 4: Đại số Bool",
+      "user_role": "sinh viên tìm bài tập thiết kế mạch"
+    },
+    "task_type": "tìm bài tập",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Yêu cầu định vị một bài tập tình huống trong DOCX."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Bài 5 mô tả một ủy ban có 3 thành viên, mỗi người bỏ phiếu tán thành hoặc không; đề nghị được thông qua khi có ít nhất 2 phiếu tán thành. Bài yêu cầu thiết kế mạch xác định đề nghị có được thông qua hay không.",
+    "required_points": [
+      {
+        "point_id": "Q015-P1",
+        "text": "Có 3 thành viên và mỗi người có hai lựa chọn bỏ phiếu."
+      },
+      {
+        "point_id": "Q015-P2",
+        "text": "Đề nghị được thông qua khi có ít nhất 2 phiếu tán thành."
+      },
+      {
+        "point_id": "Q015-P3",
+        "text": "Yêu cầu là thiết kế mạch quyết định kết quả thông qua."
+      }
+    ],
+    "required_source_types": [
+      "docx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q015-1",
+        "supports_point_ids": [
+          "Q015-P1",
+          "Q015-P2",
+          "Q015-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W04-EX-02",
+            "source_filename": "bai_tap_chuong_4_phan_2.docx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": "Bài 5",
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Bài 5 mô tả 3 thành viên bỏ phiếu và yêu cầu thông qua khi có ít nhất 2 phiếu tán thành, sau đó yêu cầu thiết kế mạch.",
+            "support_reason": "DOCX chứa nguyên văn tình huống và yêu cầu thiết kế."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-BOOL-CIRCUIT-EXERCISES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không tự đưa biểu thức Bool hoặc sơ đồ mạch vì câu hỏi chỉ hỏi yêu cầu của bài tập."
+  },
+  {
+    "question_id": "Q016",
+    "primary_category": "metadata_grounded",
+    "question": "Theo đề cương, mã môn học và số tín chỉ của Cấu trúc rời rạc là bao nhiêu?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "user_role": "sinh viên tra thông tin môn học"
+    },
+    "task_type": "tra metadata",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Hai trường metadata nằm ở phần thông tin chung của đề cương."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Mã môn học là MA004 và số tín chỉ là 04.",
+    "required_points": [
+      {
+        "point_id": "Q016-P1",
+        "text": "Mã môn học là MA004."
+      },
+      {
+        "point_id": "Q016-P2",
+        "text": "Số tín chỉ là 04."
+      }
+    ],
+    "required_source_types": [
+      "course_outline"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q016-1",
+        "supports_point_ids": [
+          "Q016-P1",
+          "Q016-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W0-OUT-01",
+            "source_filename": "De_cuong_mon_hoc.pdf",
+            "locator": {
+              "page_index_1based": 1,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": "course_code,credits"
+            },
+            "evidence_excerpt_or_visual_description": "Phần thông tin chung ghi MA004 - CẤU TRÚC RỜI RẠC và Số tín chỉ: 04.",
+            "support_reason": "Đề cương là nguồn chính cho hai trường metadata."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-METADATA-IDENTITY-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Cần xác nhận bản đề cương này là phiên bản chính thức dùng cho hệ thống."
+  },
+  {
+    "question_id": "Q017",
+    "primary_category": "metadata_grounded",
+    "question": "Đề cương Cấu trúc rời rạc ghi môn học tiên quyết và môn học trước là gì?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "user_role": "sinh viên kiểm tra điều kiện học môn"
+    },
+    "task_type": "tra metadata",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "easy",
+      "reason": "Hỏi hai trường điều kiện học được ghi rõ trong đề cương."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Đề cương ghi môn học tiên quyết: Không có; môn học trước: Không có.",
+    "required_points": [
+      {
+        "point_id": "Q017-P1",
+        "text": "Môn học tiên quyết được ghi là không có."
+      },
+      {
+        "point_id": "Q017-P2",
+        "text": "Môn học trước được ghi là không có."
+      }
+    ],
+    "required_source_types": [
+      "course_outline"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q017-1",
+        "supports_point_ids": [
+          "Q017-P1",
+          "Q017-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W0-OUT-01",
+            "source_filename": "De_cuong_mon_hoc.pdf",
+            "locator": {
+              "page_index_1based": 1,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": "prerequisite_course,prior_course"
+            },
+            "evidence_excerpt_or_visual_description": "Phần thông tin chung ghi Môn học tiên quyết: Không có và Môn học trước: Không có.",
+            "support_reason": "Đề cương cung cấp trực tiếp hai trường metadata."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": null,
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-METADATA-PREREQUISITES-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không suy diễn quan hệ tiên quyết giữa các chương từ thứ tự buổi học."
+  },
+  {
+    "question_id": "Q018",
+    "primary_category": "cross_source",
+    "question": "Chương 2 của Cấu trúc rời rạc bao quát những nhóm chủ đề nào, và slide minh họa riêng tập lũy thừa P(X) bằng quy tắc nào?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "chapter": "Chương 2: Các phương pháp đếm",
+      "user_role": "sinh viên muốn nối mục lục đề cương với nội dung slide"
+    },
+    "task_type": "tổng hợp",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "hard",
+      "reason": "Cần kết hợp phạm vi chương trong đề cương với một khái niệm cụ thể trên slide."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Đề cương bao quát tập hợp và tập hợp con, biểu diễn tập hợp, các phép toán tập hợp, tích Descartes, các nguyên lý cộng/nhân/chuồng bồ câu, hoán vị - tổ hợp - chỉnh hợp, công thức nhị thức Newton và các dạng lặp. Slide minh họa P(X) là tập tất cả các tập con của X và nếu X có n phần tử thì P(X) có 2^n phần tử.",
+    "required_points": [
+      {
+        "point_id": "Q018-P1",
+        "text": "Nêu các nhóm chủ đề chính của Chương 2 theo đề cương."
+      },
+      {
+        "point_id": "Q018-P2",
+        "text": "Giải thích P(X) là tập các tập con của X."
+      },
+      {
+        "point_id": "Q018-P3",
+        "text": "Nêu quy tắc lực lượng P(X) là 2^n khi X có n phần tử."
+      }
+    ],
+    "required_source_types": [
+      "course_outline",
+      "pptx"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q018-1",
+        "supports_point_ids": [
+          "Q018-P1"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W0-OUT-01",
+            "source_filename": "De_cuong_mon_hoc.pdf",
+            "locator": {
+              "page_index_1based": 4,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": "lesson_plan.chapter_2"
+            },
+            "evidence_excerpt_or_visual_description": "Bảng kế hoạch giảng dạy liệt kê Chương 2 với tập hợp, các phép toán tập hợp, tích Descartes, nguyên lý cộng/nhân/chuồng bồ câu, hoán vị/tổ hợp/chỉnh hợp và các dạng lặp.",
+            "support_reason": "Đề cương xác định phạm vi chủ đề của chương."
+          }
+        ]
+      },
+      {
+        "group_id": "EG-Q018-2",
+        "supports_point_ids": [
+          "Q018-P2",
+          "Q018-P3"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W02-SLD-01",
+            "source_filename": "Chuong_2_Phep_dem.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 11,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 11 định nghĩa P(X) là tập hợp mà mỗi phần tử là một tập con của X và nêu lực lượng 2^n.",
+            "support_reason": "Slide bổ sung chi tiết khái niệm cụ thể mà đề cương chỉ liệt kê ở mức chương."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": "Đề cương cung cấp phạm vi chương, còn slide cung cấp định nghĩa và công thức P(X); một nguồn không đủ cho toàn bộ câu trả lời.",
+    "absence_check": null,
+    "evidence_label_coverage": "partial",
+    "leakage_group_id": "LG-CRR-COUNTING-SCOPE-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Kiểm tra lại phần đầu của hàng Chương 2 trên bản PDF đề cương; bảng có thể bị Docling tách thành nhiều mảnh."
+  },
+  {
+    "question_id": "Q019",
+    "primary_category": "cross_source",
+    "question": "Hãy kết hợp tài liệu PDF và video Buổi 2 để nêu khái niệm thuật toán và các cách biểu diễn thuật toán được học.",
+    "query_context": {
+      "course": "Nhập môn Lập trình",
+      "session": "Buổi 2",
+      "chapter": "Thuật toán",
+      "user_role": "sinh viên cần tóm tắt nội dung buổi học từ nhiều nguồn"
+    },
+    "task_type": "tổng hợp",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "medium",
+      "reason": "Cần lấy định nghĩa từ video và danh sách phương pháp từ PDF."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Thuật toán là dãy hữu hạn các thao tác/chỉ thị được sắp xếp theo trình tự xác định để giải quyết một bài toán cụ thể. Tài liệu PDF nêu ba cách biểu diễn: ngôn ngữ tự nhiên, lưu đồ/sơ đồ khối và mã giả.",
+    "required_points": [
+      {
+        "point_id": "Q019-P1",
+        "text": "Nêu thuật toán là dãy hữu hạn thao tác/chỉ thị cho một bài toán cụ thể."
+      },
+      {
+        "point_id": "Q019-P2",
+        "text": "Nêu ba cách biểu diễn: ngôn ngữ tự nhiên, lưu đồ và mã giả."
+      }
+    ],
+    "required_source_types": [
+      "pdf",
+      "video"
+    ],
+    "required_modalities": [
+      "audio",
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q019-1",
+        "supports_point_ids": [
+          "Q019-P1"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W02-VID-01",
+            "source_filename": "buoi_2_thuat_toan.mp4",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": 950.1,
+              "end_seconds": 977.0,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Video diễn đạt thuật toán là một dãy hữu hạn các thao tác/chỉ thị để giải quyết bài toán hoặc vấn đề.",
+            "support_reason": "Video cung cấp phần diễn giải bằng lời."
+          }
+        ]
+      },
+      {
+        "group_id": "EG-Q019-2",
+        "supports_point_ids": [
+          "Q019-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "NMLT-W02-PDF-02",
+            "source_filename": "Thuat_toan.pdf",
+            "locator": {
+              "page_index_1based": 11,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Trang 11 liệt kê dùng ngôn ngữ tự nhiên, lưu đồ/sơ đồ khối và mã giả để biểu diễn thuật toán.",
+            "support_reason": "PDF bổ sung danh sách phương pháp biểu diễn mà đoạn video được chọn không cung cấp đầy đủ."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": "Video hỗ trợ khái niệm bằng lời; PDF hỗ trợ danh sách phương pháp biểu diễn. Hai phần đóng góp khác nhau.",
+    "absence_check": null,
+    "evidence_label_coverage": "partial",
+    "leakage_group_id": "LG-NMLT-ALGORITHM-MULTISOURCE-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Transcript video có ASR lỗi; cần nghe lại đoạn 950.1–977.0 giây và kiểm tra thuật ngữ."
+  },
+  {
+    "question_id": "Q020",
+    "primary_category": "cross_source",
+    "question": "Dựa vào slide Chương 6 và bài tập chương 6, Bài 6 yêu cầu áp dụng những phương pháp nào trên các cây được cho?",
+    "query_context": {
+      "course": "Cấu trúc rời rạc",
+      "session": "Buổi 6",
+      "chapter": "Chương 6: Cây",
+      "user_role": "sinh viên nối kiến thức lý thuyết với bài tập"
+    },
+    "task_type": "tổng hợp",
+    "paraphrased": true,
+    "difficulty_estimate": {
+      "level": "medium",
+      "reason": "Cần lấy danh sách phương pháp từ slide và yêu cầu áp dụng từ tài liệu bài tập."
+    },
+    "answerability_draft": "answerable",
+    "draft_answer": "Bài 6 yêu cầu duyệt các cây lần lượt bằng ba thuật toán: tiền tự, trung tự và hậu tự. Slide Chương 6 định nghĩa đúng ba phương pháp này và thứ tự thăm nút của từng phương pháp.",
+    "required_points": [
+      {
+        "point_id": "Q020-P1",
+        "text": "Bài 6 yêu cầu duyệt các cây được cho."
+      },
+      {
+        "point_id": "Q020-P2",
+        "text": "Ba phương pháp cần áp dụng là tiền tự, trung tự và hậu tự."
+      }
+    ],
+    "required_source_types": [
+      "pptx",
+      "pdf"
+    ],
+    "required_modalities": [
+      "text"
+    ],
+    "evidence_groups": [
+      {
+        "group_id": "EG-Q020-1",
+        "supports_point_ids": [
+          "Q020-P2"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W06-SLD-01",
+            "source_filename": "Chuong_6_Cay.pptx",
+            "locator": {
+              "page_index_1based": null,
+              "printed_page_label": null,
+              "slide_number": 11,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": null,
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Slide 11 nêu ba phương pháp duyệt cây nhị phân: tiền tự, trung tự và hậu tự.",
+            "support_reason": "Slide cung cấp bộ phương pháp cần áp dụng."
+          }
+        ]
+      },
+      {
+        "group_id": "EG-Q020-2",
+        "supports_point_ids": [
+          "Q020-P1"
+        ],
+        "required": true,
+        "alternatives": [
+          {
+            "resource_id": "CRR-W06-EX-01",
+            "source_filename": "bai_tap_chuong_6.pdf",
+            "locator": {
+              "page_index_1based": 1,
+              "printed_page_label": null,
+              "slide_number": null,
+              "start_seconds": null,
+              "end_seconds": null,
+              "exercise_id": "Bài 6",
+              "metadata_field": null
+            },
+            "evidence_excerpt_or_visual_description": "Bài 6 yêu cầu duyệt các cây sau đây lần lượt bằng các thuật toán tiền tự, trung tự và hậu tự.",
+            "support_reason": "Tài liệu bài tập xác định nhiệm vụ cụ thể."
+          }
+        ]
+      }
+    ],
+    "visual_dependency": null,
+    "cross_source_reason": "Slide cung cấp khái niệm và quy tắc ba phương pháp; bài tập cung cấp nhiệm vụ áp dụng. Cần cả hai để trả lời đầy đủ.",
+    "absence_check": null,
+    "evidence_label_coverage": "checked_within_declared_scope",
+    "leakage_group_id": "LG-CRR-TREE-TRAVERSAL-MULTISOURCE-01",
+    "review_status": "pending_human_review",
+    "review_notes": "Không yêu cầu giải cây trong câu này; nếu batch sau hỏi kết quả duyệt, phải quan sát đúng hình cây trong file bài tập."
+  }
+]
