@@ -1,5 +1,5 @@
 # Multimodal RAG — trợ lý ảo e-learning
-
+demo
 Nghiên cứu và phát triển trợ lý ảo thông minh tích hợp RAG đa phương thức cho hệ thống e-learning với học liệu dị chất (văn bản, hình ảnh, bảng, công thức, audio, video). Trợ lý course-aware, evidence-grounded: giải thích, tổng hợp, hướng dẫn ôn tập và hỗ trợ bài tập kèm nguồn (trang, slide, mốc thời gian) — không chỉ trả lời “nội dung nằm ở đâu trong video”.
 
 Package: `multimodal-rag` **0.1.0**. CLI: `python -m app.main ingest|search|ask|stats|eval|rebuild-bm25` (also `multimodal-rag` after install).
