@@ -1,0 +1,30 @@
+% Chapter Template
+
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN} % Main chapter title
+
+\label{Chapter5} 
+
+\section*{Tóm tắt chương}
+Trong chương cuối này, chúng tôi sẽ tổng hợp lại những công việc nhóm đã thực hiện và đề xuất hướng phát triển trong tương lai.
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Kết luận}
+% Nhắc lại ngữ cảnh, bản thiết kế hệ thống, áp dụng vào việc gì, nói về các kết quả thực nghiệm
+
+Hiện nay, tấn công APT là một trọng những thách thức lớn mà các cá nhân, tổ chức và cơ quan phải đương đầu. Các giải pháp săn tìm mối đe dọa đang thể hiện tiềm năng của mình trong phòng tấn công APT. Tuy nhiên, các giải pháp này vẫn dựa vào con người là chính. Thấy được vấn đề đó, chúng tôi đã tiến hành nghiên cứu và đưa AI vào các giải pháp săn tìm mối đe dọa nhằm tự động hóa một phần nào đó quy trình săn tìm cũng như cải thiện hiệu suất phát hiện tấn công APT.
+\bigbreak\noindent
+Trong nghiên cứu này, thông qua việc xây dựng mô hình \textbf{XFedHunter}, chúng tôi đã hoàn thành mục tiêu đưa AI vào trong các giải pháp săn tìm mối đe dọa thông qua việc xây dựng các hệ thống IDS ứng dụng các mô hình học sâu được cải tiến như mô hình GRU\&CNN và mô hình GraphSAGE tích hợp Transformer. Xa hơn nữa, chúng tôi sử dụng phương pháp học liên kết FedAvg nhằm cải thiện hiệu suất của các hệ thống IDS sử dụng các mạng nơ-ron nhân tạo, đồng thời đảm bảo tính riêng tư và bảo mật của dữ liệu của các tổ chức tham gia quá trình liên kết. Ngoài ra, học máy khả giải và một phương pháp xác định độ tin cậy của dự đoán của hệ thống IDS được sử dụng để hỗ trợ cho các nhà phân tích bảo mật trong việc hiểu các quyết định của các mô hình học sâu. Cuối cùng, hệ thống được thiết kế với mục tiêu tự động hóa quá trình săn tìm mối đe dọa, cũng như có khả năng phối hợp với các giải pháp bảo mật hiện đại khác như SIEM, CTI, ... trong môi trường mạng SDN nhằm tạo ra một giải pháp toàn diện, hiện đại và có khả năng ứng dụng trong thực tế.
+\bigbreak\noindent
+Thông qua kết quả thực nghiệm trên hai tập dữ liệu là NF-ToN-IoT và DARPA TCE3, chúng ta có thể thấy được hiệu suất đáng kinh ngạc của hệ thống NIDS sử dụng mô hình GRU\&CNN và hệ thống PIDS sử dụng mô hình GraphSAGE tích hợp Transformer, cũng như tính khả thi của phương pháp học liên kết FedAvg trong việc đảm bảo hiệu suất huấn luyện các mô hình sử dụng mạng nơ-ron nhân tạo. Từ các giải được tạo bởi bộ khung SHAP và GNNExplainer, hệ thống có thể hỗ trợ cho các nhà săn tìm có thể hiểu được dự đoán của các hệ thống IDS thông qua lý giải các nhân tố quan trọng ảnh hưởng đến quyết định của các mạng nơ-ron nhân tạo. Phương pháp đánh giá độ tin cậy dựa trên đầu ra của lớp áp chót của mạng nơ-ron cũng thể hiện được tiềm năng của mình thông qua kết quả thực hiện. Cuối cùng, chúng tôi triển khai thực tế một hệ thống dựa trên mô hình săn tìm tấn công APT đề xuất và chứng minh khả năng bắt và phân tích một cuộc tấn công thông qua việc thực hiện một cuộc tấn công DoS.
+\bigbreak\noindent
+So với các công trình trước trong ứng dụng AI vào săn tìm mối đe dọa \cite{abdel2021federated}, \cite{chen2022building}, giải pháp của chúng tôi vượt trội về phạm vi, hiệu suất và khả năng ứng dụng. Trong khi các nghiên cứu trước đây chỉ tập trung vào nghiên cứu và phân tích bất thường trên một điểm đầu cuối hoặc chỉ phân tích mạng, hệ thống của chúng tôi được thiết kế để bao phủ cả bất thường trên mạng và trong các điểm đầu cuối. Thêm vào đó, các hệ thống IDS của chúng tôi cũng được tối ưu cho phù hợp với tác vụ của chùng mà không quá đơn giản hoặc quá phức tạp như các công trình trước. Cuối cùng, hệ thống của chúng tôi là sự giao thoa của các giải pháp AI kết hợp với các phương pháp, kỹ thuật và kiến trúc có ý nghĩa quan trọng trong các giải pháp bảo mật hiện, từ đó, nâng cao khả năng ứng dụng của hệ thống được đề xuất trong thực tế. Cuối cùng, vượt qua các công trình trước \cite{abdel2021federated}, \cite{lo2022graphsage}, \cite{yazdinejadna2021kangaroo} trong việc thiết kế các mô hình máy học, chúng tôi không chỉ tập trung vào tăng cường hiệu suất mà còn đảm bảo sự tin cậy cho các mô hình được thiết kế. Thông qua kết quả thực nghiệm, chúng tôi cũng đã chứng minh được rằng mặc dù đạt được hiệu suất rất cao nhưng mô hình vẫn có thể phụ thuộc vào các thuộc tính không phù hợp với bản chất của cuộc tấn công, tứ đó đưa ra dự đoán sai.
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+\section{Hướng phát triển}
+
+Dựa vào kết quả đã đạt được, mô hình đề xuất của chúng tôi có nhiều tiềm năng phát triển trong tương lai nhưng vẫn còn tồn một vài điểm yếu cần khắc phục. Trong tương lai gần, chúng tôi sẽ triển khai hoàn thiện hệ thống săn tìm tấn công công APT với đầy đủ các thành phần trong mô hình đề xuất và như mạng IoT, hệ thống microservices, hệ thống ICPS, ... Tiếp đến, chúng tôi sẽ hướng đến việc phát triển các phương pháp đánh giá tính hiệu quả của hệ thống săn được đề xuất cũng như cái hệ thống tương tự sao cho phù hợp với ngữ cảnh của các cuộc tấn công APT. 
+\bigbreak\noindent 
+Bên cạnh đó, chúng tôi cũng sẽ hướng đến việc giải quyết một số vấn đề còn tồn đọng ở phương pháp học liên kết như dữ liệu mất cân bằng, chưa có cơ chế khuyến khích tham gia quá trình huấn luyện liên kết, tấn công đầu độc ... Cuối cùng, thấy được tầm quan trọng cũng như tiềm năng của lĩnh vực học máy khả giải, chúng tôi quyết định tăng cường nghiên cứu ứng dụng học máy khả giải vào trong các giải pháp bảo mật trong thời gian tới và trước hết là nghiên cứu ứng dụng học máy khả giải trong phòng chống và phát hiện tấn công đối kháng.
+

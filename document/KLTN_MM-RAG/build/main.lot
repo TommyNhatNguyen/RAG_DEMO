@@ -1,0 +1,16 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Các trường siêu dữ liệu được ghi cho từng đối tượng tri thức}}{18}{table.caption.12}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Kích thước đoạn và độ chồng lấp theo loại tệp (đơn vị: ký tự)}}{20}{table.caption.13}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Các mô hình của họ Qwen3 được hệ thống sử dụng}}{24}{table.caption.15}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Khoản thưởng cộng vào điểm theo loại nội dung}}{27}{table.caption.17}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Các sự kiện truyền theo luồng của điểm cuối hỏi đáp}}{30}{table.caption.18}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Số tệp đã được lập chỉ mục tại thời điểm đánh giá, theo môn học và loại tệp}}{36}{table.caption.19}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Phân bố câu hỏi theo nguồn học liệu cần thiết để trả lời}}{37}{table.caption.20}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Cấu hình của hai hệ thống được so sánh}}{39}{table.caption.21}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Điểm trung bình macro trên 325 câu hợp lệ}}{39}{table.caption.22}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Hiệu số giữa hệ thống đề xuất và hệ thống cơ sở cùng khoảng tin cậy 95\% (bootstrap ghép cặp)}}{41}{table.caption.23}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Tỷ lệ trúng tại $K$ trên 325 câu hợp lệ}}{41}{table.caption.24}%
+\addvspace {10\p@ }

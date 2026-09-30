@@ -1,0 +1,146 @@
+% Chương 2
+\chapter{CƠ SỞ LÝ THUYẾT}
+\label{Chapter2}
+
+\section*{Tóm tắt chương}
+
+Chương này trình bày các kiến thức nền tảng cần thiết cho khóa luận. Các nội dung được trình bày theo thứ tự: đặc điểm của học liệu đa định dạng; các mô hình ngôn ngữ và mô hình biểu diễn được sử dụng; khung RAG và phần mở rộng đa phương thức của nó; các kỹ thuật truy xuất thông tin; các kỹ thuật xử lý học liệu; nguyên tắc sinh câu trả lời có căn cứ; và các chỉ số cùng phương pháp thống kê dùng để đánh giá.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Học liệu đa định dạng và siêu dữ liệu học liệu}
+
+Trong khóa luận này, học liệu đa định dạng là tập các tài nguyên phục vụ một môn học ở nhiều dạng khác nhau, gồm video bài giảng, slide, giáo trình và tài liệu ở dạng PDF hoặc Word, và tài liệu bài tập. Mỗi định dạng có cách định vị nội dung riêng: số trang với tệp PDF và DOCX, số slide với tệp PPTX, mốc thời gian (timestamp) với video. Vì một mục tiêu của trợ lý ảo là để người học kiểm chứng câu trả lời với học liệu gốc, hệ thống phải giữ lại các thông tin định vị này cùng với nội dung.
+
+\bigbreak\noindent
+Siêu dữ liệu (metadata) là dữ liệu mô tả một tài nguyên, chẳng hạn tài nguyên đó thuộc môn học nào hay nội dung nằm ở trang nào. Đối với học liệu, IEEE đã ban hành tiêu chuẩn IEEE Std 1484.12.1-2020 về siêu dữ liệu đối tượng học tập (Learning object metadata - LOM), hiện được ghi nhận là tiêu chuẩn còn hiệu lực \cite{ieee2020lom}. Khóa luận không cài đặt tiêu chuẩn này mà chỉ dùng một tập nhỏ các trường siêu dữ liệu phục vụ truy xuất và trích dẫn (\textbf{Mục \ref{sec:bieu-dien}}); việc mở rộng theo hướng của LOM là một hướng phát triển (\textbf{Chương \ref{Chapter5}}).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Mô hình ngôn ngữ lớn và mô hình biểu diễn vector}
+
+Khóa luận dùng họ mô hình Qwen3 cho cả việc sinh văn bản và việc chuyển văn bản, ảnh thành vector. Báo cáo kỹ thuật của Qwen3 nêu rằng họ mô hình này mở rộng khả năng hỗ trợ đa ngôn ngữ từ 29 lên 119 ngôn ngữ và phương ngữ \cite{yang2025qwen3}.
+
+\bigbreak\noindent
+Biểu diễn vector (embedding) là phép ánh xạ một đoạn văn bản, một ảnh hoặc một cặp văn bản và ảnh thành một vector số thực, sao cho các đối tượng có nội dung gần nhau thì có vector gần nhau. Qwen3 Embedding là một chuỗi mô hình biểu diễn văn bản và xếp hạng lại xây dựng trên nền Qwen3, được huấn luyện qua nhiều giai đoạn kết hợp tiền huấn luyện không giám sát quy mô lớn với tinh chỉnh có giám sát \cite{zhang2025qwen3embedding}. Qwen3-VL-Embedding được xây dựng trên nền Qwen3-VL, ánh xạ văn bản, ảnh, ảnh tài liệu và video vào một không gian biểu diễn thống nhất và hỗ trợ hơn 30 ngôn ngữ \cite{li2026qwen3vlembedding}. Qwen3-VL là một VLM của họ Qwen3, tiếp nhận văn bản, ảnh và video trong cùng một ngữ cảnh xen kẽ \cite{bai2025qwen3vl}. Trong hệ thống của chúng tôi, mô hình biểu diễn văn bản và mô hình biểu diễn thị giác cho hai không gian vector khác nhau, vì vậy vector của hai loại không được so sánh trực tiếp và được lưu ở hai tập vector (collection) riêng (\textbf{Mục \ref{sec:bieu-dien}}).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Sinh tăng cường truy xuất}
+
+\subsection{Sinh tăng cường truy xuất}
+
+Các LLM lưu tri thức trong tham số của mình, nhưng khả năng truy cập và thao tác chính xác tri thức đó còn hạn chế trên các tác vụ cần nhiều tri thức \cite{lewis2020rag}. Ngoài ra, LLM còn gặp các vấn đề như sinh nội dung sai lệch, kiến thức lỗi thời và quá trình suy luận thiếu minh bạch, không truy vết được \cite{gao2023ragsurvey}. RAG được đề xuất để khắc phục bằng cách bổ sung tri thức lấy từ một kho ngoài \cite{lewis2020rag, gao2023ragsurvey}. Một hệ thống RAG gồm hai mô-đun: mô-đun truy xuất tìm các đoạn liên quan trong kho ngoài, và mô-đun sinh dùng một LLM tạo câu trả lời dựa trên câu hỏi cùng các đoạn đã truy xuất \cite{es2024ragas}.
+
+\subsection{Mở rộng đa phương thức}
+
+RAG đa phương thức mở rộng kho tri thức từ văn bản sang ảnh, video và các tài liệu trực quan. MuRAG là một trong những công trình truy xuất và sinh câu trả lời cho bài toán hỏi đáp mở trên ảnh và văn bản \cite{chen2022murag}; một khảo sát hệ thống hóa các bộ dữ liệu, thước đo và phương pháp truy xuất, hợp nhất, bổ sung ngữ cảnh và sinh của hướng này \cite{abootorabi2025ask}, và một khảo sát khác phân loại các phương pháp cho bài toán hiểu tài liệu theo lĩnh vực, phương thức truy xuất và mức độ chi tiết \cite{gao2026scaling}.
+
+\bigbreak\noindent
+Đối với tài liệu có bố cục, có hai cách tiếp cận chính. Cách thứ nhất trích xuất văn bản từ tài liệu rồi xử lý như văn bản thuần; tài liệu truyền đạt thông tin không chỉ bằng chữ mà còn bằng hình, bố cục, bảng và cả phông chữ, và các hệ thống truy xuất chủ yếu dựa vào văn bản trích xuất khó khai thác hiệu quả các tín hiệu thị giác đó \cite{faysse2025colpali}. Cách thứ hai biểu diễn trực tiếp ảnh trang của tài liệu bằng VLM và truy xuất trên ảnh đó \cite{faysse2025colpali, yu2025visrag, tanaka2025vdocrag}. Hệ thống của chúng tôi giữ cả hai nhánh: văn bản trích xuất (cùng văn bản nhận dạng từ ảnh) và ảnh (ảnh trang hiện chỉ có với tệp PDF), mỗi nhánh ở một không gian vector riêng (\textbf{Chương \ref{Chapter3}}).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Truy xuất thông tin}
+
+\subsection{Truy xuất dày}
+
+Truy xuất dày biểu diễn cả câu hỏi và các đoạn văn bằng vector, rồi tìm các đoạn có vector gần vector câu hỏi nhất; các vector có thể được học từ một số ít cặp câu hỏi và đoạn văn bằng một khung gồm hai bộ mã hóa đơn giản \cite{karpukhin2020dpr}. Độ gần giữa hai vector được đo bằng độ tương đồng cosine, cách chuẩn để định lượng sự giống nhau của hai tài liệu từ biểu diễn vector của chúng \cite{manning2008ir}:
+\begin{equation}\label{eq:cosine}
+    \mathrm{sim}(\mathbf{u},\mathbf{v}) = \frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{u}\rVert\,\lVert\mathbf{v}\rVert}
+\end{equation}
+Khi các vector đã được chuẩn hóa về độ dài 1 thì độ tương đồng cosine bằng tích vô hướng. Tìm kiếm chính xác trên số lượng lớn vector rất tốn kém nên thường dùng chỉ mục cho tìm kiếm láng giềng gần nhất xấp xỉ. Đồ thị tiểu thế giới có thể điều hướng phân cấp (Hierarchical navigable small world - HNSW) là một phương pháp xấp xỉ dựa hoàn toàn trên đồ thị, xây dựng từ các đồ thị tiểu thế giới có thể điều hướng với cấu trúc phân cấp \cite{malkov2020hnsw}.
+
+\subsection{Truy xuất thưa và BM25}
+
+Truy xuất thưa dựa trên sự khớp từ vựng giữa câu hỏi và tài liệu; các mô hình không gian vector thưa truyền thống như TF-IDF hay BM25 từng là phương pháp mặc định cho truy xuất đoạn văn \cite{karpukhin2020dpr}. BM25 thuộc khung xác suất liên quan \cite{robertson2009bm25}. Dạng thường gặp của điểm BM25 giữa tài liệu $D$ và câu hỏi $Q$ là
+\begin{equation}\label{eq:bm25}
+    \mathrm{BM25}(D,Q) = \sum_{t\in Q} \mathrm{IDF}(t)\cdot \frac{f(t,D)\,(k_1+1)}{f(t,D) + k_1\bigl(1 - b + b\,\lvert D\rvert / \overline{\lvert D\rvert}\bigr)}
+\end{equation}
+trong đó $f(t,D)$ là số lần từ $t$ xuất hiện trong $D$, $\lvert D\rvert$ là độ dài của $D$, $\overline{\lvert D\rvert}$ là độ dài trung bình của các tài liệu, còn $k_1$ và $b$ là các tham số. Cách tính $\mathrm{IDF}(t)$ cụ thể phụ thuộc vào cài đặt. Hệ thống của chúng tôi dùng lớp \texttt{BM25Okapi} của gói \texttt{rank-bm25} với các tham số mặc định của gói.
+
+\bigbreak\noindent
+\todo{Đối chiếu Công thức \ref{eq:bm25} với bài của Robertson và Zaragoza \cite{robertson2009bm25} và với cách gói \texttt{rank-bm25} tính IDF; hiện công thức được nêu ở dạng thường gặp chứ chưa được kiểm tra với bài gốc.}
+
+\bigbreak\noindent
+Do việc chọn từ của con người biến thiên rất lớn \cite{furnas1987vocabulary}, khớp từ vựng thuần túy có thể bỏ sót tài liệu dùng thuật ngữ khác với câu hỏi. Nhận định này là một cơ sở để chúng tôi kết hợp truy xuất thưa với truy xuất dày trong hệ thống.
+
+\subsection{Hợp nhất thứ hạng nghịch đảo}
+
+Truy xuất lai kết hợp các danh sách xếp hạng do nhiều phương pháp truy xuất tạo ra. RRF là một phương pháp không giám sát để kết hợp thứ hạng từ nhiều hệ thống truy xuất; các tác giả báo cáo RRF cho kết quả tốt hơn từng hệ thống riêng lẻ và tốt hơn phương pháp Condorcet Fuse \cite{cormack2009rrf}. Điểm của một tài liệu $d$ là tổng nghịch đảo thứ hạng của nó trong các danh sách chứa nó:
+\begin{equation}\label{eq:rrf-general}
+    \mathrm{RRF}(d) = \sum_{g \in G} \frac{1}{k + \mathrm{rank}_g(d)}
+\end{equation}
+với $G$ là tập các danh sách xếp hạng và $k$ là một hằng số. Vì công thức chỉ dùng thứ hạng, RRF không cần chuẩn hóa điểm giữa các thang khác nhau, chẳng hạn điểm cosine và điểm BM25. Đổi lại, công thức coi mọi danh sách có vai trò như nhau và không xét độ tin cậy của từng nguồn.
+
+\subsection{Bộ xếp hạng lại}
+
+Bộ xếp hạng lại (reranker) chấm lại các ứng viên đã truy xuất bằng một mô hình xem xét đồng thời câu hỏi và từng đoạn văn; ví dụ mô hình BERT đã được dùng theo cách này để xếp hạng lại đoạn văn theo câu hỏi \cite{nogueira2019passage}. Qwen3-Reranker thuộc chuỗi Qwen3 Embedding \cite{zhang2025qwen3embedding} và, theo thẻ mô hình, chấm điểm dựa trên xác suất mô hình trả lời ``có'' hay ``không'' cho việc đoạn văn đáp ứng yêu cầu của câu hỏi.
+
+\subsection{Truy vấn mở rộng bằng tài liệu giả định}
+
+Nhúng tài liệu giả định (Hypothetical document embeddings - HyDE) \cite{gao2023hyde} yêu cầu một mô hình ngôn ngữ làm theo chỉ dẫn sinh ra một tài liệu giả định trả lời câu hỏi, sau đó dùng một bộ mã hóa để biểu diễn tài liệu này thành vector và tìm các tài liệu thật có vector gần nó. Tài liệu giả định có thể chứa chi tiết sai, nhưng nút thắt dày của bộ mã hóa lọc bỏ các chi tiết đó và gắn tài liệu giả định với nội dung thật của kho tài liệu \cite{gao2023hyde}. Trong hệ thống của chúng tôi, HyDE là tùy chọn và mặc định tắt (\textbf{Mục \ref{sec:truy-xuat}}).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 5
+%----------------------------------------------------------------------------------------
+
+\section{Xử lý học liệu đa định dạng}
+
+\subsection{Phân tích bố cục tài liệu}
+
+Docling là gói mã nguồn mở chuyển đổi tài liệu PDF, dựa trên các mô hình phân tích bố cục (DocLayNet) và nhận dạng cấu trúc bảng (TableFormer) \cite{auer2024docling}; trong mã nguồn của hệ thống, bộ chuyển đổi này cũng được dùng cho tệp DOCX và PPTX. Trong hệ thống của chúng tôi, kết quả phân tích được dùng để tách văn bản, bảng và hình dựa trên nhãn loại của từng phần tử và ghi lại số trang mà công cụ cung cấp (\textbf{Mục \ref{sec:tien-xu-ly-tai-lieu}}).
+
+\subsection{Nhận dạng ký tự quang học}
+
+OCR chuyển ảnh có chứa chữ thành văn bản. Tesseract là một công cụ OCR mã nguồn mở; bài mô tả của Smith nhấn mạnh việc tìm dòng chữ, các đặc trưng và phương pháp phân loại, cùng bộ phân loại thích nghi của công cụ này \cite{smith2007tesseract}.
+
+\subsection{Nhận dạng giọng nói tự động}
+
+ASR chuyển âm thanh thành văn bản. Whisper được huấn luyện để dự đoán bản phiên âm từ một lượng lớn âm thanh trên Internet; khi mở rộng đến 680\,000 giờ giám sát đa ngôn ngữ và đa tác vụ, các mô hình thu được tổng quát hóa tốt trên các bộ đánh giá chuẩn (benchmark) theo cách chuyển giao không mẫu, không cần tinh chỉnh \cite{radford2023whisper}. Trong khóa luận, bản phiên âm là văn bản kèm mốc thời gian của từng đoạn lời nói, thu được từ một hệ thống ASR hoặc từ một tệp đi kèm (sidecar) do người dùng cung cấp.
+
+\subsection{Băm ảnh}
+
+Băm trung bình là một kỹ thuật đơn giản để so sánh hai ảnh: ảnh được chuyển sang thang xám, thu nhỏ về một lưới nhỏ, mỗi điểm ảnh được so với giá trị trung bình của lưới để tạo một bit, và mức giống nhau của hai ảnh được đo bằng số bit khác nhau giữa hai mã băm (khoảng cách Hamming). Hệ thống dùng kỹ thuật này để loại các khung hình video gần trùng nhau (\textbf{Mục \ref{sec:tien-xu-ly-video}}).
+
+\subsection{Phân đoạn văn bản}
+
+Phân đoạn văn bản (chunking) là việc chia văn bản dài thành các đoạn ngắn, có thể chồng lấp lên nhau, để mỗi đoạn được biểu diễn thành vector và lập chỉ mục riêng. Chi tiết cách phân đoạn của hệ thống được nêu ở \textbf{Mục \ref{sec:tien-xu-ly-tai-lieu}}.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 6
+%----------------------------------------------------------------------------------------
+
+\section{Sinh câu trả lời có căn cứ}
+
+Trong khóa luận, một câu trả lời có căn cứ là câu trả lời chỉ dựa trên các đoạn đã được truy xuất và kèm trích dẫn tới nguồn (tệp, số trang, mốc thời gian) để người học kiểm chứng. RAG được xem là hướng giảm hiện tượng sinh nội dung sai lệch và quá trình suy luận không truy vết được \cite{gao2023ragsurvey}. Để hiện thực nguyên tắc này, hệ thống dùng ba cơ chế: câu lệnh dẫn dắt (prompt) ràng buộc mô hình chỉ dựa vào ngữ cảnh và nguồn được cung cấp, cơ chế từ chối khi độ tương đồng thấp, và việc đưa ảnh trang vào một VLM khi văn bản trích xuất có thể đã làm mất thông tin về bố cục hay hình minh họa \cite{yu2025visrag, bai2025qwen3vl}. Chi tiết được trình bày ở \textbf{Mục \ref{sec:sinh}}.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 7
+%----------------------------------------------------------------------------------------
+
+\section{Đánh giá hệ thống truy xuất và sinh}
+
+\subsection{Các chỉ số truy xuất}
+
+Độ chính xác (Precision) là tỉ lệ giữa số tài liệu liên quan được truy xuất và tổng số tài liệu được truy xuất; độ phủ (Recall) là tỉ lệ giữa số tài liệu liên quan được truy xuất và tổng số tài liệu liên quan; và điểm F1 là trung bình điều hòa của hai đại lượng đó \cite{manning2008ir}. Nếu $tp$, $fp$, $fn$ lần lượt là số kết quả đúng được trả về, số kết quả sai được trả về và số kết quả đúng bị bỏ sót thì
+\begin{equation}\label{eq:prf}
+    \mathit{Precision} = \frac{tp}{tp+fp}, \qquad \mathit{Recall} = \frac{tp}{tp+fn}, \qquad F_1 = \frac{2\cdot \mathit{Precision}\cdot \mathit{Recall}}{\mathit{Precision}+\mathit{Recall}}.
+\end{equation}
+Với kết quả có xếp hạng, các đại lượng được tính trên $K$ kết quả đầu tiên và ký hiệu là \textit{Precision@K}, \textit{Recall@K} và \textit{F1@K}; cách tính cụ thể trong khóa luận được nêu ở \textbf{Mục \ref{sec:khung-danh-gia}}. Điểm của một hệ thống là trung bình macro, tức trung bình cộng của điểm trên từng câu hỏi.
+
+\subsection{Đánh giá hệ thống sinh tăng cường truy xuất}
+
+RAGAs là một khung đánh giá các hệ thống RAG không cần nhãn chuẩn do con người gán; khung này đề xuất một bộ chỉ số cho các khía cạnh khác nhau: khả năng của mô-đun truy xuất trong việc tìm được các đoạn liên quan và tập trung, khả năng của LLM trong việc khai thác các đoạn đó một cách trung thực, và chất lượng của chính phần sinh \cite{es2024ragas}. Mã nguồn của hệ thống có sẵn chức năng chấm điểm bằng RAGAs, nhưng khóa luận chưa có kết quả đánh giá này (\textbf{Mục \ref{sec:so-trang-thai}}).
+
+\subsection{Khoảng tin cậy bằng phương pháp bootstrap}
+
+Phương pháp bootstrap ước lượng độ bất định của một thống kê bằng cách lấy mẫu có hoàn lại từ chính dữ liệu quan sát \cite{efron1993bootstrap}; một nghiên cứu đã so sánh bootstrap với các kiểm định khác cho đánh giá truy xuất thông tin \cite{smucker2007comparison}. Trong khóa luận, chúng tôi dùng bootstrap ghép cặp với khoảng phân vị: lấy mẫu có hoàn lại các đơn vị độc lập (từng câu hỏi, hoặc từng cụm câu hỏi có cùng nội dung truy vấn khi câu hỏi bị lặp lại), với mỗi mẫu tính hiệu số trung bình của một chỉ số giữa hai hệ thống, rồi lấy phân vị 2,5\% và 97,5\% của các hiệu số đó làm khoảng tin cậy 95\%. Nếu khoảng này không chứa 0 thì hiệu số được coi là khác 0 ở mức tin cậy đó (\textbf{Mục \ref{sec:ket-qua}}).

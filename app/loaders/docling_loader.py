@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +12,7 @@ from app.models.document import DocumentAsset, TableAsset
 from app.models.image import ImageAsset
 from app.processors.image import to_rgb
 from app.processors.ocr import OCREngine, NullOCR
+from app.processors.office_convert import convert_ppt_to_pptx
 from app.storage.local import LocalFilesystemStore
 
 logger = logging.getLogger(__name__)
@@ -58,9 +60,24 @@ class DoclingLoader:
         return self._converter
 
     def load(self, path: Path, document_id: str) -> LoadedDocument:
+        if path.suffix.lower() != ".ppt":
+            return self._load_parsed(path, path, document_id)
+        convert_dir = (
+            self.settings.resolve_path(self.settings.storage_root)
+            / "tmp"
+            / document_id
+            / "ppt_convert"
+        )
+        try:
+            converted = convert_ppt_to_pptx(path, convert_dir)
+            return self._load_parsed(path, converted, document_id)
+        finally:
+            shutil.rmtree(convert_dir, ignore_errors=True)
+
+    def _load_parsed(self, path: Path, parse_path: Path, document_id: str) -> LoadedDocument:
         logger.info("Docling parsing %s", path.name)
         converter = self._get_converter()
-        result = converter.convert(str(path))
+        result = converter.convert(str(parse_path))
         doc = result.document
         relative = relative_posix(path, self.settings.project_root)
         file_type = path.suffix.lower().lstrip(".")
@@ -234,7 +251,7 @@ class DoclingLoader:
     ) -> list[ImageAsset]:
         images: list[ImageAsset] = []
         pages = getattr(doc, "pages", None) or {}
-        is_pptx = asset.file_type == "pptx"
+        is_pptx = asset.file_type in {"pptx", "ppt"}
         for page_no, page in pages.items():
             page_int = int(page_no)
             native = native_by_page.get(page_int, "")
@@ -243,7 +260,7 @@ class DoclingLoader:
             # that native extraction may flatten or omit. DOCX keeps the
             # lightweight fallback for image-heavy pages and embedded pictures.
             need_page = (
-                asset.file_type in {"pdf", "pptx"}
+                asset.file_type in {"pdf", "pptx", "ppt"}
                 or len(native.strip()) < MIN_NATIVE_TEXT
             )
             if not need_page:

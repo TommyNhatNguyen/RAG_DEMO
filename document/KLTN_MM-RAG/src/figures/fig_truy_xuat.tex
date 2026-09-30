@@ -1,0 +1,27 @@
+\begin{tikzpicture}[
+  wide/.style={draw, rounded corners=2pt, align=center, font=\small, text width=104mm, minimum height=9mm, inner sep=3pt},
+  third/.style={draw, rounded corners=2pt, align=center, font=\small, text width=42mm, minimum height=16mm, inner sep=3pt, fill=blue!8},
+  arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+\node[wide] (q) at (0,0) {Câu hỏi và bộ lọc (tệp hoặc thư mục, môn học, loại nội dung)};
+\node[wide] (n) at (0,-1.5) {Chuẩn hóa câu hỏi và tạo các biến thể truy vấn};
+\node[third] (d) at (-4.8,-3.5) {Truy xuất dày trên\\văn bản (mỗi biến thể\\một danh sách)};
+\node[third] (b) at (0,-3.5) {BM25 trên văn bản\\(một danh sách)};
+\node[third] (v) at (4.8,-3.5) {Truy xuất dày trên ảnh\\(một danh sách)};
+\node[wide] (f) at (0,-5.3) {Hợp nhất thứ hạng nghịch đảo};
+\node[wide] (t) at (0,-6.8) {Thưởng theo loại nội dung (và bộ xếp hạng lại tùy chọn)};
+\node[wide] (u) at (0,-8.3) {Đa dạng theo tệp (tối đa 2 kết quả mỗi tệp)};
+\node[wide] (e) at (0,-9.8) {Mở rộng ngữ cảnh, sau đó nén trích xuất};
+\node[wide] (r) at (0,-11.3) {Top-k kết quả kèm siêu dữ liệu vị trí};
+\draw[arr] (q) -- (n);
+\draw[arr] (n.south) -- ++(0,-0.3) -| (d.north);
+\draw[arr] (n.south) -- ++(0,-0.3) -| (b.north);
+\draw[arr] (n.south) -- ++(0,-0.3) -| (v.north);
+\draw[arr] (d.south) -- ++(0,-0.3) -| (f.north);
+\draw[arr] (b.south) -- ++(0,-0.3) -| (f.north);
+\draw[arr] (v.south) -- ++(0,-0.3) -| (f.north);
+\draw[arr] (f) -- (t);
+\draw[arr] (t) -- (u);
+\draw[arr] (u) -- (e);
+\draw[arr] (e) -- (r);
+\end{tikzpicture}

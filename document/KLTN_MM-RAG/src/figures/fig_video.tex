@@ -1,0 +1,13 @@
+\begin{tikzpicture}[
+  buoc/.style={draw, rounded corners=2pt, align=center, font=\small, text width=112mm, minimum height=9mm, inner sep=3pt},
+  arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+\node[buoc] (s1) at (0,0) {\textbf{1.} Đọc siêu dữ liệu video (thời lượng, độ phân giải, có âm thanh hay không)};
+\node[buoc] (s2) at (0,-1.5) {\textbf{2.} Tách âm thanh (tần số 16 kHz, một kênh)};
+\node[buoc] (s3) at (0,-3.0) {\textbf{3.} Phiên âm: dùng tệp đi kèm nếu có, ngược lại dùng Whisper};
+\node[buoc] (s4) at (0,-4.5) {\textbf{4.} Lấy mẫu khung hình thô (một khung hình mỗi 10 giây)};
+\node[buoc] (s5) at (0,-6.0) {\textbf{5.} Chọn khung hình đại diện cho từng cửa sổ 30 giây\\(băm trung bình, nhận dạng ký tự, biên cảnh, độ phủ thời gian)};
+\node[buoc] (s6) at (0,-7.8) {\textbf{6.} Lập chỉ mục văn bản cho từng cửa sổ phiên âm};
+\node[buoc] (s7) at (0,-9.3) {\textbf{7.} Lập chỉ mục thị giác cho các khung hình đã chọn};
+\foreach \a/\b in {s1/s2, s2/s3, s3/s4, s4/s5, s5/s6, s6/s7} {\draw[arr] (\a) -- (\b);}
+\end{tikzpicture}

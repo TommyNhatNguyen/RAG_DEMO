@@ -41,8 +41,11 @@ def login_hub(settings: Settings) -> None:
     token = settings.resolved_token()
     if not token:
         return
-    from huggingface_hub import login
+    from huggingface_hub import constants, login
 
+    if constants.HF_HUB_OFFLINE:
+        logger.info("HF_HUB_OFFLINE set; skipping Hub login (token still used for cached-model loads)")
+        return
     login(token=token, add_to_git_credential=False)
     logger.info("Authenticated to Hugging Face Hub from env token")
 

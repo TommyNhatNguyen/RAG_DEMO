@@ -34,6 +34,14 @@ class VideoCheckpoint:
         self.path.write_text(json.dumps(self.data, indent=2, ensure_ascii=False), encoding="utf-8")
 
     def update(self, **fields: Any) -> None:
+        new_stage = fields.get("stage")
+        if new_stage is not None and new_stage in STAGES and self.stage in STAGES:
+            if STAGES.index(new_stage) < STAGES.index(self.stage):
+                # Never move a stage backwards: a step re-running during a
+                # resume (e.g. audio re-extracted after an "indexed"
+                # checkpoint) must not make later reached() checks think
+                # transcript/frames still need to be redone.
+                fields = {key: value for key, value in fields.items() if key != "stage"}
         self.data.update(fields)
         self.save()
 

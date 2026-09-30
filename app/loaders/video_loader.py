@@ -271,7 +271,14 @@ class VideoLoader:
                 "Video transcription requires faster-whisper, or a timestamp sidecar "
                 "named '<video>_segments.json' beside the video."
             ) from exc
-        segments, _info = model.transcribe(str(audio_path))
+        language = self.settings.whisper_language or None
+        segments, info = model.transcribe(str(audio_path), language=language)
+        logger.info(
+            "Whisper language=%s (forced=%s) probability=%.2f",
+            info.language,
+            language is not None,
+            getattr(info, "language_probability", 0.0) or 0.0,
+        )
         pieces: list[dict] = []
         last_pct = -10
         for seg in segments:

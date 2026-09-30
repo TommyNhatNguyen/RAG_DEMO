@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     video_frames_per_segment: int = 3
     whisper_model: str = "base"
     whisper_compute_type: str = "int8"
+    whisper_language: str | None = "vi"
     video_max_duration: float | None = None
     video_coarse_sample_interval: float = 10.0
     video_max_representative_frames: int = 3
@@ -109,7 +110,12 @@ class Settings(BaseSettings):
     api_key: str | None = None
 
     @field_validator(
-        "hf_token", "hugging_face_hub_token", "video_max_duration", "api_key", mode="before"
+        "hf_token",
+        "hugging_face_hub_token",
+        "video_max_duration",
+        "api_key",
+        "whisper_language",
+        mode="before",
     )
     @classmethod
     def empty_to_none(cls, value):

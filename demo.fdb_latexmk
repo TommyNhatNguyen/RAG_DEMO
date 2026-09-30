@@ -1,0 +1,18 @@
+# Fdb version 4
+["pdflatex"] 1790514186.27857 "/Users/tommynguyen/Downloads/RAG Multimodal/demo.tex" "demo.pdf" "demo" 1790514186.36493 0
+  "/Users/tommynguyen/Downloads/RAG Multimodal/demo.tex" 1790514185.5885 69 669cb742e78f6c8261d483caa61f840f ""
+  "/usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/article.cls" 1748806692 20144 b966087dda3b194755eb460d32e2ef75 ""
+  "/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/size10.clo" 1748806692 8448 686612a86f0e04f41ea577f5ec7e83d8 ""
+  "/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1761248321 30662 bfd6e864f4ffc5018b0e2b6260c3181c ""
+  "/usr/local/texlive/2026basic/texmf-dist/web2c/texmf.cnf" 1770478701 43630 e9fa012910491fe5ae08a72c3c2997a7 ""
+  "/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1790510473 79187 e3f5941707347d15c1721f52279213a2 ""
+  "/usr/local/texlive/2026basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1790510434 2966194 e0ec0c425b5451a9a052f4af6d8c85e5 ""
+  "/usr/local/texlive/2026basic/texmf.cnf" 1772405582 628 bbc09d6d38872d53c11bb48dc9b14e88 ""
+  "demo.aux" 1790514186.35071 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "demo.tex" 1790514185.5885 69 669cb742e78f6c8261d483caa61f840f ""
+  (generated)
+  "demo.aux"
+  "demo.log"
+  "demo.pdf"
+  (rewritten before read)

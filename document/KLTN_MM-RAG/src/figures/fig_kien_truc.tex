@@ -1,0 +1,20 @@
+\begin{tikzpicture}[
+  wide/.style={draw, rounded corners=2pt, align=center, font=\small, text width=100mm, minimum height=10mm, inner sep=3pt},
+  half/.style={draw, rounded corners=2pt, align=center, font=\small, text width=62mm, minimum height=10mm, inner sep=3pt, fill=blue!8},
+  arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+\node[wide] (src) at (0,0) {Học liệu đa định dạng\\(PDF, DOCX, PPTX, ảnh, video)};
+\node[wide] (ing) at (0,-1.9) {Nạp và tiền xử lý\\(phân tích tài liệu, nhận dạng ký tự, phiên âm, chọn khung hình)};
+\node[half] (txt) at (-3.6,-3.9) {Chỉ mục văn bản\\(vector và BM25)};
+\node[half] (vis) at (3.6,-3.9) {Chỉ mục thị giác\\(vector)};
+\node[wide] (ret) at (0,-5.9) {Truy xuất lai đa phương thức\\(lọc, hợp nhất, mở rộng ngữ cảnh)};
+\node[wide] (gen) at (0,-7.8) {Sinh câu trả lời có căn cứ\\(mô hình văn bản hoặc mô hình thị giác)};
+\node[wide] (out) at (0,-9.5) {Giao diện dòng lệnh và giao diện lập trình ứng dụng};
+\draw[arr] (src) -- (ing);
+\draw[arr] (ing.south) -- ++(0,-0.3) -| (txt.north);
+\draw[arr] (ing.south) -- ++(0,-0.3) -| (vis.north);
+\draw[arr] (txt.south) -- ++(0,-0.3) -| (ret.north);
+\draw[arr] (vis.south) -- ++(0,-0.3) -| (ret.north);
+\draw[arr] (ret) -- (gen);
+\draw[arr] (gen) -- (out);
+\end{tikzpicture}

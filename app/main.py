@@ -310,7 +310,7 @@ def cmd_benchmark_retrieve(args: argparse.Namespace, settings: Settings) -> int:
     settings.context_expand = False
     settings.context_compress = False
     settings.course_prefilter = not args.no_course_filter
-    # Fetch a wider candidate pool so diversity-by-file can still return a
+    # Fetch a wider candidate pool so diversity-by-file can still rxeturn a
     # complete Top-10 instead of stopping at only a few source files.
     settings.retriever_fetch_k = max(settings.retriever_fetch_k, args.k * 10)
     if args.profile == "baseline":

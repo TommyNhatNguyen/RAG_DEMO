@@ -8,7 +8,7 @@ from app.models.document import DocumentAsset, TableAsset
 from app.models.image import ImageAsset
 from app.models.video import VideoAsset, VideoSegment
 
-DOC_EXTS = {".pdf", ".docx", ".pptx"}
+DOC_EXTS = {".pdf", ".docx", ".pptx", ".ppt"}
 TEXT_EXTS = {".txt", ".md", ".markdown"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tiff", ".tif"}
 VIDEO_EXTS = {".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v"}

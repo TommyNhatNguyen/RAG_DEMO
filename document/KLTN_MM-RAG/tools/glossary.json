@@ -1,0 +1,330 @@
+{
+  "_ghi_chu": "Nguồn duy nhất cho quy tắc thuật ngữ. 'vi' là dạng tiếng Việt đầy đủ (bản dịch ĐỀ XUẤT, cần người dùng chốt). 'abbr' rỗng nghĩa là thuật ngữ không có viết tắt: lần đầu 'vi (en)', từ lần 2 dùng lại 'vi'. Có 'abbr': lần đầu 'vi (en - ABBR)', từ lần 2 chỉ dùng ABBR.",
+  "terms": [
+    {
+      "id": "rag",
+      "vi": "sinh tăng cường truy xuất",
+      "en": "Retrieval-augmented generation",
+      "abbr": "RAG"
+    },
+    {
+      "id": "llm",
+      "vi": "mô hình ngôn ngữ lớn",
+      "en": "Large language model",
+      "abbr": "LLM"
+    },
+    {
+      "id": "vlm",
+      "vi": "mô hình ngôn ngữ thị giác",
+      "en": "Vision-language model",
+      "abbr": "VLM"
+    },
+    {
+      "id": "asr",
+      "vi": "nhận dạng giọng nói tự động",
+      "en": "Automatic speech recognition",
+      "abbr": "ASR"
+    },
+    {
+      "id": "ocr",
+      "vi": "nhận dạng ký tự quang học",
+      "en": "Optical character recognition",
+      "abbr": "OCR"
+    },
+    {
+      "id": "rrf",
+      "vi": "hợp nhất thứ hạng nghịch đảo",
+      "en": "Reciprocal rank fusion",
+      "abbr": "RRF"
+    },
+    {
+      "id": "lom",
+      "vi": "siêu dữ liệu đối tượng học tập",
+      "en": "Learning object metadata",
+      "abbr": "LOM"
+    },
+    {
+      "id": "api",
+      "vi": "giao diện lập trình ứng dụng",
+      "en": "Application programming interface",
+      "abbr": "API"
+    },
+    {
+      "id": "sse",
+      "vi": "sự kiện do máy chủ gửi",
+      "en": "Server-sent events",
+      "abbr": "SSE"
+    },
+    {
+      "id": "hnsw",
+      "vi": "đồ thị tiểu thế giới có thể điều hướng phân cấp",
+      "en": "Hierarchical navigable small world",
+      "abbr": "HNSW"
+    },
+    {
+      "id": "hyde",
+      "vi": "nhúng tài liệu giả định",
+      "en": "Hypothetical document embeddings",
+      "abbr": "HyDE"
+    },
+    {
+      "id": "cpu",
+      "vi": "bộ xử lý trung tâm",
+      "en": "Central processing unit",
+      "abbr": "CPU"
+    },
+    {
+      "id": "cli",
+      "vi": "giao diện dòng lệnh",
+      "en": "Command-line interface",
+      "abbr": "CLI"
+    },
+    {
+      "id": "mps",
+      "vi": "khung tăng tốc đồ họa của Apple",
+      "en": "Metal Performance Shaders",
+      "abbr": "MPS"
+    },
+    {
+      "id": "mmrag",
+      "vi": "RAG đa phương thức",
+      "en": "Multimodal RAG",
+      "abbr": ""
+    },
+    {
+      "id": "embedding",
+      "vi": "biểu diễn vector",
+      "en": "embedding",
+      "abbr": ""
+    },
+    {
+      "id": "dense",
+      "vi": "truy xuất dày",
+      "en": "dense retrieval",
+      "abbr": ""
+    },
+    {
+      "id": "sparse",
+      "vi": "truy xuất thưa",
+      "en": "sparse retrieval",
+      "abbr": ""
+    },
+    {
+      "id": "hybrid",
+      "vi": "truy xuất lai",
+      "en": "hybrid retrieval",
+      "abbr": ""
+    },
+    {
+      "id": "reranker",
+      "vi": "bộ xếp hạng lại",
+      "en": "reranker",
+      "abbr": ""
+    },
+    {
+      "id": "metadata",
+      "vi": "siêu dữ liệu",
+      "en": "metadata",
+      "abbr": ""
+    },
+    {
+      "id": "baseline",
+      "vi": "hệ thống cơ sở",
+      "en": "baseline",
+      "abbr": ""
+    },
+    {
+      "id": "benchmark",
+      "vi": "bộ đánh giá chuẩn",
+      "en": "benchmark",
+      "abbr": ""
+    },
+    {
+      "id": "ground_truth",
+      "vi": "nhãn chuẩn",
+      "en": "ground truth",
+      "abbr": ""
+    },
+    {
+      "id": "pipeline",
+      "vi": "luồng xử lý",
+      "en": "pipeline",
+      "abbr": ""
+    },
+    {
+      "id": "prompt",
+      "vi": "câu lệnh dẫn dắt",
+      "en": "prompt",
+      "abbr": ""
+    },
+    {
+      "id": "checkpoint",
+      "vi": "điểm lưu trạng thái",
+      "en": "checkpoint",
+      "abbr": ""
+    },
+    {
+      "id": "sidecar",
+      "vi": "tệp đi kèm",
+      "en": "sidecar",
+      "abbr": ""
+    },
+    {
+      "id": "timestamp",
+      "vi": "mốc thời gian",
+      "en": "timestamp",
+      "abbr": ""
+    },
+    {
+      "id": "transcript",
+      "vi": "bản phiên âm",
+      "en": "transcript",
+      "abbr": ""
+    },
+    {
+      "id": "chunking",
+      "vi": "phân đoạn văn bản",
+      "en": "chunking",
+      "abbr": ""
+    },
+    {
+      "id": "average_hash",
+      "vi": "băm trung bình",
+      "en": "average hash",
+      "abbr": ""
+    },
+    {
+      "id": "hit_rate",
+      "vi": "tỷ lệ trúng",
+      "en": "hit rate",
+      "abbr": ""
+    },
+    {
+      "id": "e2e",
+      "vi": "đánh giá đầu-cuối",
+      "en": "end-to-end evaluation",
+      "abbr": ""
+    },
+    {
+      "id": "ablation",
+      "vi": "thí nghiệm loại trừ",
+      "en": "ablation study",
+      "abbr": ""
+    },
+    {
+      "id": "seed",
+      "vi": "giá trị khởi tạo ngẫu nhiên",
+      "en": "random seed",
+      "abbr": ""
+    },
+    {
+      "id": "collection",
+      "vi": "tập vector",
+      "en": "collection",
+      "abbr": ""
+    },
+    {
+      "id": "token",
+      "vi": "đơn vị văn bản",
+      "en": "token",
+      "abbr": ""
+    }
+  ],
+  "_ngoai_le_ten_rieng": [
+    "Qwen3",
+    "ChromaDB",
+    "Chroma",
+    "Docling",
+    "FFmpeg",
+    "Whisper",
+    "faster-whisper",
+    "Tesseract",
+    "BM25",
+    "BM25Okapi",
+    "Hugging Face",
+    "FastAPI",
+    "LangChain",
+    "PyTorch",
+    "Python",
+    "Apple Silicon",
+    "RAGAs",
+    "PySceneDetect",
+    "PDF",
+    "DOCX",
+    "PPTX",
+    "TXT",
+    "JSON",
+    "JSONL",
+    "SHA-256",
+    "HTTP",
+    "URL",
+    "Top-K",
+    "Precision",
+    "Recall",
+    "F1",
+    "macro",
+    "bootstrap",
+    "cosine",
+    "Instruct",
+    "YAML",
+    "GraphRAG",
+    "CodeAid",
+    "VideoRAG",
+    "MuRAG",
+    "ColPali",
+    "VisRAG",
+    "VDocRAG",
+    "LayoutLMv3",
+    "e-learning",
+    "NeurIPS",
+    "ICLR",
+    "EMNLP",
+    "ACL",
+    "CVPR",
+    "SIGIR",
+    "CIKM",
+    "ICML",
+    "ICDAR",
+    "CHI",
+    "EACL",
+    "TPAMI",
+    "IEEE",
+    "MMEB",
+    "ONNX",
+    "Overleaf",
+    "LaTeX",
+    "Git",
+    "GitHub",
+    "Matryoshka",
+    "Apache",
+    "TF-IDF",
+    "BERT",
+    "DocLayNet",
+    "TableFormer",
+    "Condorcet",
+    "Hamming",
+    "Markdown",
+    "markdown",
+    "Sentence Transformers",
+    "CTranslate2",
+    "rank-bm25",
+    "langchain-huggingface",
+    "Word",
+    "OpenReview",
+    "Q001",
+    "Q011",
+    "Q012",
+    "Q400",
+    "IDF",
+    "re:Qwen3(?:[- ][A-Za-z0-9.]+)*"
+  ],
+  "_tu_muon_chap_nhan": [
+    "video",
+    "vector",
+    "slide",
+    "logic",
+    "Internet",
+    "Unicode"
+  ],
+  "_ghi_chu_tu_muon": "Các từ mượn phổ biến trong văn bản tiếng Việt (chính đề cương cũng dùng) được giữ nguyên, không áp dụng quy tắc thuật ngữ. Người dùng cần xác nhận."
+}

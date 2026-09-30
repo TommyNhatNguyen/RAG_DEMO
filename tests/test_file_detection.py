@@ -7,6 +7,7 @@ def test_detect_supported_kinds(tmp_path: Path):
     assert detect_kind(tmp_path / "a.pdf") == "document"
     assert detect_kind(tmp_path / "a.docx") == "document"
     assert detect_kind(tmp_path / "a.pptx") == "document"
+    assert detect_kind(tmp_path / "a.ppt") == "document"
     assert detect_kind(tmp_path / "a.txt") == "text"
     assert detect_kind(tmp_path / "a.md") == "text"
     assert detect_kind(tmp_path / "a.png") == "image"

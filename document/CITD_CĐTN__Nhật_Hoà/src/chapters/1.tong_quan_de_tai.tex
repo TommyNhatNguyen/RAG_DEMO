@@ -1,0 +1,138 @@
+\chapter{TỔNG QUAN ĐỀ TÀI}\label{Chapter1}
+
+\section*{Tóm tắt chương}
+
+Trong chương này, chúng tôi xin trình bày lý do chọn đề tài, các công trình nghiên cứu liên quan và những điểm mới của đề tài so với các nghiên cứu trước. Đồng thời, chúng tôi cũng đưa ra mục tiêu, đối tượng và phạm vi nghiên cứu, cũng như là phương pháp nghiên cứu. Cuối cùng chúng tôi đưa ra cấu trúc của khóa luận tốt nghiệp.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Lý do chọn đề tài}
+
+Trong những năm gần đây, tấn công APT là một trong những mối đe dọa nguy hiểm nhất mà thế giới mạng nói chung và các nhà phân tích, nghiên cứu bảo mật nói riêng phải đương đầu. Khác với các cuộc tấn công truyền thống thường nhắm đến những mục tiêu ngẫu nhiên và tồn tại trong một khoảng thời gian ngắn, các cuộc tấn công APT là một dạng tấn công tinh vi và có tổ thức, trong đó, các kẻ tấn công sử dụng những kỹ thuật phức tạp và tiên tiến nhằm tồn tại trong hệ thống mục tiêu mà không bị phát hiện trong một khoảng thời gian kéo dài \cite{Alshamrani2019_apt_sur}, \cite{stojanovic2020apt_review}, \cite{ahmad2019strategically_apt}. Các cuộc tấn công này thường tập trung vào các mục tiêu có giá trị cao như chính phủ, các đơn vị kinh doanh lớn và gây ra những thiệt hại to lớn cho các tổ chức đó. Trong khi các giải pháp bảo mật truyền thống vẫn đang được sử dụng một cách phổ biến, các mối đe dọa hiện đại như tấn công APT có thể lẩn tránh và vượt qua chúng một cách dễ dàng. Trước sự đe dọa mà các cuộc tấn công này có thể mang lại, nhiều chuyên gia và các nhà nghiên cứu bảo mật đã và đang làm việc không ngừng nghỉ để phát triển các giải pháp bảo mật thế hệ mới có thể phát hiện và vô hiệu hóa các cuộc tấn công APT một cách hiệu quả, có thể kể đến như trong \cite{talib2022apt_beacon_review}, \cite{do2021novel_apt_DL}, \cite{coulter2022domain_apt_detection}, \cite{Xiong2022_Conan_apt_Detection}, \cite{ajmal2021offensive}.
+\bigbreak\noindent
+Trong hàng loạt các giải pháp được nghiên cứu, các giải pháp liên quan đến việc sử dụng hướng tiếp cận chủ động như săn tìm mối đe dọa đang chứng minh được khả năng của mình trong việc phát hiện và ngăn chặn các cuộc tấn công APT \cite{ajmal2021offensive}, \cite{archibald2019refining}, \cite{gunter2018practical}, \cite{gao2021enabling}. Để có thể phát hiện và ngăn chặn các cuộc tấn công tinh vi như các cuộc tấn công APT, các nhà săn tìm sẽ không ngừng tìm kiếm, phân tích các dấu vết được kẻ tấn công để lại trong hệ thống và các sự kiện bất thường có thể dẫn đến cuộc tấn công. Bên cạnh đó, các hệ thống IDS đóng một vai trò cực kỳ quan trọng trong việc phát hiện những dấu hiệu đầu tiên của một tấn công nhằm kích hoạt quá trình săn tìm và là một hỗ trợ đắc lực trong quá trình phân tích, truy vết các cuộc tấn công của các nhà săn tìm. Thông qua khả năng giám sát toàn bộ hệ thống mạng, NIDS có thể giúp nhanh chóng xác định các mục tiêu được nhắm đến và phát hiện các dấu hiệu bất thường có thể là một cuộc tấn công APT bằng cách phân tích lưu lượng mạng. Ở một hướng tiếp cận khác, PIDS giúp nhà săn tìm xác định được các chuỗi sự kiện có thể dẫn đến một cuộc tấn công APT nhờ vào khả năng xâu chuỗi các sự kiện trong hệ thống và biểu diễn nó dưới dạng đồ thị. Tính hiệu quả của các mô hình PIDS đã được chứng minh trong các nghiên cứu \cite{9900181}, \cite{gehani2021digging} và \cite{kurniawan2022krystal}. Tuy nhiên, sự phức tạp, tinh vi và không ngừng tiến hóa của các cuộc tấn công APT cùng với khối lượng dữ liệu khổng lồ đang không ngừng tăng lên từ hệ thống khiến cho đảm bảo hiệu suất các hệ thống IDS trên trở thành một thách thức lớn.
+%các hệ thống IDS vẫn giữ một vai trò cực kỳ quan trọng trong việc phòng chống và phát hiện tấn công APT. Trong các hướng tiếp cận của hệ thống IDS, NIDS với khả năng giám sát toàn bộ hệ thống mạng có thể nhanh chóng xác định các mục tiêu mà các cuộc tấn công nhắm đến và phát hiện các dấu hiệu bất thường có thể là một cuộc tấn công APT thông qua việc phân tích lưu lượng mạng. Tuy nhiên, việc xác định các dấu hiệu bất thường đó dần trở nên khó khăn hơn do sự gia tăng về sự tinh vi của các cuộc tấn công và lưu lượng mạng trong hệ thống. Một phương pháp tiếp cận hứa hẹn khác là PIDS
+\bigbreak\noindent
+Trong bối cảnh đó, sự phát triển mạnh mẽ cùng với những thành tựu vượt bật mà trí tuệ nhân tạo đang mang lại đã và đang thay đổi cách mà các giải pháp bảo mật được thiết kế trong những năm gần đây. Các hệ thống IDS ứng dụng AI đang thể hiện tiềm năng của mình trong việc tối ưu hiệu suất phát hiện các dạng tấn công mới nhờ vào khả năng phân tích lượng thông tin khổng lồ và đưa ra quyết định một cách nhanh chóng. Từ đó, các giải pháp bảo mật ứng dụng AI đóng vai trò không thể thiếu trong cuộc chiến chống lại các cuộc tấn công và củng cố an ninh quốc gia trên không gian mạng \cite{radulov2019artificial}, \cite{schmidt2021national}. Bên cạnh những lợi ích trên, các hệ thống IDS dựa trên AI, đặc biệt là dựa trên các mô hình học sâu, đòi hỏi một lượng lớn dữ liệu huấn luyện và phải được cập nhật thường xuyên để duy trì hiệu suất phát hiện các cuộc tấn công APT. Thật không may, dữ liệu của một tổ chức cũng như các nguồn dữ liệu từ cộng đồng thường không đủ và việc chia sẻ dữ liệu giữa các tổ chức sẽ đặt ra nhiều vấn đề liên quan đến bảo mật và quyền riêng tư. Để giải quyết vấn đề này, học liên kết đã ra đời. Phương pháp học liên kết cho phép các tổ chức tham gia vào quá trình huấn luyện có thể hưởng lời từ mô hình được tổng hợp từ các mô hình học sâu được huấn luyện bằng dữ liệu riêng của các tổ chức tham gia. Với phương pháp học này, các tổ chức có thể tăng cường tính khả dụng của các mô hình học sâu trong khi vẫn đảm bảo được tính bảo mật và riêng tư của dữ liệu.
+\bigbreak\noindent
+% Bên cạnh đó, mạng SDN là một kiến trúc tiềm năng cho phép tăng khả năng mở rộng và tính linh hoạt trong việc cấu hình hệ thống so với kiến trúc mạng truyền thống. Mạng SDN cho phép thực hiện việc cấu hình, quản lý và theo dõi hệ thống mạng một cách linh hoạt thông qua bộ điều khiển SDN. Với khả năng bao quát hoàn toàn kiến trúc mạng của hệ thống, bộ điều khiển SDN có thể trở thành phương tiện thực tiễn trong việc thiết kế và triển khai các giải pháp bảo mật. Mặc dù đã có nhiều nghiên cứu \cite{yurekten2021sdn}, \cite{farris2018survey}, \cite{zarca2020virtual} đã chỉ ra rằng mạng SDN có nhiều ứng dụng tiềm năng trong các giải pháp bảo mật nhưng vẫn chưa có nhiều nghiên cứu tận dụng những điểm ưu việt của mạng SDN vào trong việc phát hiện tấn công APT.
+Ngoài ra, các mạng nơ-ron được sử dụng trong các mô hình học sâu thường được xem như là ``hộp đen” bởi cả người dùng và các nhà phát triển. Các mạng nơ-ron này gần như không có khả năng diễn giải quá trình suy luận cũng như kết quả của chúng. Tuy nhiên, tính minh bạch và khả năng diễn các giải quyết của các mô hình AI là đặc biệt quan trọng đối với các nhà phân tích bảo mật trong việc phân tích các cuộc tấn công. Việc hiểu quá trình đưa ra quyết định của mô hình AI sẽ góp phần cải thiện khả năng phân tích các cuộc tấn công, đồng thời, giảm thiểu các cảnh báo dương tính giả và góp phần quan trọng trong việc phát triển các hệ thống IDS hoạt động hiệu quả hơn. Mặc dù vậy, các nghiên cứu hiện tại chủ yếu tập trung vào việc tăng cường độ chính xác của các mô hình học sâu với các tập dữ liệu xác định mà mặc kệ quá trình đưa ra dư đoán của mô hình. Điều này có thể dẫn đến các mô hình học sâu đưa ra dự đoán dựa trên các thuộc tính không phù hợp với tính chất của cuộc tấn công, từ đó tạo ra một mô hình kém hiệu quả trong thực tế.% Điều này đã để lại một khoảng trống không nhỏ trong hàng phòng thủ chống lại các cuộc tấn công APT.
+\bigbreak\noindent
+Nắm bắt được tính cấp thiết của những vấn đề được đề cập bên trên nên trong khóa luận này, chúng tôi đã tiến hành xây dựng một hệ thống săn tìm mối đe dọa dựa trên AI kết hợp với học máy khả giải và học liên kết nhằm tạo ra một hệ thống hiệu quả trong việc phát hiện tấn công APT trong mạng SDN.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Các nghiên cứu liên quan}
+
+\subsection{{Giải pháp săn tìm mối đe dọa}}
+
+Kể từ các cuộc tấn công APT đầu tiên, nhiều nghiên cứu đã được tiến hành nhằm giải quyết các mối đe dọa đến từ dạng tấn công trên. Trong đó, Jadidi và các cộng sự \cite{jadidi2021threat} đã đề xuất một hệ thống săn tìm mối đe dọa thông qua việc kết hợp ma trận MITRE ATT\&CK \cite{mitre2022} và mô hình kim cương \cite{caltagirone2013diamond} để tạo ra giả thuyết săn tìm và dự đoán hành vi của kẻ xâm nhập. Bên cạnh đó, nhằm kiểm tra được tính hiệu quả của mô hình săn tìm mối đe dọa được triển khai, Ajmal và các cộng sự \cite{ajmal2021offensive} đã đề xuất mô hình săn tìm mối đe dọa thông qua việc kết hợp mô hình săn tìm mối đe dọa được đề xuất bởi SANS \cite{gunter2018practical} và quy trình mô phỏng xâm nhập thông qua phương pháp kiểm thử được đề xuất trong \cite{archibald2019refining}. Tuy nhiên, các nghiên cứu trên chỉ tập trong vào các giải pháp săn tìm mối đe dọa lấy con người làm chủ đạo. Các giải pháp này thường rất tốn kém và đòi hỏi các nhà săn tìm dày dặn kinh nghiệm phải làm việc với lượng lớn dữ liệu trong thời gian dài.
+
+%Các cuộc tấn công APT được đầu tư về cả tài nguyên cũng như về nhân lực, và thường xuyên nhắm vào các tổ chức quan trọng như các chính phủ, tổ chức chính trị, các doanh nghiệp và kể các tổ chức phi lợi nhuận. Việc này làm cho tấn công APT trở thành một vấn đề cấp thiết cần giải quyết.
+
+\subsection{{Hệ thống IDS dựa trên AI}}\label{chapter1:rel-works:xai-ids}
+
+Nhằm cải thiện hiệu suất của mô hình săn tìm mối đe dọa trong phòng chống tấn công APT, nhiều nghiên cứu đã tiến hành ứng dụng trí tuệ nhân tạo vào các giải pháp trên. Điển hình là nghiên cứu của Yazdinejadna và các cộng sự \cite{yazdinejadna2021kangaroo}. Trong nghiên cứu nói trên, các tác giả giới thiệu một hệ thống IDS sử dụng mạng nơ-ron nhân tạo GRU để phát hiện các hoạt động bất thường trong mạng SDN. Hơn thế nữa, các tác giả còn tận dụng tính linh hoạt của bộ điều khiển SDN để giúp cho hệ thống IDS có thể thông báo về hoạt động bất thường được phát hiện đến các hệ thống IDS khác trong mạng.Trong một hướng tiếp cận khác, Khen và các cộng sự \cite{chen2022building} đã đề xuất một hệ thống có tên là Fuchikoma. Hệ thống được tác giả là một chu trình kết hợp phương pháp khác nhau nhằm hỗ trợ cho các nhà săn tìm trong phân tích và phát hiện tấn công APT. Trong đó, hệ thống Fuchikoma hỗ trợ phân tích các sự kiện trên các điểm đầu cuối thông qua đồ thị và sử dụng các thuật toán học để phát hiện bất thường. Tuy nhiên, hệ thống Fuchikoma vẫn còn sử dụng các thuật toán máy học đơn giản để phân tích các đồ thị phức tạp và điều này có thể dẫn đến việc bỏ lỡ các dấu vết được để lại của các cuộc tấn công APT. Nhằm giải quyết các vấn đề gây ra bởi dữ liệu đồ thị, Hamilton và các cộng sự \cite{hamilton2017inductive} đã giới thiệu một mạng nơ-ron GNN có tên là GraphSAGE. Mạng nơ-ron mà các tác giả đề xuất sử dụng thông tin từ các nút trong đồ thị để tạo ra dữ liệu nhúng. Tuy nhiên, thay vì chỉ sử dụng duy nhất thông tin từ một nút để tạo ra dữ liệu nhúng cho chính nút đó thì các tác giả đã đề xuất ra một mô hình sử dụng thông tin của các nút lân cận của nút cần tính toán để tạo ra dữ liệu nhúng cho nút đó. Tương tư, dựa trên GraphSAGE, Lo và các cộng sự \cite{lo2022graphsage} đã đề xuất một mạng GNN có tên là E-GraphSAGE. Mạng nơ-ron này sử dụng thông tin của các cạnh để tạo ra dữ liệu nhúng thay vì thông tin của các nút. Với E-GraphSAGE, các tác giả đã xây dựng thành công một hệ thống IDS có thể phát hiện các hoạt động bất thường trong mạng IoT. Trong một nghiên cứu khác, Wei và các cộng sự \cite{wei2021deephunter} trình bày một phương pháp phát hiện mối đe dọa mạng dựa trên GNN có tên DeepHunter. Mô hình đề xuất bởi Wei và các cộng sự có thể bắt được các hành vi bất thường từ đồ thị nguồn gốc và so sánh chúng với các hành vi tấn công APT đã biết. Tuy nhiên, các mô hình này cần một lượng dữ liệu và được cập nhật liên tục mà gần như khó có tổ chức nào có thể bảo đảm được. Điều này thúc đẩy các tổ chức tiến đến việc chia sẻ dữ liệu nhưng lại phát sinh ra các vấn đề liên quan đến sư bảo mật và riêng tư của dữ liệu.
+
+
+\subsection{{Học liên kết}}
+Học liên kết cho phép các tổ chức tham gia huấn luyện có thể tăng cường hiệu suất các mô hình học sâu nhưng vẫn giữ được sử bảo mật và riêng tư của dữ liệu. Điển hình trong hướng tiếp cận này là nghiên cứu của Abdel-Basset và các cộng sự \cite{abdel2021federated}, các tác giả giới thiệu mô hình học liên kết cho phát hiện mối đe dọa trong hệ thống ICPS (Industrial Cyber-Physical System) dựa trên microservices. Mô hình đề xuất của nhóm tác giả sử dụng nhiều mạng nơ-ron khác nhau để tăng khả năng phát hiện các hoạt động bất thường và sử dụng học liên kết trong quá trình huấn luyện nhằm nâng cao khả năng phát hiện của mô hình. Tương tự, Thi và các cộng sự \cite{thi2022federated} đã thành công trong việc thử nghiệm các mạng nơ-ron CNN, LSTM và GRU để xử lý dữ liệu NetFlow trong mạng SDN trong khi sử dụng phương pháp học liên kết để thực hiện quá trình huấn luyện phi tập trung. Tương tự, Li và các cộng sự của ông \cite{9195012} giới thiệu một hệ thống IDS dựa trên học liên kết gọi là DeepFed, sử dụng sự kết hợp của CNN và GRU và được chứng minh là rất hiệu quả trong việc phát hiện nhiều loại mối đe dọa mạng chống lại các hệ thống ICPS. Mặc dù đạt được kết quả tốt, các nghiên cứu trên đều dựa trên các mạng nơ-ron nhân tạo rất phức tạp. Điều này khiến cho các nhà phân tích, nghiên cứu bảo mật khó có thể hiểu và xác minh tính đúng đắn của các quyết định được đưa ra bởi các mô hình học sâu.
+
+\subsection{{Học máy khả giải}}
+Để tăng cường khả năng diễn giải cho các mô hình học sâu, Caforio và các cộng sự \cite{caforio2021leveraging} đã sử dụng kết hợp Grad-CAM \cite{selvaraju2017grad} với phương pháp tìm kiếm lân cận để làm rõ các dự đoán bất thường trong lưu lượng mạng và cải thiện độ chính xác của các mô hình học sâu. Tuy nhiên, Grad-CAM là phương pháp giải thích chỉ phù hợp với một số mô hình dựa trên mạng nơ-ron CNN. Trong một hướng tiếp cận khác \cite{mahbooba2021explainable}, Mahbooba và đồng nghiệp đã ứng dụng thuật toán cây quyết định để xây dựng một hệ thống IDS có thể giải thích được thay vì sử dụng các mạng nơ-ron phức tạp. Tuy nhiên, giống như vấn đề của nghiên cứu trước, phương pháp của tác giả chỉ hoạt động với các hệ thống sự dụng cây quyết định.
+\bigbreak\noindent
+Để vượt qua các vấn đề của các nghiên cứu ở trên, nhiều phương pháp giải thích không phụ thuộc vào mô hình đã được nghiên cứu như trong \cite{9877919}, \cite{seale2022explainable} and \cite{ahmed2022artificial}. Đặc biệt, Houda và đồng nghiệp \cite{9825734} đã đề xuất một hệ thống IDS dựa trên các mạng nơ-ron nhân tạo để bảo vệ các mạng IoT (Internet of Thing) chống lại các cuộc tấn công mạng. Sau đó, các tác giả áp dụng kỹ thuật học máy khả giải chẳng hạn như SHAP \cite{lundberg2017unified}, RuleFit \cite{friedman2008predictive} và LIME \cite{ribeiro2016should} để tối ưu hóa khả năng giải thích các quyết định của hệ thống IDS được đề xuất. Cuối cùng, họ đã xác minh tính khả thi của kiến trúc đề xuất với các tập dữ liệu NSL-KDD và UNSW-NB15. Tương tự, trong công trình của Wang và các cộng sự \cite{wang2020explainable}, các tác giả đã tạo ra một bộ khung học máy khả giải sử dụng bộ khung SHAP để tăng tính minh bạch và giải thích của hệ thống IDS. Ngoài ra, các tác giả còn tạo ra hai bộ phân loại và so sánh các giải thích của chúng.
+\bigbreak\noindent
+Trong một nghiên cứu khác, Ying và các cộng sự \cite{ying2019gnnexplainer} giới thiệu GNNExplainer. Đây là một phương pháp không phụ thuộc vào mô hình dùng để xác định một đồ thị con từ đồ thị gốc và các nút có ảnh hưởng đáng kể đến dự đoán của GNN. Tương tự, Huang và các cộng sự \cite{huang2020graphlime} đề xuất một phương pháp giải thích không phụ thuộc vào mô hình cho GNN được gọi là GraphLIME. Phương pháp này giải thích một dự đoán cho một nút bằng cách tạo ra một mô hình giải thích cục bộ cho nút đó dựa trên LIME. Những nghiên cứu trên cho thấy các hệ thống IDS dựa trên mạng nơ-ron có thể được giải thích tốt bằng cách phân tích các yếu tố quan trọng ảnh hưởng đến quyết định của mô hình dựa trên các kỹ thuật giải thích không phụ thuộc vào mô hình như bộ khung SHAP hay GNNExplainer. Tuy nhiên, hiện tại vẫn chưa có nhiều nghiên cứu tập trung vào việc giải thích các dự đoán được tạo ra bởi các hệ thống IDS dựa trên học liên kết.
+
+
+%Học máy khả giải là một thuật ngữ dùng để chỉ một mô hình học máy có thể đưa ra được dự đoán và lí do mình đưa ra được dự đoán đó. Đây là một lĩnh vực tiềm năng nhằm cung cấp cơ sở để cải thiện cũng như sự tin tưởng vào mô hình học máy.
+
+%\subsection{{Mạng SDN}}
+
+%Với những ưu điểm như khả năng linh hoạt trong cài đặt, giám sát cũng như cấu hình các thiết bị trong mạng một các tập trung, mạng SDN được xem là một hướng tiếp cận đầy hứa hẹn trong việc quản lý hệ thống mạng.
+
+%\subsection{{Hệ thống IDS}}
+
+%IDS vẫn luôn là một giải pháp bảo mật được sử dụng rộng rãi. IDS được sử dụng giám sát các hoạt động trong hệ thống mạng, từ đó nhằm phát hiện và cảnh báo các mối đe doạ xâm nhập.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Mục tiêu, đối tượng và phạm vi nghiên cứu}
+
+\subsection{Mục tiêu nghiên cứu}
+
+Nghiên cứu mô hình săn tìm mối đe dọa dựa trên phương pháp học liên kết nhằm phát hiện tấn công APT một cách hiệu quả. Mô hình nghiên cứu ứng dụng các mạng nơ-ron mạnh mẽ để xây dựng các hệ thống IDS nhằm phát hiện các dấu hiệu bất thường có thể dẫn đến các cuộc tấn công APT trong mạng SDN. Đồng thời, các phương pháp học máy khả giải và phương pháp xác định độ tin cậy của dự đoán cũng được ứng dụng vào hệ thống nhằm hỗ trợ quá trình phân tích các cuộc tấn công cũng như tăng độ tin cậy cho các hệ thống IDS sử dụng các mạng nơ-ron nhân tạo.
+
+\subsection{Đối tượng nghiên cứu}
+
+Chúng tôi tập trung nghiên cứu trên các đối tượng sau:
+
+\begin{itemize}
+	\item Tấn công APT
+        \item Phương pháp săn tìm mối đe dọa
+        \item Hệ thống IDS dựa trên AI
+	\item Mô hình học liên kết 
+	\item Học máy khả giải
+	\item Mạng SDN
+\end{itemize}
+
+\subsection{Phạm vi nghiên cứu}
+
+Chúng tôi tập trung vào hệ thống phát hiện và săn tìm các cuộc tấn công APT sử dụng IDS cùng với SIEM, kết hợp học cộng tác và học máy khả giải, được triển khai trong môi trường mạng SDN.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Phương pháp nghiên cứu}
+
+Nghiên cứu, tìm hiểu về quy trình, các kỹ thuật được sử dụng trong tấn công APT, cùng với tìm hiểu các giải pháp hiệu quả trong việc phát hiện tấn công APT, cụ thể là SIEM và IDS. Chúng tôi thực hiện nghiên cứu trên mạng SDN nhằm hiểu rõ cách triển khai SIEM và IDS trên SDN một cách hiệu quả cho việc phát hiện và ngăn chặn tấn công APT. Đồng thời, nhằm cải thiện khả năng phát hiện của IDS, việc nghiên cứu và tìm ra mô hình học máy hiệu quả nhằm phát hiện tấn công APT cũng được tiến hành, kết hợp với tiền hiểu và ứng dụng học liên kết vào trong quá trình huấn luyện mô hình. Cuối cùng, chúng tôi thực hiện triển khai và đánh giá hiệu suất của mô hình và đưa ra những hướng đi tiếp theo trong tương lai.
+
+\section{Những điểm mới của đề tài}
+
+Trong khoá luận này, chúng tôi đã đưa ra được những điểm mới như sau:
+
+%----------------------------------------------------------------------------------------
+%	SECTION 5
+%----------------------------------------------------------------------------------------
+
+\begin{itemize}
+    \item Đề xuất một bộ mô hình học liên kết cho các trình phát hiện tấn công APT sử dụng học liên kết trong ngữ cảnh mạng SDN. Bộ khung của chúng tôi cung cấp một hệ thống NIDS mạnh mẽ sử dụng sự kết hợp của GRU và CNN đồng thời sử dụng mạng GNN tích hợp với mô hình Transformer để xây dựng hệ thống PIDS nhằm phát hiện các mẫu tấn công APT tiềm ẩn trong lưu lượng mạng và đồ thị nguồn gốc.
+    \item Tích hợp học máy khả giải vào bộ khung để phân tích kết quả dự đoán và khám phá những yếu tố ảnh hưởng đến quyết định của các bộ phát hiện tấn công APT dựa trên học liên kết sử dụng bộ khung SHAP và GNNExplainer.
+    \item Thiết kế và sử dụng một cơ chế phân tích giải thích tiên tiến để xác định tính chính xác của các dự đoán của mô hình IDS dựa trên các đầu ra của lớp áp chót cùng của mạng nơ-ron từ các dự đoán trong lịch sử.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 6
+%----------------------------------------------------------------------------------------
+
+\section{Cấu trúc Khóa luận tốt nghiệp}
+
+Cấu trúc của khóa luận được chia làm 5 chương như sau:
+
+\begin{itemize}
+    \item Chương~\ref{Chapter1}: \textbf{\nameref{Chapter1}}
+\newline
+Trình bày khái quát các vấn đề nghiên cứu, các công trình liên quan và định hướng nghiên cứu của khóa luận. 
+    \item Chương~\ref{Chapter2}: \textbf{\nameref{Chapter2}}
+\newline
+Trình bày chi tiết các khái niệm, cơ sở lý thuyết nền tảng cần thiết để thực hiện khóa luận.
+    \item Chương~\ref{Chapter3}: \textbf{\nameref{Chapter3}}
+\newline
+Trình bày chi tiết giải pháp được nghiên cứu.
+    \item Chương~\ref{Chapter4}: \textbf{\nameref{Chapter4}}
+\newline
+Trình bày phương pháp thực nghiệm, đánh giá kết quả của mô hình đề xuất. Đồng thời, hiện thực hoá hệ thống săn tìm mối đe dọa được đề cập ở Chương \ref{Chapter3}.
+    \item Chương~\ref{Chapter5}: \textbf{\nameref{Chapter5}}
+\newline
+Đưa ra kết luận về đề tài, đề xuất một số hướng phát triển mở rộng cho các nghiên cứu trong tương lai. 
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
