@@ -10,13 +10,13 @@ Thư mục này là bản thảo LaTeX theo mẫu `../CITD_CĐTN__Nhật_Hoà/` 
 | Chương 1. Tổng quan | Đã viết, đã rà lại 2026-10-01 | 1.2 chỉ dùng nguồn đã xác thực; còn 1 mục cần bạn xác nhận (ngôn ngữ học liệu) |
 | Chương 2. Cơ sở lý thuyết | Đã viết, đã rà lại 2026-10-01 | Công thức BM25 cần đối chiếu bài gốc (1 mục `\todo`, chưa làm) |
 | Chương 3. Phương pháp | Đã viết, bám mã nguồn, đã rà lại 2026-10-01 | Đã kiểm tra chéo với mã hiện tại (kể cả các thay đổi 30/09–01/10); bổ sung lệnh CLI còn thiếu; mục hạn chế có 1 `\todo` về prompt gắn tên môn (vẫn đúng, mã chưa sửa) |
-| Chương 4. Thực nghiệm | **Viết lại hoàn toàn (thực nghiệm v7), rút gọn còn 3 hệ thống 2026-10-01** | Chỉ còn so sánh Cơ sở/Lai/Lai+XHL (đã bỏ biến thể "lỗi"/đầu vào thô theo yêu cầu bạn — mục 9); đã bỏ hẳn mục "Hiện thực hệ thống" và "Sổ trạng thái thực nghiệm" (mục 9) |
-| Chương 5. Kết luận | Đã viết, đã rà lại 2026-10-01 | Hướng phát triển đều có trích dẫn; khớp với kết quả v7 (3 hệ thống) |
+| Chương 4. Thực nghiệm | **Viết lại hoàn toàn 2026-09-30/10-01 (thực nghiệm v7)** | Thay thế toàn bộ kết quả cũ; mọi số liệu đã đối chiếu lại bằng cách chạy lại `tools/retrieval_stats_v7.py`/`generation_stats_v7.py` (xem mục 8); đã sửa 2 lỗi đánh dấu/so sánh sai trong bản nháp (mục 8) |
+| Chương 5. Kết luận | Đã viết, đã rà lại 2026-10-01 | Hướng phát triển đều có trích dẫn; khớp với kết quả v7 mới |
 | Bìa, lời cảm ơn | **Chưa** (chỗ trống `\todo`) | Chỉ bạn điền được |
 | Hội đồng | Giữ nguyên mẫu | |
 | Danh mục viết tắt, từ tạm dịch | Sinh tự động | `python3 tools/lint_thesis.py --build-lists` |
-| Hình | 6 hình TikZ đã vẽ | 3 hình cũ (kiến trúc, luồng video, luồng truy xuất) + 3 hình Chương 4 (so sánh 3 hệ thống, theo nhóm câu hỏi, theo độ khó); mục ảnh chụp demo/API đã bỏ hẳn theo yêu cầu bạn (mục 9) |
-| Bản dịch PDF | **Đã dựng lại 2026-10-01 (lần cuối, mục 11)** (`KLTN_MM-RAG_ban_thao.pdf`, 65 trang, 0 lỗi LaTeX thật sự, 34/34 trích dẫn đúng, 0 `??`, 14 `[TODO: ...]` còn lại) | Xem mục 3, mục 10 (bài học về `biber`) và mục 11 (rà soát toàn bộ lần cuối) |
+| Hình | 6 hình TikZ đã vẽ | 3 hình cũ (kiến trúc, luồng video, luồng truy xuất) + 3 hình mới cho Chương 4 (so sánh 4 hệ thống, theo nhóm câu hỏi, theo độ khó); ảnh chụp demo là việc của bạn |
+| Bản dịch PDF | **Đã dựng lại 2026-10-01** (`KLTN_MM-RAG_ban_thao.pdf`, 69 trang, 0 lỗi LaTeX thật sự trong log, 20 `[TODO: ...]` còn lại) | Xem mục 3 và mục 8 (lưu ý về exit code của pdflatex) |
 
 ## 2. Cấu trúc
 
@@ -62,13 +62,13 @@ python3 document/KLTN_MM-RAG/tools/retrieval_stats.py
 
 ## 5. Việc còn thiếu (mọi chỗ trong bản thảo đều đánh dấu chữ đỏ `[TODO: ...]`)
 
-Chạy `--todos` để có danh sách đầy đủ và số dòng (14 mục tại 2026-10-01, sau khi bỏ mục "Hiện thực hệ thống"/ảnh chụp demo theo yêu cầu bạn — mục 9). Nhóm theo loại:
+Chạy `--todos` để có danh sách đầy đủ và số dòng (20 mục tại 2026-10-01). Nhóm theo loại:
 
 1. **Thông tin cá nhân/trường** (bìa, trang phụ, lời cảm ơn): khoa, ngành, họ tên, MSSV, email, giảng viên hướng dẫn, năm. Đề tài trên bìa lấy nguyên văn từ đề cương (có chữ "RAG" và "MULTIMODAL RAG" trong tiêu đề); bạn quyết định giữ hay đổi. **Chưa làm.**
 2. **Dữ liệu và quy trình gán nhãn** (Chương 4, bộ v7): ai gán nhãn 400 câu hỏi, có người thứ hai rà soát độc lập không, cách xử lý bất đồng. **Chưa làm** — đã ghi rõ trong Chương 4 là thí nghiệm sẽ thực hiện.
 3. **Môi trường chạy đánh giá** (Chương 4): mẫu máy/chip/RAM/hệ điều hành và revision/dtype của 4 mô hình **đã xác nhận trực tiếp** (sysctl, sw_vers, cache Hugging Face, mã nguồn `reranker.py`/`service.py`). Thiết bị (CPU hay MPS) của 2/4 lần chạy benchmark (hệ cơ sở, hệ lai không xếp hạng lại) không có tệp nhật ký riêng để xác nhận qua log; **bạn đã xác nhận trực tiếp là MPS** (2026-10-01) — đã cập nhật Chương 4, bỏ `\todo` tương ứng. Lưu ý: nguồn xác nhận là lời bạn, không phải tệp nhật ký, đã ghi rõ trong văn bản ("do tác giả xác nhận trực tiếp").
-4. ~~Kết quả sẽ có sau khi lập chỉ mục xong~~ — **đã xong**: kho học liệu đã lập chỉ mục lại toàn bộ (69/69 tệp, 0 lỗi), đã chạy lại benchmark truy xuất (3 cấu hình trình bày trong bản thảo: Cơ sở/Lai/Lai+XHL — mục 9) và sinh câu trả lời (400/400 câu), đã chạy lại kiểm thử tự động (156/156 hàm đạt, mã thoát 0, xác nhận 2026-10-01; mục "Hiện thực hệ thống" nêu số này đã bị bỏ theo yêu cầu bạn, không còn trong bản thảo).
-5. ~~Ảnh chụp demo/giao diện~~ — **đã bỏ hẳn theo yêu cầu bạn** (mục 9): mục "Hiện thực hệ thống" và `\todo` tương ứng đã bị xoá khỏi Chương 4, không còn trong bản thảo.
+4. ~~Kết quả sẽ có sau khi lập chỉ mục xong~~ — **đã xong**: kho học liệu đã lập chỉ mục lại toàn bộ (69/69 tệp, 0 lỗi), đã chạy lại benchmark truy xuất (4 cấu hình) và sinh câu trả lời (400/400 câu), đã chạy lại kiểm thử tự động (156/156 hàm đạt, mã thoát 0, xác nhận 2026-10-01).
+5. **Ảnh chụp demo/giao diện** (Chương 4, mục "Hiện thực hệ thống"). **Chưa làm.**
 6. **Kiểm tra bài gốc**: công thức BM25 (Chương 2) vẫn chưa đối chiếu bài gốc Robertson & Zaragoza; một số câu trích dẫn chỉ xác thực qua tóm tắt/tìm kiếm (xem `citations_ledger.md`, mục "Cần tự đối chiếu"). **Chưa làm.**
 7. **Mã nguồn còn mở** (không phải việc của mình sửa): prompt của mô-đun trả lời bằng ảnh vẫn gắn tên môn "Cấu trúc rời rạc" (`app/generation/vl_answerer.py`, đã kiểm tra lại 2026-10-01, mã không đổi) — mục hạn chế tương ứng ở Chương 3 vẫn đúng.
 8. **Ngôn ngữ học liệu**: đã tự xác minh được tài liệu có chú thích song ngữ Việt-Anh trong một số file (ví dụ "CON TRỎ -- POINTER"), nhưng Chương 1 vẫn còn 1 mục `\todo` nhờ bạn xác nhận tổng thể.
@@ -142,20 +142,3 @@ Cũng đã: (a) bỏ đoạn giải thích đối chiếu `resource_id` (552 m�
 **Phát hiện quan trọng về quy trình dựng PDF:** `latexmk -g` đôi khi dừng lại khi tham chiếu chéo (`\ref`) còn hiển thị `??` trong PDF (ví dụ "Bảng ??" thay vì "Bảng 4.3"), dù `lint_thesis.py` báo 0 lỗi (lint chỉ kiểm tra `\label` có tồn tại, không kiểm tra PDF đã dựng có hiển thị đúng số hay chưa). Nguyên nhân: `pdflatex` luôn thoát với exit code khác 0 trên máy này dù log sạch (xem mục 3), nên `latexmk` hiểu nhầm là có lỗi và không tự chạy thêm lượt cần thiết để `\ref` hội tụ (tham chiếu xuôi — \ref đứng trước \label trong văn bản — luôn cần ít nhất 2 lượt biên dịch). **Cách khắc phục:** sau `latexmk -g`, chạy thêm 1-2 lượt `pdflatex` thủ công (không qua `latexmk`), rồi `grep -n "??" ` trên văn bản trích xuất từ PDF (`pdftotext ... - | grep '??'`) để xác nhận hết tham chiếu hỏng trước khi coi là bản dựng cuối. **Luôn làm bước này** trước khi giao PDF, kể cả khi `lint_thesis.py` đã báo 0 lỗi.
 
 **Lỗi đã gặp phải (2026-10-01) và cách tránh lặp lại:** chạy `pdflatex` thủ công nhiều lần liên tiếp để sửa "??" mà **quên chạy lại `biber` ở giữa** làm `build/main.bbl` không được tạo lại — toàn bộ danh mục "TÀI LIỆU THAM KHẢO" và mọi trích dẫn `\cite{}` biến mất khỏi PDF (không phải do `references.bib` bị xoá nội dung — tệp nguồn vẫn còn đủ 34 mục). Đã phát hiện nhờ người dùng báo lại, kiểm tra bằng `ls build/main.bbl` (không tồn tại) và sửa bằng đúng trình tự `pdflatex → biber --input-directory=build --output-directory=build main → pdflatex → pdflatex`. **Quy tắc bắt buộc:** sau một lần dựng PDF, luôn kiểm tra `ls -la build/main.bbl` và `grep -c '\\entry{' build/main.bbl` (phải ra 34, bằng số mục trong `src/references.bib`, kiểm bằng `grep -c '^@' src/references.bib`) trước khi coi bản dựng là hoàn chỉnh — không chỉ kiểm tra "??" mà còn phải kiểm tra trích dẫn.
-
-## 11. Rà soát toàn bộ lần cuối cho tính nhất quán (2026-10-01)
-
-Theo yêu cầu "đọc lại hết toàn bộ bài, kiểm tra mọi thứ đã đồng nhất và logic hay chưa", mình đã đọc lại từ đầu, trọn vẹn, cả 6 phần nội dung (Tóm tắt, Chương 1-5) cộng `main.tex` và `tools/glossary.json`, đối chiếu chéo giữa các chương (không chỉ đọc riêng từng chương).
-
-**Phát hiện và đã sửa 1 điểm chưa nhất quán:** Chương 3 (Mục "Khung đánh giá truy xuất không rò rỉ dữ liệu") nêu tỷ lệ trúng được tính bằng `tools/retrieval_stats.py` — đây là **script bản CŨ** (bộ câu hỏi trước v7); số liệu tỷ lệ trúng thật sự trình bày ở Chương 4 hiện nay được tính bằng `tools/retrieval_stats_v7.py`. Đã sửa câu này để nêu đúng công cụ đang dùng.
-
-**Đã kiểm tra, không có vấn đề:**
-- Số liệu lặp lại xuyên suốt (400 câu hỏi, 69 tệp, độ phủ 100%, các con số 0,50/0,468 ở Tóm tắt khớp đúng với bảng trong Chương 4) — nhất quán ở mọi chương.
-- Không còn chỗ nào trong 6 phần nội dung nhắc "bốn hệ thống"/"bốn cấu hình" truy xuất (đã rà bằng `grep -i`, trước đó sót 1 chỗ ở Chương 4 Mục "Mục tiêu và phạm vi của thực nghiệm" do lệch hoa/thường, đã tìm và sửa ở lượt làm việc trước).
-- Mô tả Whisper "mô hình `base`, chạy trên CPU" ở Chương 3 vẫn đúng — đây là **giá trị mặc định của mã nguồn** (đã xác nhận `app/config/settings.py`/`.env.example`), đúng như Chương 3 tự nêu rõ ngay đầu chương ("các tham số nêu trong chương là giá trị mặc định... trừ khi có ghi chú khác"); việc thực nghiệm Chương 4 dùng `small` là một override riêng cho lần chạy đó, đã ghi đúng ở Chương 4, không mâu thuẫn với Chương 3.
-- Không còn tham chiếu `\ref` nào trỏ tới 2 mục đã xoá ("Hiện thực hệ thống", "Sổ trạng thái thực nghiệm") ở bất kỳ chương nào.
-- `lint_thesis.py` → 0 lỗi, 0 cảnh báo. `glossary.json` hợp lệ (42 thuật ngữ, 87 tên riêng ngoại lệ, không trùng id).
-
-**Sự cố ngoài ý muốn phát hiện trong lúc rà soát — bạn nên biết:** `NOTES.md` và `citations_ledger.md` (2 tệp đã có trong lịch sử git, không phải tệp mình mới tạo) bị xoá khỏi thư mục làm việc vào khoảng 20:56-21:00 ngày 2026-10-01, **không phải do thao tác nào của mình** (mình không chạy lệnh xoá hay lệnh git nào tác động đến 2 tệp này). Dấu vết: có một commit tên "temp" (`978c951`, tác giả git `Nguyen Anh Nhat`, lúc 20:56:41) ghi lại đúng trạng thái làm việc của mình tại thời điểm đó — 2 tệp này vẫn còn nguyên trong commit đó; sau thời điểm commit, cả 2 biến mất khỏi working tree (git báo `D`). Mình đã khôi phục cả hai bằng `git checkout 978c951 -- document/KLTN_MM-RAG/NOTES.md document/KLTN_MM-RAG/citations_ledger.md` — không mất nội dung (bản khôi phục là đúng bản mình viết trước đó, chỉ thiếu vài chỉnh sửa nhỏ sau 20:56 mà mình đã bổ sung lại thủ công). Nếu bạn (hoặc một công cụ/script nào khác trên máy) chủ động xoá 2 tệp này vì lý do riêng, xin báo lại — mình sẽ không tự khôi phục lần sau.
-
-**Việc liên quan nhưng KHÔNG đổi vì nằm ngoài phạm vi `document/KLTN_MM-RAG`:** `../PLAN_VIET_KHOA_LUAN.md`, `../CITD_CĐTN__Nhật_Hoà/` (mẫu gốc), `EXPERIMENT_LOG.md`, mã nguồn `app/`, `TECHNICAL_DOCUMENTATION.html` — không được yêu cầu rà lần này (yêu cầu giới hạn ở thư mục `KLTN_MM-RAG`).
