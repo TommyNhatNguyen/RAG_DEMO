@@ -56,16 +56,10 @@
       "abbr": "SSE"
     },
     {
-      "id": "hnsw",
-      "vi": "đồ thị tiểu thế giới có thể điều hướng phân cấp",
-      "en": "Hierarchical navigable small world",
-      "abbr": "HNSW"
-    },
-    {
-      "id": "hyde",
-      "vi": "nhúng tài liệu giả định",
-      "en": "Hypothetical document embeddings",
-      "abbr": "HyDE"
+      "id": "ann",
+      "vi": "tìm kiếm lân cận xấp xỉ gần nhất",
+      "en": "Approximate Nearest Neighbor",
+      "abbr": "ANN"
     },
     {
       "id": "cpu",
@@ -228,6 +222,36 @@
       "vi": "đơn vị văn bản",
       "en": "token",
       "abbr": ""
+    },
+    {
+      "id": "faithfulness",
+      "vi": "độ trung thực với ngữ cảnh",
+      "en": "faithfulness",
+      "abbr": ""
+    },
+    {
+      "id": "answer_relevancy",
+      "vi": "độ liên quan của câu trả lời",
+      "en": "answer relevancy",
+      "abbr": ""
+    },
+    {
+      "id": "category",
+      "vi": "nhóm câu hỏi",
+      "en": "category",
+      "abbr": ""
+    },
+    {
+      "id": "bootstrap",
+      "vi": "lấy mẫu lại",
+      "en": "bootstrap",
+      "abbr": ""
+    },
+    {
+      "id": "reference_free",
+      "vi": "đánh giá không dựa trên tài liệu tham chiếu",
+      "en": "reference-free",
+      "abbr": ""
     }
   ],
   "_ngoai_le_ten_rieng": [
@@ -241,6 +265,8 @@
     "Tesseract",
     "BM25",
     "BM25Okapi",
+    "HNSW",
+    "HyDE",
     "Hugging Face",
     "FastAPI",
     "LangChain",
@@ -263,7 +289,6 @@
     "Recall",
     "F1",
     "macro",
-    "bootstrap",
     "cosine",
     "Instruct",
     "YAML",

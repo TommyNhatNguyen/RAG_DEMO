@@ -302,6 +302,33 @@ class GenerationService:
         )
         return question, context, source_paths, fallback
 
+    def retrieve_for_eval(
+        self,
+        raw_query: str,
+        *,
+        k: int | None = None,
+        include_visual: bool = True,
+        enhance: bool | None = None,
+        source: str | None = None,
+        course: str | None = None,
+        content_type: str | None = None,
+    ) -> list[RetrievalResult]:
+        """Run the real query-enhance/HyDE/iterative-loop retrieval path and
+        return just the hits, for benchmark harnesses that want to measure
+        the full generation-time retrieval pipeline (not only bare
+        `retriever.search()`)."""
+        self._retrieve(
+            raw_query,
+            k=k,
+            include_visual=include_visual,
+            enhance=enhance,
+            source=source,
+            course=course,
+            content_type=content_type,
+            emit_status=False,
+        )
+        return self.last_hits
+
     def _retrieve(
         self,
         raw_query: str,

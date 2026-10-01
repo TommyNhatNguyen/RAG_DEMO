@@ -154,13 +154,24 @@ def cmd_eval(args: argparse.Namespace, settings: Settings) -> int:
 
     from app.eval.golden import load_golden
     from app.eval.report import format_report
+    from app.eval.retrieval_benchmark import load_resource_id_aliases
     from app.eval.runner import run_eval
 
-    settings.rerank_enabled = False
+    settings.rerank_enabled = bool(getattr(args, "rerank", False))
     services = build_services(settings)
     items = load_golden(args.golden)
     if args.limit is not None:
         items = items[: max(0, args.limit)]
+
+    aliases = None
+    if not getattr(args, "no_resource_id_aliases", False):
+        aliases_path = Path(getattr(args, "resource_id_aliases", "evals/resource_id_aliases.json"))
+        if not aliases_path.is_absolute():
+            aliases_path = settings.resolve_path(aliases_path)
+        if aliases_path.is_file():
+            aliases = load_resource_id_aliases(aliases_path)
+            print(f"resource_id_aliases: loaded {len(aliases)} from {aliases_path}")
+
     report = run_eval(
         services,
         items,
@@ -168,6 +179,7 @@ def cmd_eval(args: argparse.Namespace, settings: Settings) -> int:
         retrieve_only=args.retrieve_only,
         enhance=args.enhance,
         k=args.k,
+        resource_id_aliases=aliases,
     )
     print(format_report(report))
     if args.out:
@@ -291,6 +303,35 @@ def cmd_prepare_retrieval_queries(args: argparse.Namespace, settings: Settings) 
     return 0
 
 
+def cmd_prepare_golden_from_draft(args: argparse.Namespace, settings: Settings) -> int:
+    from pathlib import Path
+
+    from app.eval.question_draft_bridge import question_draft_to_golden_jsonl
+    from app.eval.retrieval_benchmark import load_resource_id_aliases
+
+    source = Path(args.questions)
+    if not source.is_absolute():
+        source = settings.resolve_path(source)
+    target = Path(args.out)
+    if not target.is_absolute():
+        target = settings.resolve_path(target)
+
+    aliases = None
+    if not args.no_resource_id_aliases:
+        aliases_path = Path(args.resource_id_aliases)
+        if not aliases_path.is_absolute():
+            aliases_path = settings.resolve_path(aliases_path)
+        if aliases_path.is_file():
+            aliases = load_resource_id_aliases(aliases_path)
+            print(f"resource_id_aliases: loaded {len(aliases)} from {aliases_path}")
+        else:
+            print(f"resource_id_aliases: none found at {aliases_path}, continuing without")
+
+    count = question_draft_to_golden_jsonl(source, target, aliases=aliases)
+    print(f"prepared={count} wrote {target}")
+    return 0
+
+
 def cmd_benchmark_retrieve(args: argparse.Namespace, settings: Settings) -> int:
     from pathlib import Path
 
@@ -329,6 +370,19 @@ def cmd_benchmark_retrieve(args: argparse.Namespace, settings: Settings) -> int:
     if args.limit is not None:
         selected = selected[: max(0, args.limit)]
     services = build_services(settings)
+
+    retrieve_fn = None
+    if getattr(args, "use_generation_pipeline", False):
+        generator = services.generator
+
+        def retrieve_fn(question, top_k, include_visual_, course):
+            return generator.retrieve_for_eval(
+                question,
+                k=top_k,
+                include_visual=include_visual_,
+                course=course,
+            )
+
     summary = run_retrieval(
         services.retriever,
         selected,
@@ -339,6 +393,7 @@ def cmd_benchmark_retrieve(args: argparse.Namespace, settings: Settings) -> int:
         use_course_filter=not args.no_course_filter,
         resume=args.resume,
         query_set_hash=query_hash,
+        retrieve_fn=retrieve_fn,
     )
     print(
         f"system={summary['system_id']} requested={summary['requested']} "
@@ -354,8 +409,10 @@ def cmd_score_retrieval(args: argparse.Namespace, settings: Settings) -> int:
 
     from app.eval.retrieval_benchmark import (
         canonical_resource_id,
+        load_resource_id_aliases,
         score_retrieval_file,
     )
+    from app.eval.retrieval_report import format_retrieval_report
 
     questions = Path(args.questions)
     results = Path(args.results)
@@ -376,11 +433,24 @@ def cmd_score_retrieval(args: argparse.Namespace, settings: Settings) -> int:
                 relative_path = str((metadata or {}).get("relative_path") or "")
                 if relative_path:
                     indexed_resources.add(canonical_resource_id(relative_path))
+
+    aliases = None
+    if not args.no_resource_id_aliases:
+        aliases_path = Path(args.resource_id_aliases)
+        if not aliases_path.is_absolute():
+            aliases_path = settings.resolve_path(aliases_path)
+        if aliases_path.is_file():
+            aliases = load_resource_id_aliases(aliases_path)
+            print(f"resource_id_aliases: loaded {len(aliases)} from {aliases_path}")
+        else:
+            print(f"resource_id_aliases: none found at {aliases_path}, continuing without")
+
     report = score_retrieval_file(
         questions,
         results,
         null_policy=args.null_policy,
         indexed_resource_ids=indexed_resources,
+        resource_id_aliases=aliases,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -389,6 +459,7 @@ def cmd_score_retrieval(args: argparse.Namespace, settings: Settings) -> int:
     for key, value in report["macro_average_answerable"].items():
         if value is not None:
             print(f"{key}={float(value):.6f}")
+    print(format_retrieval_report(report))
     print(f"wrote {output}")
     return 0
 
@@ -519,6 +590,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     ev.add_argument("--limit", type=int, default=None, help="Evaluate only the first N items")
     ev.add_argument("--out", default=None, help="Write full JSON report (e.g. evals/reports/baseline.json)")
+    ev.add_argument(
+        "--rerank",
+        action="store_true",
+        help="Allow the Qwen3 reranker if RERANK_ENABLED=true in .env (default: force off)",
+    )
+    ev.add_argument(
+        "--resource-id-aliases",
+        default="evals/resource_id_aliases.json",
+        help="JSON {slug_resource_id: real_resource_id} map, used for citation-accuracy scoring",
+    )
+    ev.add_argument(
+        "--no-resource-id-aliases",
+        action="store_true",
+        help="Disable resource_id alias resolution for citation-accuracy scoring",
+    )
     ev.set_defaults(func=cmd_eval)
 
     prep = sub.add_parser(
@@ -532,6 +618,28 @@ def build_parser() -> argparse.ArgumentParser:
         help="Sanitized JSONL containing only question_id, question, course_id",
     )
     prep.set_defaults(func=cmd_prepare_retrieval_queries)
+
+    prep_golden = sub.add_parser(
+        "prepare-golden-from-draft",
+        help="Convert a questions_draft*.json file into golden.jsonl schema for generation-level eval",
+    )
+    prep_golden.add_argument("questions", help="questions_draft*.json path")
+    prep_golden.add_argument(
+        "--out",
+        default="evals/golden_from_draft.jsonl",
+        help="Golden JSONL output (id, question, ground_truth='', kind=category, expected_paths, ...)",
+    )
+    prep_golden.add_argument(
+        "--resource-id-aliases",
+        default="evals/resource_id_aliases.json",
+        help="JSON {slug_resource_id: real_resource_id} map for evidence spelling mismatches",
+    )
+    prep_golden.add_argument(
+        "--no-resource-id-aliases",
+        action="store_true",
+        help="Disable resource_id alias resolution",
+    )
+    prep_golden.set_defaults(func=cmd_prepare_golden_from_draft)
 
     bench = sub.add_parser(
         "benchmark-retrieve",
@@ -552,6 +660,15 @@ def build_parser() -> argparse.ArgumentParser:
     bench.add_argument("--start", type=int, default=1, help="1-based first query to run")
     bench.add_argument("--limit", type=int, default=None, help="Run at most N queries")
     bench.add_argument("--resume", action="store_true", help="Append only missing question_ids")
+    bench.add_argument(
+        "--use-generation-pipeline",
+        action="store_true",
+        help=(
+            "Retrieve via GenerationService.retrieve_for_eval() instead of bare "
+            "retriever.search() — exercises query-enhance/HyDE/iterative-loop per "
+            ".env (QUERY_HYDE, MAX_RETRIEVE_LOOPS) instead of only hybrid+rerank"
+        ),
+    )
     bench.set_defaults(func=cmd_benchmark_retrieve)
 
     score = sub.add_parser(
@@ -571,6 +688,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-unindexed-ground-truth",
         action="store_true",
         help="Include questions whose ground-truth resources are absent from ChromaDB",
+    )
+    score.add_argument(
+        "--resource-id-aliases",
+        default="evals/resource_id_aliases.json",
+        help="JSON {slug_resource_id: real_resource_id} map for evidence spelling mismatches",
+    )
+    score.add_argument(
+        "--no-resource-id-aliases",
+        action="store_true",
+        help="Disable resource_id alias resolution (raw canonical_resource_id matching only)",
     )
     score.set_defaults(func=cmd_score_retrieval)
     return parser

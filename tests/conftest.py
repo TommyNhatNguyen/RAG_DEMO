@@ -53,4 +53,12 @@ def settings(tmp_path: Path) -> Settings:
         retriever_k=5,
         query_enhance=False,
         video_max_representative_frames=3,
+        # Pin every env-tunable retrieval/generation toggle explicitly so
+        # tests never inherit whatever a developer's local .env happens to
+        # have set (e.g. an experiment run with QUERY_HYDE/MAX_RETRIEVE_LOOPS/
+        # RERANK_ENABLED turned on) — pydantic-settings reads .env as the
+        # default for any field not passed here.
+        query_hyde=False,
+        max_retrieve_loops=0,
+        rerank_enabled=False,
     )

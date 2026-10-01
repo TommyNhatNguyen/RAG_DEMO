@@ -103,7 +103,13 @@ def run_retrieval(
     use_course_filter: bool = True,
     resume: bool = False,
     query_set_hash: str | None = None,
+    retrieve_fn: Any = None,
 ) -> dict[str, Any]:
+    """`retrieve_fn`, if given, replaces the default bare `retriever.search(...)`
+    call — e.g. `GenerationService.retrieve_for_eval` to exercise the real
+    query-enhance/HyDE/iterative-loop pipeline instead of only hybrid+rerank.
+    Signature: `retrieve_fn(question, k, include_visual, course) -> list[RetrievalResult]`.
+    """
     if top_k < max(K_VALUES):
         raise ValueError("top_k must be at least 10 for P/R/F1@10")
     target = Path(output_path)
@@ -129,12 +135,16 @@ def run_retrieval(
             error: str | None = None
             try:
                 # Only the learner question and optional course context reach RAG.
-                hits = retriever.search(
-                    item.question,
-                    k=top_k,
-                    include_visual=include_visual,
-                    course=item.course_id if use_course_filter else None,
-                )
+                course = item.course_id if use_course_filter else None
+                if retrieve_fn is not None:
+                    hits = retrieve_fn(item.question, top_k, include_visual, course)
+                else:
+                    hits = retriever.search(
+                        item.question,
+                        k=top_k,
+                        include_visual=include_visual,
+                        course=course,
+                    )
             except Exception as exc:  # keep a long benchmark resumable
                 hits = []
                 error = f"{type(exc).__name__}: {exc}"
@@ -208,6 +218,7 @@ def score_retrieval_file(
     *,
     null_policy: str = "infer",
     indexed_resource_ids: set[str] | None = None,
+    resource_id_aliases: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     questions = json.loads(Path(question_path).read_text(encoding="utf-8"))
     if not isinstance(questions, list):
@@ -236,11 +247,20 @@ def score_retrieval_file(
         if result_row is None:
             missing_results.append(question_id)
             continue
+        category = question.get("category")
+        difficulty = question.get("difficulty")
         evidence = question.get("evidence") or []
         label = question.get("answerable")
         if label is None:
             if null_policy == "exclude":
-                excluded.append({"question_id": question_id, "reason": "answerable is null"})
+                excluded.append(
+                    {
+                        "question_id": question_id,
+                        "reason": "answerable is null",
+                        "category": category,
+                        "difficulty": difficulty,
+                    }
+                )
                 continue
             if null_policy == "error":
                 raise ValueError(f"{question_id}: answerable is null")
@@ -256,12 +276,21 @@ def score_retrieval_file(
             unanswerable_rows.append(result_row)
             continue
         if not evidence:
-            excluded.append({"question_id": question_id, "reason": "no ground-truth evidence"})
+            excluded.append(
+                {
+                    "question_id": question_id,
+                    "reason": "no ground-truth evidence",
+                    "category": category,
+                    "difficulty": difficulty,
+                }
+            )
             continue
         if indexed is not None:
             missing_resources = sorted(
                 {
-                    canonical_resource_id(str(item.get("resource_id") or ""))
+                    resolve_evidence_resource_id(
+                        str(item.get("resource_id") or ""), resource_id_aliases
+                    )
                     for item in evidence
                 }
                 - indexed
@@ -271,16 +300,25 @@ def score_retrieval_file(
                     "question_id": question_id,
                     "reason": "ground-truth resource is not indexed",
                     "missing_resources": missing_resources,
+                    "category": category,
+                    "difficulty": difficulty,
                 }
                 excluded.append(entry)
                 unavailable_ground_truth.append(entry)
                 continue
         results = list(result_row.get("results") or [])
         metrics = {
-            str(k): metrics_at_k(evidence, results, k)
+            str(k): metrics_at_k(evidence, results, k, resource_id_aliases)
             for k in K_VALUES
         }
-        scored.append({"question_id": question_id, "metrics": metrics})
+        scored.append(
+            {
+                "question_id": question_id,
+                "metrics": metrics,
+                "category": category,
+                "difficulty": difficulty,
+            }
+        )
 
     macro = {
         f"precision@{k}": _mean(
@@ -349,6 +387,11 @@ def score_retrieval_file(
             ),
         },
         "macro_average_answerable": macro,
+        "by_category": _macro_by(scored, "category"),
+        "by_difficulty": _macro_by(scored, "difficulty"),
+        "excluded_by_category": _count_by(excluded, "category"),
+        "excluded_by_difficulty": _count_by(excluded, "difficulty"),
+        "resource_id_aliases_applied": len(resource_id_aliases or {}),
         "unanswerable_evaluation": {
             "n": len(unanswerable_rows),
             "retrieval_precision_recall_f1": None,
@@ -366,8 +409,34 @@ def score_retrieval_file(
     }
 
 
+def _macro_by(scored: list[dict[str, Any]], group_key: str) -> dict[str, dict[str, Any]]:
+    buckets: dict[str, list[dict[str, Any]]] = {}
+    for row in scored:
+        buckets.setdefault(str(row.get(group_key) or "unknown"), []).append(row)
+    out: dict[str, dict[str, Any]] = {}
+    for label, rows in buckets.items():
+        entry: dict[str, Any] = {"n": len(rows)}
+        for k in K_VALUES:
+            entry[f"precision@{k}"] = _mean([r["metrics"][str(k)]["precision"] for r in rows])
+            entry[f"recall@{k}"] = _mean([r["metrics"][str(k)]["recall"] for r in rows])
+            entry[f"f1@{k}"] = _mean([r["metrics"][str(k)]["f1"] for r in rows])
+        out[label] = entry
+    return dict(sorted(out.items()))
+
+
+def _count_by(rows: list[dict[str, Any]], group_key: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        label = str(row.get(group_key) or "unknown")
+        counts[label] = counts.get(label, 0) + 1
+    return dict(sorted(counts.items()))
+
+
 def metrics_at_k(
-    evidence: list[dict[str, Any]], results: list[dict[str, Any]], k: int
+    evidence: list[dict[str, Any]],
+    results: list[dict[str, Any]],
+    k: int,
+    aliases: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     top = results[:k]
     relevant_results = 0
@@ -376,7 +445,7 @@ def metrics_at_k(
         matches = {
             index
             for index, expected in enumerate(evidence)
-            if result_matches_evidence(result, expected)
+            if result_matches_evidence(result, expected, aliases)
         }
         if matches:
             relevant_results += 1
@@ -394,9 +463,38 @@ def metrics_at_k(
     }
 
 
-def result_matches_evidence(result: dict[str, Any], expected: dict[str, Any]) -> bool:
-    if canonical_resource_id(str(result.get("resource_id") or "")) != canonical_resource_id(
-        str(expected.get("resource_id") or "")
+def load_resource_id_aliases(path: str | Path) -> dict[str, str]:
+    """Static slug-spelling -> real-filename map for evidence resource_ids.
+
+    Some question-draft files (e.g. questions_draft_v7.json) store an
+    ASCII-slugified resource_id that never matches the accented/spaced
+    filenames actually on disk (and thus in Chroma's `relative_path`).
+    This is a small, fully-enumerable, human-reviewed table rather than a
+    runtime fuzzy matcher, applied only on the evidence side.
+    """
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"{path}: expected a JSON object")
+    return {
+        canonical_resource_id(str(k)): canonical_resource_id(str(v))
+        for k, v in data.items()
+    }
+
+
+def resolve_evidence_resource_id(value: str, aliases: dict[str, str] | None = None) -> str:
+    canonical = canonical_resource_id(value)
+    if not aliases:
+        return canonical
+    return aliases.get(canonical, canonical)
+
+
+def result_matches_evidence(
+    result: dict[str, Any],
+    expected: dict[str, Any],
+    aliases: dict[str, str] | None = None,
+) -> bool:
+    if canonical_resource_id(str(result.get("resource_id") or "")) != resolve_evidence_resource_id(
+        str(expected.get("resource_id") or ""), aliases
     ):
         return False
     page = _int_or_none(expected.get("page"))

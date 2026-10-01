@@ -4,10 +4,11 @@ import logging
 from typing import Any
 
 from app.eval.golden import GoldenItem
-from app.eval.judge import score_with_judge
+from app.eval.judge import score_reference_free, score_with_judge
 from app.eval.metrics import path_precision_at_k, path_recall_at_k
 from app.eval.ragas_backend import score_with_ragas
 from app.eval.report import build_report
+from app.eval.retrieval_benchmark import metrics_at_k, serialize_hit
 from app.generation.context import relative_path_for_hit
 from app.models.retrieval import RetrievalResult
 
@@ -23,6 +24,7 @@ def run_eval(
     enhance: bool = False,
     k: int | None = None,
     use_ragas: bool = True,
+    resource_id_aliases: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     traces: list[dict[str, Any]] = []
     for item in items:
@@ -34,6 +36,7 @@ def run_eval(
                 retrieve_only=retrieve_only,
                 enhance=enhance,
                 k=k,
+                resource_id_aliases=resource_id_aliases,
             )
         )
     llm_means: dict[str, float | None] = {}
@@ -50,6 +53,7 @@ def _run_one(
     retrieve_only: bool,
     enhance: bool,
     k: int | None,
+    resource_id_aliases: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     include_visual = not text_only
     hits: list[RetrievalResult]
@@ -78,9 +82,10 @@ def _run_one(
     paths = [relative_path_for_hit(hit) for hit in hits]
     recall = path_recall_at_k(item.expected_paths, hits)
     precision = path_precision_at_k(item.expected_paths, hits)
-    return {
+    trace = {
         "id": item.id,
         "kind": item.kind,
+        "difficulty": item.extra.get("difficulty") if isinstance(item.extra, dict) else None,
         "question": item.question,
         "ground_truth": item.ground_truth,
         "answer": answer,
@@ -97,6 +102,17 @@ def _run_one(
         "expected_paths": list(item.expected_paths),
     }
 
+    evidence = item.extra.get("evidence") if isinstance(item.extra, dict) else None
+    if evidence and hits:
+        serialized = [
+            serialize_hit(item.id, rank, hit) for rank, hit in enumerate(hits, start=1)
+        ]
+        citation = metrics_at_k(evidence, serialized, len(serialized), resource_id_aliases)
+        trace["citation_precision"] = citation["precision"]
+        trace["citation_recall"] = citation["recall"]
+        trace["citation_f1"] = citation["f1"]
+    return trace
+
 
 def _llm_scores(
     services: Any,
@@ -105,7 +121,14 @@ def _llm_scores(
     use_ragas: bool,
 ) -> dict[str, float | None]:
     chat = getattr(services.generator, "_chat", None)
-    if use_ragas:
+    # A bridged questions_draft*.json set (see question_draft_bridge.py) has
+    # no gold reference answer at all — context_precision/context_recall and
+    # RAGAs' reference-dependent metrics would just score against "", which
+    # is misleading rather than merely imprecise. Detect and branch instead.
+    reference_free = bool(traces) and all(
+        not str(trace.get("ground_truth") or "").strip() for trace in traces
+    )
+    if use_ragas and not reference_free:
         ragas_scores = score_with_ragas(
             traces,
             llm=chat if chat is not None else None,
@@ -116,7 +139,26 @@ def _llm_scores(
     if chat is None:
         logger.warning("No LLM judge available; skipping faithfulness/relevancy/precision/recall")
         return {}
-    bucket: dict[str, list[float]] = {key: [] for key in ("faithfulness", "answer_relevancy", "context_precision", "context_recall")}
+    if reference_free:
+        bucket: dict[str, list[float]] = {key: [] for key in ("faithfulness", "answer_relevancy")}
+        for trace in traces:
+            try:
+                scored = score_reference_free(
+                    chat,
+                    question=str(trace.get("question") or ""),
+                    contexts=list(trace.get("contexts") or []),
+                    answer=str(trace.get("answer") or ""),
+                )
+            except Exception:
+                logger.exception("Reference-free judge failed for %s", trace.get("id"))
+                continue
+            for key, values in bucket.items():
+                if key in scored:
+                    values.append(scored[key])
+        return {
+            key: (sum(vals) / len(vals) if vals else None) for key, vals in bucket.items()
+        }
+    bucket = {key: [] for key in ("faithfulness", "answer_relevancy", "context_precision", "context_recall")}
     for trace in traces:
         try:
             scored = score_with_judge(

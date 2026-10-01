@@ -17,7 +17,7 @@ Hệ thống được tổ chức thành các khối chức năng tách rời: n
 
 \bigbreak\noindent
 % [CODE app/vectorstore/chroma.py; README mục ChromaDB layout]
-Học liệu gốc được giữ nguyên tại chỗ. Kho vector ChromaDB\footnote{ChromaDB: \url{https://github.com/chroma-core/chroma}} chỉ lưu vector, văn bản và siêu dữ liệu vị trí; các tệp nhị phân phát sinh trong quá trình xử lý (ảnh trang, ảnh hình, khung hình video, âm thanh trích xuất) được lưu trong một thư mục riêng dưới quyền quản lý của hệ thống. Hệ thống có hai điểm truy cập: giao diện dòng lệnh (Command-line interface - CLI) với các lệnh chính là \texttt{ingest}, \texttt{search}, \texttt{ask}, \texttt{stats}, \texttt{eval}, \texttt{prepare-retrieval-queries}, \texttt{benchmark-retrieve} và \texttt{score-retrieval}; và API xây dựng bằng FastAPI (\textbf{Mục \ref{sec:api}}). \textbf{Hình \ref{fig:kien-truc}} mô tả luồng dữ liệu tổng quát.
+Học liệu gốc được giữ nguyên tại chỗ. Kho vector ChromaDB\footnote{ChromaDB: \url{https://github.com/chroma-core/chroma}} chỉ lưu vector, văn bản và siêu dữ liệu vị trí; các tệp nhị phân phát sinh trong quá trình xử lý (ảnh trang, ảnh hình, khung hình video, âm thanh trích xuất) được lưu trong một thư mục riêng dưới quyền quản lý của hệ thống. Hệ thống có hai điểm truy cập: giao diện dòng lệnh (Command-line interface - CLI) với các lệnh chính là \texttt{ingest}, \texttt{search}, \texttt{ask}, \texttt{stats}, \texttt{eval}, \texttt{prepare-retrieval-queries}, \texttt{prepare-golden-from-draft}, \texttt{benchmark-retrieve} và \texttt{score-retrieval}; và API xây dựng bằng FastAPI (\textbf{Mục \ref{sec:api}}). \textbf{Hình \ref{fig:kien-truc}} mô tả luồng dữ liệu tổng quát.
 
 \begin{figure}[ht]
     \centering
@@ -215,7 +215,7 @@ Hệ thống dùng hai mô hình biểu diễn vector khác nhau, tương ứng 
 \textbf{Không gian thị giác.} Ảnh, ảnh trang và khung hình được biểu diễn bằng Qwen3-VL-Embedding-2B qua thư viện Sentence Transformers với lô một phần tử và vector được chuẩn hóa. Khi ảnh có kèm văn bản (chú thích, văn bản nhận dạng ký tự hoặc phiên âm), đầu vào là cặp văn bản và ảnh; ngược lại đầu vào chỉ là ảnh. Truy vấn văn bản được biểu diễn trong cùng không gian này cùng với chỉ dẫn cố định ``truy xuất slide, sơ đồ và khung hình bài giảng phù hợp với truy vấn'' (bản tiếng Anh trong mã nguồn).
 
 \bigbreak\noindent
-\textbf{Chỉ mục vector.} ChromaDB được cấu hình với \texttt{hnsw:space=cosine}, nghĩa là chỉ mục xấp xỉ láng giềng gần nhất dùng HNSW \cite{malkov2020hnsw} với khoảng cách cosine. Các mã vector đã tồn tại được bỏ qua khi thêm, nên việc nạp lại không tạo vector trùng.
+\textbf{Chỉ mục vector.} ChromaDB được cấu hình với \texttt{hnsw:space=cosine}, nghĩa là chỉ mục ANN dùng HNSW \cite{malkov2020hnsw} với khoảng cách cosine. Các mã vector đã tồn tại được bỏ qua khi thêm, nên việc nạp lại không tạo vector trùng.
 
 \bigbreak\noindent
 \textbf{Chỉ mục từ vựng.} Song song với vector, hệ thống dựng chỉ mục BM25 bằng gói \texttt{rank-bm25}\footnote{rank-bm25: \url{https://pypi.org/project/rank-bm25/}} (lớp \texttt{BM25Okapi}) trên toàn bộ văn bản của tập vector văn bản thuộc các loại \texttt{text}, \texttt{table} và \texttt{video\_segment}. Truy vấn và tài liệu được chuẩn hóa NFC, đưa về chữ thường và tách thành các đơn vị tại mọi chuỗi ký tự không phải chữ, số hoặc dấu gạch dưới; hệ thống không dùng bộ tách từ tiếng Việt. Chỉ mục được lưu thành một tệp \texttt{data/bm25.pkl}.
@@ -423,7 +423,6 @@ Dựa trên việc đọc mã nguồn, chúng tôi ghi nhận các hạn chế s
     \item \emph{Lọc theo tệp không áp dụng cho BM25.} Khi chỉ định một tệp nguồn, các kết quả BM25 từ tệp khác vẫn tham gia hợp nhất.
     \item \emph{Từ chối đơn giản.} Việc từ chối chỉ dựa trên giá trị cosine lớn nhất; hệ thống không kiểm tra tính đủ, tính nhất quán hay quyền truy cập của bằng chứng.
     \item \emph{Bài tập.} Các tệp bài tập được xử lý như văn bản thông thường; hệ thống không tách đề, gợi ý, lời giải và mức độ khó, cũng không kiểm soát việc tiết lộ đáp án.
-    \item \emph{Câu lệnh dẫn dắt gắn môn học.} Câu lệnh của mô-đun trả lời bằng ảnh hiện nêu cụ thể tên một môn học (Cấu trúc rời rạc), mâu thuẫn với mục tiêu nhận biết môn học tổng quát. \todo{Nếu bạn sửa mã (bỏ tên môn khỏi câu lệnh trong \texttt{app/generation/vl\_answerer.py}), hãy xóa mục này và cập nhật phần mô tả ở Mục \ref{sec:sinh}.}
     \item \emph{Video chưa được đưa vào trả lời bằng ảnh.} Khung hình video chỉ tham gia truy xuất; mô hình thị giác chỉ đọc ảnh trang và ảnh hình của tài liệu.
     \item \emph{Triển khai một tiến trình.} API xử lý tuần tự từng yêu cầu suy luận, phù hợp với thiết bị có bộ nhớ hạn chế nhưng không phù hợp với tải lớn.
 \end{itemize}

@@ -3,6 +3,10 @@
 % Thư viện TikZ cho các hình trong src/figures
 \usetikzlibrary{arrows.meta}
 
+% pgfplots cho các biểu đồ số liệu ở Chương 4 (thực nghiệm bổ sung, bộ câu hỏi v7)
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
 % Đánh dấu chỗ còn thiếu: mọi \todo{...} đều hiện chữ đỏ trong bản PDF.
 % Liệt kê tất cả bằng: python3 tools/lint_thesis.py --todos
 \newcommand{\todo}[1]{{\color{red}\textbf{[TODO: #1]}}}

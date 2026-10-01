@@ -645,3 +645,135 @@ Checklist thông tin cần bổ sung hoặc xác nhận trước báo cáo cuố
 - [ ] Thực hiện error analysis và ghi lại taxonomy lỗi.
 - [ ] Thực hiện kiểm định thống kê trước khi viết kết luận so sánh hệ thống.
 
+# 16. Bổ sung 2026-09-30: reset corpus, bộ câu hỏi v7, và bug reranker
+
+> Trạng thái: nhật ký thực nghiệm dự thảo tiếp theo phần 1-15, cùng quy ước `[CHƯA XÁC NHẬN]`.
+
+## 16.1 Reset toàn bộ index và ingest lại từ đầu
+
+Theo yêu cầu người dùng, đã xoá sạch `data/chroma`, `data/index_manifest.json`, `data/bm25.pkl`, `storage/`, `evals/results/`, `evals/reports/*` và ingest lại toàn bộ `assets/` (15GB, 30 video, 3 môn: `cau_truc_du_lieu_va_giai_thuat`, `cau_truc_roi_rac`, `nhap_mon_lap_trinh`).
+
+Trong lúc ingest phát hiện và sửa 3 lỗi trong code (không chỉ do môi trường):
+
+1. **Whisper transcribe sai ngôn ngữ**: `faster-whisper` tự nhận diện ngôn ngữ trên video bài giảng tiếng Việt ra `en` với độ tin cậy 38%. Đã thêm `WHISPER_LANGUAGE=vi` (mặc định `vi`) vào `Settings` và ép cứng trong `VideoLoader._transcribe()`.
+2. **Model ảnh (Qwen3-VL-Embedding) load lỗi giữa chừng do mạng chập chờn** ngay sau khi máy thức dậy từ sleep, làm mất toàn bộ `video_frame` của video đang xử lý (exception bị nuốt, chỉ còn `text`). Chuyển sang chạy `HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1` sau khi mọi model cần thiết đã cache sẵn.
+3. **`HF_HUB_OFFLINE=1` xung đột với `HF_TOKEN`**: `app/factory.py::login_hub()` gọi `huggingface_hub.login()` (cần mạng để xác thực `whoami-v2`) bất kể chế độ offline, làm crash `build_services()`. Đã sửa: bỏ qua bước login khi `huggingface_hub.constants.HF_HUB_OFFLINE` bật.
+4. **`VideoCheckpoint.update(stage=...)` ghi đè lùi stage**: mỗi lần resume, bước audio-extraction xong sẽ tự hạ `stage` về `"audio"` kể cả khi checkpoint đã ở `"indexed"`, khiến `checkpoint.reached("transcript")` luôn `False` và pipeline transcribe lại từ đầu dù transcript đã có sẵn. Đã sửa: `stage` chỉ được phép tiến, không được phép lùi (`app/processors/video_checkpoint.py`).
+
+Cũng nâng `WHISPER_MODEL` từ `base` lên `small` (transcript rõ ràng hơn hẳn, tốc độ đo được không chậm hơn đáng kể trên máy này) và bật đồng thời `HYBRID_SEARCH`, `RERANK_ENABLED`, `CONTEXT_EXPAND`, `CONTEXT_COMPRESS`, `QUERY_HYDE`, `MAX_RETRIEVE_LOOPS=1`, `RETRIEVER_FETCH_K=40` trong `.env` để đo toàn bộ kỹ thuật retrieval sẵn có trong repo.
+
+Kết quả ingest cuối cùng: 69 file trên đĩa (30 mp4, 21 pdf, 7 pptx, 7 ppt, 4 docx), 62 file được hỗ trợ lúc bắt đầu + 7 `.ppt` thêm sau (mục 16.2) = 69/69 **đã index, 0 lỗi**. 15.682 vector text (text=5.782, table=97, page=582, video_segment=9.803) + 12.793 vector ảnh (image=1.297, video_frame=10.914).
+
+Trong lúc ingest, máy bị hệ điều hành đưa vào sleep nhiều lần (gập nắp, và có lúc chạy bằng pin khiến `caffeinate -s` — vốn chỉ hiệu lực khi cắm sạc AC — không ngăn được sleep). Nhờ fix #4 ở trên, quá trình resume sau mỗi lần sleep không mất tiến độ đã hoàn thành, chỉ kéo dài thêm đúng bằng thời gian máy ngủ.
+
+## 16.2 Bộ câu hỏi `questions_draft_v7.json` (400 câu) và khoảng trống corpus
+
+Người dùng cung cấp `questions_draft_v7.json` (gốc repo, chưa commit) — cùng dạng với `questions_draft.json` ở phần 1-15 nhưng có thêm trường `category` (4 nhóm cân bằng 100 câu: `video_grounded`, `slide_grounded`, `visual`, `cross_source`) và `difficulty` (`easy` 76, `medium` 296, `hard` 28). `answerable` luôn `true` (400/400) — bộ này **không có câu unanswerable**. Không có trường `answer`/`ground_truth`.
+
+Kiểm tra 57 `resource_id` duy nhất trong `evidence` (552 evidence item) đối chiếu `assets/` trên đĩa:
+
+- 34/57 khớp chính xác (toàn bộ 30 file video).
+- 15/57 lệch chính tả (resource_id bị "slugify" bỏ dấu/khoảng trắng, ví dụ `Chuong_1_Co_so_logic_slides_bai_tap.pdf` so với file thật `Chuong 1. Cơ sở logic (slides + bài tập).pdf`) — file thật tồn tại, chỉ là tên gọi khác.
+- 7/57 là 7 file `.ppt` (môn `cau_truc_du_lieu_va_giai_thuat`) — **chưa từng được ingest** vì Docling không đọc `.ppt`.
+- 1/57 mơ hồ (`.../buoi_5/Chuong_5_Ly_thuyet_do_thi_phan_2.pptx` — tên trong JSON là diễn giải ngắn, không khớp trực tiếp file nào). Đã xác minh bằng cách đọc nội dung slide thật của cả 2 file "(phần 1)" và "(phần 2)": 17 câu hỏi liên quan đều hỏi về Euler/Hamilton/Dijkstra, khớp đúng nội dung "(phần 2)".
+
+Tác động định lượng nếu không sửa: 138/400 câu (194/552 evidence) bị chấm sai thành "không tìm thấy" dù tài liệu đã index (do lệch chính tả); 96/400 câu (146/552 evidence) phụ thuộc hoàn toàn vào 7 file `.ppt` chưa index.
+
+**Đã xử lý cả hai:**
+
+- Cài LibreOffice (`brew install --cask libreoffice`), dùng `app/processors/office_convert.py` (đã viết sẵn trong phiên trước) chuyển `.ppt`→`.pptx` tạm thời chỉ để Docling parse; `relative_path`/`file_type` lưu trong Chroma vẫn là `.ppt` gốc (xác nhận bằng code: `DoclingLoader._load_parsed()` build `DocumentAsset` từ `path` gốc, không phải file đã convert). Ingest cả 7 file, 0 lỗi. 2/7 file có ảnh nhúng được trích ra được, 5/7 chỉ có text (bản thân slide gốc không có ảnh nhúng, không phải lỗi convert — đã xác minh Docling không tạo page-render cho PPTX dù `.ppt` hay `.pptx` gốc, ảnh chỉ đến từ *picture* nhúng).
+- Tạo `evals/resource_id_aliases.json` (23 cặp `slug → tên thật`, tĩnh, đã review thủ công) và thêm `resolve_evidence_resource_id()` vào `app/eval/retrieval_benchmark.py`, áp dụng riêng cho phía evidence khi chấm điểm.
+
+Sau khi áp dụng cả hai: chấm điểm 400 câu cho `corpus_coverage=1.0000` (400/400 đã index) — không còn câu nào bị loại vì thiếu nguồn.
+
+## 16.3 Bug reranker: prompt sai định dạng khiến rerank làm giảm chất lượng
+
+Benchmark đầu tiên với `RERANK_ENABLED=true` (đã bật sẵn trong `.env`) cho kết quả **tệ hơn rõ rệt** so với baseline dense-only, kể cả so với hybrid không rerank:
+
+| Hệ thống | precision@1 | f1@1 | f1@5 | recall@10 | f1@10 |
+|---|---:|---:|---:|---:|---:|
+| baseline (dense-only) | 0,3075 | 0,2528 | 0,1341 | 0,3515 | 0,0916 |
+| hybrid+visual, không rerank | 0,2425 | 0,1974 | 0,1304 | 0,3517 | 0,0854 |
+| hybrid+visual+rerank (**bug**) | 0,1000 | 0,0783 | 0,0973 | 0,2690 | 0,0709 |
+
+So sánh 2 dòng đầu cho thấy hybrid/visual một mình chỉ làm giảm nhẹ. Rerank mới là nguyên nhân chính, và đáng chú ý là **recall@10 cũng giảm** — bất thường vì rerank chỉ nên xếp lại thứ tự trong cùng tập candidate, không giảm recall trừ khi nó đẩy kết quả đúng ra khỏi top-10 trước bước `diversify_by_file`.
+
+**Nguyên nhân xác nhận**: `Qwen/Qwen3-Reranker-0.6B` có `tokenizer.chat_template` bắt buộc — bọc câu hỏi/tài liệu trong system prompt cố định (`"Judge whether the Document meets the requirements..."`) và primer `<|im_start|>assistant\n<think>\n\n</think>\n\n` để bỏ qua chế độ suy nghĩ, buộc token tiếp theo là "yes"/"no". `app/retrieval/reranker.py::QwenReranker._scores()` trước đó tokenize một chuỗi thô `"<Instruct>: ...\n<Query>: ...\n<Document>: ..."` **không qua chat template** — model không ở đúng trạng thái đã huấn luyện để trả lời yes/no ngay, nên logit lấy ra ở vị trí token cuối gần như là nhiễu.
+
+Xác minh bằng test thủ công (trước/sau fix, cùng 1 câu hỏi + 3 tài liệu, 1 đúng + 2 sai chủ đề): điểm relevant/irrelevant từ phân bố gần như ngẫu nhiên trở thành **0,9967 vs 0,0039 / 0,0003** sau khi áp dụng đúng chat template.
+
+**Đã sửa**: `_scores()` giờ dùng `tokenizer.apply_chat_template()` với message `role="system"/"query"/"document"` đúng như template yêu cầu, thay vì tokenize chuỗi thô.
+
+Chạy lại benchmark 400 câu với reranker đã sửa:
+
+| Hệ thống | precision@1 | f1@1 | f1@5 | recall@10 | f1@10 |
+|---|---:|---:|---:|---:|---:|
+| baseline (dense-only) | 0,3075 | 0,2528 | 0,1341 | 0,3515 | 0,0916 |
+| hybrid+visual+rerank (**đã sửa**) | 0,3200 | 0,2670 | 0,1887 | 0,4671 | 0,1121 |
+
+Reranker đã sửa vượt baseline trên mọi chỉ số đo được — recall@10 tăng 32,9%, f1@10 tăng 22,4%, f1@5 tăng 40,7% (tương đối). Đây là bằng chứng thực nghiệm đầu tiên trong repo cho thấy rerank thực sự có ích, *với điều kiện* dùng đúng chat template của model.
+
+Phân rã theo category (hybrid+rerank đã sửa, f1@10): `cross_source`=0,1839, `slide_grounded`=0,1388, `visual`=0,0797, `video_grounded`=0,0461 — `video_grounded` yếu nhất trong mọi cấu hình đã đo, kể cả sau khi sửa rerank, đáng để điều tra riêng (có thể do transcript window 30s quá thô, hoặc do câu hỏi video đòi hỏi mốc thời gian chính xác hơn path-level match cho phép).
+
+## 16.4 Hạn chế / việc chưa làm ở phần này
+
+- Chưa chạy biến thể `full-pipeline` (bật cả HyDE + iterative-loop qua `GenerationService.retrieve_for_eval()`, đã code ở `app/eval/retrieval_benchmark.py::run_retrieval(retrieve_fn=...)` và cờ `--use-generation-pipeline`) — người dùng chọn bỏ qua để tiết kiệm thời gian (~7-9h), ưu tiên hybrid+rerank + generation pass.
+- Generation-level pass (faithfulness/answer_relevancy/citation-accuracy qua `evals/golden_v7.jsonl` và judge tham chiếu-tự-do) chưa chạy tại thời điểm ghi log này — xem file kết quả `evals/reports/v7_generation.json` nếu đã có.
+- Chưa kiểm định thống kê cho chênh lệch baseline vs hybrid+rerank (đã sửa) — dù chênh lệch lớn và nhất quán trên mọi K, vẫn nên có bootstrap/CI trước khi viết kết luận chính thức.
+- Bug reranker ở mục 16.3 có khả năng cũng ảnh hưởng đến bất kỳ lần chạy nào trước đây trong repo có bật `RERANK_ENABLED=true` — không có ghi nhận nào khác trong log trước đó cho thấy rerank từng được bật khi benchmark, nên nhiều khả năng đây là lần đầu bug này được kích hoạt và phát hiện.
+
+## 16.5 Generation-level pass: bug judge + kết quả cuối
+
+Chạy `python -m app.main eval evals/golden_v7.jsonl --text-only --rerank` (cấu hình tốt nhất đã xác nhận ở 16.3: hybrid+rerank đã sửa) trên toàn bộ 400 câu, dùng `GenerationService` thật (enhance + HyDE + retrieve + rerank + Qwen3-1.7B sinh câu trả lời), sau đó chấm bằng chính Qwen3-1.7B làm giám khảo tham chiếu-tự-do (không có `ground_truth`, xem mục Phase 4 trong plan).
+
+**Bug thứ 3 phát hiện**: `app/eval/judge.py::score_with_judge()` và `score_reference_free()` gọi `chat.invoke({"question": payload, "judge": True})` — truyền **dict thô** cho `ChatHuggingFace.invoke()`, nhưng API LangChain chỉ nhận `str | PromptValue | list[BaseMessage]`. Toàn bộ 400/400 lệnh judge thất bại với `ValueError: Invalid input type <class 'dict'>` (bị try/except nuốt, chỉ log exception, nên cả lượt chạy 400 câu ~5,7 giờ vẫn "hoàn tất" nhưng `faithfulness`/`answer_relevancy` đều `None`). Đây là bug có từ trước, không phải do thay đổi hôm nay — dict-payload chỉ hoạt động với chat model giả lập trong test (`FakeChat.invoke()` bỏ qua nội dung tham số), chưa từng được xác minh với model thật trước phiên này.
+
+**Đã sửa**: đổi thành `chat.invoke(payload)` (truyền thẳng chuỗi prompt đã format). Xác minh bằng test thủ công với model thật trước khi áp dụng lại (điểm ra `faithfulness=1.0, answer_relevancy=1.0` cho 1 câu trả lời rõ ràng đúng và bám ngữ cảnh).
+
+Vì câu trả lời của LLM (400/400) đã sinh đúng ở lượt chạy đầu (không phụ thuộc đường code bị lỗi), không cần chạy lại toàn bộ — chỉ chấm lại judge trên `answer`/`contexts` đã lưu, mất **18,7 phút** thay vì ~5,7 giờ.
+
+**Bug thứ 4 (nhỏ)**: `app/eval/runner.py::_run_one()` không copy `difficulty` từ `item.extra` vào `trace`, khiến `by_difficulty` trong báo cáo gộp hết vào nhãn `"unknown"`. Đã sửa `_run_one()` và vá lại báo cáo đã có bằng cách join `difficulty` từ `evals/golden_v7.jsonl` theo `id` (không cần chạy lại).
+
+### Kết quả cuối — generation-level, 400/400 câu, cấu hình hybrid+rerank (đã sửa) + text-only
+
+```
+path_recall=0.946       path_precision=0.161
+path_recall_at_1=0.523  path_recall_at_5=0.913  path_recall_at_10=0.946
+faithfulness=0.504      answer_relevancy=0.501
+citation_precision=0.085 (mean)   citation_recall=0.468 (mean)
+weakest_metric=answer_relevancy   next_step=query enhance / generation prompt
+```
+
+`citation_precision`/`citation_recall` đo độ chính xác của **tập hit truy xuất được đưa vào ngữ cảnh cho LLM** (so với `evidence` thật, dùng lại đúng hàm `metrics_at_k`/alias đã sửa ở 16.3) — không phải phân tích chuỗi trích dẫn trong văn bản câu trả lời. Khớp hợp lý với `path_recall_at_10=0,946` (path-level, chỉ cần đúng file) và với recall@10 đo được ở benchmark retrieval thuần (0,467, đo ở page/slide/timestamp-level chính xác hơn) — `citation_recall=0,468` nằm giữa hai số này, đúng như kỳ vọng vì độ chặt matching khác nhau.
+
+**Phân bố `faithfulness`/`answer_relevancy` gần như nhị phân**: 201/399 câu = 1,0, 198/399 câu = 0,0, gần như không có giá trị trung gian. Đây là dấu hiệu Qwen3-1.7B (1.7B tham số) làm giám khảo có xu hướng chấm cực đoan (toàn đúng/toàn sai) thay vì chấm theo thang liên tục 0-1 như prompt yêu cầu — hạn chế đã biết khi dùng model nhỏ tự chấm, cần đọc `faithfulness=0,504` là "một nửa số câu được chấm hoàn toàn đạt, nửa còn lại hoàn toàn không đạt", không phải "mỗi câu đạt một nửa".
+
+Phân rã theo category (`path_recall@10` / ghi chú: category không có faithfulness/answer_relevancy riêng trong báo cáo hiện tại):
+
+| category | n | path_recall@1 | path_recall@5 | path_recall@10 | path_precision |
+|---|---:|---:|---:|---:|---:|
+| video_grounded | 100 | 0,25 | 0,71 | 0,82 | 0,107 |
+| slide_grounded | 100 | 0,79 | 0,99 | 1,00 | 0,135 |
+| visual | 100 | 0,62 | 0,99 | 0,99 | 0,135 |
+| cross_source | 100 | 0,43 | 0,96 | 0,975 | 0,267 |
+
+`video_grounded` yếu nhất ở mọi K, nhất quán với kết quả retrieval-only ở 16.3 — đáng điều tra riêng (transcript window 30s có thể quá thô, hoặc câu hỏi video đòi hỏi mốc thời gian chính xác hơn path-level cho phép đo được ở đây).
+
+Phân rã theo difficulty:
+
+| difficulty | n | path_recall@1 | path_recall@5 | path_recall@10 | path_precision |
+|---|---:|---:|---:|---:|---:|
+| easy | 76 | 0,566 | 0,934 | 0,947 | 0,129 |
+| medium | 296 | 0,484 | 0,899 | 0,941 | 0,172 |
+| hard | 28 | 0,821 | 1,00 | 1,00 | 0,129 |
+
+Đáng chú ý: nhóm `hard` (28 câu, n nhỏ) lại có path_recall cao nhất — có thể do cỡ mẫu nhỏ, hoặc do câu "khó" thường tham chiếu rõ ràng một nguồn cụ thể hơn là câu "dễ" mang tính khái quát — cần thêm dữ liệu trước khi kết luận.
+
+### Việc chưa làm / hạn chế còn lại của phần 16
+
+- `context_precision`/`context_recall` không đo được cho bộ v7 (không có `ground_truth` tham chiếu) — chỉ có ở `evals/golden.jsonl` cũ.
+- Chưa chạy generation-level cho biến thể `full-pipeline` (HyDE+loop qua `retrieve_for_eval`) hay biến thể `--with-visual` (bị hệ thống dừng giữa chừng do thiếu RAM, xem log `logs/eval_v7_generation_20260930*.log` đầu tiên — không phải lỗi code).
+- Chưa kiểm định thống kê cho mọi so sánh ở mục 16.
+- File báo cáo đầy đủ: `evals/reports/v7_generation.json`; file gốc trước khi vá judge: `evals/reports/v7_generation.backup_prejudgefix.json` (giữ lại để đối chiếu, có thể xoá).
+- Chưa đo K=20 cho retrieval (chỉ có @1/@5/@10) — dựa vào recall@5→recall@10 gần như bão hoà (+0,012 cho hybrid+rerank đã sửa), nhiều khả năng recall@20 không tăng nhiều, nhưng chưa có số đo thật.
+

@@ -42,9 +42,49 @@ def score_with_judge(chat: Any, *, question: str, reference: str, contexts: list
         contexts="\n---\n".join(contexts)[:8000] or "(trống)",
         answer=answer or "(trống)",
     )
-    raw = chat.invoke({"question": payload, "judge": True})
+    raw = chat.invoke(payload)
     text = raw if isinstance(raw, str) else str(getattr(raw, "content", raw) or "")
     return parse_judge_scores(text)
+
+
+REFERENCE_FREE_JUDGE_PROMPT = """Bạn là giám khảo RAG cho trợ lý e-learning. Không có đáp án vàng — chỉ chấm dựa trên ngữ cảnh đã truy xuất và câu hỏi.
+
+Chấm điểm từ 0 đến 1:
+- faithfulness: mọi khẳng định trong câu trả lời có trong ngữ cảnh (không bịa).
+- answer_relevancy: câu trả lời đúng trọng tâm câu hỏi.
+
+Chỉ JSON, không markdown:
+{{"faithfulness":0.0,"answer_relevancy":0.0}}
+
+Câu hỏi: {question}
+
+Ngữ cảnh:
+{contexts}
+
+Câu trả lời:
+{answer}
+
+JSON:"""
+
+
+def score_reference_free(chat: Any, *, question: str, contexts: list[str], answer: str) -> dict[str, float]:
+    """Faithfulness + answer_relevancy only — used when the golden item has
+    no `ground_truth` reference (e.g. a bridged questions_draft*.json set),
+    where context_precision/context_recall would be meaningless without a
+    gold answer to compare against."""
+    payload = REFERENCE_FREE_JUDGE_PROMPT.format(
+        question=question,
+        contexts="\n---\n".join(contexts)[:8000] or "(trống)",
+        answer=answer or "(trống)",
+    )
+    raw = chat.invoke(payload)
+    text = raw if isinstance(raw, str) else str(getattr(raw, "content", raw) or "")
+    scored = parse_judge_scores(text)
+    return {
+        key: value
+        for key, value in scored.items()
+        if key in {"faithfulness", "answer_relevancy"}
+    }
 
 
 def parse_judge_scores(raw: str) -> dict[str, float]:

@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=10pt, width=\textwidth, height=7cm,
+  ylabel={Giá trị}, ymin=0, ymax=0.55,
+  symbolic x coords={P@5,R@5,F1@5,P@10,R@10,F1@10},
+  xtick=data, tick label style={font=\small}, label style={font=\small},
+  legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1, font=\scriptsize},
+  enlarge x limits=0.12,
+  nodes near coords, every node near coord/.append style={font=\tiny, rotate=90, anchor=west},
+]
+\addplot coordinates {(P@5,0.0885) (R@5,0.3185) (F1@5,0.1341) (P@10,0.0550) (R@10,0.3515) (F1@10,0.0916)};
+\addplot coordinates {(P@5,0.0860) (R@5,0.3092) (F1@5,0.1304) (P@10,0.0500) (R@10,0.3517) (F1@10,0.0854)};
+\addplot coordinates {(P@5,0.1240) (R@5,0.4550) (F1@5,0.1887) (P@10,0.0655) (R@10,0.4671) (F1@10,0.1121)};
+\legend{Cơ sở, Lai (không xếp hạng lại), Lai + xếp hạng lại}
+\end{axis}
+\end{tikzpicture}

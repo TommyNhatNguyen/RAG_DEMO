@@ -7,6 +7,33 @@ from app.eval.metrics import HANDOFF_MAPPING, METRIC_KEYS, mean, weakest_metric
 FAITHFULNESS_WARN = 0.85
 
 
+_BUCKET_METRIC_KEYS = (
+    "path_recall",
+    "path_precision",
+    "path_recall_at_1",
+    "path_recall_at_5",
+    "path_recall_at_10",
+)
+
+
+def _bucket_summary(
+    traces: list[dict[str, Any]], group_key: str, *, default: str = "unknown"
+) -> dict[str, dict[str, Any]]:
+    counts: dict[str, int] = {}
+    buckets: dict[str, dict[str, list[float]]] = {}
+    for trace in traces:
+        label = str(trace.get(group_key) or default)
+        counts[label] = counts.get(label, 0) + 1
+        bucket = buckets.setdefault(label, {key: [] for key in _BUCKET_METRIC_KEYS})
+        for key in _BUCKET_METRIC_KEYS:
+            if trace.get(key) is not None:
+                bucket[key].append(float(trace[key]))
+    return {
+        label: {"n": counts[label], **{key: mean(vals) for key, vals in vals_by_key.items()}}
+        for label, vals_by_key in buckets.items()
+    }
+
+
 def build_report(
     traces: list[dict[str, Any]],
     *,
@@ -14,19 +41,6 @@ def build_report(
 ) -> dict[str, Any]:
     path_recalls = [float(t["path_recall"]) for t in traces if t.get("path_recall") is not None]
     path_precs = [float(t["path_precision"]) for t in traces if t.get("path_precision") is not None]
-    by_kind: dict[str, dict[str, list[float]]] = {}
-    for trace in traces:
-        kind = str(trace.get("kind") or "theory")
-        bucket = by_kind.setdefault(
-            kind, {"path_recall": [], "path_precision": [], "path_recall_at_1": [], "path_recall_at_5": [], "path_recall_at_10": []}
-        )
-        if trace.get("path_recall") is not None:
-            bucket["path_recall"].append(float(trace["path_recall"]))
-        if trace.get("path_precision") is not None:
-            bucket["path_precision"].append(float(trace["path_precision"]))
-        for key in ("path_recall_at_1", "path_recall_at_5", "path_recall_at_10"):
-            if trace.get(key) is not None:
-                bucket[key].append(float(trace[key]))
 
     llm_means = llm_means or {}
     scores: dict[str, float | None] = {
@@ -53,31 +67,16 @@ def build_report(
             f"faithfulness={faith:.3f} < {FAITHFULNESS_WARN} (warning only; not a CI fail)"
         )
 
-    kind_summary = {
-        kind: {
-            "n": len(traces_for_kind(traces, kind)),
-            "path_recall": mean(vals["path_recall"]),
-            "path_precision": mean(vals["path_precision"]),
-            "path_recall_at_1": mean(vals.get("path_recall_at_1") or []),
-            "path_recall_at_5": mean(vals.get("path_recall_at_5") or []),
-            "path_recall_at_10": mean(vals.get("path_recall_at_10") or []),
-        }
-        for kind, vals in by_kind.items()
-    }
-
     return {
         "n": len(traces),
         "scores": scores,
-        "by_kind": kind_summary,
+        "by_kind": _bucket_summary(traces, "kind", default="theory"),
+        "by_difficulty": _bucket_summary(traces, "difficulty"),
         "weakest_metric": weakest,
         "next_step": HANDOFF_MAPPING.get(weakest or "", None),
         "warnings": warnings,
         "items": traces,
     }
-
-
-def traces_for_kind(traces: list[dict[str, Any]], kind: str) -> list[dict[str, Any]]:
-    return [t for t in traces if str(t.get("kind") or "theory") == kind]
 
 
 def format_report(report: dict[str, Any]) -> str:

@@ -69,7 +69,7 @@ td code, th code { white-space: nowrap; }
 <a href="#config">4. Cấu hình (Settings)</a>
 <a href="#datamodel">5. Data model</a>
 <a href="#ingest">6. Ingestion pipeline</a>
-<div class="l2"><a href="#ingest-doc">6.1 Document (PDF/DOCX/PPTX)</a></div>
+<div class="l2"><a href="#ingest-doc">6.1 Document (PDF/DOCX/PPTX/PPT)</a></div>
 <div class="l2"><a href="#ingest-text">6.2 Text/Markdown &amp; Image</a></div>
 <div class="l2"><a href="#ingest-video">6.3 Video (7 bước)</a></div>
 <div class="l2"><a href="#ingest-dedup">6.4 Dedup &amp; manifest</a></div>
@@ -93,9 +93,9 @@ td code, th code { white-space: nowrap; }
 <p>Tài liệu này được viết bằng cách đọc toàn bộ source code hiện tại trong repo (không suy diễn từ tên file), nhằm giúp một developer mới tiếp nhận dự án hiểu toàn bộ flow, công nghệ, cách chạy, cách đánh giá và hướng phát triển tiếp — không cần hỏi lại người viết code trước.</p>
 <dl class="meta-grid">
 <dt>Package</dt><dd><code>multimodal-rag</code> v0.1.0</dd>
-<dt>Ngày viết tài liệu</dt><dd>2026-09-27</dd>
-<dt>Commit HEAD lúc viết</dt><dd><code>a466728</code> (nhánh <code>main</code>) + 1 file untracked: <code>app/storage/base.py</code></dd>
-<dt>Phạm vi</dt><dd>Toàn bộ <code>app/</code> (~9.400 dòng Python), <code>tests/</code>, <code>evals/</code>, cấu hình gốc</dd>
+<dt>Ngày viết tài liệu</dt><dd>2026-09-27, cập nhật 2026-10-01 (§11, §12, §15, §16, §17, §18) sau một đợt reset+ingest lại toàn bộ corpus, thêm hỗ trợ <code>.ppt</code>, sửa 1 bug nghiêm trọng ở bộ xếp hạng lại và chạy thực nghiệm đầy đủ trên bộ câu hỏi v7 — chi tiết đầy đủ ở <code>EXPERIMENT_LOG.md</code> mục 16 và <code>document/KLTN_MM-RAG/src/chapters/4.hien_thuc_danh_gia_thao_luan.tex</code>.</dd>
+<dt>Commit HEAD lúc viết</dt><dd><code>ae8e4af</code> (nhánh <code>main</code>) cộng nhiều thay đổi <strong>chưa commit</strong> (xem <code>git status</code>): <code>app/eval/judge.py</code>, <code>app/eval/report.py</code>, <code>app/eval/retrieval_benchmark.py</code>, <code>app/eval/runner.py</code>, <code>app/generation/service.py</code>, <code>app/main.py</code>, <code>app/retrieval/reranker.py</code>, cộng 2 file mới <code>app/eval/question_draft_bridge.py</code>, <code>app/eval/retrieval_report.py</code>. Đừng coi <code>a466728</code>/<code>ae8e4af</code> là trạng thái mã nguồn đầy đủ.</dd>
+<dt>Phạm vi</dt><dd>Toàn bộ <code>app/</code> (~9.100 dòng Python), <code>tests/</code>, <code>evals/</code>, cấu hình gốc</dd>
 <dt>Đối tượng đọc</dt><dd>Developer/AI kế tiếp sẽ sửa hoặc mở rộng pipeline này</dd>
 <dt>Tài liệu liên quan</dt><dd><code>README.md</code> (cheat-sheet lệnh), <code>docs/frontend-api.md</code> (hợp đồng API cho Next.js), <code>docs/rag-production-checklist-handoff.md</code> (roadmap kỹ thuật RAG — <strong>đã thực hiện gần hết</strong>, xem §17), <code>EXPERIMENT_LOG.md</code> (nhật ký benchmark retrieval), <code>evals/README.md</code> (schema golden set)</dd>
 </dl>
@@ -135,9 +135,9 @@ td code, th code { white-space: nowrap; }
 <tr><td>LLM text</td><td><code>transformers</code>, <code>torch</code>, <code>langchain-core</code>, <code>langchain-huggingface</code> → <code>Qwen/Qwen3-1.7B</code></td><td>Query-planner JSON, HyDE, reflect-loop, câu trả lời cuối (streaming)</td><td><code>generation</code></td></tr>
 <tr><td>LLM đa phương thức</td><td><code>transformers</code> (<code>AutoModelForMultimodalLM</code>), <code>qwen-vl-utils</code> → <code>Qwen/Qwen3-VL-2B-Instruct</code></td><td>Đọc trực tiếp ảnh trang/slide PDF/PPTX/DOCX để trả lời câu hỏi thị giác</td><td><code>generation</code></td></tr>
 <tr><td>Rerank (tuỳ chọn)</td><td><code>transformers</code> → <code>Qwen/Qwen3-Reranker-0.6B</code></td><td>Cross-encoder rerank, mặc định <strong>tắt</strong> (16GB)</td><td><code>generation</code></td></tr>
-<tr><td>Eval</td><td><code>ragas</code> 0.4+</td><td>Faithfulness/answer relevancy/context precision/recall trên golden set</td><td><code>eval</code></td></tr>
+<tr><td>Eval</td><td><code>ragas</code> 0.4+</td><td>Faithfulness/answer relevancy/context precision/recall trên golden set — <strong>hiện không import được</strong> trong môi trường này (<code>ragas.llms.base</code> import <code>langchain_community.chat_models.vertexai</code>, không còn tồn tại trong bản <code>langchain-community</code> đã cài); <code>app/eval/judge.py::score_with_judge/score_reference_free</code> là fallback đang thực sự dùng, không phải RAGAs</td><td><code>eval</code></td></tr>
 <tr><td>API</td><td><code>fastapi</code>, <code>uvicorn[standard]</code>, <code>sse-starlette</code>, <code>httpx</code></td><td>REST + SSE cho frontend (Next.js), 1 worker, giữ model trong RAM giữa request</td><td><code>api</code></td></tr>
-<tr><td>Test</td><td><code>pytest</code></td><td>29 file test, mock embedding/LLM, không tải model thật</td><td><code>dev</code></td></tr>
+<tr><td>Test</td><td><code>pytest</code></td><td>27 file, 156 hàm test, mock embedding/LLM, không tải model thật</td><td><code>dev</code></td></tr>
 </tbody>
 </table>
 <p>Extra tổng hợp <code>all</code> gộp hết các nhóm trên. Cài tối thiểu cho từng nhu cầu: xem §13.</p>
@@ -160,12 +160,12 @@ td code, th code { white-space: nowrap; }
 <tr><td><code>app/retrieval/</code></td><td><code>MultimodalRetriever</code> + module con: <code>merger</code> (RRF), <code>sparse</code> (BM25), <code>filters</code> (Chroma <code>where</code>), <code>diversity</code>, <code>expand</code> (ghép parent/neighbor), <code>compress</code> (extractive), <code>reranker</code></td></tr>
 <tr><td><code>app/generation/</code></td><td><code>GenerationService</code> (nhạc trưởng: enhance→retrieve→generate→stream), <code>query_enhance</code> (JSON planner/HyDE/reflect), <code>context</code>/<code>prompts</code>/<code>catalog</code>/<code>think</code>, <code>vl_answerer</code> (Qwen-VL cho ảnh)</td></tr>
 <tr><td><code>app/api/</code></td><td>FastAPI app: <code>app.py</code> (route), <code>schemas.py</code>, <code>citations.py</code> (hits→Citation/Asset), <code>files.py</code> (file server sandbox), <code>deps.py</code>, <code>sse.py</code></td></tr>
-<tr><td><code>app/eval/</code></td><td>Golden-set eval (<code>golden</code>, <code>metrics</code>, <code>judge</code>, <code>ragas_backend</code>, <code>runner</code>, <code>report</code>), inventory/dashboard, và <code>retrieval_benchmark.py</code> — harness benchmark leakage-free cho luận văn/báo cáo</td></tr>
-<tr><td><code>app/main.py</code></td><td>CLI (argparse) — 11 subcommand, xem §12</td></tr>
+<tr><td><code>app/eval/</code></td><td>Golden-set eval (<code>golden</code>, <code>metrics</code>, <code>judge</code>, <code>ragas_backend</code>, <code>runner</code>, <code>report</code>), inventory/dashboard, <code>retrieval_benchmark.py</code> — harness benchmark leakage-free cho luận văn/báo cáo, cộng 2 file mới <code>question_draft_bridge.py</code> (chuyển <code>questions_draft*.json</code> → <code>golden.jsonl</code> schema) và <code>retrieval_report.py</code> (format báo cáo retrieval-benchmark đọc được)</td></tr>
+<tr><td><code>app/main.py</code></td><td>CLI (argparse) — 12 subcommand, xem §12</td></tr>
 <tr><td><code>app/factory.py</code></td><td><code>build_services()</code> — điểm lắp ráp DI duy nhất</td></tr>
 <tr><td><code>app/ids.py</code>, <code>index_manifest.py</code>, <code>progress.py</code>, <code>log_setup.py</code></td><td>Tiện ích chung: hash/NFC/vector-id, manifest incremental-ingest, progress log, logging setup</td></tr>
-<tr><td><code>tests/</code></td><td>29 file, mock model theo <code>tests/conftest.py</code></td></tr>
-<tr><td><code>evals/</code></td><td><code>golden.jsonl</code> (golden set), <code>benchmark_queries.jsonl</code> + <code>results/</code> + <code>reports/</code> (benchmark retrieval)</td></tr>
+<tr><td><code>tests/</code></td><td>27 file, 156 hàm test, mock model theo <code>tests/conftest.py</code></td></tr>
+<tr><td><code>evals/</code></td><td><code>golden.jsonl</code>/<code>golden_v7.jsonl</code> (golden set), <code>benchmark_queries*.jsonl</code> + <code>results/</code> + <code>reports/</code> (benchmark retrieval), <code>resource_id_aliases.json</code> (bảng ánh xạ mã tài nguyên lệch chính tả, §11.B)</td></tr>
 </tbody>
 </table>
 </section>
@@ -235,8 +235,9 @@ ingest_file(path)
 </pre>
 <p>Sau khi ingest xong toàn bộ file, <code>_maybe_rebuild_bm25()</code> tự rebuild <code>data/bm25.pkl</code> nếu có gì thay đổi (hoặc file BM25 chưa tồn tại) — không cần chạy lệnh riêng, trừ khi bạn chỉ muốn rebuild BM25 mà không ingest gì (<code>rebuild-bm25</code>, §12).</p>
 
-<h3 id="ingest-doc">6.1 Document — PDF/DOCX/PPTX (<code>app/loaders/docling_loader.py</code>)</h3>
+<h3 id="ingest-doc">6.1 Document — PDF/DOCX/PPTX/PPT (<code>app/loaders/docling_loader.py</code>)</h3>
 <ul>
+<li><strong>Hỗ trợ <code>.ppt</code> (mới, 2026-09-30):</strong> Docling không đọc được định dạng PowerPoint nhị phân cũ (<code>.ppt</code>), chỉ đọc <code>.pptx</code> (XML/OOXML). <code>DOC_EXTS</code> (<code>app/loaders/base.py</code>) nay gồm cả <code>.ppt</code>; khi gặp <code>.ppt</code>, <code>docling_loader.py</code> gọi <code>app/processors/office_convert.py::convert_ppt_to_pptx()</code> để chuyển đổi tạm bằng LibreOffice headless (yêu cầu <code>soffice</code> cài sẵn trên máy, tự dò qua <code>find_soffice()</code>) rồi parse bản <code>.pptx</code> tạm đó; <code>DocumentAsset.relative_path</code>/<code>file_type</code> lưu trong Chroma vẫn giữ nguyên đường dẫn/định dạng <code>.ppt</code> gốc, không phải file tạm đã convert.</li>
 <li>Dùng <code>docling.DocumentConverter</code> với <code>PdfPipelineOptions(do_ocr=False, do_table_structure=True, generate_picture_images=True, generate_page_images=True)</code> — Docling tự OCR <em>tắt</em>, hệ thống tự quyết định OCR bằng Tesseract khi cần (không phải Docling OCR).</li>
 <li><strong>Text blocks:</strong> đi qua <code>doc.iterate_items()</code>, heading/title → cập nhật <code>section</code> hiện tại; bỏ page header/footer/footnote/picture/table label.</li>
 <li><strong>Tables</strong> → <code>table.export_to_markdown(doc)</code> → lưu là 1 "text-like" record content_type=<code>table</code> trong <code>text_embeddings</code> (không embed ảnh bảng riêng).</li>
@@ -337,7 +338,7 @@ dense search visual_embeddings (Qwen3-VL-Embedding query) trừ khi --text-only 
 <tbody>
 <tr><td><code>ScoreReranker</code></td><td><span class="badge done">mặc định thấp nhất</span></td><td>Chỉ sort theo score gốc — no-op có ý nghĩa</td></tr>
 <tr><td><code>TypePriorReranker</code></td><td><span class="badge done">luôn dùng</span></td><td>Cộng bonus nhỏ (0.005–0.02) cho <code>video_segment</code>/<code>video_frame</code> khi query có tín hiệu "bài giảng" (<code>is_lecture_query</code>) hoặc <code>--source</code> là video. <strong>Không phải cross-encoder</strong>, chỉ heuristic rẻ.</td></tr>
-<tr><td><code>QwenReranker</code></td><td><span class="badge off">tắt mặc định (RERANK_ENABLED=false)</span></td><td>Cross-encoder thật, <code>Qwen/Qwen3-Reranker-0.6B</code>, chấm điểm yes/no token qua softmax logits. Lazy-load, tự fallback về TypePrior nếu load lỗi.</td></tr>
+<tr><td><code>QwenReranker</code></td><td><span class="badge off">tắt mặc định trong <code>Settings</code> (RERANK_ENABLED=false)</span></td><td>Cross-encoder thật, <code>Qwen/Qwen3-Reranker-0.6B</code>, chấm điểm yes/no token qua softmax logits. Lazy-load, tự fallback về TypePrior nếu load lỗi. <strong>Bug đã sửa (2026-09-30):</strong> <code>_scores()</code> trước đây tokenize một chuỗi thô <code>"&lt;Instruct&gt;: ...\n&lt;Query&gt;: ...\n&lt;Document&gt;: ..."</code> không qua <code>tokenizer.apply_chat_template()</code> — model không ở đúng trạng thái đã huấn luyện để trả lời yes/no, khiến bật rerank làm <em>giảm</em> chất lượng truy xuất rõ rệt so với tắt (đo được trên 400 câu, xem <code>EXPERIMENT_LOG.md</code> mục 16.3). Sau khi sửa để dùng đúng mẫu hội thoại (vai trò <code>system</code>/<code>query</code>/<code>document</code>), rerank vượt baseline trên mọi chỉ số đo được. Nếu bạn thấy rerank "không giúp ích" ở nhánh code cũ hơn commit này, nhiều khả năng đang dính bug này.</td></tr>
 <tr><td><code>SequentialReranker</code></td><td>hạ tầng</td><td>Chạy nhiều stage nối tiếp — <code>build_reranker()</code> dùng nó để nối TypePrior→QwenReranker khi <code>RERANK_ENABLED=true</code></td></tr>
 </tbody>
 </table>
@@ -416,14 +417,22 @@ strip_think()/ThinkStreamFilter: luôn lọc bỏ &lt;think&gt;...&lt;/think&gt;
 <h4>B. Retrieval benchmark leakage-free (nghiên cứu/luận văn)</h4>
 <p><code>app/eval/retrieval_benchmark.py</code> — dùng cho so sánh hệ thống nghiêm ngặt (baseline vs proposed), tách biệt hoàn toàn ground-truth khỏi input retrieval:</p>
 <ol>
-<li><code>prepare-retrieval-queries questions_draft.json</code> → chỉ giữ <code>question_id/question/course_id</code> vào <code>benchmark_queries.jsonl</code> (loader từ chối nếu có field khác — chống leakage cứng)</li>
-<li><code>benchmark-retrieve --profile baseline|proposed</code> → chạy retriever thật, lưu Top-K resumable (<code>--resume</code>) vào <code>results/*.jsonl</code></li>
-<li><code>score-retrieval</code> — chỉ bây giờ mới đọc lại <code>questions_draft.json</code> để đối chiếu <code>evidence</code> (resource_id + page/slide/timestamp-range match), tính Precision/Recall/F1 @1/5/10, có xử lý <code>answerable=null</code> (suy luận theo <code>evidence</code> rỗng hay không) và loại câu có ground-truth resource chưa được index (<code>corpus_coverage</code>)</li>
+<li><code>prepare-retrieval-queries &lt;questions_draft*.json&gt;</code> → chỉ giữ <code>question_id/question/course_id</code> vào <code>benchmark_queries.jsonl</code> (loader từ chối nếu có field khác — chống leakage cứng)</li>
+<li><code>benchmark-retrieve --profile baseline|proposed [--rerank] [--use-generation-pipeline]</code> → chạy retriever thật, lưu Top-K resumable (<code>--resume</code>) vào <code>results/*.jsonl</code>; cờ mới <code>--use-generation-pipeline</code> (thêm 2026-09-30) gọi <code>GenerationService.retrieve_for_eval()</code> thay vì <code>retriever.search()</code> trực tiếp, để benchmark đi qua đúng luồng enhance/HyDE/reflect-loop mà <code>ask</code> dùng</li>
+<li><code>score-retrieval &lt;questions&gt; &lt;results&gt; [--resource-id-aliases evals/resource_id_aliases.json]</code> — đọc lại bộ câu hỏi gốc để đối chiếu <code>evidence</code> (resource_id + page/slide/timestamp-range match), tính Precision/Recall/F1 @1/5/10, có xử lý <code>answerable=null</code>, loại câu có ground-truth resource chưa được index (<code>corpus_coverage</code>), và (mới) chuẩn hoá mã tài nguyên lệch chính tả/định dạng qua một bảng ánh xạ tĩnh trước khi so khớp — nạp mặc định nếu tệp tồn tại, tắt bằng <code>--no-resource-id-aliases</code></li>
 </ol>
+<p>Dòng cầu nối giữa hai hệ A/B (mới, 2026-09-30): <code>prepare-golden-from-draft &lt;questions_draft*.json&gt; --out evals/golden_v7.jsonl</code> (<code>app/eval/question_draft_bridge.py</code>) chuyển bộ câu hỏi dạng A (<code>category</code>/<code>difficulty</code>/<code>evidence</code>) sang schema <code>golden.jsonl</code> của hệ B, để chạy được <code>eval</code> (đánh giá sinh câu trả lời) trên cùng bộ câu hỏi dùng cho retrieval benchmark. <code>app/eval/runner.py</code> tự phát hiện khi mọi trace có <code>ground_truth</code> rỗng và chuyển sang chấm bằng <code>judge.py::score_reference_free()</code> (chỉ <em>faithfulness</em>/<em>answer relevancy</em>, bỏ qua <em>context precision/recall</em> vì không có câu trả lời mẫu để so), đồng thời tính thêm <em>citation precision/recall</em> bằng cách so <code>last_hits</code> thật sự được đưa vào ngữ cảnh với <code>evidence</code> (dùng lại đúng hàm <code>metrics_at_k</code>/alias ở trên). CLI <code>eval</code> giờ có thêm <code>--rerank</code> (mặc định tắt, trước đây luôn ép tắt không điều kiện).</p>
 </div>
 </div>
 <p><code>evals/reports/dashboard.html</code> (<code>app/eval/dashboard.py::render_dashboard</code>) tổng hợp assets-inventory + vector-inventory + eval scores thành 1 trang HTML tĩnh, sinh bằng CLI <code>report</code>.</p>
-<div class="warn"><strong>Kết quả benchmark hiện tại</strong> (xem <code>EXPERIMENT_LOG.md</code> đầy đủ): trên 400 câu hỏi (325 câu answerable có đủ ground-truth đã index — corpus coverage 85,53%), hệ <em>proposed</em> (hybrid BM25+dense+visual+RRF) chỉ nhích hơn <em>baseline</em> (dense-text-only) ở P@1/R@1/F1@1 và R@10; baseline lại nhích hơn ở P@5/R@5/F1@5 và P@10/F1@10. <strong>Chưa có bằng chứng nhất quán rằng hybrid tốt hơn baseline</strong>, và chưa có kiểm định ý nghĩa thống kê. Đừng dựa vào con số này để khẳng định "hybrid tốt hơn" trong báo cáo — coi là kết quả nghiên cứu dở dang.</div>
+<div class="note"><p><strong>Kết quả benchmark v7 hiện tại</strong> (chạy 2026-09-30/10-01, bộ câu hỏi <code>questions_draft_v7.json</code> 400 câu, corpus coverage 100% sau khi đóng gap <code>.ppt</code> + sửa mã tài nguyên lệch chính tả — xem §16, §17 và <code>EXPERIMENT_LOG.md</code> mục 16 để biết đầy đủ):</p>
+<ul>
+<li>Riêng việc thêm BM25 + truy xuất thị giác vào baseline dense-text, <strong>chưa bật rerank</strong>, không cải thiện so với baseline (khoảng tin cậy bootstrap chứa 0 ở K=5/K=10, còn âm có ý nghĩa ở K=1).</li>
+<li>Khi bật rerank <strong>với bug chat-template chưa sửa</strong> (§8.2), kết quả tệ hơn baseline ở mọi chỉ số.</li>
+<li>Khi bật rerank <strong>đã sửa đúng mẫu hội thoại</strong>, hệ hybrid vượt baseline với khoảng tin cậy bootstrap 95% không chứa 0 ở phần lớn chỉ số tại K=5/K=10 (F1@10: 0,0916→0,1121; recall@10: 0,3515→0,4671) — bằng chứng thống kê tích cực đầu tiên trong dự án.</li>
+<li>Đánh giá sinh câu trả lời (cấu hình tốt nhất, text-only, 400 câu): faithfulness≈0,504, answer_relevancy≈0,501 (phân bố gần như nhị phân 0/1, không phải thang liên tục — giám khảo Qwen3-1.7B tự chấm có xu hướng cực đoan), citation_precision≈0,085, citation_recall≈0,468.</li>
+</ul>
+<p>Vẫn chưa có: kiểm định cho biến thể <code>--use-generation-pipeline</code> (HyDE+loop), đánh giá sinh câu trả lời với nhánh ảnh (<code>--with-visual</code>), và K=20. Số liệu đầy đủ kèm script tái tạo: <code>document/KLTN_MM-RAG/tools/retrieval_stats_v7.py</code> và <code>generation_stats_v7.py</code>.</p></div>
 </section>
 
 <section id="cli">
@@ -438,10 +447,11 @@ strip_think()/ThinkStreamFilter: luôn lọc bỏ &lt;think&gt;...&lt;/think&gt;
 <tr><td><code>inventory [path]</code></td><td>Chỉ quét <code>assets/</code> trên đĩa (không đọc Chroma), ghi JSON kiểm kê</td><td><code>--out</code></td></tr>
 <tr><td><code>report [out]</code></td><td>Build <code>evals/reports/dashboard.html</code> từ các JSON report có sẵn</td><td><code>--reports-dir</code></td></tr>
 <tr><td><code>rebuild-bm25</code></td><td>Xây lại <code>data/bm25.pkl</code> từ Chroma text collection, không re-embed</td><td>—</td></tr>
-<tr><td><code>eval &lt;golden.jsonl&gt;</code></td><td>Chạy golden-set eval (§11.A)</td><td><code>--text-only</code> (mặc định true)/<code>--with-visual</code>, <code>--retrieve-only</code>, <code>--enhance</code>, <code>--limit</code>, <code>--out</code></td></tr>
-<tr><td><code>prepare-retrieval-queries &lt;questions_draft.json&gt;</code></td><td>Xuất query sạch, chống leakage (§11.B)</td><td><code>--out</code></td></tr>
-<tr><td><code>benchmark-retrieve &lt;queries.jsonl&gt;</code></td><td>Chạy 1 hệ retrieval, lưu Top-K</td><td><code>--system-id</code>, <code>--profile baseline|proposed</code>, <code>-k</code> (≥10), <code>--rerank</code>, <code>--no-course-filter</code>, <code>--resume</code></td></tr>
-<tr><td><code>score-retrieval &lt;questions&gt; &lt;results&gt;</code></td><td>Chấm P/R/F1@K sau khi retrieval xong (§11.B)</td><td><code>--null-policy infer|exclude|error</code>, <code>--allow-unindexed-ground-truth</code></td></tr>
+<tr><td><code>eval &lt;golden.jsonl&gt;</code></td><td>Chạy golden-set eval (§11.A)</td><td><code>--text-only</code> (mặc định true)/<code>--with-visual</code>, <code>--retrieve-only</code>, <code>--enhance</code>, <code>--limit</code>, <code>--out</code>, <code>--rerank</code> (mới), <code>--resource-id-aliases</code>/<code>--no-resource-id-aliases</code> (mới)</td></tr>
+<tr><td><code>prepare-retrieval-queries &lt;questions_draft*.json&gt;</code></td><td>Xuất query sạch, chống leakage (§11.B)</td><td><code>--out</code></td></tr>
+<tr><td><code>prepare-golden-from-draft &lt;questions_draft*.json&gt;</code> <span class="badge done">mới</span></td><td>Chuyển bộ câu hỏi dạng A (<code>category</code>/<code>difficulty</code>/<code>evidence</code>) sang schema <code>golden.jsonl</code> của hệ B, để chạy <code>eval</code> trên cùng bộ câu hỏi (§11.B)</td><td><code>--out</code>, <code>--resource-id-aliases</code>/<code>--no-resource-id-aliases</code></td></tr>
+<tr><td><code>benchmark-retrieve &lt;queries.jsonl&gt;</code></td><td>Chạy 1 hệ retrieval, lưu Top-K</td><td><code>--system-id</code>, <code>--profile baseline|proposed</code>, <code>-k</code> (≥10), <code>--rerank</code>, <code>--no-course-filter</code>, <code>--resume</code>, <code>--use-generation-pipeline</code> (mới — đi qua <code>GenerationService.retrieve_for_eval()</code> thay vì <code>retriever.search()</code> trực tiếp)</td></tr>
+<tr><td><code>score-retrieval &lt;questions&gt; &lt;results&gt;</code></td><td>Chấm P/R/F1@K sau khi retrieval xong (§11.B)</td><td><code>--null-policy infer|exclude|error</code>, <code>--allow-unindexed-ground-truth</code>, <code>--resource-id-aliases</code>/<code>--no-resource-id-aliases</code> (mới, nạp mặc định nếu <code>evals/resource_id_aliases.json</code> tồn tại)</td></tr>
 </tbody>
 </table>
 </section>
@@ -492,12 +502,12 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 </tbody>
 </table>
 <p><strong>Không</strong> bật HyDE/reflect-loop mặc định — cả hai đều off theo thiết kế (đắt tài nguyên trên 16GB) và chỉ nên bật có chủ đích khi metric recall cụ thể yếu, có đo trước/sau.</p>
-<p>Với thay đổi lớn hoặc câu hỏi "hệ mới có thật sự tốt hơn không" cho mục đích báo cáo/luận văn — dùng benchmark leakage-free ở §11.B, không dùng golden-set 35 câu (quá nhỏ để kết luận thống kê).</p>
+<p>Với thay đổi lớn hoặc câu hỏi "hệ mới có thật sự tốt hơn không" cho mục đích báo cáo/luận văn — dùng benchmark leakage-free ở §11.B với bộ câu hỏi <code>questions_draft_v7.json</code> (400 câu, có <code>category</code>/<code>difficulty</code>, corpus coverage 100%), không dùng golden-set 35 câu pilot ban đầu (quá nhỏ để kết luận thống kê). Luôn kèm kiểm định bootstrap ghép cặp (<code>document/KLTN_MM-RAG/tools/retrieval_stats_v7.py</code> là ví dụ tái dùng được) — tự thấy "hệ mới cao hơn" trên bảng số không đủ để kết luận nếu khoảng tin cậy còn chứa 0.</p>
 </section>
 
 <section id="test">
 <h2>15. Testing</h2>
-<p><code>pytest</code> (29 file trong <code>tests/</code>). <code>tests/conftest.py</code> cung cấp <code>FakeTextEmbedder</code>/<code>FakeVLEmbedder</code> (vector giả deterministic theo <code>len(text) % 97</code>) và fixture <code>settings</code> với <code>device="cpu"</code>, chunk nhỏ (50/10) — <strong>không có test nào tải Qwen model thật</strong>. Điều này có nghĩa: test không phát hiện được lỗi runtime thật của model (ví dụ prompt template sai, tokenizer patch hỏng) — những lỗi đó chỉ lộ ra khi chạy CLI/API thật với model thật. Khi thêm module mới, viết test với fake tương tự, đừng tải model trong unit test.</p>
+<p><code>pytest</code> (27 file, 156 hàm test trong <code>tests/</code>). <code>tests/conftest.py</code> cung cấp <code>FakeTextEmbedder</code>/<code>FakeVLEmbedder</code> (vector giả deterministic theo <code>len(text) % 97</code>) và fixture <code>settings</code> với <code>device="cpu"</code>, chunk nhỏ (50/10) — <strong>không có test nào tải Qwen model thật</strong>. Điều này có nghĩa: test không phát hiện được lỗi runtime thật của model (ví dụ prompt template sai, tokenizer patch hỏng) — những lỗi đó chỉ lộ ra khi chạy CLI/API thật với model thật. Khi thêm module mới, viết test với fake tương tự, đừng tải model trong unit test.</p>
 <p>Phủ chính (theo tên file, khớp với những gì đã đọc trong source): ids/unicode, file detection, chunking, chroma add/search, metadata flatten, OCR protocol, text loader, retrieval merge/RRF, query-enhance JSON parse, incremental ingest, image RGB, video window/ffmpeg-missing, frame selection, video indexing + capped-video reingest + manifest, generation format/think/service, eval harness + inventory + retrieval benchmark, API routes, CLI parser.</p>
 <p>Test tích hợp với model thật là thủ công qua <code>scripts/test_llm_by_type.sh</code> (đọc <code>assets/</code> thật, log ra <code>tmp/llm_type_tests/</code>) — không chạy trong CI.</p>
 </section>
@@ -506,13 +516,14 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <h2>16. Known gaps / rủi ro kỹ thuật</h2>
 <p>Những điểm này được phát hiện khi đọc trực tiếp source, không phải suy đoán — nên xử lý hoặc ghi nhận trước khi coi là "đã hiểu hết":</p>
 <ul>
-<li><span class="badge bad">MISMATCH</span> <code>app/storage/base.py</code> (file mới, <strong>chưa commit</strong> — xem git status) định nghĩa <code>ObjectStore</code> Protocol với 4 method: <code>put_bytes</code>, <code>put_image</code>, <code>put_file</code>, <code>delete_prefix() -&gt; int</code>. Nhưng <code>LocalFilesystemStore</code> (<code>app/storage/local.py</code>) — implementation thực tế đang dùng khắp pipeline — chỉ có <code>put_image()</code> và <code>delete_prefix()</code> (trả <code>None</code>, không phải <code>int</code>). Nếu bạn định dùng <code>ObjectStore</code> như type hint chỗ nào, code sẽ không thoả Protocol. Cần: hoặc bổ sung <code>put_bytes</code>/<code>put_file</code> vào <code>LocalFilesystemStore</code>, hoặc rút gọn Protocol cho khớp thực tế — quyết định này có vẻ đang làm nửa chừng.</li>
+<li><span class="badge bad">MISMATCH</span> <code>app/storage/base.py</code> (đã commit ở <code>82ba3f3</code>, vẫn chưa sửa) định nghĩa <code>ObjectStore</code> Protocol với 4 method: <code>put_bytes</code>, <code>put_image</code>, <code>put_file</code>, <code>delete_prefix() -&gt; int</code>. Nhưng <code>LocalFilesystemStore</code> (<code>app/storage/local.py</code>) — implementation thực tế đang dùng khắp pipeline — chỉ có <code>put_image()</code> và <code>delete_prefix()</code> (trả <code>None</code>, không phải <code>int</code>). Nếu bạn định dùng <code>ObjectStore</code> như type hint chỗ nào, code sẽ không thoả Protocol. Cần: hoặc bổ sung <code>put_bytes</code>/<code>put_file</code> vào <code>LocalFilesystemStore</code>, hoặc rút gọn Protocol cho khớp thực tế — quyết định này có vẻ đang làm nửa chừng.</li>
 <li><span class="badge partial">DEAD CODE</span> <code>app/processors/video.py::sample_frames()</code> (OpenCV uniform sampler) không còn được gọi ở đâu — pipeline video thật dùng <code>video_frames.py::sample_coarse_frames</code> (ffmpeg) + <code>frame_selection.py</code>. README cũng tự ghi nhận điều này. An toàn để xoá nếu không có kế hoạch dùng lại.</li>
 <li><span class="badge partial">CHƯA DÙNG</span> <code>app/models/chunk.py::EmbeddingRecord</code> được định nghĩa nhưng <code>IndexingService</code> không instantiate nó — service tự build list <code>ids/docs/metas/vectors</code> song song. Không phải bug, chỉ là model "để sẵn" chưa refactor vào.</li>
-<li><span class="badge off">TẮT MẶC ĐỊNH</span> Reranker cross-encoder thật (<code>QwenReranker</code>), HyDE, iterative retrieve-loop đều tồn tại đầy đủ code nhưng tắt theo <code>Settings</code> mặc định (ràng buộc RAM 16GB) — đừng tưởng chúng "chưa implement", chúng chỉ chưa được kích hoạt.</li>
-<li><span class="badge partial">CORPUS CHƯA ĐẦY</span> Theo <code>EXPERIMENT_LOG.md</code>: 25/65 file trong <code>assets/</code> local chưa được ingest vào Chroma (18 trong số đó có evidence được benchmark 400-câu tham chiếu tới) → corpus coverage đo được chỉ 85,53%. Số liệu benchmark hiện tại không đại diện cho toàn corpus.</li>
-<li><span class="badge todo">CHƯA ĐO</span> Benchmark hiện tại (§11.B) chỉ đo retrieval, <strong>chưa đo</strong> answer correctness, faithfulness end-to-end, citation correctness, hay rejection/abstention cho câu unanswerable — xem danh sách đầy đủ ở <code>EXPERIMENT_LOG.md</code> mục "Experiments NOT YET DONE".</li>
-<li><span class="badge partial">SO SÁNH LATENCY KHÔNG HỢP LỆ</span> Lần chạy benchmark ghi trong log: baseline chạy toàn CPU, proposed chạy 11 câu đầu CPU rồi chuyển MPS — không dùng <code>elapsed_ms</code> hai file kết quả để so tốc độ.</li>
+<li><span class="badge off">TẮT MẶC ĐỊNH TRONG <code>Settings</code></span> Reranker cross-encoder thật (<code>QwenReranker</code>), HyDE, iterative retrieve-loop đều tồn tại đầy đủ code và tắt theo giá trị mặc định cứng trong <code>Settings</code> (ràng buộc RAM 16GB) — nhưng <code>.env</code> hiện tại của máy phát triển <strong>bật cả ba</strong> (<code>RERANK_ENABLED=true</code>, <code>QUERY_HYDE=true</code>, <code>MAX_RETRIEVE_LOOPS=1</code>) để đo thực nghiệm v7 (§11.B). Đừng nhầm giá trị mặc định trong code với cấu hình đang chạy thật trên máy này — luôn kiểm tra <code>.env</code>.</li>
+<li><span class="badge done">ĐÃ ĐÓNG</span> Corpus đã đầy: toàn bộ 69/69 file trong <code>assets/</code> đã được ingest (0 lỗi), gồm 7 file <code>.ppt</code> trước đây không được hỗ trợ (đóng bằng <code>app/processors/office_convert.py</code>, xem §6.1 và §12). Corpus coverage đo trên bộ câu hỏi v7 (400 câu) đạt 100% — không còn câu nào bị loại vì thiếu nguồn.</li>
+<li><span class="badge done">ĐÃ ĐO</span> Benchmark v7 (§11.B) nay đo cả retrieval lẫn generation: faithfulness, answer relevancy (tham chiếu-tự-do, không phải RAGAs — xem §2), citation precision/recall. Vẫn <strong>chưa đo</strong>: rejection/abstention cho câu unanswerable (bộ câu hỏi v7 không có câu nào loại này), biến thể <code>--with-visual</code>, biến thể <code>--use-generation-pipeline</code> (HyDE+loop) cho cả hai hệ.</li>
+<li><span class="badge partial">GIÁM KHẢO TỰ CHẤM</span> Faithfulness/answer relevancy của benchmark v7 được chấm bằng chính Qwen3-1.7B — cùng model sinh câu trả lời tự chấm sản phẩm của chính nó, chưa đối chiếu với con người hay giám khảo độc lập; phân bố điểm gần như nhị phân (0,0 hoặc 1,0, gần như không có giá trị trung gian) dù prompt yêu cầu thang liên tục $[0,1]$ — đọc kỹ trước khi trích dẫn số trung bình.</li>
+<li><span class="badge partial">THIẾT BỊ CHƯA XÁC NHẬN ĐẦY ĐỦ</span> Nhật ký hệ thống xác nhận MPS cho 2/4 lần chạy benchmark v7 (hai cấu hình có bật rerank); hai lần chạy baseline/hybrid-không-rerank không có tệp nhật ký riêng nên thiết bị chưa được xác nhận trực tiếp — không dùng <code>elapsed_ms</code> để so tốc độ giữa các hệ cho tới khi xác nhận.</li>
 </ul>
 </section>
 
@@ -525,7 +536,7 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <tr><td>Hybrid dense+BM25 (RRF)</td><td><span class="badge done">Done</span> <code>app/retrieval/sparse.py</code> + <code>merger.py</code>, <code>HYBRID_SEARCH=true</code></td></tr>
 <tr><td>Parent-child / sentence-window expand</td><td><span class="badge done">Done</span> <code>app/retrieval/expand.py</code>, query-time, không embedding mới</td></tr>
 <tr><td>Metadata pre-filter (course/content_type)</td><td><span class="badge done">Done</span> <code>--course</code>/<code>--content-type</code> trên CLI, API, retriever</td></tr>
-<tr><td>Cross-encoder rerank</td><td><span class="badge partial">Done nhưng tắt</span> <code>QwenReranker</code>, <code>RERANK_ENABLED=false</code></td></tr>
+<tr><td>Cross-encoder rerank</td><td><span class="badge done">Done và đã đánh giá</span> <code>QwenReranker</code>, mặc định tắt trong <code>Settings</code> (<code>RERANK_ENABLED=false</code>) nhưng đã đo trên 400 câu sau khi sửa bug định dạng đầu vào (§8.2): vượt baseline có ý nghĩa thống kê</td></tr>
 <tr><td>Contextual compression (extractive)</td><td><span class="badge done">Done</span> <code>app/retrieval/compress.py</code>, không LLM phụ</td></tr>
 <tr><td>RAGAs + LLM-judge + golden set</td><td><span class="badge done">Done</span> <code>app/eval/</code> đầy đủ</td></tr>
 <tr><td>Query decomposition (agentic-lite)</td><td><span class="badge done">Done</span> <code>query_enhance.py</code> — rewritten/subqueries/step_back</td></tr>
@@ -537,9 +548,9 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 </table>
 <p>Vậy phần backlog thật sự còn mở, theo thứ tự ưu tiên gợi ý:</p>
 <ol>
-<li><strong>Đóng gap corpus:</strong> ingest 25 file còn thiếu trong <code>assets/</code> (§16), chạy lại benchmark 400 câu trên corpus đầy đủ trước khi kết luận bất cứ so sánh hệ thống nào.</li>
-<li><strong>End-to-end answer eval:</strong> hiện chỉ có retrieval benchmark; thêm answer-correctness/faithfulness/citation-correctness đo trên câu trả lời thật (không chỉ path recall) — hạ tầng judge (<code>app/eval/judge.py</code>, RAGAs) đã có sẵn, chỉ thiếu nối vào benchmark 400 câu.</li>
-<li><strong>Ablation có kiểm soát:</strong> BM25-only, dense-only, +rerank, +expand/compress từng cái một, với kiểm định thống kê (bootstrap/CI) — hiện chưa có, nên mọi "X tốt hơn Y" trong log đều chưa có ý nghĩa thống kê.</li>
+<li><strong>Đóng gap corpus — <span class="badge done">đã làm</span>:</strong> 69/69 file đã ingest (0 lỗi), benchmark 400 câu v7 đã chạy lại trên corpus đầy đủ (§16).</li>
+<li><strong>End-to-end answer eval — <span class="badge done">đã làm một phần</span>:</strong> faithfulness/answer-relevancy/citation-precision-recall đã đo trên 400 câu, cấu hình tốt nhất, chỉ ngữ cảnh văn bản (§11.B). Còn thiếu: biến thể <code>--with-visual</code>, đối chiếu giám khảo tự động với con người (giám khảo hiện tự chấm sản phẩm của chính nó — §16), và dùng RAGAs thật thay vì bộ chấm điểm tự viết (đang chặn bởi xung đột <code>langchain-community</code>, §2).</li>
+<li><strong>Ablation có kiểm soát — <span class="badge partial">đã làm một phần</span>:</strong> đã tách được hiệu ứng BM25+thị giác (không cải thiện) khỏi hiệu ứng rerank (cải thiện rõ, có ý nghĩa thống kê qua bootstrap ghép cặp — §11.B). Còn thiếu: BM25-only/dense-only riêng lẻ, +expand/compress riêng lẻ, đổi hằng số RRF, gán trọng số theo danh sách, hiệu chỉnh kiểm định khi so nhiều chỉ số/nhiều hệ cùng lúc.</li>
 <li><strong>Sửa gap Protocol <code>ObjectStore</code></strong> (§16) trước khi ai đó dựa vào nó để thêm backend S3/MinIO — README có nhắc "interfaces exist so these can be swapped later" (S3/MinIO, Qdrant/Milvus/pgvector), nhưng <code>ObjectStore</code> hiện chưa đủ để swap an toàn.</li>
 <li><strong>Ý tưởng chưa làm</strong> từ <code>rag_multimodal_improvements.md</code> (tài liệu tham khảo chung, không phải cam kết): semantic/concept-based chunking (hiện vẫn theo ký tự cố định per file-type, chưa theo ranh giới ngữ nghĩa thật); fine-tune embedding trên domain Việt/giáo trình; agentic tool-calling RAG thật (hiện chỉ có 1 vòng reflect tối đa, không có multi-tool); lọc nhiễu ảnh (logo/icon) trước khi visual-embed; audio-driven video segmentation theo ranh giới câu Whisper thay vì cửa sổ 30s cố định.</li>
 <li><strong>Abstention/rejection modeling</strong> cho câu unanswerable — hiện hệ thống luôn cố trả lời (có fallback theo cosine threshold, nhưng chưa có quyết định "abstained" tường minh để đo rejection rate như <code>EXPERIMENT_LOG.md</code> mục 13 đang chờ).</li>
@@ -553,7 +564,7 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <thead><tr><th>File</th><th>Dòng</th><th>Vai trò 1 câu</th></tr></thead>
 <tbody>
 <tr><td colspan="3"><strong>config</strong></td></tr>
-<tr><td><code>config/settings.py</code></td><td>180</td><td>Toàn bộ tham số hệ thống, <code>resolve_device()</code>, <code>chunk_params()</code></td></tr>
+<tr><td><code>config/settings.py</code></td><td>186</td><td>Toàn bộ tham số hệ thống, <code>resolve_device()</code>, <code>chunk_params()</code>; thêm <code>whisper_language</code></td></tr>
 <tr><td colspan="3"><strong>models</strong></td></tr>
 <tr><td><code>models/chunk.py</code></td><td>25</td><td><code>TextChunk</code>, <code>EmbeddingRecord</code></td></tr>
 <tr><td><code>models/document.py</code></td><td>26</td><td><code>DocumentAsset</code>, <code>TableAsset</code></td></tr>
@@ -562,10 +573,10 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <tr><td><code>models/retrieval.py</code></td><td>23</td><td><code>RetrievalResult</code>, <code>ContentType</code></td></tr>
 <tr><td colspan="3"><strong>loaders</strong></td></tr>
 <tr><td><code>loaders/base.py</code></td><td>65</td><td><code>detect_kind</code>, <code>iter_input_files</code>, <code>LoadedDocument/Video</code></td></tr>
-<tr><td><code>loaders/docling_loader.py</code></td><td>281</td><td>Parse PDF/DOCX/PPTX bằng Docling</td></tr>
+<tr><td><code>loaders/docling_loader.py</code></td><td>298</td><td>Parse PDF/DOCX/PPTX bằng Docling; nhánh <code>.ppt</code>→<code>.pptx</code> qua LibreOffice (mới)</td></tr>
 <tr><td><code>loaders/image_loader.py</code></td><td>56</td><td>Load ảnh đơn + OCR</td></tr>
 <tr><td><code>loaders/text_loader.py</code></td><td>50</td><td>Load txt/md, tách heading</td></tr>
-<tr><td><code>loaders/video_loader.py</code></td><td>389</td><td>Pipeline video 7 bước, checkpoint</td></tr>
+<tr><td><code>loaders/video_loader.py</code></td><td>396</td><td>Pipeline video 7 bước, checkpoint; ép ngôn ngữ Whisper qua <code>WHISPER_LANGUAGE</code> (mới)</td></tr>
 <tr><td colspan="3"><strong>chunking</strong></td></tr>
 <tr><td><code>chunking/text_chunker.py</code></td><td>76</td><td>RecursiveCharacterTextSplitter theo file_type</td></tr>
 <tr><td><code>chunking/video_chunker.py</code></td><td>49</td><td>Cửa sổ thời gian cố định + gán transcript</td></tr>
@@ -577,15 +588,16 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <tr><td><code>processors/ocr.py</code></td><td>25</td><td><code>TesseractOCR</code>/<code>NullOCR</code> Protocol</td></tr>
 <tr><td><code>processors/scene_detection.py</code></td><td>36</td><td>PySceneDetect wrapper (tuỳ chọn)</td></tr>
 <tr><td><code>processors/video.py</code></td><td>50</td><td>OpenCV uniform sampler — <strong>dead code</strong> (§16)</td></tr>
-<tr><td><code>processors/video_checkpoint.py</code></td><td>57</td><td><code>VideoCheckpoint</code>, resume theo stage</td></tr>
+<tr><td><code>processors/video_checkpoint.py</code></td><td>65</td><td><code>VideoCheckpoint</code>, resume theo stage — <code>stage</code> nay chỉ được phép tiến, không lùi (bug đã sửa, xem §16)</td></tr>
 <tr><td><code>processors/video_frames.py</code></td><td>69</td><td>ffmpeg coarse-frame sampling</td></tr>
 <tr><td><code>processors/video_metadata.py</code></td><td>87</td><td>ffprobe → <code>VideoMetadata</code></td></tr>
+<tr><td><code>processors/office_convert.py</code></td><td>60</td><td><strong>Mới.</strong> <code>find_soffice()</code>, <code>convert_ppt_to_pptx()</code> — chuyển <code>.ppt</code>→<code>.pptx</code> tạm thời bằng LibreOffice headless để Docling parse được</td></tr>
 <tr><td colspan="3"><strong>embeddings</strong></td></tr>
 <tr><td><code>embeddings/base.py</code></td><td>15</td><td><code>TextEmbedder</code>/<code>VLEmbedder</code> Protocol</td></tr>
 <tr><td><code>embeddings/text_embedding.py</code></td><td>74</td><td>Qwen3-Embedding qua HuggingFaceEmbeddings</td></tr>
 <tr><td><code>embeddings/vl_embedding.py</code></td><td>75</td><td>Qwen3-VL-Embedding qua SentenceTransformer</td></tr>
 <tr><td colspan="3"><strong>storage</strong></td></tr>
-<tr><td><code>storage/base.py</code></td><td>16</td><td><code>ObjectStore</code> Protocol — <strong>chưa commit, lệch với local.py</strong> (§16)</td></tr>
+<tr><td><code>storage/base.py</code></td><td>16</td><td><code>ObjectStore</code> Protocol — đã commit, vẫn lệch với <code>local.py</code> (§16)</td></tr>
 <tr><td><code>storage/local.py</code></td><td>36</td><td><code>LocalFilesystemStore</code>, sandbox theo root</td></tr>
 <tr><td colspan="3"><strong>vectorstore</strong></td></tr>
 <tr><td><code>vectorstore/base.py</code></td><td>30</td><td><code>VectorStore</code> Protocol</td></tr>
@@ -601,9 +613,9 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <tr><td><code>retrieval/diversity.py</code></td><td>40</td><td><code>diversify_by_file</code></td></tr>
 <tr><td><code>retrieval/expand.py</code></td><td>99</td><td>Ghép parent/neighbor context</td></tr>
 <tr><td><code>retrieval/compress.py</code></td><td>42</td><td>Extractive sentence compression</td></tr>
-<tr><td><code>retrieval/reranker.py</code></td><td>237</td><td><code>TypePriorReranker</code>, <code>QwenReranker</code></td></tr>
+<tr><td><code>retrieval/reranker.py</code></td><td>248</td><td><code>TypePriorReranker</code>, <code>QwenReranker</code> — <code>_scores()</code> nay dùng đúng <code>tokenizer.apply_chat_template()</code> (bug đã sửa, xem §8.2)</td></tr>
 <tr><td colspan="3"><strong>generation</strong></td></tr>
-<tr><td><code>generation/service.py</code></td><td>672</td><td><code>GenerationService</code> — nhạc trưởng generation, SSE events</td></tr>
+<tr><td><code>generation/service.py</code></td><td>699</td><td><code>GenerationService</code> — nhạc trưởng generation, SSE events; thêm <code>retrieve_for_eval()</code> (public wrapper quanh <code>_retrieve()</code> cho benchmark)</td></tr>
 <tr><td><code>generation/query_enhance.py</code></td><td>223</td><td>JSON planner, HyDE, reflect prompt/parse</td></tr>
 <tr><td><code>generation/context.py</code></td><td>109</td><td><code>format_hits</code>, path helpers</td></tr>
 <tr><td><code>generation/prompts.py</code></td><td>39</td><td>System/human prompt câu trả lời cuối</td></tr>
@@ -622,23 +634,25 @@ curl -s http://127.0.0.1:8000/v1/stats</code></pre>
 <tr><td colspan="3"><strong>eval</strong></td></tr>
 <tr><td><code>eval/golden.py</code></td><td>74</td><td>Load <code>golden.jsonl</code></td></tr>
 <tr><td><code>eval/metrics.py</code></td><td>80</td><td>path recall/precision, <code>HANDOFF_MAPPING</code></td></tr>
-<tr><td><code>eval/judge.py</code></td><td>70</td><td>Qwen3-1.7B tự chấm JSON</td></tr>
-<tr><td><code>eval/ragas_backend.py</code></td><td>104</td><td>Cầu nối RAGAs</td></tr>
-<tr><td><code>eval/runner.py</code></td><td>139</td><td><code>run_eval()</code> orchestration</td></tr>
-<tr><td><code>eval/report.py</code></td><td>106</td><td><code>build_report</code>, <code>format_report</code></td></tr>
+<tr><td><code>eval/judge.py</code></td><td>110</td><td>Qwen3-1.7B tự chấm JSON; <code>score_with_judge</code> + <code>score_reference_free</code> (mới)</td></tr>
+<tr><td><code>eval/ragas_backend.py</code></td><td>104</td><td>Cầu nối RAGAs — hiện không import được trong môi trường này (§2)</td></tr>
+<tr><td><code>eval/runner.py</code></td><td>181</td><td><code>run_eval()</code> orchestration; tự chuyển sang chấm tham chiếu-tự-do + citation precision/recall khi không có <code>ground_truth</code></td></tr>
+<tr><td><code>eval/report.py</code></td><td>105</td><td><code>build_report</code>, <code>format_report</code>; thêm <code>by_difficulty</code> bên cạnh <code>by_kind</code></td></tr>
 <tr><td><code>eval/inventory.py</code></td><td>212</td><td>Kiểm kê assets/storage/vector</td></tr>
 <tr><td><code>eval/dashboard.py</code></td><td>369</td><td>Render HTML dashboard tĩnh</td></tr>
-<tr><td><code>eval/retrieval_benchmark.py</code></td><td>522</td><td>Harness benchmark leakage-free (§11.B)</td></tr>
+<tr><td><code>eval/retrieval_benchmark.py</code></td><td>620</td><td>Harness benchmark leakage-free (§11.B); thêm alias mã tài nguyên, <code>by_category</code>/<code>by_difficulty</code>, <code>retrieve_fn</code> tuỳ chỉnh</td></tr>
+<tr><td><code>eval/question_draft_bridge.py</code></td><td>76</td><td><strong>Mới.</strong> Chuyển <code>questions_draft*.json</code> → schema <code>golden.jsonl</code></td></tr>
+<tr><td><code>eval/retrieval_report.py</code></td><td>44</td><td><strong>Mới.</strong> Format báo cáo retrieval-benchmark đọc được</td></tr>
 <tr><td colspan="3"><strong>root</strong></td></tr>
-<tr><td><code>main.py</code></td><td>588</td><td>CLI argparse, 11 subcommand</td></tr>
-<tr><td><code>factory.py</code></td><td>106</td><td><code>build_services()</code> — DI duy nhất</td></tr>
+<tr><td><code>main.py</code></td><td>715</td><td>CLI argparse, 12 subcommand (mới: <code>prepare-golden-from-draft</code>)</td></tr>
+<tr><td><code>factory.py</code></td><td>109</td><td><code>build_services()</code> — DI duy nhất; <code>login_hub()</code> nay bỏ qua khi <code>HF_HUB_OFFLINE=1</code> (trước đây crash ở chế độ ngoại tuyến)</td></tr>
 <tr><td><code>ids.py</code></td><td>28</td><td>sha256/NFC/vector_id/relative_posix</td></tr>
 <tr><td><code>index_manifest.py</code></td><td>99</td><td><code>IndexManifest</code> — incremental ingest registry</td></tr>
 <tr><td><code>progress.py</code></td><td>47</td><td>Log tiến độ theo bậc 10%</td></tr>
 <tr><td><code>log_setup.py</code></td><td>20</td><td><code>setup_logging()</code></td></tr>
 </tbody>
 </table>
-<p><em>Tổng ~9.400 dòng Python trong <code>app/</code> (không kể <code>__init__.py</code> trống và test). File dài nhất: <code>generation/service.py</code> (672), <code>main.py</code> (588), <code>eval/retrieval_benchmark.py</code> (522), <code>loaders/video_loader.py</code> (389), <code>eval/dashboard.py</code> (369).</em></p>
+<p><em>Tổng ~9.100 dòng Python trong <code>app/</code> (không kể <code>__init__.py</code> trống và test). File dài nhất: <code>main.py</code> (715), <code>generation/service.py</code> (699), <code>eval/retrieval_benchmark.py</code> (620), <code>loaders/video_loader.py</code> (396), <code>eval/dashboard.py</code> (369).</em></p>
 </section>
 
 <div class="note">Tài liệu này thay thế nội dung cũ của <code>TECHNICAL_DOCUMENTATION.html</code> (bản trước viết ngày 2026-09-07, thiếu toàn bộ API/eval/hybrid-retrieval/generation nâng cao vì được viết trước các commit sau đó). File <code>CODEBASE_CONTEXT.html</code> cùng thời điểm cũng đã lỗi thời tương tự — nếu cần, có thể yêu cầu tái tạo theo cùng cách.</div>

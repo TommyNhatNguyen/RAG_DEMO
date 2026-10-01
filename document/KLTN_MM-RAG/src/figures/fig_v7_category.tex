@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=10pt, width=\textwidth, height=7cm,
+  ylabel={F1@10}, ymin=0, ymax=0.22,
+  symbolic x coords={Đa nguồn,Slide,Thị giác,Video},
+  xtick=data, tick label style={font=\small}, label style={font=\small},
+  legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1, font=\scriptsize},
+  enlarge x limits=0.18,
+  nodes near coords, every node near coord/.append style={font=\tiny},
+]
+\addplot coordinates {(Đa nguồn,0.1697) (Slide,0.1161) (Thị giác,0.0667) (Video,0.0141)};
+\addplot coordinates {(Đa nguồn,0.1839) (Slide,0.1388) (Thị giác,0.0797) (Video,0.0461)};
+\legend{Cơ sở, Lai + xếp hạng lại}
+\end{axis}
+\end{tikzpicture}

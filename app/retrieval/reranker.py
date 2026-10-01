@@ -205,12 +205,23 @@ class QwenReranker(ScoreReranker):
         device = next(model.parameters()).device
         scores: list[float] = []
         for document in documents:
-            prompt = (
-                f"<Instruct>: {instruction}\n<Query>: {query}\n<Document>: {document}"
-            )
-            encoded = tokenizer(
-                prompt,
+            # Qwen3-Reranker ships a chat_template that wraps the query/document
+            # in a specific system prompt + an empty <think></think> primer so
+            # the very next token is the yes/no answer. Tokenizing a raw
+            # "<Instruct>/<Query>/<Document>" string (no template) leaves the
+            # model in an unconstrained state and its last-token logits are
+            # not meaningful yes/no scores.
+            messages = [
+                {"role": "system", "content": instruction},
+                {"role": "query", "content": query},
+                {"role": "document", "content": document},
+            ]
+            encoded = tokenizer.apply_chat_template(
+                messages,
+                tokenize=True,
+                add_generation_prompt=False,
                 return_tensors="pt",
+                return_dict=True,
                 truncation=True,
                 max_length=self.max_length,
             )

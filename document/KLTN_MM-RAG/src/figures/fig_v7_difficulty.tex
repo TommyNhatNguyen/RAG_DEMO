@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=16pt, width=0.75\textwidth, height=6.5cm,
+  ylabel={F1@10}, ymin=0, ymax=0.16,
+  symbolic x coords={Dễ,Trung bình,Khó},
+  xtick=data, tick label style={font=\small}, label style={font=\small},
+  legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1, font=\scriptsize},
+  enlarge x limits=0.3,
+  nodes near coords, every node near coord/.append style={font=\tiny},
+]
+\addplot coordinates {(Dễ,0.0865) (Trung bình,0.0913) (Khó,0.1093)};
+\addplot coordinates {(Dễ,0.1326) (Trung bình,0.1082) (Khó,0.0974)};
+\legend{Cơ sở, Lai + xếp hạng lại}
+\end{axis}
+\end{tikzpicture}
