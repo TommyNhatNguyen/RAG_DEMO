@@ -4,7 +4,7 @@
 
 \section*{Tóm tắt chương}
 
-Chương này trình bày các kiến thức nền tảng cần thiết cho khóa luận. Các nội dung được trình bày theo thứ tự: đặc điểm của học liệu đa định dạng; các mô hình ngôn ngữ và mô hình biểu diễn được sử dụng; khung RAG và phần mở rộng đa phương thức của nó; các kỹ thuật truy xuất thông tin; các kỹ thuật xử lý học liệu; nguyên tắc sinh câu trả lời có căn cứ; và các chỉ số cùng phương pháp thống kê dùng để đánh giá.
+Chương này trình bày các kiến thức nền tảng cần thiết cho khóa luận. Các nội dung được trình bày theo thứ tự: đặc điểm của học liệu đa định dạng; các mô hình ngôn ngữ và mô hình biểu diễn được sử dụng; khung sinh tăng cường truy xuất (Retrieval-augmented generation - RAG) và phần mở rộng đa phương thức của nó; các kỹ thuật truy xuất thông tin; các kỹ thuật xử lý học liệu; nguyên tắc sinh câu trả lời có căn cứ; và các chỉ số cùng phương pháp thống kê dùng để đánh giá.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -26,7 +26,7 @@ Siêu dữ liệu (metadata) là dữ liệu mô tả một tài nguyên, chẳn
 Khóa luận dùng họ mô hình Qwen3 cho cả việc sinh văn bản và việc chuyển văn bản, ảnh thành vector. Báo cáo kỹ thuật của Qwen3 nêu rằng họ mô hình này mở rộng khả năng hỗ trợ đa ngôn ngữ từ 29 lên 119 ngôn ngữ và phương ngữ \cite{yang2025qwen3}.
 
 \bigbreak\noindent
-Biểu diễn vector (embedding) là phép ánh xạ một đoạn văn bản, một ảnh hoặc một cặp văn bản và ảnh thành một vector số thực, sao cho các đối tượng có nội dung gần nhau thì có vector gần nhau. Qwen3 Embedding là một chuỗi mô hình biểu diễn văn bản và xếp hạng lại xây dựng trên nền Qwen3, được huấn luyện qua nhiều giai đoạn kết hợp tiền huấn luyện không giám sát quy mô lớn với tinh chỉnh có giám sát \cite{zhang2025qwen3embedding}. Qwen3-VL-Embedding được xây dựng trên nền Qwen3-VL, ánh xạ văn bản, ảnh, ảnh tài liệu và video vào một không gian biểu diễn thống nhất và hỗ trợ hơn 30 ngôn ngữ \cite{li2026qwen3vlembedding}. Qwen3-VL là một VLM của họ Qwen3, tiếp nhận văn bản, ảnh và video trong cùng một ngữ cảnh xen kẽ \cite{bai2025qwen3vl}. Trong hệ thống của chúng tôi, mô hình biểu diễn văn bản và mô hình biểu diễn thị giác cho hai không gian vector khác nhau, vì vậy vector của hai loại không được so sánh trực tiếp và được lưu ở hai tập vector (collection) riêng (\textbf{Mục \ref{sec:bieu-dien}}).
+Biểu diễn vector (embedding) là phép ánh xạ một đoạn văn bản, một ảnh hoặc một cặp văn bản và ảnh thành một vector số thực, sao cho các đối tượng có nội dung gần nhau thì có vector gần nhau. Qwen3 Embedding là một chuỗi mô hình biểu diễn văn bản và xếp hạng lại xây dựng trên nền Qwen3, được huấn luyện qua nhiều giai đoạn kết hợp tiền huấn luyện không giám sát quy mô lớn với tinh chỉnh có giám sát \cite{zhang2025qwen3embedding}. Qwen3-VL-Embedding được xây dựng trên nền Qwen3-VL, ánh xạ văn bản, ảnh, ảnh tài liệu và video vào một không gian biểu diễn thống nhất và hỗ trợ hơn 30 ngôn ngữ \cite{li2026qwen3vlembedding}. Qwen3-VL là một mô hình ngôn ngữ thị giác (Vision-language model - VLM) của họ Qwen3, tiếp nhận văn bản, ảnh và video trong cùng một ngữ cảnh xen kẽ \cite{bai2025qwen3vl}. Trong hệ thống của chúng tôi, mô hình biểu diễn văn bản và mô hình biểu diễn thị giác cho hai không gian vector khác nhau, vì vậy vector của hai loại không được so sánh trực tiếp và được lưu ở hai tập vector (collection) riêng (\textbf{Mục \ref{sec:bieu-dien}}).
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -36,7 +36,7 @@ Biểu diễn vector (embedding) là phép ánh xạ một đoạn văn bản, m
 
 \subsection{Sinh tăng cường truy xuất}
 
-Các LLM lưu tri thức trong tham số của mình, nhưng khả năng truy cập và thao tác chính xác tri thức đó còn hạn chế trên các tác vụ cần nhiều tri thức \cite{lewis2020rag}. Ngoài ra, LLM còn gặp các vấn đề như sinh nội dung sai lệch, kiến thức lỗi thời và quá trình suy luận thiếu minh bạch, không truy vết được \cite{gao2023ragsurvey}. RAG được đề xuất để khắc phục bằng cách bổ sung tri thức lấy từ một kho ngoài \cite{lewis2020rag, gao2023ragsurvey}. Một hệ thống RAG gồm hai mô-đun: mô-đun truy xuất tìm các đoạn liên quan trong kho ngoài, và mô-đun sinh dùng một LLM tạo câu trả lời dựa trên câu hỏi cùng các đoạn đã truy xuất \cite{es2024ragas}.
+Các mô hình ngôn ngữ lớn (Large Language Model - LLM) lưu tri thức trong tham số của mình, nhưng khả năng truy cập và thao tác chính xác tri thức đó còn hạn chế trên các tác vụ cần nhiều tri thức \cite{lewis2020rag}. Ngoài ra, LLM còn gặp các vấn đề như sinh nội dung sai lệch, kiến thức lỗi thời và quá trình suy luận thiếu minh bạch, không truy vết được \cite{gao2023ragsurvey}. RAG được đề xuất để khắc phục bằng cách bổ sung tri thức lấy từ một kho ngoài \cite{lewis2020rag, gao2023ragsurvey}. Một hệ thống RAG gồm hai mô-đun: mô-đun truy xuất tìm các đoạn liên quan trong kho ngoài, và mô-đun sinh dùng một LLM tạo câu trả lời dựa trên câu hỏi cùng các đoạn đã truy xuất \cite{es2024ragas}.
 
 \subsection{Mở rộng đa phương thức}
 
@@ -53,7 +53,7 @@ RAG đa phương thức mở rộng kho tri thức từ văn bản sang ảnh, v
 
 \subsection{Truy xuất dày}
 
-Truy xuất dày biểu diễn cả câu hỏi và các đoạn văn bằng vector, rồi tìm các đoạn có vector gần vector câu hỏi nhất; các vector có thể được học từ một số ít cặp câu hỏi và đoạn văn bằng một khung gồm hai bộ mã hóa đơn giản \cite{karpukhin2020dpr}. Độ gần giữa hai vector được đo bằng độ tương đồng cosine, cách chuẩn để định lượng sự giống nhau của hai tài liệu từ biểu diễn vector của chúng \cite{manning2008ir}:
+Truy xuất dày (dense retrieval) biểu diễn cả câu hỏi và các đoạn văn bằng vector, rồi tìm các đoạn có vector gần vector câu hỏi nhất; các vector có thể được học từ một số ít cặp câu hỏi và đoạn văn bằng một khung gồm hai bộ mã hóa đơn giản \cite{karpukhin2020dpr}. Độ gần giữa hai vector được đo bằng độ tương đồng cosine, cách chuẩn để định lượng sự giống nhau của hai tài liệu từ biểu diễn vector của chúng \cite{manning2008ir}:
 \begin{equation}\label{eq:cosine}
     \mathrm{sim}(\mathbf{u},\mathbf{v}) = \frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{u}\rVert\,\lVert\mathbf{v}\rVert}
 \end{equation}
@@ -61,7 +61,7 @@ Khi các vector đã được chuẩn hóa về độ dài 1 thì độ tương 
 
 \subsection{Truy xuất thưa và BM25}
 
-Truy xuất thưa dựa trên sự khớp từ vựng giữa câu hỏi và tài liệu; các mô hình không gian vector thưa truyền thống như TF-IDF hay BM25 từng là phương pháp mặc định cho truy xuất đoạn văn \cite{karpukhin2020dpr}. BM25 thuộc khung xác suất liên quan \cite{robertson2009bm25}. Dạng thường gặp của điểm BM25 giữa tài liệu $D$ và câu hỏi $Q$ là
+Truy xuất thưa (sparse retrieval) dựa trên sự khớp từ vựng giữa câu hỏi và tài liệu; các mô hình không gian vector thưa truyền thống như TF-IDF hay BM25 từng là phương pháp mặc định cho truy xuất đoạn văn \cite{karpukhin2020dpr}. BM25 thuộc khung xác suất liên quan \cite{robertson2009bm25}. Dạng thường gặp của điểm BM25 giữa tài liệu $D$ và câu hỏi $Q$ là
 \begin{equation}\label{eq:bm25}
     \mathrm{BM25}(D,Q) = \sum_{t\in Q} \mathrm{IDF}(t)\cdot \frac{f(t,D)\,(k_1+1)}{f(t,D) + k_1\bigl(1 - b + b\,\lvert D\rvert / \overline{\lvert D\rvert}\bigr)}
 \end{equation}
@@ -72,7 +72,7 @@ Do việc chọn từ của con người biến thiên rất lớn \cite{furnas1
 
 \subsection{Hợp nhất thứ hạng nghịch đảo}
 
-Truy xuất lai kết hợp các danh sách xếp hạng do nhiều phương pháp truy xuất tạo ra. RRF là một phương pháp không giám sát để kết hợp thứ hạng từ nhiều hệ thống truy xuất; các tác giả báo cáo RRF cho kết quả tốt hơn từng hệ thống riêng lẻ và tốt hơn phương pháp Condorcet Fuse \cite{cormack2009rrf}. Điểm của một tài liệu $d$ là tổng nghịch đảo thứ hạng của nó trong các danh sách chứa nó:
+Hợp nhất thứ hạng nghịch đảo (Reciprocal rank fusion - RRF) là một phương pháp không giám sát để kết hợp các danh sách xếp hạng do nhiều phương pháp truy xuất tạo ra; các tác giả báo cáo RRF cho kết quả tốt hơn từng hệ thống riêng lẻ và tốt hơn phương pháp Condorcet Fuse \cite{cormack2009rrf}. Điểm của một tài liệu $d$ là tổng nghịch đảo thứ hạng của nó trong các danh sách chứa nó:
 \begin{equation}\label{eq:rrf-general}
     \mathrm{RRF}(d) = \sum_{g \in G} \frac{1}{k + \mathrm{rank}_g(d)}
 \end{equation}
@@ -80,7 +80,7 @@ với $G$ là tập các danh sách xếp hạng và $k$ là một hằng số. 
 
 \subsection{Bộ xếp hạng lại}
 
-Bộ xếp hạng lại chấm lại các ứng viên đã truy xuất bằng một mô hình xem xét đồng thời câu hỏi và từng đoạn văn; ví dụ mô hình BERT đã được dùng theo cách này để xếp hạng lại đoạn văn theo câu hỏi \cite{nogueira2019passage}. Qwen3-Reranker thuộc chuỗi Qwen3 Embedding \cite{zhang2025qwen3embedding} và, theo thẻ mô hình, chấm điểm dựa trên xác suất mô hình trả lời ``có'' hay ``không'' cho việc đoạn văn đáp ứng yêu cầu của câu hỏi.
+Bộ xếp hạng lại (reranker) chấm lại các ứng viên đã truy xuất bằng một mô hình xem xét đồng thời câu hỏi và từng đoạn văn; ví dụ mô hình BERT đã được dùng theo cách này để xếp hạng lại đoạn văn theo câu hỏi \cite{nogueira2019passage}. Qwen3-Reranker thuộc chuỗi Qwen3 Embedding \cite{zhang2025qwen3embedding} và, theo thẻ mô hình, chấm điểm dựa trên xác suất mô hình trả lời ``có'' hay ``không'' cho việc đoạn văn đáp ứng yêu cầu của câu hỏi.
 
 \subsection{Truy vấn mở rộng bằng tài liệu giả định}
 
@@ -106,7 +106,7 @@ ASR chuyển âm thanh thành văn bản. Whisper được huấn luyện để 
 
 \subsection{Băm ảnh}
 
-Băm trung bình là một kỹ thuật đơn giản để so sánh hai ảnh: ảnh được chuyển sang thang xám, thu nhỏ về một lưới nhỏ, mỗi điểm ảnh được so với giá trị trung bình của lưới để tạo một bit, và mức giống nhau của hai ảnh được đo bằng số bit khác nhau giữa hai mã băm (khoảng cách Hamming). Hệ thống dùng kỹ thuật này để loại các khung hình video gần trùng nhau (\textbf{Mục \ref{sec:tien-xu-ly-video}}).
+Băm trung bình (average hash) là một kỹ thuật đơn giản để so sánh hai ảnh: ảnh được chuyển sang thang xám, thu nhỏ về một lưới nhỏ, mỗi điểm ảnh được so với giá trị trung bình của lưới để tạo một bit, và mức giống nhau của hai ảnh được đo bằng số bit khác nhau giữa hai mã băm (khoảng cách Hamming). Hệ thống dùng kỹ thuật này để loại các khung hình video gần trùng nhau (\textbf{Mục \ref{sec:tien-xu-ly-video}}).
 
 \subsection{Phân đoạn văn bản}
 
@@ -118,7 +118,7 @@ Phân đoạn văn bản (chunking) là việc chia văn bản dài thành các 
 
 \section{Sinh câu trả lời có căn cứ}
 
-Trong khóa luận, một câu trả lời có căn cứ là câu trả lời chỉ dựa trên các đoạn đã được truy xuất và kèm trích dẫn tới nguồn (tệp, số trang, mốc thời gian) để người học kiểm chứng. RAG được xem là hướng giảm hiện tượng sinh nội dung sai lệch và quá trình suy luận không truy vết được \cite{gao2023ragsurvey}. Để hiện thực nguyên tắc này, hệ thống dùng ba cơ chế: câu lệnh dẫn dắt (prompt) ràng buộc mô hình chỉ dựa vào ngữ cảnh và nguồn được cung cấp, cơ chế từ chối khi độ tương đồng thấp, và việc đưa ảnh trang vào một VLM khi văn bản trích xuất có thể đã làm mất thông tin về bố cục hay hình minh họa \cite{yu2025visrag, bai2025qwen3vl}. Chi tiết được trình bày ở \textbf{Mục \ref{sec:sinh}}.
+Trong khóa luận, một câu trả lời có căn cứ là câu trả lời chỉ dựa trên các đoạn đã được truy xuất và kèm trích dẫn tới nguồn (tệp, số trang, mốc thời gian) để người học kiểm chứng. RAG được xem là hướng giảm hiện tượng sinh nội dung sai lệch và quá trình suy luận không truy vết được \cite{gao2023ragsurvey}. Để hiện thực nguyên tắc này, hệ thống dùng hai cơ chế: câu lệnh (prompt) dẫn dắt mô hình chỉ dựa vào ngữ cảnh và nguồn được cung cấp, và việc đưa ảnh trang vào một VLM khi văn bản trích xuất có thể đã làm mất thông tin về bố cục hay hình minh họa \cite{yu2025visrag, bai2025qwen3vl}. Chi tiết được trình bày ở \textbf{Mục \ref{sec:sinh}}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 7
@@ -136,8 +136,8 @@ Với kết quả có xếp hạng, các đại lượng được tính trên $K
 
 \subsection{Đánh giá hệ thống sinh tăng cường truy xuất}
 
-RAGAs là một khung đánh giá các hệ thống RAG không cần nhãn chuẩn do con người gán; khung này đề xuất một bộ chỉ số cho các khía cạnh khác nhau: khả năng của mô-đun truy xuất trong việc tìm được các đoạn liên quan và tập trung, khả năng của LLM trong việc khai thác các đoạn đó một cách trung thực, và chất lượng của chính phần sinh \cite{es2024ragas}. Trong các chỉ số này, độ trung thực với ngữ cảnh và độ liên quan của câu trả lời được tính theo cách đánh giá không dựa trên tài liệu tham chiếu: không so khớp với một câu trả lời mẫu do con người soạn sẵn, mà dùng chính một LLM khác chấm điểm trực tiếp dựa trên câu hỏi, ngữ cảnh đã truy xuất và câu trả lời cần đánh giá; ngược lại, \textit{context precision} và \textit{context recall} cần câu trả lời mẫu để so sánh nên không tính được khi bộ câu hỏi không có trường này \cite{es2024ragas}. Cách đánh giá không dựa trên tài liệu tham chiếu phù hợp với các bài toán có nhiều câu trả lời đúng khác nhau như RAG, nhưng chất lượng điểm số phụ thuộc vào chính mô hình đóng vai giám khảo — một hạn chế được thảo luận lại ở \textbf{Mục \ref{sec:thao-luan}}. Mã nguồn của hệ thống có sẵn chức năng chấm điểm bằng RAGAs, tính bốn chỉ số: \texttt{Faithfulness} và \texttt{ResponseRelevancy} — ứng với độ trung thực với ngữ cảnh và độ liên quan của câu trả lời, không cần câu trả lời mẫu; \texttt{LLMContextPrecisionWithReference} và \texttt{LLMContextRecall} — ứng với \textit{context precision} và \textit{context recall}, cần câu trả lời mẫu để so sánh. Lệnh gọi RAGAs trong mã nguồn tính gộp cả bốn chỉ số này trong cùng một lần và luôn truyền câu trả lời mẫu kể cả khi để trống; với bộ câu hỏi không có câu trả lời mẫu, hai chỉ số cần tham chiếu sẽ bị chấm so với một chuỗi rỗng, cho kết quả gây hiểu lầm chứ không chỉ là thiếu chính xác. Do hạn chế này của cách lệnh gọi RAGAs được tích hợp trong mã nguồn, khóa luận không dùng RAGAs khi bộ câu hỏi không có câu trả lời mẫu, mà thay bằng một bộ chấm điểm tự viết theo cách đánh giá không dựa trên tài liệu tham chiếu: \textbf{đo được} độ trung thực với ngữ cảnh và độ liên quan của câu trả lời — hai chỉ số không cần câu trả lời mẫu (\textbf{Mục \ref{sec:ket-qua-sinh}}); \textbf{chưa đo được} \textit{context precision} và \textit{context recall} theo đúng định nghĩa của RAGAs, vì cần câu trả lời mẫu mà bộ câu hỏi hiện tại không có.
+RAGAs là một khung đánh giá các hệ thống RAG, đề xuất các chỉ số cho khả năng truy xuất, khả năng khai thác ngữ cảnh một cách trung thực của LLM và chất lượng của phần sinh \cite{es2024ragas}. Trong khóa luận, RAGAs được sử dụng làm khung đánh giá phần sinh câu trả lời và ngữ cảnh truy xuất. Cụ thể, mã nguồn gọi các chỉ số \texttt{Faithfulness}, \texttt{ResponseRelevancy}, \texttt{LLMContextPrecisionWithReference} và \texttt{LLMContextRecall}; trong luận văn, các chỉ số này lần lượt được gọi là độ trung thực với ngữ cảnh (faithfulness), độ liên quan của câu trả lời (answer relevance), độ chính xác ngữ cảnh (context precision) và độ thu hồi ngữ cảnh (context recall). Việc chấm điểm sử dụng câu hỏi, ngữ cảnh truy xuất, câu trả lời sinh ra và thông tin chuẩn tương ứng của bộ đánh giá. Các chỉ số Precision, Recall và F1 của khâu truy xuất được tính riêng theo quy tắc đối chiếu bằng chứng trình bày ở \textbf{Mục \ref{sec:khung-danh-gia}}.
 
 \subsection{Khoảng tin cậy bằng phương pháp lấy mẫu lại}
 
-Phương pháp lấy mẫu lại ước lượng độ bất định của một thống kê bằng cách lấy mẫu có hoàn lại từ chính dữ liệu quan sát \cite{efron1993bootstrap}; một nghiên cứu đã so sánh lấy mẫu lại với các kiểm định khác cho đánh giá truy xuất thông tin \cite{smucker2007comparison}. Trong khóa luận, chúng tôi dùng lấy mẫu lại ghép cặp với khoảng phân vị: lấy mẫu có hoàn lại các đơn vị độc lập (từng câu hỏi, hoặc từng cụm câu hỏi có cùng nội dung truy vấn khi câu hỏi bị lặp lại), với mỗi mẫu tính hiệu số trung bình của một chỉ số giữa hai hệ thống, rồi lấy phân vị 2,5\% và 97,5\% của các hiệu số đó làm khoảng tin cậy 95\%. Nếu khoảng này không chứa 0 thì hiệu số được coi là khác 0 ở mức tin cậy đó (\textbf{Mục \ref{sec:ket-qua}}).
+Phương pháp lấy mẫu lại (bootstrap) ước lượng độ bất định của một thống kê bằng cách lấy mẫu có hoàn lại từ chính dữ liệu quan sát \cite{efron1993bootstrap}; một nghiên cứu đã so sánh lấy mẫu lại với các kiểm định khác cho đánh giá truy xuất thông tin \cite{smucker2007comparison}. Trong khóa luận, chúng tôi dùng lấy mẫu lại ghép cặp với khoảng phân vị: lấy mẫu có hoàn lại các đơn vị độc lập (từng câu hỏi, hoặc từng cụm câu hỏi có cùng nội dung truy vấn khi câu hỏi bị lặp lại), với mỗi mẫu tính hiệu số trung bình của một chỉ số giữa hai hệ thống, rồi lấy phân vị 2,5\% và 97,5\% của các hiệu số đó làm khoảng tin cậy 95\%. Nếu khoảng này không chứa 0 thì hiệu số được coi là khác 0 ở mức tin cậy đó (\textbf{Mục \ref{sec:ket-qua}}).

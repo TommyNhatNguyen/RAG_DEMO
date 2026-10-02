@@ -1,5 +1,5 @@
 {
-  "_ghi_chu": "Nguồn duy nhất cho quy tắc thuật ngữ. 'vi' là dạng tiếng Việt đầy đủ (bản dịch ĐỀ XUẤT, cần người dùng chốt). 'abbr' rỗng nghĩa là thuật ngữ không có viết tắt: lần đầu 'vi (en)', từ lần 2 dùng lại 'vi'. Có 'abbr': lần đầu 'vi (en - ABBR)', từ lần 2 chỉ dùng ABBR.",
+  "_ghi_chu": "Nguồn duy nhất cho quy tắc thuật ngữ. 'vi' là dạng tiếng Việt đầy đủ (bản dịch ĐỀ XUẤT, cần người dùng chốt). 'abbr' rỗng nghĩa là thuật ngữ không có viết tắt: lần đầu trong mỗi chương 'vi (en)', từ lần 2 dùng lại 'vi'. Có 'abbr': lần đầu trong mỗi chương 'vi (en - ABBR)', từ lần 2 chỉ dùng ABBR.",
   "terms": [
     {
       "id": "rag",
@@ -10,7 +10,7 @@
     {
       "id": "llm",
       "vi": "mô hình ngôn ngữ lớn",
-      "en": "Large language model",
+      "en": "Large Language Model",
       "abbr": "LLM"
     },
     {
@@ -147,7 +147,7 @@
     },
     {
       "id": "prompt",
-      "vi": "câu lệnh dẫn dắt",
+      "vi": "câu lệnh",
       "en": "prompt",
       "abbr": ""
     },
@@ -232,7 +232,7 @@
     {
       "id": "answer_relevancy",
       "vi": "độ liên quan của câu trả lời",
-      "en": "answer relevancy",
+      "en": "Answer Relevance",
       "abbr": ""
     },
     {
@@ -245,12 +245,6 @@
       "id": "bootstrap",
       "vi": "lấy mẫu lại",
       "en": "bootstrap",
-      "abbr": ""
-    },
-    {
-      "id": "reference_free",
-      "vi": "đánh giá không dựa trên tài liệu tham chiếu",
-      "en": "reference-free",
       "abbr": ""
     }
   ],

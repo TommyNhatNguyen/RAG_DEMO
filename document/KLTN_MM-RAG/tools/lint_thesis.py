@@ -46,6 +46,12 @@ WATCH = [
     "checkpoint", "sidecar", "reranker", "rerank", "ablation", "framework", "dataset", "token", "tokens", "score",
     "streaming", "end-to-end", "hit rate", "seed", "hybrid", "dense", "sparse", "recall", "precision", "fusion",
 ]
+CHAPTER_LOCAL_TERMS = {
+    "rag", "dense", "sparse", "hybrid", "prompt", "token", "embedding",
+    "reranker", "llm", "vlm", "chunking", "rrf", "average_hash", "ablation",
+    "sidecar", "checkpoint", "pipeline", "ground_truth", "benchmark",
+    "bootstrap", "hit_rate", "faithfulness", "answer_relevancy",
+}
 
 
 def nfc(s: str) -> str:
@@ -140,12 +146,13 @@ def load_glossary():
         vi, en, abbr = nfc(t["vi"]), t["en"], t.get("abbr", "")
         vi_p = re.escape(vi).replace(r"\ ", r"\s+")
         en_p = re.escape(en).replace(r"\ ", r"\s+")
+        en_p_formatted = r"(?:\\textit\{\s*" + en_p + r"\s*\}|" + en_p + r")"
         b_l, b_r = r"(?<![\w])", r"(?![\w])"
         if abbr:
-            defre = re.compile(b_l + r"(?i:" + vi_p + r"\s*\(\s*" + en_p + r"\s*-\s*)(?-i:" + re.escape(abbr) + r")\s*\)")
+            defre = re.compile(b_l + r"(?i:" + vi_p + r"\s*\(\s*" + en_p_formatted + r"\s*-\s*)(?-i:" + re.escape(abbr) + r")\s*\)")
             abbre = re.compile(b_l + re.escape(abbr) + b_r)
         else:
-            defre = re.compile(b_l + r"(?i:" + vi_p + r"\s*\(\s*" + en_p + r"\s*\))")
+            defre = re.compile(b_l + r"(?i:" + vi_p + r"\s*\(\s*" + en_p_formatted + r"\s*\))")
             abbre = None
         terms.append({
             "id": t["id"], "vi": vi, "en": en, "abbr": abbr,
@@ -199,6 +206,7 @@ def check_glossary(rep: Report, terms, files: dict[str, tuple[str, list]]):
     for fn in CHAPTERS:
         if fn not in files:
             continue
+        chapter_seen: dict[str, str] = {}
         body, headings = files[fn]
         events = []  # (pos, term, kind)
         masked = body
@@ -224,17 +232,20 @@ def check_glossary(rep: Report, terms, files: dict[str, tuple[str, list]]):
             tid = t["id"]
             used[tid] = True
             label = f"{t['vi']} / {t['en']}" + (f" / {t['abbr']}" if t["abbr"] else "")
+            seen = chapter_seen if tid in CHAPTER_LOCAL_TERMS else first_seen
             if kind == "def":
-                if tid in first_seen:
-                    rep.err(fn, line, f"định nghĩa lặp lại (đã định nghĩa ở {first_seen[tid]}): {label}")
+                if tid in seen:
+                    rep.err(fn, line, f"định nghĩa lặp lại trong chương (đã định nghĩa ở {seen[tid]}): {label}")
                 else:
-                    first_seen[tid] = f"{fn}:{line}"
+                    seen[tid] = f"{fn}:{line}"
+                    first_seen.setdefault(tid, seen[tid])
                 continue
-            if tid not in first_seen:
+            if tid not in seen:
                 form = f"{t['vi']} ({t['en']}" + (f" - {t['abbr']})" if t["abbr"] else ")")
                 shown = {"vi": t["vi"], "en": t["en"], "abbr": t["abbr"]}[kind]
                 rep.err(fn, line, f"'{shown}' xuất hiện lần đầu chưa đúng dạng; cần: {form}")
-                first_seen[tid] = f"{fn}:{line}(sai dạng)"
+                seen[tid] = f"{fn}:{line}(sai dạng)"
+                first_seen.setdefault(tid, seen[tid])
                 continue
             if t["abbr"]:
                 if kind == "vi":

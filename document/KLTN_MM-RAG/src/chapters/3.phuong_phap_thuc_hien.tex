@@ -4,7 +4,7 @@
 
 \section*{Tóm tắt chương}
 
-Trong chương này, chúng tôi trình bày kiến trúc và cách hoạt động của hệ thống trợ lý ảo đã được hiện thực. Nội dung gồm: kiến trúc tổng thể, biểu diễn đối tượng tri thức và siêu dữ liệu, các bước tiền xử lý học liệu dạng tài liệu và dạng video, lập chỉ mục trên hai không gian vector, thuật toán truy xuất lai đa phương thức, cách sinh câu trả lời có căn cứ, khung đánh giá truy xuất không rò rỉ dữ liệu và các hạn chế của thiết kế hiện tại. Mọi mô tả trong chương đều được đối chiếu trực tiếp với mã nguồn của hệ thống; các tham số nêu trong chương là giá trị mặc định của mã nguồn, trừ khi có ghi chú khác.
+Trong chương này, chúng tôi trình bày kiến trúc và cách hoạt động của hệ thống trợ lý ảo đã được hiện thực. Nội dung gồm: kiến trúc tổng thể, biểu diễn đối tượng tri thức và siêu dữ liệu, các bước tiền xử lý học liệu dạng tài liệu và dạng video, lập chỉ mục trên hai không gian vector, thuật toán truy xuất lai (hybrid retrieval) đa phương thức, cách sinh câu trả lời có căn cứ, khung đánh giá truy xuất không rò rỉ dữ liệu và các hạn chế của thiết kế hiện tại. Mọi mô tả trong chương đều được đối chiếu trực tiếp với mã nguồn của hệ thống; các tham số nêu trong chương là giá trị mặc định của mã nguồn, trừ khi có ghi chú khác.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -13,7 +13,7 @@ Trong chương này, chúng tôi trình bày kiến trúc và cách hoạt độ
 \section{Kiến trúc tổng thể}\label{sec:kien-truc}
 
 % [CODE app/factory.py:build_services; README mục Architecture]
-Hệ thống được tổ chức thành các khối chức năng tách rời: nạp và tiền xử lý học liệu, lập chỉ mục, truy xuất, sinh câu trả lời và đánh giá. Các khối được lắp ghép trong hàm \texttt{build\_services} (tệp \texttt{app/factory.py}), hàm này tạo ra một đối tượng gồm kho vector, kho lưu tệp trung gian, sổ đăng ký các tệp đã lập chỉ mục, hai dịch vụ biểu diễn vector, luồng nạp dữ liệu, bộ truy xuất và dịch vụ sinh câu trả lời. Các mô hình được nạp vào bộ nhớ theo nhu cầu: mô hình sinh văn bản chỉ được nạp ở lần hỏi đầu tiên, còn các lệnh nạp dữ liệu, tìm kiếm và thống kê không nạp mô hình này.
+Hệ thống được tổ chức thành các khối chức năng tách rời: nạp và tiền xử lý học liệu, lập chỉ mục, truy xuất, sinh câu trả lời và đánh giá. Các khối được lắp ghép trong hàm \texttt{build\_services} (tệp \texttt{app/factory.py}), hàm này tạo ra một đối tượng gồm kho vector, kho lưu tệp trung gian, sổ đăng ký các tệp đã lập chỉ mục, hai dịch vụ biểu diễn vector (embedding), luồng nạp dữ liệu, bộ truy xuất và dịch vụ sinh câu trả lời. Các mô hình được nạp vào bộ nhớ theo nhu cầu: mô hình sinh văn bản chỉ được nạp ở lần hỏi đầu tiên, còn các lệnh nạp dữ liệu, tìm kiếm và thống kê không nạp mô hình này.
 
 \bigbreak\noindent
 % [CODE app/vectorstore/chroma.py; README mục ChromaDB layout]
@@ -62,7 +62,7 @@ Mỗi đơn vị tri thức trong hệ thống là một vector cùng văn bản
     \hline
     \texttt{image\_path} & Đường dẫn ảnh đã lưu & Ảnh, ảnh trang, khung hình \\
     \hline
-    \texttt{caption} & Chú thích của ảnh; hiện không được ghi cho ảnh của tài liệu (\textbf{Mục \ref{sec:han-che}}) & (Không có giá trị thực tế) \\
+\texttt{caption} & Chú thích ảnh do Docling cung cấp, nếu có; được lưu cùng siêu dữ liệu ảnh & Mọi ảnh tài liệu \\
     \hline
     \texttt{video\_id}, \texttt{start\_time}, \texttt{end\_time} & Mã video, thời điểm bắt đầu và kết thúc của cửa sổ (giây) & Cửa sổ phiên âm, khung hình \\
     \hline
@@ -94,18 +94,17 @@ Với tệp PDF, DOCX và PPTX, hệ thống dùng Docling\footnote{Docling: \ur
     \item Đầu trang, chân trang, chú thích chân trang, hình và bảng không được đưa vào luồng văn bản.
     \item Mỗi bảng được xuất sang dạng markdown và lưu thành một đối tượng riêng (\texttt{content\_type=table}); bảng không bị chia nhỏ.
     \item Mỗi hình được lưu thành tệp PNG và trở thành một đối tượng ảnh. Mã nguồn có đọc chú thích của hình, nhưng do đọc sai tên thuộc tính của Docling nên chú thích không được ghi (\textbf{Mục \ref{sec:han-che}}); văn bản chú thích vẫn có thể xuất hiện như một đoạn văn bản thường vì nhãn chú thích không bị bỏ qua.
-    \item Mã nguồn yêu cầu lưu ảnh trang cho mọi trang của tệp PDF và PPTX, và cho các trang có dưới 40 ký tự văn bản gốc của các loại tệp khác. Tuy nhiên, trên thực tế chỉ tài liệu PDF sinh ra ảnh trang: phần xử lý PPTX và DOCX của Docling (phiên bản 2.126.0 đã cài) không tạo ảnh trang, và kiểm tra thư mục lưu ảnh của một tệp PPTX cho 0 ảnh trang cùng 28 ảnh hình nhúng, trong khi một tệp PDF cho 63 ảnh trang. Với PPTX và DOCX, chỉ các hình nhúng trong tài liệu được lưu thành ảnh. Ảnh trang giữ lại bố cục, công thức và hình minh họa mà việc trích xuất văn bản có thể làm mất.
 \end{itemize}
 
 \subsection{Nhận dạng ký tự dự phòng}
 
 % [CODE app/loaders/docling_loader.py (MIN_NATIVE_TEXT=40); app/loaders/image_loader.py; app/processors/ocr.py; app/pipeline/indexing.py]
-Việc OCR chỉ được dùng khi cần. Nếu không trang nào của một tài liệu có từ 40 ký tự văn bản gốc trở lên (ví dụ tài liệu quét) và có ảnh trang (trên thực tế chỉ xảy ra với tệp PDF, xem trên), hệ thống chạy Tesseract\footnote{Tesseract: \url{https://github.com/tesseract-ocr/tesseract}} \cite{smith2007tesseract} trên từng ảnh trang và bổ sung văn bản nhận dạng được vào tài liệu. Tệp ảnh độc lập cũng được nhận dạng ký tự khi nạp. Văn bản nhận dạng được từ ảnh được lập chỉ mục thành các đối tượng văn bản riêng với \texttt{chunk\_index} bắt đầu từ 10\,000 để không trùng với các đoạn văn bản thường, do đó chúng cũng tham gia vào truy xuất thưa (\textbf{Mục \ref{sec:index}}).
+Việc OCR chỉ được dùng khi cần. Nếu không trang nào của một tài liệu có từ 40 ký tự văn bản gốc trở lên (ví dụ tài liệu quét) và có ảnh trang (trên thực tế chỉ xảy ra với tệp PDF, xem trên), hệ thống chạy Tesseract\footnote{Tesseract: \url{https://github.com/tesseract-ocr/tesseract}} \cite{smith2007tesseract} trên từng ảnh trang và bổ sung văn bản nhận dạng được vào tài liệu. Tệp ảnh độc lập cũng được nhận dạng ký tự khi nạp. Văn bản nhận dạng được từ ảnh được lập chỉ mục thành các đối tượng văn bản riêng với \texttt{chunk\_index} bắt đầu từ 10\,000 để không trùng với các đoạn văn bản thường, do đó chúng cũng tham gia vào truy xuất thưa (sparse retrieval) (\textbf{Mục \ref{sec:index}}).
 
 \subsection{Phân đoạn văn bản}
 
 % [CODE app/chunking/text_chunker.py; app/config/settings.py:chunk_params]
-Văn bản được chia nhỏ bằng bộ chia đệ quy theo ký tự của LangChain (\texttt{Recursive\allowbreak Character\allowbreak Text\allowbreak Splitter}); đơn vị của kích thước đoạn và độ chồng lấp là ký tự, không phải đơn vị văn bản (token). \textbf{Bảng \ref{tab:chunk}} liệt kê kích thước theo loại tệp. Khối văn bản ngắn hơn kích thước đoạn được giữ nguyên; các đoạn kế thừa \texttt{page\_number} và \texttt{section} của khối gốc, và \texttt{chunk\_index} tăng liên tục trong toàn tệp.
+Phân đoạn văn bản (chunking) được thực hiện bằng bộ chia đệ quy theo ký tự của LangChain (\texttt{Recursive\allowbreak Character\allowbreak Text\allowbreak Splitter}); đơn vị của kích thước đoạn và độ chồng lấp là ký tự, không phải đơn vị văn bản (token). \textbf{Bảng \ref{tab:chunk}} liệt kê kích thước theo loại tệp. Khối văn bản ngắn hơn kích thước đoạn được giữ nguyên; các đoạn kế thừa \texttt{page\_number} và \texttt{section} của khối gốc, và \texttt{chunk\_index} tăng liên tục trong toàn tệp.
 
 \begin{table}[ht]
     \centering
@@ -151,16 +150,16 @@ Video được xử lý qua bảy bước như \textbf{Hình \ref{fig:video}}. M
 \textbf{Bước 1 và 2: siêu dữ liệu và âm thanh.} Thời lượng, độ phân giải, tốc độ khung hình và việc có âm thanh hay không được đọc bằng công cụ \texttt{ffprobe} của FFmpeg\footnote{FFmpeg: \url{https://ffmpeg.org}}. Âm thanh được tách bằng FFmpeg sang định dạng PCM 16 bit, tần số 16 kHz, một kênh.
 
 \bigbreak\noindent
-\textbf{Bước 3: phiên âm.} Hệ thống ưu tiên dùng tệp đi kèm chứa mốc thời gian nếu nó nằm cạnh video, có tên \texttt{[tên video]\_segments.json} hoặc \texttt{[tên video].segments.json} và chứa danh sách các đoạn gồm thời điểm bắt đầu, thời điểm kết thúc và văn bản. Nếu không có tệp này, hệ thống phiên âm bằng faster-whisper\footnote{faster-whisper: \url{https://github.com/SYSTRAN/faster-whisper}}, một bản cài đặt lại của Whisper \cite{radford2023whisper} trên bộ suy luận CTranslate2, với mô hình \texttt{base}, chạy trên bộ xử lý trung tâm (Central processing unit - CPU) ở độ chính xác số nguyên 8 bit, và ép ngôn ngữ là tiếng Việt theo mặc định. Kết quả phiên âm được lưu để dùng lại khi tiến trình bị gián đoạn.
+\textbf{Bước 3: phiên âm.} Hệ thống ưu tiên dùng tệp đi kèm (sidecar) chứa mốc thời gian nếu nó nằm cạnh video, có tên \texttt{[tên video]\_segments.json} hoặc \texttt{[tên video].segments.json} và chứa danh sách các đoạn gồm thời điểm bắt đầu, thời điểm kết thúc và văn bản. Nếu không có tệp này, hệ thống phiên âm bằng faster-whisper\footnote{faster-whisper: \url{https://github.com/SYSTRAN/faster-whisper}}, một bản cài đặt lại của Whisper \cite{radford2023whisper} trên bộ suy luận CTranslate2, với mô hình \texttt{base}, chạy trên bộ xử lý trung tâm (Central processing unit - CPU) ở độ chính xác số nguyên 8 bit, và ép ngôn ngữ là tiếng Việt theo mặc định. Kết quả phiên âm được lưu để dùng lại khi tiến trình bị gián đoạn.
 
 \bigbreak\noindent
 \textbf{Cửa sổ thời gian.} Video được chia thành các cửa sổ liên tiếp dài 30 giây (cửa sổ cuối có thể ngắn hơn). Mỗi đoạn phiên âm được gán nguyên vẹn cho cửa sổ chứa thời điểm bắt đầu của nó và không bị cắt giữa câu, nên văn bản của một cửa sổ có thể kéo dài quá thời điểm kết thúc cửa sổ đôi chút.
 
 \bigbreak\noindent
-\textbf{Bước 4: khung hình thô.} FFmpeg lấy mẫu một khung hình mỗi 10 giây và lưu thành ảnh JPEG. Việc lấy mẫu thô rất rẻ, còn việc biểu diễn vector ảnh thì tốn kém, nên các bước sau chỉ giữ lại một số ít khung hình.
+\textbf{Bước 4: khung hình thô.} FFmpeg lấy mẫu một khung hình mỗi 10 giây và lưu thành ảnh JPEG.
 
 \bigbreak\noindent
-\textbf{Bước 5: chọn khung hình đại diện.} Với mỗi khung hình thô, hệ thống tính băm trung bình 8$\times$8: ảnh được chuyển sang thang xám, thu nhỏ còn 8$\times$8 điểm ảnh, mỗi điểm ảnh được so với giá trị trung bình để tạo một bit, cho ra một số 64 bit. Độ tương đồng của hai khung hình $a$ và $b$ là
+\textbf{Bước 5: chọn khung hình đại diện.} Với mỗi khung hình thô, hệ thống tính băm trung bình (average hash) 8$\times$8: ảnh được chuyển sang thang xám, thu nhỏ còn 8$\times$8 điểm ảnh, mỗi điểm ảnh được so với giá trị trung bình để tạo một bit, cho ra một số 64 bit. Độ tương đồng của hai khung hình $a$ và $b$ là
 \begin{equation}\label{eq:ahash}
     \mathrm{sim}(a,b) = 1 - \frac{H(h_a, h_b)}{64}
 \end{equation}
@@ -174,7 +173,7 @@ trong đó $v(c)=1-\mathrm{sim}$ giữa khung hình $c$ và khung hình đứng 
 \textbf{Bước 6 và 7: lập chỉ mục.} Văn bản của mỗi cửa sổ có phiên âm được lập chỉ mục thành một đối tượng \texttt{video\_segment} mang \texttt{start\_time} và \texttt{end\_time}. Mỗi khung hình được chọn được lập chỉ mục thành một đối tượng \texttt{video\_frame} mang \texttt{timestamp}; văn bản đi kèm là văn bản nhận dạng được của khung hình đó, hoặc phiên âm của cửa sổ nếu khung hình không có văn bản nhận dạng, và khi có văn bản thì đầu vào của mô hình biểu diễn là cặp gồm văn bản và ảnh. Cửa sổ không có phiên âm không tạo đối tượng văn bản nhưng khung hình của nó vẫn được lập chỉ mục.
 
 \bigbreak\noindent
-\textbf{Điểm lưu trạng thái (checkpoint).} Tiến trình xử lý một video có thể kéo dài nhiều giờ, nên hệ thống ghi lại các giai đoạn đã hoàn thành (siêu dữ liệu, âm thanh, phiên âm, khung hình thô, khung hình đã chọn, đã lập chỉ mục) vào một tệp điểm lưu trạng thái cùng số hiệu phiên bản của luồng xử lý, hiện là \texttt{v2-long}. Điểm lưu chỉ được dùng lại khi mã video, phiên bản và thời lượng đã xử lý (sai lệch không quá 1 giây) đều khớp, và giai đoạn không bao giờ bị lùi lại khi một bước được chạy lại. Một video chỉ bị bỏ qua khi thời lượng đã xử lý bao phủ thời lượng cần xử lý; nhờ vậy một lần chạy thử với giới hạn thời lượng không làm hệ thống bỏ qua video ở lần chạy đầy đủ sau đó.
+\textbf{Điểm lưu trạng thái (checkpoint).} Tiến trình xử lý một video có thể kéo dài nhiều giờ, nên hệ thống ghi lại các giai đoạn đã hoàn thành (siêu dữ liệu, âm thanh, phiên âm, khung hình thô, khung hình đã chọn, đã lập chỉ mục) vào một tệp điểm lưu trạng thái cùng số hiệu phiên bản của luồng xử lý (pipeline), hiện là \texttt{v2-long}. Điểm lưu chỉ được dùng lại khi mã video, phiên bản và thời lượng đã xử lý (sai lệch không quá 1 giây) đều khớp, và giai đoạn không bao giờ bị lùi lại khi một bước được chạy lại. Một video chỉ bị bỏ qua khi thời lượng đã xử lý bao phủ thời lượng cần xử lý; nhờ vậy một lần chạy thử với giới hạn thời lượng không làm hệ thống bỏ qua video ở lần chạy đầy đủ sau đó.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -202,7 +201,7 @@ Hệ thống dùng hai mô hình biểu diễn vector khác nhau, tương ứng 
     \hline
     Qwen3-VL-2B-Instruct \cite{bai2025qwen3vl} & Trả lời dựa trên ảnh trang hoặc ảnh hình được truy xuất & 2 tỷ tham số; nhận ảnh, video và văn bản; ngữ cảnh gốc 256 nghìn đơn vị văn bản \\
     \hline
-    Qwen3-Reranker-0.6B \cite{zhang2025qwen3embedding} & Bộ xếp hạng lại tùy chọn (mặc định tắt) & 0,6 tỷ tham số; ngữ cảnh 32 nghìn đơn vị văn bản; hơn 100 ngôn ngữ; chấm điểm theo xác suất trả lời có hoặc không \\
+    Qwen3-Reranker-0.6B \cite{zhang2025qwen3embedding} & Bộ xếp hạng lại (reranker) tùy chọn (mặc định tắt) & 0,6 tỷ tham số; ngữ cảnh 32 nghìn đơn vị văn bản; hơn 100 ngôn ngữ; chấm điểm theo xác suất trả lời có hoặc không \\
     \hline
     \end{tabular}
     \end{adjustbox}
@@ -242,14 +241,14 @@ Bộ truy xuất nhận một câu hỏi, số kết quả cần trả về $k$,
 \bigbreak\noindent
 \textbf{Các danh sách ứng viên.} Bộ truy xuất tạo ra một hay nhiều danh sách xếp hạng:
 \begin{itemize}
-    \item \emph{Truy xuất dày trên văn bản}: mỗi biến thể của truy vấn cho một danh sách, xếp theo độ tương đồng cosine trong tập vector văn bản. Biến thể gồm chính câu hỏi; nếu câu hỏi thuộc dạng liệt kê tài liệu hay lộ trình (nhận diện bằng một số cụm từ khóa), hệ thống thêm hai truy vấn con dựng theo luật; và nếu bước lập kế hoạch truy vấn (\textbf{Mục \ref{sec:sinh}}) được bật thì thêm bản viết lại, các truy vấn con và câu hỏi khái quát của bước đó.
+    \item \emph{Truy xuất dày (dense retrieval) trên văn bản}: mỗi biến thể của truy vấn cho một danh sách, xếp theo độ tương đồng cosine trong tập vector văn bản. Biến thể gồm chính câu hỏi; nếu câu hỏi thuộc dạng liệt kê tài liệu hay lộ trình (nhận diện bằng một số cụm từ khóa), hệ thống thêm hai truy vấn con dựng theo luật; và nếu bước lập kế hoạch truy vấn (\textbf{Mục \ref{sec:sinh}}) được bật thì thêm bản viết lại, các truy vấn con và câu hỏi khái quát của bước đó.
     \item \emph{Truy xuất thưa}: một danh sách BM25 trên truy vấn đầu tiên, nếu tệp chỉ mục từ vựng tồn tại; nếu thiếu tệp, hệ thống cảnh báo và chỉ dùng truy xuất dày.
     \item \emph{Truy xuất dày trên ảnh}: một danh sách trong tập vector thị giác, dùng bản viết lại của câu hỏi nếu có; lỗi ở nhánh này chỉ làm mất danh sách đó, không làm hỏng toàn bộ truy vấn.
     \item Một danh sách bổ sung từ đoạn văn giả định của HyDE \cite{gao2023hyde} là tùy chọn và mặc định tắt.
 \end{itemize}
 
 \bigbreak\noindent
-\textbf{Hợp nhất.} Các danh sách được hợp nhất bằng RRF \cite{cormack2009rrf}: điểm của một đối tượng $d$ là tổng nghịch đảo thứ hạng của nó trong các danh sách chứa nó,
+\textbf{Hợp nhất.} Các danh sách được kết hợp bằng hợp nhất thứ hạng nghịch đảo (Reciprocal rank fusion - RRF) \cite{cormack2009rrf}: điểm của một đối tượng $d$ là tổng nghịch đảo thứ hạng của nó trong các danh sách chứa nó,
 \begin{equation}\label{eq:rrf}
     \mathrm{RRF}(d) = \sum_{g \in G} \frac{1}{60 + \mathrm{rank}_g(d)}
 \end{equation}
@@ -318,9 +317,6 @@ $L \gets CompressExtractive(L, Q)$ \;
 \Return $L[1..k]$
 \end{algorithm}
 
-\bigbreak\noindent
-\textbf{Lưu ý về thang điểm.} Điểm sau RRF nằm trong một khoảng rất nhỏ (một đối tượng đứng đầu một danh sách đóng góp $1/61 \approx 0{,}0164$), trong khi điểm cosine nằm trong đoạn $[0,1]$. Vì khoản thưởng ở \textbf{Bảng \ref{tab:type-prior}} là hằng số nên ảnh hưởng của nó lên thứ hạng phụ thuộc vào việc điểm đang được biểu diễn theo thang nào, tức là phụ thuộc vào số danh sách được hợp nhất. Đây là một đặc điểm của thiết kế hiện tại mà chúng tôi chưa khảo sát bằng thực nghiệm.
-
 %----------------------------------------------------------------------------------------
 %	SECTION 7
 %----------------------------------------------------------------------------------------
@@ -330,7 +326,7 @@ $L \gets CompressExtractive(L, Q)$ \;
 % [CODE app/generation/service.py, prompts.py, query_enhance.py, context.py, vl_answerer.py, think.py]
 \subsection{Lập kế hoạch truy vấn}
 
-Ở chế độ hỏi đáp, hệ thống có thể dùng chính Qwen3-1.7B để lập kế hoạch truy vấn trước khi truy xuất. Mô hình được yêu cầu trả về duy nhất một đối tượng JSON gồm ba khóa: \texttt{rewritten} (câu hỏi được viết lại cho rõ nghĩa), \texttt{subqueries} (tối đa 3 truy vấn con; câu lệnh yêu cầu chỉ dùng khi câu hỏi gồm nhiều phần độc lập, và với câu hỏi dạng liệt kê tài liệu hệ thống có thể bổ sung tối đa 2 truy vấn con dựng theo luật nếu mô hình không đưa ra truy vấn con nào) và \texttt{step\_back} (một câu hỏi khái quát hơn). Câu lệnh dẫn dắt yêu cầu rõ ràng không bịa đề bài, không bịa nội dung bài giảng và không viết câu trả lời giả. Nếu mô hình không trả về JSON hợp lệ hoặc gặp lỗi, hệ thống dùng nguyên câu hỏi gốc. Câu trả lời cuối cùng vẫn được sinh từ câu hỏi gốc của người học. Bước này gọi mô hình với tối đa 256 đơn vị văn bản mới; hai chức năng phụ là HyDE và vòng truy xuất lại (tối đa một lần bổ sung, khi mô hình phản hồi rằng ngữ cảnh còn thiếu) đều mặc định tắt.
+Ở chế độ hỏi đáp, hệ thống có thể dùng chính Qwen3-1.7B để lập kế hoạch truy vấn trước khi truy xuất. Mô hình được yêu cầu trả về duy nhất một đối tượng JSON gồm ba khóa: \texttt{rewritten} (câu hỏi được viết lại cho rõ nghĩa), \texttt{subqueries} (tối đa 3 truy vấn con; câu lệnh (prompt) yêu cầu chỉ dùng khi câu hỏi gồm nhiều phần độc lập, và với câu hỏi dạng liệt kê tài liệu hệ thống có thể bổ sung tối đa 2 truy vấn con dựng theo luật nếu mô hình không đưa ra truy vấn con nào) và \texttt{step\_back} (một câu hỏi khái quát hơn). Câu lệnh dẫn dắt yêu cầu rõ ràng không bịa đề bài, không bịa nội dung bài giảng và không viết câu trả lời giả. Nếu mô hình không trả về JSON hợp lệ hoặc gặp lỗi, hệ thống dùng nguyên câu hỏi gốc. Câu trả lời cuối cùng vẫn được sinh từ câu hỏi gốc của người học. Bước này gọi mô hình với tối đa 256 đơn vị văn bản mới; hai chức năng phụ là HyDE và vòng truy xuất lại (tối đa một lần bổ sung, khi mô hình phản hồi rằng ngữ cảnh còn thiếu) đều mặc định tắt.
 
 \subsection{Ngữ cảnh và câu lệnh dẫn dắt}
 
@@ -339,13 +335,9 @@ Các kết quả truy xuất được trình bày cho mô hình dưới dạng c
 \bigbreak\noindent
 Câu lệnh dẫn dắt hệ thống bằng tiếng Việt nêu bốn vai trò của trợ lý (nhận biết ngữ cảnh môn học, khai thác đa phương thức, trả lời có căn cứ và hỗ trợ học tập) cùng các ràng buộc: chỉ dựa trên ngữ cảnh và danh sách tệp nguồn; không bịa chương, lộ trình hay đường dẫn; khi người học xin bài tập thì trích hoặc liệt kê đề từ ngữ cảnh chứ không tạo đề mới; chỉ trích dẫn bằng đường dẫn tương đối kèm số trang hoặc mốc thời gian, không dùng liên kết markdown hay địa chỉ URL; và liên kết các nguồn bổ sung cho nhau. Chế độ suy nghĩ của Qwen3-1.7B được tắt và việc sinh dùng giải mã tham lam; các đoạn suy nghĩ còn sót (nếu có) được lọc khỏi luồng truyền phát theo từng phần.
 
-\subsection{Từ chối theo ngưỡng}
-
-Nếu bộ truy xuất không trả về kết quả nào, hoặc giá trị cosine lớn nhất trong các kết quả nhỏ hơn 0,15, hệ thống không gọi mô hình sinh mà trả lời rằng không có đủ học liệu khớp với độ tin cậy đủ, kèm danh sách các tệp nguồn đã biết và lưu ý không tạo lộ trình hay liên kết bịa. Khi các kết quả không mang giá trị cosine (ví dụ chỉ đến từ BM25) nhưng vẫn có kết quả, giá trị lớn nhất được coi là 1 nên hệ thống không từ chối. Đây là cơ chế từ chối duy nhất của hệ thống và chưa được đánh giá bằng thực nghiệm.
-
 \subsection{Trả lời dựa trên ảnh}
 
-Khi việc tìm kiếm bao gồm cả không gian thị giác (tức là không bật chế độ chỉ văn bản) và kết quả truy xuất chứa ảnh trang hoặc ảnh hình của tài liệu PDF, PPT, PPTX hoặc DOCX mà tệp ảnh còn tồn tại, hệ thống chuyển sang VLM Qwen3-VL-2B-Instruct: giải phóng mô hình văn bản khỏi bộ nhớ, nạp mô hình thị giác và cung cấp tối đa 3 ảnh cùng với phần ngữ cảnh văn bản. Mô hình được yêu cầu chỉ kết luận điều nhìn thấy hoặc có trong ngữ cảnh và trích dẫn ảnh bằng ký hiệu [V1], [V2] và văn bản bằng [T1], [T2]. Kết quả từ video không được gửi vào mô hình thị giác; video vẫn đi theo đường phiên âm và văn bản nhận dạng ký tự.
+Khi việc tìm kiếm bao gồm cả không gian thị giác (tức là không bật chế độ chỉ văn bản) và kết quả truy xuất chứa ảnh trang hoặc ảnh hình của tài liệu PDF, PPT, PPTX hoặc DOCX mà tệp ảnh còn tồn tại, hệ thống chuyển sang mô hình ngôn ngữ thị giác (Vision-language model - VLM) Qwen3-VL-2B-Instruct: giải phóng mô hình văn bản khỏi bộ nhớ, nạp mô hình thị giác và cung cấp tối đa 3 ảnh cùng với phần ngữ cảnh văn bản. Mô hình được yêu cầu chỉ kết luận điều nhìn thấy hoặc có trong ngữ cảnh và trích dẫn ảnh bằng ký hiệu [V1], [V2] và văn bản bằng [T1], [T2]. Kết quả từ video không được gửi vào mô hình thị giác; video vẫn đi theo đường phiên âm và văn bản nhận dạng ký tự.
 
 \subsection{Giao diện lập trình ứng dụng}\label{sec:api}
 
@@ -385,12 +377,12 @@ Mỗi kết quả truy xuất được chuyển thành một trích dẫn gồm 
 Để đo chất lượng truy xuất mà không để hệ thống nhìn thấy đáp án, chúng tôi tách quy trình đánh giá thành hai giai đoạn.
 
 \begin{enumerate}
-    \item \emph{Chuẩn bị truy vấn.} Từ tệp câu hỏi có nhãn, lệnh \texttt{prepare-\allowbreak retrieval-\allowbreak queries} sinh ra một tệp JSONL chỉ gồm ba trường \texttt{question\_id} (gán tuần tự Q001, Q002, \ldots), \texttt{question} và \texttt{course\_id}. Bộ nạp truy vấn từ chối tệp nếu chứa bất kỳ trường nào khác, do đó nhãn chuẩn, nhãn có thể trả lời và bằng chứng không thể lọt vào bộ truy xuất.
+    \item \emph{Chuẩn bị truy vấn.} Từ tệp câu hỏi có nhãn, lệnh \texttt{prepare-\allowbreak retrieval-\allowbreak queries} sinh ra một tệp JSONL chỉ gồm ba trường \texttt{question\_id} (gán tuần tự Q001, Q002, \ldots), \texttt{question} và \texttt{course\_id}. Bộ nạp truy vấn từ chối tệp nếu chứa bất kỳ trường nào khác, do đó nhãn chuẩn (ground truth), nhãn có thể trả lời và bằng chứng không thể lọt vào bộ truy xuất.
     \item \emph{Truy xuất và chấm điểm.} Lệnh \texttt{benchmark-retrieve} chạy một cấu hình truy xuất trên tệp truy vấn và lưu tối đa Top-$K$ kết quả của từng câu ($K$ mặc định là 10 và không được nhỏ hơn 10), kèm mã băm SHA-256 của tập truy vấn ghi trong từng dòng kết quả để có thể kiểm tra hai hệ thống dùng cùng một tập (hệ thống không tự động so sánh các mã này). Chỉ sau khi truy xuất hoàn tất, lệnh \texttt{score-retrieval} mới đọc nhãn chuẩn để chấm điểm.
 \end{enumerate}
 
 \bigbreak\noindent
-\textbf{Cấu hình khi chạy đánh giá.} Lệnh \texttt{benchmark-retrieve} gọi trực tiếp bộ truy xuất (nên không có bước lập kế hoạch truy vấn) và ghi đè một số thiết lập so với cấu hình mặc định ở \textbf{Mục \ref{sec:truy-xuat}}: tắt mở rộng và nén ngữ cảnh; bật lọc theo môn học trước khi xếp hạng (trừ khi dùng tùy chọn \texttt{--no-course-filter}); và tăng số ứng viên của mỗi danh sách lên $\max(\text{giá trị hiện hành}, 10K)$, tức 100 khi $K=10$. Hồ sơ \texttt{baseline} tắt BM25, nhánh thị giác và bộ xếp hạng lại Qwen nhưng vẫn giữ khoản thưởng theo loại nội dung và bước đa dạng theo tệp; hồ sơ \texttt{proposed} bật BM25 và nhánh thị giác, và bộ xếp hạng lại Qwen chỉ được bật khi có tùy chọn \texttt{--rerank}.
+\textbf{Cấu hình khi chạy đánh giá.} Lệnh \texttt{benchmark-retrieve} gọi trực tiếp bộ truy xuất (nên không có bước lập kế hoạch truy vấn) và ghi đè một số thiết lập so với cấu hình mặc định ở \textbf{Mục \ref{sec:truy-xuat}}: tắt mở rộng và nén ngữ cảnh; bật lọc theo môn học trước khi xếp hạng (trừ khi dùng tùy chọn \texttt{--no-course-filter}); và tăng số ứng viên của mỗi danh sách lên $\max(\text{giá trị hiện hành}, 10K)$, tức 100 khi $K = 10$. Hồ sơ \texttt{baseline} tắt BM25, nhánh thị giác và bộ xếp hạng lại Qwen nhưng vẫn giữ khoản thưởng theo loại nội dung và bước đa dạng theo tệp; hồ sơ \texttt{proposed} bật BM25 và nhánh thị giác, và bộ xếp hạng lại Qwen chỉ được bật khi có tùy chọn \texttt{--rerank}. Đây là cấu hình của bộ đánh giá chuẩn (benchmark) dùng trong thực nghiệm.
 
 \bigbreak\noindent
 \textbf{Nhãn chuẩn và tài nguyên chưa được lập chỉ mục.} Nhãn chuẩn của một câu là danh sách bằng chứng, mỗi bằng chứng gồm mã tài nguyên và, khi có, số trang, số slide hoặc khoảng thời gian. Khi nhãn ``có thể trả lời'' của một câu bị bỏ trống, chính sách suy luận mặc định coi câu có bằng chứng là có thể trả lời và câu có bằng chứng rỗng là không thể trả lời từ học liệu. Các câu không thể trả lời được tách riêng và không tính vào \textit{Precision@K} và \textit{Recall@K} vì tập kết quả liên quan của chúng rỗng. Câu có thể trả lời nhưng có ít nhất một tài nguyên bằng chứng chưa được lập chỉ mục bị loại khỏi điểm trung bình, vì hệ thống không thể trả về thứ chưa tồn tại trong chỉ mục.
@@ -414,14 +406,13 @@ Dựa trên việc đọc mã nguồn, chúng tôi ghi nhận các hạn chế s
 
 \begin{itemize}
     \item \emph{Siêu dữ liệu nghèo.} Ngoài môn học, loại nội dung và vị trí, hệ thống không ghi chương, tuần, mục tiêu học tập, độ khó, phiên bản học liệu, độ tin cậy của phiên âm hay nhận dạng ký tự, cũng như quyền truy cập.
-    \item \emph{Hợp nhất không thích nghi.} RRF không phân biệt loại câu hỏi hay độ tin cậy của từng nguồn; việc ưu tiên video chỉ dựa trên một danh sách cụm từ khóa và các khoản thưởng cố định (\textbf{Bảng \ref{tab:type-prior}}).
-    \item \emph{Truy xuất thưa mức âm tiết.} Vì chỉ mục BM25 tách tại mọi chuỗi ký tự không phải chữ, số hoặc dấu gạch dưới và không dùng bộ tách từ, mỗi âm tiết tiếng Việt là một đơn vị; ảnh hưởng của lựa chọn này chưa được khảo sát.
-    \item \emph{Số hạng thay đổi văn bản nhận dạng.} Vì nhận dạng ký tự trên khung hình chỉ chạy cách nhau ít nhất 30 giây, số hạng $o(c)$ trong \textbf{Công thức \ref{eq:frame-score}} bằng 1 cả với khung hình không được nhận dạng ký tự khi đã có một văn bản không rỗng đứng trước; nói cách khác, số hạng này không phân biệt được ``không có văn bản'' với ``văn bản đã thay đổi''. Với tham số mặc định, điều này không làm thay đổi tập khung hình được giữ (\textbf{Mục \ref{sec:tien-xu-ly-video}}), nên ảnh hưởng thực tế chưa được khảo sát.
-    \item \emph{Chọn khung hình chưa có tác dụng ở tham số mặc định.} Vì mỗi cửa sổ 30 giây chỉ có tối đa 3 khung hình ứng viên và $M=3$, điểm chọn ở \textbf{Công thức \ref{eq:frame-score}} không loại thêm khung hình nào ngoài bước loại trùng.
-    \item \emph{Ảnh trang của PPTX và DOCX.} Docling không sinh ảnh trang cho hai loại tệp này (\textbf{Mục \ref{sec:tien-xu-ly-tai-lieu}}), nên nhánh thị giác không biểu diễn bố cục của slide PPTX (chỉ có các hình nhúng) và việc nhận dạng ký tự dự phòng trên ảnh trang chỉ áp dụng cho PDF.
-    \item \emph{Chú thích ảnh không được ghi.} Mã đọc thuộc tính \texttt{caption} của phần tử hình trong Docling, trong khi thư viện cung cấp \texttt{captions} (danh sách tham chiếu) và hàm \texttt{caption\_text}; vì vậy trường \texttt{caption} luôn để trống với ảnh của tài liệu.
+    \item \emph{Tính không thích nghi của cơ chế hợp nhất RRF (Non-adaptive RRF):} Thuật toán RRF hiện tại áp dụng trọng số cố định mà chưa phân biệt được loại câu hỏi hay độ tin cậy riêng biệt của từng nguồn dữ liệu. Việc ưu tiên dữ liệu video vẫn phụ thuộc vào tập từ khóa quy ước và các hệ số điểm thưởng (\textbf{Bảng \ref{tab:type-prior}}).
+    \item \emph{Giới hạn trong phương pháp phân tách chỉ mục BM25 (Syllable-level Indexing):} Do bộ chỉ mục BM25 thực hiện phân tách chuỗi theo các ký tự đặc biệt mà không tích hợp bộ tách từ tiếng Việt (\textit{Word Segmenter}), hệ thống đang xử lý từng âm tiết như một đơn vị độc lập. Đây là một yếu tố có thể ảnh hưởng đến độ chính xác truy xuất và cần được đánh giá định lượng trong các nghiên cứu mở rộng.
+    \item \emph{Tính nhạy của biến số nhận dạng văn bản $o(c)$:} Do cơ chế OCR trên khung hình video được trích xuất theo chu kỳ tối thiểu 30 giây, biến số $o(c)$ trong \textbf{Công thức \ref{eq:frame-score}} nhận giá trị bằng 1 ngay cả khi khung hình không chứa văn bản (nếu trước đó đã xuất hiện văn bản không rỗng). Điều này dẫn đến việc thuật toán chưa phân biệt triệt để giữa trường hợp ``văn bản không tồn tại'' và ``văn bản đã thay đổi''. Tuy nhiên, ở thiết lập tham số mặc định, yếu tố này không làm ảnh hưởng đến tập khung hình đầu ra (\textbf{Mục \ref{sec:tien-xu-ly-video}}).
+    \item \emph{Tác động của tham số chọn khung hình mặc định:} Khi thiết lập kích thước cửa sổ 30 giây (tối đa 3 khung hình ứng viên) và đặt $M = 3$, điểm đánh giá tại \textbf{Công thức \ref{eq:frame-score}} không tạo ra sự lọc bổ sung nào ngoài bước loại trùng lặp ban đầu. Yếu tố này đòi hỏi các thực nghiệm bổ sung với kích thước $M$ nhỏ hơn để xác định rõ hiệu quả lọc của công thức.
+    \item \emph{Hạn chế xử lý đa định dạng từ thư viện Docling:} Thư viện Docling hiện chưa hỗ trợ sinh ảnh trang (\textit{page image}) cho các định dạng PPTX và DOCX (\textbf{Mục \ref{sec:tien-xu-ly-tai-lieu}}). Do đó, nhánh phân tích thị giác chỉ áp dụng được trên các hình ảnh nhúng (\textit{embedded images}) của slide PPTX, và tính năng OCR dự phòng trên ảnh trang hiện chỉ tối ưu cho định dạng PDF.
+    \item \emph{Chú thích ảnh phụ thuộc vào Docling.} Bộ nạp ưu tiên \texttt{caption\_text()} và \texttt{captions}; nếu phần tử hình không có chú thích, trường \texttt{caption} để trống.
     \item \emph{Lọc theo tệp không áp dụng cho BM25.} Khi chỉ định một tệp nguồn, các kết quả BM25 từ tệp khác vẫn tham gia hợp nhất.
-    \item \emph{Từ chối đơn giản.} Việc từ chối chỉ dựa trên giá trị cosine lớn nhất; hệ thống không kiểm tra tính đủ, tính nhất quán hay quyền truy cập của bằng chứng.
     \item \emph{Bài tập.} Các tệp bài tập được xử lý như văn bản thông thường; hệ thống không tách đề, gợi ý, lời giải và mức độ khó, cũng không kiểm soát việc tiết lộ đáp án.
     \item \emph{Video chưa được đưa vào trả lời bằng ảnh.} Khung hình video chỉ tham gia truy xuất; mô hình thị giác chỉ đọc ảnh trang và ảnh hình của tài liệu.
     \item \emph{Triển khai một tiến trình.} API xử lý tuần tự từng yêu cầu suy luận, phù hợp với thiết bị có bộ nhớ hạn chế nhưng không phù hợp với tải lớn.

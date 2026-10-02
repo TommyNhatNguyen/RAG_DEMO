@@ -13,7 +13,7 @@ Trong chương này, chúng tôi trình bày lý do chọn đề tài, các côn
 Xét một môn học trong hệ thống e-learning. Cùng một khái niệm có thể được giới thiệu trong video bài giảng, được định nghĩa trong slide, được giải thích chi tiết trong giáo trình dạng PDF và được kiểm tra qua bài tập. Khi người học đặt câu hỏi, câu trả lời vì thế có thể nằm rải rác trong nhiều tài nguyên thuộc các định dạng khác nhau, và người học phải tự tìm trong từng video, từng bộ slide hay từng tài liệu. Việc tìm kiếm theo từ khóa dễ bỏ sót khi cách diễn đạt của câu hỏi khác với tài liệu: khảo sát của Furnas và cộng sự trên năm miền ứng dụng cho thấy xác suất hai người chọn cùng một thuật ngữ để gọi cùng một đối tượng thấp hơn 0,20 trong mọi trường hợp được khảo sát \cite{furnas1987vocabulary}.
 
 \bigbreak\noindent
-Các mô hình ngôn ngữ lớn (Large language model - LLM) có thể trả lời câu hỏi bằng ngôn ngữ tự nhiên, nhưng gặp các vấn đề như sinh nội dung sai lệch, kiến thức lỗi thời và quá trình suy luận thiếu minh bạch, không truy vết được \cite{gao2023ragsurvey}. RAG nổi lên như một giải pháp hứa hẹn cho các vấn đề này bằng cách đưa tri thức lấy từ một kho ngoài vào quá trình sinh \cite{lewis2020rag, gao2023ragsurvey}. Chúng tôi chọn hướng này cho một trợ lý học tập vì trợ lý cần trả lời kèm nguồn để người học có thể kiểm chứng.
+Các mô hình ngôn ngữ lớn (Large Language Model - LLM) có thể trả lời câu hỏi bằng ngôn ngữ tự nhiên, nhưng gặp các vấn đề như sinh nội dung sai lệch, kiến thức lỗi thời và quá trình suy luận thiếu minh bạch, không truy vết được \cite{gao2023ragsurvey}. Sinh tăng cường truy xuất (Retrieval-augmented generation - RAG) nổi lên như một giải pháp hứa hẹn cho các vấn đề này bằng cách đưa tri thức lấy từ một kho ngoài vào quá trình sinh \cite{lewis2020rag, gao2023ragsurvey}. Chúng tôi chọn hướng này cho một trợ lý học tập vì trợ lý cần trả lời kèm nguồn để người học có thể kiểm chứng.
 
 \bigbreak\noindent
 Học liệu không chỉ có văn bản. Tài liệu PDF và slide chứa hình, bảng và bố cục, và các hệ thống truy xuất chủ yếu dựa vào văn bản trích xuất khó khai thác hiệu quả từ các nguồn đó \cite{faysse2025colpali}; các hệ thống RAG chỉ dựa trên văn bản không thể tận dụng thông tin thị giác như bố cục và hình ảnh, vốn đóng vai trò quan trọng trong tài liệu nhiều phương thức \cite{yu2025visrag}. Video bài giảng là một dạng học liệu khác: các phương pháp RAG trước đây chủ yếu tập trung vào văn bản, một số công trình gần đây xét đến ảnh, và phần lớn bỏ qua video dù đây là nguồn tri thức đa phương thức giàu ngữ cảnh \cite{jeong2025videorag}. Hướng RAG đa phương thức đã được khảo sát có hệ thống \cite{abootorabi2025ask}, kể cả khảo sát riêng cho bài toán hiểu tài liệu \cite{gao2026scaling}.
@@ -54,7 +54,46 @@ Li và cộng sự \cite{li2025ragedu} thực hiện một khảo sát có hệ 
 
 \subsection{Đánh giá hệ thống sinh tăng cường truy xuất}
 
-Es và cộng sự \cite{es2024ragas} đề xuất RAGAs, một khung đánh giá các hệ thống RAG không cần nhãn chuẩn (ground truth) do con người gán, với các chỉ số cho khả năng của mô-đun truy xuất, khả năng khai thác ngữ cảnh một cách trung thực của LLM và chất lượng của phần sinh. Đối với riêng khâu truy xuất, các chỉ số Precision, Recall và F1 là cách đo chuẩn trong truy xuất thông tin \cite{manning2008ir}. Trong khóa luận này, chúng tôi đánh giá khâu truy xuất bằng các chỉ số đó và bổ sung khoảng tin cậy thống kê, đồng thời đã đo được độ trung thực với ngữ cảnh và độ liên quan của câu trả lời của phần sinh bằng một bộ chấm điểm tự viết theo cách đánh giá không dựa trên tài liệu tham chiếu, vì bộ câu hỏi hiện tại không có câu trả lời mẫu nên không dùng được lệnh gọi RAGAs có sẵn trong mã nguồn (\textbf{Chương \ref{Chapter4}}, \textbf{Mục \ref{sec:ket-qua-sinh}}); riêng \textit{context precision}/\textit{context recall} theo đúng định nghĩa của RAGAs vẫn chưa đo được vì cần câu trả lời mẫu.
+Es và cộng sự \cite{es2024ragas} đề xuất RAGAs, một khung đánh giá các hệ thống RAG với các chỉ số cho khả năng truy xuất, khả năng khai thác ngữ cảnh một cách trung thực của LLM và chất lượng của phần sinh. Đối với riêng khâu truy xuất, các chỉ số Precision, Recall và F1 là cách đo chuẩn trong truy xuất thông tin \cite{manning2008ir}. Trong khóa luận này, chúng tôi đánh giá khâu truy xuất bằng các chỉ số đó và bổ sung khoảng tin cậy thống kê; phần đánh giá câu trả lời và ngữ cảnh truy xuất tham khảo bốn chỉ số của RAGAs: độ trung thực với ngữ cảnh (faithfulness), độ liên quan của câu trả lời (answer relevance), độ chính xác ngữ cảnh (context precision) và độ thu hồi ngữ cảnh (context recall) (\textbf{Chương \ref{Chapter4}}, \textbf{Mục \ref{sec:ket-qua-sinh}}).
+
+\subsection{Tổng hợp nghiên cứu và khoảng trống}
+
+Bảng \ref{tab:related-work-synthesis} đối chiếu một số công trình tiêu biểu đã được trình bày ở trên. Cột hạn chế chỉ nêu nội dung được bài báo trực tiếp ghi nhận; khi công trình không báo cáo hạn chế riêng, điều đó được ghi rõ.
+
+\begin{landscape}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\begin{longtable}{|p{2.2cm}|p{3.0cm}|p{3.2cm}|p{3.2cm}|p{2.8cm}|p{3.4cm}|p{3.0cm}|}
+\caption{Tổng hợp một số công trình liên quan}\label{tab:related-work-synthesis}\\
+\hline
+\textbf{Công trình} & \textbf{Vấn đề/loại dữ liệu} & \textbf{Tập dữ liệu và nhiệm vụ} & \textbf{Phương pháp} & \textbf{Cách đánh giá} & \textbf{Hạn chế do bài báo nêu} & \textbf{Liên hệ với đề tài} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Công trình} & \textbf{Vấn đề/loại dữ liệu} & \textbf{Tập dữ liệu và nhiệm vụ} & \textbf{Phương pháp} & \textbf{Cách đánh giá} & \textbf{Hạn chế do bài báo nêu} & \textbf{Liên hệ với đề tài} \\
+\hline
+\endhead
+Lewis và cộng sự \cite{lewis2020rag} & RAG cho tác vụ NLP cần tri thức ngoài. & Natural Questions, TriviaQA, WebQuestions, CuratedTrec và các tác vụ sinh câu hỏi, truy xuất, kiểm chứng thông tin. & Kết hợp mô hình sinh seq2seq với bộ truy xuất dày (dense retrieval) trên chỉ mục Wikipedia. & So sánh với các mô hình nền trên các tác vụ hỏi đáp và NLP cần tri thức bằng thước đo tương ứng của từng tác vụ. & Bài nêu việc truy vết nguồn và cập nhật tri thức là vấn đề còn mở với LLM; đây là động cơ nghiên cứu, không được bài trình bày như hạn chế thực nghiệm của RAG. & Cơ sở cho kiến trúc RAG và đánh giá truy xuất, nhưng không xét học liệu đa phương thức của các môn học. \\
+\hline
+MuRAG \cite{chen2022murag} & Hỏi đáp mở cần kết hợp thông tin từ ảnh và văn bản. & WebQA và MultimodalQA; truy xuất và suy luận trên bằng chứng ảnh-văn bản. & Bộ nhớ đa phương thức bên ngoài; huấn luyện kết hợp mục tiêu tương phản và sinh. & Độ chính xác trả lời trên hai bộ dữ liệu, ở thiết lập distractor và full-wiki; có phân tích thủ công đầu ra. & Phân tích lỗi của bài ghi nhận khó khăn với đối tượng hiếm, cảnh phức tạp và OCR; tác giả xác định hiểu thị giác là điểm nghẽn. & Cho thấy lý do cần truy xuất thị giác, nhưng khác miền học liệu khóa học và cách trích dẫn vị trí nguồn. \\
+\hline
+ColPali \cite{faysse2025colpali} & Truy xuất trang tài liệu giàu bố cục, bảng và hình ảnh. & ViDoRe gồm các tác vụ truy xuất ở cấp trang trên nhiều miền và ngôn ngữ. & Mã hóa ảnh trang thành nhiều vector và so khớp bằng late interaction. & Các thước đo truy xuất của ViDoRe, gồm nDCG@5 và Recall@1; bài cũng báo cáo độ trễ. & Bài nêu đánh đổi lưu trữ do cần giữ vector cho các patch ảnh; giảm số patch làm giảm hiệu năng trong các thí nghiệm ablation. & Liên quan trực tiếp đến nhánh truy xuất ảnh trang, nhưng bộ đánh giá chuẩn (benchmark) của bài không phải corpus ba môn tiếng Việt. \\
+\hline
+VisRAG \cite{yu2025visrag} & RAG trên tài liệu đa phương thức, nơi bố cục và hình ảnh quan trọng. & ArxivQA, ChartQA, DocVQA, InfoVQA, PlotQA và SlideVQA. & Dùng VLM mã hóa trực tiếp ảnh trang để truy xuất, sau đó dùng mô hình thị giác-ngôn ngữ để sinh. & MRR@10 và Recall@10 cho truy xuất; độ chính xác câu trả lời cho sinh. & Bài ghi nhận hiệu năng sinh giảm khi tăng số trang truy xuất; các VLM mã nguồn mở còn khó suy luận qua nhiều trang và xử lý context nhiễu. & Cung cấp đối chiếu cho xử lý PDF/PPT bằng ảnh; đề tài này đồng thời duy trì nhánh văn bản và đánh giá trên học liệu khóa học. \\
+\hline
+VideoRAG \cite{jeong2025videorag} & Truy xuất động video và khai thác đồng thời tín hiệu hình ảnh, văn bản. & WikiHowQA được liên kết với video HowTo100M và dữ liệu tổng hợp cho hỏi đáp trên video. & Dùng biểu diễn video đa phương thức để truy xuất video theo câu hỏi và đưa nội dung liên quan vào bước sinh. & Recall@K cho truy xuất; ROUGE-L, BLEU-4, BERTScore và G-Eval cho sinh. & Tác giả nêu dữ liệu đánh giá RAG trên video còn hạn chế và cần phát triển, công bố thêm bộ đánh giá chuẩn. & Liên quan đến nhánh video, nhưng đề tài đánh giá truy xuất trên bản phiên âm/khung hình đã lập chỉ mục cùng các tài liệu môn học. \\
+\hline
+RAGAs \cite{es2024ragas} & Đánh giá tự động các khía cạnh truy xuất context và sinh câu trả lời trong RAG. & WikiEval, với các chỉ số độ trung thực với ngữ cảnh, độ liên quan của câu trả lời và độ liên quan ngữ cảnh. & Bộ chỉ số tham chiếu-tự-do dùng mô hình ngôn ngữ để ước lượng các khía cạnh chất lượng RAG. & Báo cáo các chỉ số đánh giá chất lượng phần sinh và ngữ cảnh trong RAG. & Kết quả phụ thuộc vào thiết lập và năng lực của mô hình ngôn ngữ được sử dụng; cần xem xét mức phù hợp của khung đánh giá. & Là nguồn tham khảo cho các chỉ số đánh giá phần sinh và context được dùng trong khóa luận. \\
+\hline
+Li và cộng sự \cite{li2025ragedu} & Tổng quan RAG trong các bối cảnh giáo dục. & Tổng hợp 51 nghiên cứu về mục tiêu, bối cảnh học tập và ứng dụng giáo dục. & Khảo sát có hệ thống và phân loại các thành phần kỹ thuật, ứng dụng, thách thức. & Tổng hợp và đối chiếu các nghiên cứu đã công bố; không phải bộ đánh giá chuẩn so sánh một hệ thống RAG đơn lẻ. & Bài nêu các thách thức của RAG giáo dục, trong đó có khả năng đa phương thức còn hạn chế; không báo cáo hạn chế thực nghiệm của một hệ thống đơn lẻ. & Đặt đề tài vào bối cảnh RAG giáo dục; khóa luận tập trung vào corpus học liệu đa định dạng của ba môn cụ thể. \\
+\hline
+\end{longtable}
+\end{landscape}
+
+Các công trình trên cho thấy RAG đa phương thức, truy xuất tài liệu thị giác, truy xuất video và RAG trong giáo dục đều đã được nghiên cứu. Vì vậy, khóa luận không xem việc ``chưa có RAG đa phương thức'' là khoảng trống. Phần thực nghiệm tập trung so sánh ba cấu hình truy xuất trên cùng corpus học liệu tiếng Việt thuộc ba môn và cùng bộ 400 câu hỏi; kết luận được giới hạn trong corpus, bộ đánh giá chuẩn và thiết lập này.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -68,8 +107,16 @@ Xây dựng và đánh giá một trợ lý ảo cho hệ thống e-learning d�
 \begin{enumerate}
     \item Tổ chức học liệu đa định dạng thành một kho tri thức thống nhất, trong đó mỗi đơn vị tri thức giữ được vị trí của nó trong tệp nguồn.
     \item Xây dựng bộ truy xuất kết hợp nhiều nguồn (văn bản, từ vựng, ảnh) và có lọc theo môn học.
-    \item Sinh câu trả lời có căn cứ, kèm trích dẫn có vị trí và từ chối trả lời khi bằng chứng không đủ tin cậy.
+    \item Sinh câu trả lời có căn cứ, kèm trích dẫn có vị trí.
     \item Đánh giá chất lượng truy xuất bằng một quy trình không rò rỉ dữ liệu, kèm kiểm định thống kê và báo cáo trung thực.
+\end{enumerate}
+
+\subsection{Câu hỏi nghiên cứu}\label{sec:cau-hoi-nghien-cuu}
+
+Từ mục tiêu nghiên cứu, khóa luận tập trung trả lời hai câu hỏi sau:
+\begin{enumerate}
+    \item[\textbf{RQ1}] Trên cùng kho học liệu và bộ 400 câu hỏi, ba cấu hình truy xuất \texttt{baseline}, \texttt{hybrid\_norerank} và \texttt{hybrid\_rerank\_fixed} khác nhau như thế nào về Precision, Recall, F1 và tỷ lệ trúng (hit rate) tại $K \in \{1,5,10\}$?
+    \item[\textbf{RQ2}] Kết quả truy xuất của ba cấu hình thay đổi như thế nào theo nhóm câu hỏi (\textit{category}) và độ khó (\textit{difficulty})? Phân tích này được trình bày theo hướng mô tả.
 \end{enumerate}
 
 \subsection{Đối tượng nghiên cứu}
@@ -77,7 +124,7 @@ Xây dựng và đánh giá một trợ lý ảo cho hệ thống e-learning d�
 Chúng tôi tập trung nghiên cứu trên các đối tượng sau:
 
 \begin{itemize}
-    \item Học liệu đa định dạng của một môn học: video bài giảng, slide, tài liệu PDF và DOCX
+    \item Học liệu đa định dạng thuộc ba môn học: Cấu trúc rời rạc, Nhập môn Lập trình, và Cấu trúc dữ liệu và Giải thuật; gồm video bài giảng, slide, tài liệu PDF và DOCX.
     \item RAG đa phương thức
     \item Truy xuất thông tin trên văn bản và ảnh, và cách hợp nhất các nguồn
     \item Sinh câu trả lời có căn cứ kèm trích dẫn có vị trí
@@ -87,7 +134,7 @@ Chúng tôi tập trung nghiên cứu trên các đối tượng sau:
 \subsection{Phạm vi nghiên cứu}
 
 % [LOG EXPERIMENT_LOG.md mục 16.1, 16.2]
-Về dữ liệu, khóa luận giới hạn ở ba môn học thuộc lĩnh vực công nghệ thông tin: Cấu trúc rời rạc, Nhập môn Lập trình, và Cấu trúc dữ liệu và Giải thuật, với 69 tệp học liệu tại thời điểm đánh giá (21 tệp PDF, 7 tệp PPTX, 7 tệp PPT, 4 tệp DOCX và 30 video — \textbf{Mục \ref{sec:du-lieu}}) và bộ 400 câu hỏi đánh giá. Toàn bộ câu hỏi và học liệu đều bằng tiếng Việt (đối chiếu trực tiếp nội dung học liệu xác nhận không có tệp nào bằng tiếng Anh thuần, dù một số thuật ngữ kỹ thuật được chú thích song ngữ trong slide, ví dụ \og CON TRỎ -- POINTER\fq{}); người dùng chính là sinh viên. Về nội dung, khóa luận tập trung vào khâu truy xuất và cơ chế sinh câu trả lời có căn cứ; chất lượng của câu trả lời được sinh đã được đánh giá sơ bộ bằng giám khảo tự động trên một cấu hình truy xuất (\textbf{Mục \ref{sec:ket-qua-sinh}}), nhưng chưa có đối chiếu với con người. Khóa luận không bao gồm: huấn luyện LLM từ đầu, hỗ trợ mọi ngành học, chấm điểm tự động bài tự luận, xây dựng một hệ thống quản lý học tập hoàn chỉnh, cá nhân hóa sâu theo lịch sử dài hạn, kiến trúc nhiều tác tử phức tạp và việc thay thế vai trò của giảng viên. Việc lập chỉ mục riêng cho bài tập, kiểm soát mức độ gợi ý và quyền truy cập đáp án, cùng đồ thị tri thức liên kết các nguồn được xem là hướng phát triển (\textbf{Chương \ref{Chapter5}}).
+Về dữ liệu, khóa luận giới hạn ở ba môn học thuộc lĩnh vực công nghệ thông tin: Cấu trúc rời rạc, Nhập môn Lập trình, và Cấu trúc dữ liệu và Giải thuật, với 69 tệp học liệu tại thời điểm đánh giá (21 tệp PDF, 7 tệp PPTX, 7 tệp PPT, 4 tệp DOCX và 30 video — \textbf{Mục \ref{sec:du-lieu}}) và bộ 400 câu hỏi đánh giá. Toàn bộ câu hỏi và học liệu đều bằng tiếng Việt (đối chiếu trực tiếp nội dung học liệu xác nhận không có tệp nào bằng tiếng Anh thuần, dù một số thuật ngữ kỹ thuật được chú thích song ngữ trong slide, ví dụ ``CON TRỎ -- POINTER''); người dùng chính là sinh viên. Về nội dung, khóa luận tập trung vào khâu truy xuất và cơ chế sinh câu trả lời có căn cứ; chất lượng của câu trả lời được sinh và ngữ cảnh truy xuất được đánh giá trên một cấu hình truy xuất bằng các chỉ số tham khảo từ RAGAs (\textbf{Mục \ref{sec:ket-qua-sinh}}). Khóa luận không bao gồm: huấn luyện LLM từ đầu, hỗ trợ mọi ngành học, chấm điểm tự động bài tự luận, xây dựng một hệ thống quản lý học tập hoàn chỉnh, cá nhân hóa sâu theo lịch sử dài hạn, kiến trúc nhiều tác tử phức tạp và việc thay thế vai trò của giảng viên. Việc lập chỉ mục riêng cho bài tập, kiểm soát mức độ gợi ý và quyền truy cập đáp án, cùng đồ thị tri thức liên kết các nguồn được xem là hướng phát triển (\textbf{Chương \ref{Chapter5}}).
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
@@ -95,7 +142,7 @@ Về dữ liệu, khóa luận giới hạn ở ba môn học thuộc lĩnh vự
 
 \section{Phương pháp nghiên cứu}
 
-Chúng tôi thực hiện đề tài theo các bước sau. Thứ nhất, tìm hiểu các công trình về RAG, RAG đa phương thức, truy xuất trên tài liệu giàu thị giác, truy xuất và hỏi đáp trên video, và ứng dụng RAG trong giáo dục. Thứ hai, thiết kế và hiện thực hệ thống gồm luồng nạp và tiền xử lý học liệu, chỉ mục, bộ truy xuất, bộ sinh câu trả lời và giao diện lập trình ứng dụng (Application programming interface - API). Thứ ba, xây dựng quy trình đánh giá truy xuất không rò rỉ dữ liệu, trong đó truy vấn và nhãn chuẩn được tách riêng. Thứ tư, thực nghiệm so sánh hệ thống đề xuất với một hệ thống cơ sở trên cùng bộ câu hỏi, bổ sung kiểm định thống kê để xác định các khác biệt có ý nghĩa. Cuối cùng, chúng tôi phân tích kết quả, nêu rõ hạn chế và trạng thái của các thí nghiệm chưa thực hiện.
+Chúng tôi thực hiện đề tài theo các bước sau. Thứ nhất, tìm hiểu các công trình về RAG, RAG đa phương thức, truy xuất trên tài liệu giàu thị giác, truy xuất và hỏi đáp trên video, và ứng dụng RAG trong giáo dục. Thứ hai, thiết kế và hiện thực hệ thống gồm luồng nạp và tiền xử lý học liệu, chỉ mục, bộ truy xuất, bộ sinh câu trả lời và giao diện lập trình ứng dụng (Application programming interface - API). Thứ ba, xây dựng quy trình đánh giá truy xuất không rò rỉ dữ liệu, trong đó truy vấn và nhãn chuẩn (ground truth) được tách riêng. Thứ tư, thực nghiệm so sánh hệ thống đề xuất với một hệ thống cơ sở trên cùng bộ câu hỏi, bổ sung kiểm định thống kê để xác định các khác biệt có ý nghĩa. Cuối cùng, chúng tôi phân tích kết quả, nêu rõ hạn chế và trạng thái của các thí nghiệm chưa thực hiện.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -108,10 +155,10 @@ Trong khóa luận này, chúng tôi trình bày những đóng góp sau. Các �
 \begin{itemize}
     \item Một luồng nạp học liệu đa định dạng thành kho tri thức thống nhất, gồm hai chỉ mục vector (văn bản và ảnh) cùng một chỉ mục từ vựng, trong đó mỗi đơn vị tri thức giữ vị trí trong tệp nguồn (số trang, số slide hoặc thời điểm trong video).
     \item Một luồng xử lý (pipeline) video bài giảng thành các cửa sổ 30 giây, mỗi cửa sổ có bản phiên âm và các khung hình đại diện: khung hình gần trùng bị loại bằng băm trung bình (average hash), và việc chọn khung hình còn dùng điểm kết hợp mức thay đổi thị giác, mức thay đổi văn bản nhận dạng được, biên cảnh và độ phủ thời gian (với tham số mặc định, chỉ bước loại trùng thực sự làm thay đổi tập khung hình được giữ); cùng cơ chế lưu trạng thái để xử lý các video dài có thể tiếp tục sau khi bị gián đoạn.
-    \item Một bộ truy xuất lai đa phương thức kết hợp truy xuất dày (dense retrieval) trên văn bản, truy xuất thưa (sparse retrieval) và truy xuất dày trên ảnh, hợp nhất bằng RRF, có lọc theo môn học, đa dạng theo tệp, mở rộng và nén ngữ cảnh.
-    \item Một cơ chế sinh câu trả lời có căn cứ với trích dẫn có vị trí, từ chối theo ngưỡng, chuyển sang mô hình thị giác khi có ảnh trang hoặc ảnh hình của tài liệu, và API truyền phát câu trả lời kèm đường dẫn mở đúng đoạn video hoặc đúng trang tài liệu.
-    \item Một quy trình đánh giá truy xuất không rò rỉ dữ liệu, kèm báo cáo trung thực gồm kiểm định thống kê, độ phủ của kho học liệu và trạng thái của các thí nghiệm chưa thực hiện. Trên thực nghiệm với kho học liệu đạt độ phủ 100\%, cấu hình lai đa phương thức có xếp hạng lại vượt hệ thống cơ sở với khoảng tin cậy lấy mẫu lại không chứa 0 ở phần lớn chỉ số tại $K=5$ và $K=10$; riêng việc hợp nhất đa phương thức khi chưa xếp hạng lại thì không cải thiện (\textbf{Chương \ref{Chapter4}}).
-    \item Một bộ kết quả đánh giá chất lượng câu trả lời được sinh (độ trung thực với ngữ cảnh, độ liên quan của câu trả lời, độ chính xác và độ phủ của trích dẫn), đo bằng cách đánh giá không dựa trên tài liệu tham chiếu, trên cấu hình truy xuất tốt nhất (\textbf{Chương \ref{Chapter4}}).
+    \item Một bộ truy xuất lai (hybrid retrieval) đa phương thức kết hợp truy xuất dày trên văn bản, truy xuất thưa (sparse retrieval) và truy xuất dày trên ảnh, hợp nhất bằng phương pháp hợp nhất thứ hạng nghịch đảo (Reciprocal rank fusion - RRF), có lọc theo môn học, đa dạng theo tệp, mở rộng và nén ngữ cảnh.
+    \item Một cơ chế sinh câu trả lời có căn cứ với trích dẫn có vị trí, chuyển sang mô hình thị giác khi có ảnh trang hoặc ảnh hình của tài liệu, và API truyền phát câu trả lời kèm đường dẫn mở đúng đoạn video hoặc đúng trang tài liệu.
+    \item Một quy trình đánh giá truy xuất không rò rỉ dữ liệu, kèm báo cáo trung thực gồm kiểm định thống kê, độ phủ của kho học liệu và trạng thái của các thí nghiệm chưa thực hiện. Trên thực nghiệm với kho học liệu đạt độ phủ 100\%, cấu hình lai đa phương thức có xếp hạng lại vượt hệ thống cơ sở với khoảng tin cậy lấy mẫu lại (bootstrap) không chứa 0 ở phần lớn chỉ số tại $K = 5$ và $K = 10$; riêng việc hợp nhất đa phương thức khi chưa xếp hạng lại thì không cải thiện (\textbf{Chương \ref{Chapter4}}).
+    \item Một bộ kết quả đánh giá chất lượng câu trả lời được sinh và ngữ cảnh truy xuất, tham khảo bốn chỉ số RAGAs gồm độ trung thực với ngữ cảnh, độ liên quan của câu trả lời, độ chính xác ngữ cảnh và độ thu hồi ngữ cảnh, trên cấu hình truy xuất tốt nhất (\textbf{Chương \ref{Chapter4}}).
 \end{itemize}
 
 %----------------------------------------------------------------------------------------

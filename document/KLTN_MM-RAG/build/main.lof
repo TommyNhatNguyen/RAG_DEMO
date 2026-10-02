@@ -1,11 +1,11 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Kiến trúc tổng thể của hệ thống trợ lý ảo}}{18}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Luồng xử lý video bài giảng}}{22}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Luồng truy xuất lai đa phương thức}}{26}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Kiến trúc tổng thể của hệ thống trợ lý ảo}}{20}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Luồng xử lý video bài giảng}}{24}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Luồng truy xuất lai đa phương thức}}{28}{figure.caption.16}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces So sánh P/R/F1 tại $K\in \{5,10\}$ giữa ba hệ thống truy xuất}}{39}{figure.caption.23}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces F1@10 theo nhóm câu hỏi, Cơ sở so với Lai + XHL}}{41}{figure.caption.26}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces F1@10 theo độ khó, Cơ sở so với Lai + XHL}}{42}{figure.caption.28}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces So sánh P/R/F1 tại $K\in \{5,10\}$ giữa ba hệ thống truy xuất}}{40}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces F1@10 theo nhóm câu hỏi, Cơ sở so với Lai + XHL}}{42}{figure.caption.26}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces F1@10 theo độ khó, Cơ sở so với Lai + XHL}}{43}{figure.caption.28}%
 \addvspace {10\p@ }

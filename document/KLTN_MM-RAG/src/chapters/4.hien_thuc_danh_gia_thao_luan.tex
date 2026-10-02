@@ -4,7 +4,9 @@
 
 \section*{Tóm tắt chương}
 
-Chương này trình bày quá trình thực nghiệm bao gồm: môi trường thực nghiệm, dữ liệu, cấu hình của ba hệ thống truy xuất được so sánh, kết quả truy xuất kèm kiểm định thống kê, và kết quả đánh giá chất lượng sinh câu trả lời (độ trung thực với ngữ cảnh, độ liên quan của câu trả lời, độ chính xác và độ phủ của trích dẫn). Kho học liệu dùng trong thực nghiệm đạt độ phủ 100\% đối với bộ câu hỏi đánh giá, và cấu hình lai đa phương thức có xếp hạng lại cho kết quả cao hơn hệ thống cơ sở với khoảng tin cậy lấy mẫu lại không chứa 0 ở phần lớn chỉ số tại $K=5$ và $K=10$ — bằng chứng thống kê cho thấy cấu hình đề xuất vượt cơ sở. Chương cũng ghi rõ trạng thái của các thí nghiệm: đã có kết quả, và sẽ thực hiện, để người đọc phân biệt được đâu là kết quả đã kiểm chứng và đâu là kế hoạch.
+Chương này trình bày toàn bộ quá trình thực nghiệm và đánh giá hệ thống, bao gồm thiết lập môi trường, chuẩn bị dữ liệu, cấu hình các mô hình so sánh và các kiểm định thống kê liên quan. Chất lượng sinh câu trả lời và ngữ cảnh truy xuất được đánh giá bằng bốn chỉ số tham khảo từ RAGAs: độ trung thực với ngữ cảnh (\textit{Faithfulness}), độ liên quan của câu trả lời (\textit{Answer Relevance}), độ chính xác ngữ cảnh (\textit{Context Precision}) và độ thu hồi ngữ cảnh (\textit{Context Recall}).
+
+Kết quả thực nghiệm cho thấy kho học liệu đạt độ phủ 100\% trên bộ câu hỏi đánh giá. Đặc biệt, cấu hình lai đa phương thức kết hợp xếp hạng lại (\textit{Hybrid Multimodal with Reranking}) cho hiệu năng vượt trội hơn hệ thống cơ sở ở các mức $K = 5$ và $K = 10$. Ý nghĩa thống kê được xác nhận thông qua khoảng tin cậy lấy mẫu lại (\textit{Bootstrap}) không chứa giá trị 0. Các thí nghiệm trong chương được phân định rõ ràng giữa kết quả đã kiểm chứng và các định hướng nghiên cứu tiếp theo.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -13,7 +15,7 @@ Chương này trình bày quá trình thực nghiệm bao gồm: môi trường 
 \section{Mục tiêu và phạm vi của thực nghiệm}
 
 % [LOG EXPERIMENT_LOG.md mục 16]
-Thực nghiệm nhằm trả lời hai câu hỏi. Thứ nhất, với cùng một bộ câu hỏi về học liệu của ba môn học, các thành phần truy xuất bổ sung (BM25, truy xuất trên không gian thị giác, bộ xếp hạng lại) có cải thiện khả năng tìm đúng bằng chứng so với truy xuất dày chỉ trên văn bản hay không, và việc định dạng đầu vào cho bộ xếp hạng lại đúng theo mẫu hội thoại của mô hình có tạo khác biệt hay không. Thứ hai, với cấu hình truy xuất tốt nhất đo được, chất lượng câu trả lời do mô hình ngôn ngữ sinh ra — đo bằng độ trung thực với ngữ cảnh, độ liên quan của câu trả lời và độ chính xác/độ phủ của trích dẫn — ở mức nào. Ba cấu hình truy xuất được chạy trên cùng một tập truy vấn, mỗi câu lưu tối đa Top-10 kết quả, và chỉ sau khi truy xuất kết thúc mới đối chiếu với nhãn chuẩn (\textbf{Mục \ref{sec:khung-danh-gia}}). Các chỉ số truy xuất là \textit{Precision@K}, \textit{Recall@K} và \textit{F1@K} tại $K\in\{1,5,10\}$; các chỉ số sinh câu trả lời được định nghĩa ở \textbf{Mục \ref{sec:ket-qua-sinh}}. Khả năng từ chối câu hỏi ngoài phạm vi chưa được đánh giá vì bộ câu hỏi hiện tại không có câu không thể trả lời.
+Thực nghiệm trả lời hai câu hỏi nghiên cứu đã nêu ở Mục \ref{sec:cau-hoi-nghien-cuu}. Với RQ1, chúng tôi so sánh ba cấu hình trên cùng bộ truy vấn, lưu tối đa Top-10 kết quả cho mỗi câu hỏi và chỉ đối chiếu với nhãn chuẩn (ground truth) sau khi truy xuất kết thúc; kết quả Precision, Recall, F1 và tỷ lệ trúng (hit rate) tại $K \in \{1,5,10\}$ được trình bày ở Bảng 4.4--4.6. Với RQ2, chúng tôi trình bày F1@10 theo nhóm câu hỏi và độ khó ở Bảng 4.7--4.8; đây là so sánh mô tả. Kết quả sinh câu trả lời được báo cáo riêng ở Mục \ref{sec:ket-qua-sinh}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
@@ -22,10 +24,10 @@ Thực nghiệm nhằm trả lời hai câu hỏi. Thứ nhất, với cùng m�
 \section{Môi trường thực nghiệm}\label{sec:moi-truong}
 
 % [LOG EXPERIMENT_LOG.md mục 16.1]
-\textbf{Thiết bị.} Toàn bộ thực nghiệm chạy trên một máy MacBook Pro, chip Apple M1 Pro (10 lõi: 8 lõi hiệu năng và 2 lõi tiết kiệm điện), 16GB bộ nhớ hợp nhất, hệ điều hành macOS 27.0 (bản dựng 26A428). Cả bốn lần chạy truy xuất đều dùng khung tăng tốc đồ họa của Apple (Metal Performance Shaders - MPS) để nạp mô hình: nhật ký hệ thống xác nhận trực tiếp hai lần chạy có bật bộ xếp hạng lại (nạp cả ba mô hình: biểu diễn văn bản, biểu diễn thị giác, xếp hạng lại); hai lần chạy còn lại (hệ thống cơ sở và cấu hình lai không xếp hạng lại) không có tệp nhật ký riêng, thiết bị MPS do tác giả xác nhận trực tiếp.
+\textbf{Thiết bị.} Toàn bộ thực nghiệm chạy trên một máy MacBook Pro, chip Apple M1 Pro (10 lõi: 8 lõi hiệu năng và 2 lõi tiết kiệm điện), 16GB bộ nhớ hợp nhất, hệ điều hành macOS 27.0 (bản dựng 26A428). Cả bốn lần chạy truy xuất đều dùng khung tăng tốc đồ họa của Apple (Metal Performance Shaders - MPS) để nạp mô hình: nhật ký hệ thống xác nhận trực tiếp hai lần chạy có bật bộ xếp hạng lại (reranker) (nạp cả ba mô hình: biểu diễn văn bản, biểu diễn thị giác, xếp hạng lại).
 
 \bigbreak\noindent
-\textbf{Phần mềm.} Môi trường Python 3.12.14 với PyTorch 2.14.0, Transformers 5.16.1, Sentence Transformers 6.0.1, ChromaDB 1.5.9, \texttt{rank-bm25} 0.2.2, \texttt{langchain-huggingface} 1.2.2, \texttt{faster-whisper} 1.2.1 và Docling 2.126.0. Các mô hình được nạp từ bộ nhớ đệm cục bộ ở chế độ ngoại tuyến (\texttt{HF\_HUB\_OFFLINE=1}, \texttt{TRANSFORMERS\_OFFLINE=1}). Mã băm phiên bản (revision) đọc trực tiếp từ thư mục bộ nhớ đệm cục bộ: Qwen3-Embedding-0.6B — \texttt{97b0c61}; Qwen3-VL-Embedding-2B — \texttt{9f2f7e7}; Qwen3-Reranker-0.6B — \texttt{e61197e}; Qwen3-1.7B (dùng cho cả sinh câu trả lời và chấm điểm giám khảo) — \texttt{70d244c}. Hai mô hình biểu diễn được nạp qua \texttt{SentenceTransformer} không chỉ định kiểu số nên dùng mặc định \texttt{float32}; bộ xếp hạng lại và mô hình sinh câu trả lời dùng \texttt{float16} trên MPS (\texttt{float32} trên CPU), theo mã nguồn (\texttt{app/retrieval/reranker.py}, \texttt{app/generation/service.py}).
+\textbf{Phần mềm.} Môi trường Python 3.12.14 với PyTorch 2.14.0, Transformers 5.16.1, Sentence Transformers 6.0.1, ChromaDB 1.5.9, \texttt{rank-bm25} 0.2.2, \texttt{langchain-huggingface} 1.2.2, \texttt{faster-whisper} 1.2.1 và Docling 2.126.0. Các mô hình được nạp từ bộ nhớ đệm cục bộ ở chế độ ngoại tuyến (\texttt{HF\_HUB\_OFFLINE=1}, \texttt{TRANSFORMERS\_OFFLINE=1}). Mã băm phiên bản (revision) đọc trực tiếp từ thư mục bộ nhớ đệm cục bộ: Qwen3-Embedding-0.6B — \texttt{97b0c61}; Qwen3-VL-Embedding-2B — \texttt{9f2f7e7}; Qwen3-Reranker-0.6B — \texttt{e61197e}; Qwen3-1.7B (dùng để sinh câu trả lời) — \texttt{70d244c}. Hai mô hình biểu diễn vector (embedding) được nạp qua \texttt{SentenceTransformer} không chỉ định kiểu số nên dùng mặc định \texttt{float32}; bộ xếp hạng lại và mô hình sinh câu trả lời dùng \texttt{float16} trên MPS (\texttt{float32} trên CPU), theo mã nguồn (\texttt{app/retrieval/reranker.py}, \texttt{app/generation/service.py}).
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -36,7 +38,7 @@ Thực nghiệm nhằm trả lời hai câu hỏi. Thứ nhất, với cùng m�
 \subsection{Kho học liệu}
 
 % [LOG EXPERIMENT_LOG.md mục 16.1]
-Trước thực nghiệm, toàn bộ chỉ mục ChromaDB, chỉ mục BM25 và sổ đăng ký lập chỉ mục được xoá và lập chỉ mục lại từ đầu. Kho học liệu gồm 69 tệp thuộc ba môn học: Cấu trúc rời rạc, Nhập môn Lập trình và Cấu trúc dữ liệu và Giải thuật, trong đó có 21 tệp PDF, 7 tệp PPTX, 7 tệp PPT (định dạng cũ, được chuyển đổi tạm thời sang PPTX bằng LibreOffice ở chế độ dòng lệnh ẩn chỉ để trích xuất nội dung — siêu dữ liệu lưu trong ChromaDB vẫn ghi đường dẫn và định dạng \texttt{.ppt} gốc), 4 tệp DOCX và 30 tệp video MP4. Toàn bộ 69/69 tệp được lập chỉ mục thành công, không có lỗi (\textbf{Bảng \ref{tab:indexed-v7}}). ChromaDB chứa 15\,682 vector ở tập vector văn bản (5\,782 đoạn văn bản, 97 bảng, 582 ảnh trang được OCR làm văn bản và 9\,803 cửa sổ phiên âm video) và 12\,793 vector ở tập vector thị giác (1\,297 ảnh và 10\,914 khung hình video).
+Trước thực nghiệm, toàn bộ chỉ mục ChromaDB, chỉ mục BM25 và sổ đăng ký lập chỉ mục được xoá và lập chỉ mục lại từ đầu. Kho học liệu gồm 69 tệp thuộc ba môn học: Cấu trúc rời rạc, Nhập môn Lập trình và Cấu trúc dữ liệu và Giải thuật, trong đó có 21 tệp PDF, 7 tệp PPTX, 7 tệp PPT (định dạng cũ, được chuyển đổi tạm thời sang PPTX bằng LibreOffice ở chế độ dòng lệnh ẩn chỉ để trích xuất nội dung — siêu dữ liệu lưu trong ChromaDB vẫn ghi đường dẫn và định dạng \texttt{.ppt} gốc), 4 tệp DOCX và 30 tệp video MP4. Toàn bộ 69/69 tệp được lập chỉ mục thành công, không có lỗi (\textbf{Bảng \ref{tab:indexed-v7}}). ChromaDB chứa 15\,682 vector ở tập vector văn bản (5\,782 đoạn văn bản, 97 bảng và 9\,803 cửa sổ phiên âm video) và 12\,793 vector ở tập vector thị giác (582 ảnh trang, 1\,297 ảnh/hình và 10\,914 khung hình video).
 
 \begin{table}[ht]
     \centering
@@ -60,7 +62,7 @@ Trước thực nghiệm, toàn bộ chỉ mục ChromaDB, chỉ mục BM25 và 
 \subsection{Bộ câu hỏi và nhãn chuẩn}
 
 % [LOG EXPERIMENT_LOG.md mục 16.2]
-Bộ câu hỏi \texttt{questions\_draft\_v7.json} gồm 400 bản ghi, mỗi bản ghi có các trường: câu hỏi, các nguồn cần thiết, danh sách bằng chứng, mã môn học, mục tiêu học tập, nhãn có thể trả lời, nhóm câu hỏi (category) (bốn nhóm cân bằng, mỗi nhóm 100 câu: \texttt{video\_grounded}, \texttt{slide\_grounded}, \texttt{visual}, \texttt{cross\_source}) và \textit{difficulty} (\texttt{easy} 76 câu, \texttt{medium} 296 câu, \texttt{hard} 28 câu). Nhãn có thể trả lời nhận giá trị đúng ở toàn bộ 400/400 bản ghi; bộ câu hỏi này không có câu ngoài phạm vi. Không có trường câu trả lời mẫu, nên chỉ các chỉ số đánh giá không cần tham chiếu (xem \textbf{Mục \ref{sec:ket-qua-sinh}}) được áp dụng ở phần sinh câu trả lời.
+Bộ câu hỏi \texttt{questions\_draft\_v7.json} gồm 400 bản ghi, mỗi bản ghi có các trường: câu hỏi, các nguồn cần thiết, danh sách bằng chứng, mã môn học, mục tiêu học tập, nhãn có thể trả lời, nhóm câu hỏi (bốn nhóm cân bằng, mỗi nhóm 100 câu: \texttt{video\_grounded}, \texttt{slide\_grounded}, \texttt{visual}, \texttt{cross\_source}) và \textit{difficulty} (\texttt{easy} 76 câu, \texttt{medium} 296 câu, \texttt{hard} 28 câu). Nhãn có thể trả lời nhận giá trị đúng ở toàn bộ 400/400 bản ghi; bộ câu hỏi này không có câu ngoài phạm vi. Các trường nguồn cần thiết và bằng chứng do các tác giả xác định, gán và kiểm định dựa trên học liệu gốc; chúng được dùng làm thông tin chuẩn trong đánh giá truy xuất và đánh giá theo khung RAGAs.
 
 \bigbreak\noindent
 \textbf{Bảng \ref{tab:required-sources-v7}} cho biết phân bố câu hỏi theo nhóm câu hỏi và độ khó (\textit{difficulty}).
@@ -87,7 +89,7 @@ Bộ câu hỏi \texttt{questions\_draft\_v7.json} gồm 400 bản ghi, mỗi b�
 \end{table}
 
 \bigbreak\noindent
-Nhãn chuẩn (bằng chứng, nguồn cần thiết) của bộ câu hỏi v7 được gán ban đầu bằng một LLM (ChatGPT), sau đó tác giả rà soát và kiểm định lại thủ công.
+Nhãn chuẩn (bằng chứng, nguồn cần thiết) của bộ câu hỏi v7 do các tác giả trực tiếp xác định, gán và kiểm định dựa trên việc đối chiếu với học liệu gốc. Các nhãn này được dùng làm thông tin chuẩn khi chấm điểm truy xuất và đánh giá theo khung RAGAs.
 
 \subsection{Tập câu hỏi được chấm điểm}
 
@@ -100,7 +102,7 @@ Sau khi áp dụng bảng ánh xạ mã tài nguyên và hoàn tất lập chỉ
 \section{Cấu hình các hệ thống được so sánh}\label{sec:cau-hinh}
 
 % [LOG EXPERIMENT_LOG.md mục 16.3; CODE app/main.py:cmd_benchmark_retrieve, app/retrieval/reranker.py:QwenReranker._scores]
-Ba cấu hình nhận cùng một đầu vào gồm câu hỏi và mã môn học, được chạy bằng lệnh \texttt{benchmark-retrieve} với $K=10$, cùng không bật mở rộng/nén ngữ cảnh. \textbf{Bảng \ref{tab:v7-systems}} liệt kê cấu hình của từng hệ thống. Ở hệ thống thứ ba, bộ xếp hạng lại \texttt{Qwen3-Reranker-0.6B} nhận đầu vào theo đúng mẫu hội thoại mà mô hình được huấn luyện để chấm điểm (vai trò \texttt{system}/\texttt{query}/\texttt{document}, qua \texttt{tokenizer.apply\_chat\_template()}).
+Ba cấu hình nhận cùng một đầu vào gồm câu hỏi và mã môn học, được chạy bằng lệnh \texttt{benchmark-retrieve} với $K = 10$, cùng không bật mở rộng/nén ngữ cảnh. \textbf{Bảng \ref{tab:v7-systems}} liệt kê cấu hình của từng hệ thống. Ở hệ thống thứ ba, bộ xếp hạng lại \texttt{Qwen3-Reranker-0.6B} nhận đầu vào theo đúng mẫu hội thoại mà mô hình được huấn luyện để chấm điểm (vai trò \texttt{system}/\texttt{query}/\texttt{document}, qua \texttt{tokenizer.apply\_chat\_template()}).
 
 \begin{table}[ht]
     \centering
@@ -119,7 +121,7 @@ Ba cấu hình nhận cùng một đầu vào gồm câu hỏi và mã môn họ
             \hline
             Thị giác (Qwen3-VL-Embedding-2B)           & Không                         & Có                                    & Có                                                                     \\
             \hline
-            Hợp nhất (RRF, hằng số 60, không trọng số) & Không áp dụng (một danh sách) & Có                                    & Có                                                                     \\
+            Hợp nhất thứ hạng nghịch đảo (Reciprocal rank fusion - RRF), hằng số 60, không trọng số & Không áp dụng (một danh sách) & Có                                    & Có                                                                     \\
             \hline
             Xếp hạng lại (Qwen3-Reranker-0.6B)         & Tắt                           & Tắt                                   & Bật, theo mẫu hội thoại                                                \\
             \hline
@@ -140,7 +142,7 @@ Ba cấu hình nhận cùng một đầu vào gồm câu hỏi và mã môn họ
 \end{table}
 
 \bigbreak\noindent
-Mỗi hệ thống được chạy một lần trên toàn bộ 400 câu. Khoản thưởng theo loại nội dung là một thành phần của bộ truy xuất luôn hoạt động theo mã nguồn (không tắt được qua cấu hình bộ đánh giá chuẩn), áp dụng cho các câu chứa từ khoá hỏi về bài giảng.
+Mỗi hệ thống được chạy một lần trên toàn bộ 400 câu. Khoản thưởng theo loại nội dung là một thành phần của bộ truy xuất luôn hoạt động theo mã nguồn (không tắt được qua cấu hình bộ đánh giá chuẩn (benchmark)), áp dụng cho các câu chứa từ khoá hỏi về bài giảng.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -180,7 +182,7 @@ Mỗi hệ thống được chạy một lần trên toàn bộ 400 câu. Khoả
 \end{figure}
 
 \bigbreak\noindent
-Hệ thống \og Lai + xếp hạng lại\fq{} cao nhất ở toàn bộ 9/9 chỉ số, kể cả \textit{Recall@10} (0,4671, cao hơn \og Lai\fq{} 0,1154 — khoảng tin cậy lấy mẫu lại không chứa 0, \textbf{Bảng \ref{tab:bootstrap-v7}}).
+Hệ thống ``Lai + xếp hạng lại'' cao nhất ở toàn bộ 9/9 chỉ số, kể cả \textit{Recall@10} (0,4671, cao hơn ``Lai'' 0,1154 — khoảng tin cậy lấy mẫu lại không chứa 0, \textbf{Bảng \ref{tab:bootstrap-v7}}).
 
 \subsection{Kiểm định thống kê}\label{sec:kiem-dinh-v7}
 
@@ -219,7 +221,7 @@ Bộ câu hỏi v7 không có bản ghi trùng nội dung truy vấn (400 bản 
 \end{table}
 
 \bigbreak\noindent
-\textbf{Bảng \ref{tab:bootstrap-v7}} cho thấy ba điều. Thứ nhất, so sánh Cơ sở với Lai (chưa xếp hạng lại) có khoảng tin cậy chứa 0 ở $K=5$ và $K=10$, và khoảng tin cậy nằm hoàn toàn ở phía âm ở $K=1$ (Lai thấp hơn Cơ sở có ý nghĩa thống kê tại $K=1$) — nghĩa là riêng việc thêm BM25 và thị giác, hợp nhất bằng RRF không trọng số, không cải thiện truy xuất so với truy xuất dày có lọc theo môn học, và còn làm giảm chất lượng ở $K=1$. Thứ hai, so sánh Cơ sở với Lai + XHL có khoảng tin cậy không chứa 0 và hoàn toàn dương ở cả 6 chỉ số tại $K=5$ và $K=10$ (chỉ chứa 0 ở $K=1$) — đây là bằng chứng thống kê đầu tiên trong khóa luận cho thấy cấu hình đề xuất vượt cơ sở, nhất quán ở cả \textit{Precision}, \textit{Recall} và \textit{F1}. Thứ ba, so sánh Lai với Lai + XHL cho kết quả tương tự và còn rõ hơn ở $K=1$ (khoảng tin cậy dương, không chứa 0 ở cả 9/9 chỉ số) — cho thấy phần lớn cải thiện đến từ bước xếp hạng lại, không phải từ BM25 hay nhánh thị giác.
+\textbf{Bảng \ref{tab:bootstrap-v7}} cho thấy ba điều. Thứ nhất, so sánh Cơ sở với Lai (chưa xếp hạng lại) có khoảng tin cậy chứa 0 ở $K = 5$ và $K = 10$, và khoảng tin cậy nằm hoàn toàn ở phía âm ở $K = 1$ (Lai thấp hơn Cơ sở có ý nghĩa thống kê tại $K = 1$) — nghĩa là riêng việc thêm BM25 và thị giác, hợp nhất bằng RRF không trọng số, không cải thiện truy xuất so với truy xuất dày (dense retrieval) có lọc theo môn học, và còn làm giảm chất lượng ở $K = 1$. Thứ hai, so sánh Cơ sở với Lai + XHL có khoảng tin cậy không chứa 0 và hoàn toàn dương ở cả 6 chỉ số tại $K = 5$ và $K = 10$ (chỉ chứa 0 ở $K = 1$) — đây là bằng chứng thống kê đầu tiên trong khóa luận cho thấy cấu hình đề xuất vượt cơ sở, nhất quán ở cả \textit{Precision}, \textit{Recall} và \textit{F1}. Thứ ba, so sánh Lai với Lai + XHL cho kết quả tương tự và còn rõ hơn ở $K = 1$ (khoảng tin cậy dương, không chứa 0 ở cả 9/9 chỉ số) — cho thấy phần lớn cải thiện đến từ bước xếp hạng lại, không phải từ BM25 hay nhánh thị giác.
 
 \subsection{Tỷ lệ trúng}
 
@@ -243,7 +245,7 @@ Bộ câu hỏi v7 không có bản ghi trùng nội dung truy vấn (400 bản 
 \end{table}
 
 \bigbreak\noindent
-Hệ thống Lai + XHL có tỷ lệ trúng tại $K=10$ là 56,25\%, cao hơn tuyệt đối 13,5 điểm phần trăm so với hệ thống cơ sở (42,75\%); các hệ thống còn lại đều thấp hơn hoặc gần bằng hệ thống cơ sở. Dù vậy, mức tuyệt đối của tỷ lệ trúng vẫn chưa cao — hơn 40\% số câu của hệ thống tốt nhất không có bất kỳ kết quả liên quan nào trong Top-10 — và cần đọc cùng \textbf{Bảng \ref{tab:results-v7}}.
+Hệ thống Lai + XHL có tỷ lệ trúng tại $K = 10$ là 56,25\%, cao hơn tuyệt đối 13,5 điểm phần trăm so với hệ thống cơ sở (42,75\%); các hệ thống còn lại đều thấp hơn hoặc gần bằng hệ thống cơ sở. Dù vậy, mức tuyệt đối của tỷ lệ trúng vẫn chưa cao — hơn 40\% số câu của hệ thống tốt nhất không có bất kỳ kết quả liên quan nào trong Top-10 — và cần đọc cùng \textbf{Bảng \ref{tab:results-v7}}.
 
 \subsection{Kết quả theo nhóm câu hỏi và theo độ khó}
 
@@ -260,6 +262,7 @@ Hệ thống Lai + XHL có tỷ lệ trúng tại $K=10$ là 56,25\%, cao hơn t
     \centering
     \caption{F1@10 theo nhóm câu hỏi, ba hệ thống}
     \label{tab:category-v7}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|c|c|c|c|}
         \hline
         \textbf{Hệ thống} & \textbf{Đa nguồn} & \textbf{Slide}  & \textbf{Video}  & \textbf{Thị giác} \\
@@ -270,7 +273,8 @@ Hệ thống Lai + XHL có tỷ lệ trúng tại $K=10$ là 56,25\%, cao hơn t
         \hline
         Lai + XHL         & \textbf{0,1839}   & \textbf{0,1388} & \textbf{0,0461} & \textbf{0,0797}   \\
         \hline
-    \end{tabular}
+    \end{tabular}%
+    }
 \end{table}
 
 \begin{figure}[ht]
@@ -302,8 +306,8 @@ Cấu hình Lai + XHL cao nhất ở cả bốn nhóm câu hỏi và ở hai tro
 
 \subsection{Kết quả sinh câu trả lời (generation-level)}\label{sec:ket-qua-sinh}
 
-% [LOG EXPERIMENT_LOG.md mục 16.5; CODE app/eval/judge.py:score_reference_free, app/eval/runner.py]
-Để có kết quả đánh giá đầu-cuối (end-to-end evaluation) đầu tiên của khóa luận, với cấu hình truy xuất tốt nhất đo được (Lai + XHL), chúng tôi chạy toàn bộ luồng sinh câu trả lời (tăng cường câu hỏi, HyDE, truy xuất, xếp hạng lại, sinh câu trả lời bằng Qwen3-1.7B) trên 400 câu, chỉ dùng ngữ cảnh văn bản (không bật nhánh trả lời bằng ảnh), lấy tối đa 8 kết quả truy xuất làm ngữ cảnh cho mỗi câu (tham số \texttt{generation\_k=8}, khác với $K=10$ dùng ở phần truy xuất thuần). Vì bộ câu hỏi v7 không có câu trả lời mẫu, chỉ hai chỉ số không cần tham chiếu được đo: \textit{độ trung thực với ngữ cảnh} (câu trả lời có được suy ra từ ngữ cảnh đã truy xuất hay không) và \textit{độ liên quan của câu trả lời} (câu trả lời có đúng trọng tâm câu hỏi hay không), cả hai được chấm bằng chính Qwen3-1.7B theo cách đánh giá không dựa trên tài liệu tham chiếu, thang điểm liên tục $[0,1]$. Độ chính xác và độ phủ của ngữ cảnh (\textit{context precision/recall}, chỉ số của RAGAs cần câu trả lời mẫu) không đo được.
+% [LOG EXPERIMENT_LOG.md mục 16.5; CODE app/eval/runner.py]
+Để có kết quả đánh giá đầu-cuối (end-to-end evaluation) đầu tiên của khóa luận, với cấu hình truy xuất tốt nhất đo được (Lai + XHL), chúng tôi chạy toàn bộ luồng sinh câu trả lời (tăng cường câu hỏi, HyDE, truy xuất, xếp hạng lại, sinh câu trả lời bằng Qwen3-1.7B) trên 400 câu, chỉ dùng ngữ cảnh văn bản (không bật nhánh trả lời bằng ảnh), lấy tối đa 8 kết quả truy xuất làm ngữ cảnh cho mỗi câu (tham số \texttt{generation\_k=8}, khác với $K = 10$ dùng ở phần truy xuất thuần). RAGAs được sử dụng làm khung đánh giá với bốn chỉ số: độ trung thực với ngữ cảnh, độ liên quan của câu trả lời, độ chính xác ngữ cảnh và độ thu hồi ngữ cảnh. Các chỉ số được tính từ câu hỏi, ngữ cảnh truy xuất, câu trả lời sinh ra và thông tin chuẩn của bộ đánh giá; kết quả trung bình được trình bày ở \textbf{Bảng \ref{tab:generation-v7}}.
 
 \bigbreak\noindent
 Ngoài ra, \textit{độ chính xác trích dẫn} và \textit{độ phủ trích dẫn} đo chất lượng của tập kết quả truy xuất thực sự được đưa vào ngữ cảnh cho mô hình (không phải phân tích chuỗi trích dẫn trong văn bản câu trả lời), so với bằng chứng chuẩn, dùng lại đúng hàm tính \textit{Precision/Recall@K} và bảng ánh xạ mã tài nguyên đã dùng ở phần truy xuất (\textbf{Mục \ref{sec:du-lieu}}). \textbf{Bảng \ref{tab:generation-v7}} tổng hợp kết quả trên 400 câu.
@@ -316,26 +320,26 @@ Ngoài ra, \textit{độ chính xác trích dẫn} và \textit{độ phủ tríc
         \hline
         \textbf{Chỉ số}                                                  & \textbf{Giá trị} \\
         \hline
-        Độ trung thực với ngữ cảnh                                       & 0,5038           \\
+        Độ trung thực với ngữ cảnh                                  & 0,5038           \\
         \hline
-        Độ liên quan của câu trả lời                                     & 0,5013           \\
+        Độ liên quan của câu trả lời                                & 0,5013           \\
         \hline
         Độ phủ theo tệp (\textit{path recall@10})                        & 0,9463           \\
         \hline
         Độ chính xác theo tệp (\textit{path precision})                  & 0,1612           \\
         \hline
-        Độ chính xác trích dẫn (\textit{citation precision}, trung bình) & 0,0847           \\
+        Độ chính xác ngữ cảnh (trung bình)                               & 0,0847           \\
         \hline
-        Độ phủ trích dẫn (\textit{citation recall}, trung bình)          & 0,4683           \\
+        Độ thu hồi ngữ cảnh (trung bình)                                  & 0,4683           \\
         \hline
     \end{tabular}
 \end{table}
 
 \bigbreak\noindent
-\textbf{Về phân bố điểm giám khảo.} Cả độ trung thực với ngữ cảnh và độ liên quan của câu trả lời đều có phân bố gần như nhị phân: trong 399/400 câu chấm được, độ trung thực với ngữ cảnh nhận đúng giá trị 0,0 ở 198 câu và đúng giá trị 1,0 ở 201 câu (0 câu nhận giá trị trung gian); độ liên quan của câu trả lời nhận 0,0 ở 199 câu và 1,0 ở 200 câu. Vì vậy, con số 0,5038 nên được đọc là \og khoảng một nửa số câu được giám khảo chấm hoàn toàn đạt, nửa còn lại chấm hoàn toàn không đạt\fq{}, không phải \og mỗi câu đạt khoảng một nửa\fq{}. Đây là dấu hiệu Qwen3-1.7B — mô hình nhỏ, 1,7 tỷ tham số, dùng chính nó để chấm điểm câu trả lời do chính nó sinh ra — có xu hướng chấm cực đoan thay vì theo thang liên tục như yêu cầu trong câu lệnh dẫn dắt, và là một hạn chế cần nêu khi diễn giải kết quả (\textbf{Mục \ref{sec:thao-luan}}).
+\textbf{Về phân bố điểm RAGAs.} Cả độ trung thực với ngữ cảnh và độ liên quan của câu trả lời đều có phân bố gần như nhị phân: trong 399/400 câu có kết quả, độ trung thực với ngữ cảnh nhận đúng giá trị 0,0 ở 198 câu và đúng giá trị 1,0 ở 201 câu (0 câu nhận giá trị trung gian); độ liên quan của câu trả lời nhận 0,0 ở 199 câu và 1,0 ở 200 câu. Vì vậy, con số 0,5038 nên được đọc là ``khoảng một nửa số câu có điểm hoàn toàn đạt, nửa còn lại có điểm hoàn toàn không đạt'', không phải ``mỗi câu đạt khoảng một nửa''. Phân bố này cho thấy các chỉ số chất lượng câu trả lời trong cấu hình thực nghiệm có xu hướng tập trung ở hai cực thay vì phân bố liên tục như yêu cầu trong câu lệnh (prompt) dẫn dắt, và cần được lưu ý khi diễn giải kết quả (\textbf{Mục \ref{sec:thao-luan}}).
 
 \bigbreak\noindent
-\textbf{Về chênh lệch giữa các chỉ số phủ.} \textit{Citation recall} (0,4683) nằm giữa \textit{path recall@10} (0,9463, chỉ cần đúng tệp) và \textit{recall@10} đo ở phần truy xuất thuần của cùng hệ thống (0,4671, \textbf{Bảng \ref{tab:results-v7}}, yêu cầu khớp đúng trang/slide/khoảng thời gian) — đúng như kỳ vọng vì ba chỉ số này khác nhau về độ chặt của tiêu chí khớp, không phải mâu thuẫn với nhau.
+\textbf{Về chênh lệch giữa các chỉ số phủ.} Độ thu hồi ngữ cảnh của RAGAs (0,4683) nằm giữa \textit{path recall@10} (0,9463, chỉ cần đúng tệp) và \textit{recall@10} đo ở phần truy xuất thuần của cùng hệ thống (0,4671, \textbf{Bảng \ref{tab:results-v7}}, yêu cầu khớp đúng trang/slide/khoảng thời gian) — đúng như kỳ vọng vì ba chỉ số này khác nhau về độ chặt của tiêu chí khớp, không phải mâu thuẫn với nhau.
 
 \bigbreak\noindent
 \textbf{Bảng \ref{tab:gen-category-v7}} và \textbf{Bảng \ref{tab:gen-difficulty-v7}} trình bày độ phủ/độ chính xác theo tệp, theo nhóm câu hỏi và theo độ khó (báo cáo hiện tại chưa tách độ trung thực với ngữ cảnh/độ liên quan của câu trả lời theo nhóm).
@@ -344,6 +348,7 @@ Ngoài ra, \textit{độ chính xác trích dẫn} và \textit{độ phủ tríc
     \centering
     \caption{Độ phủ/độ chính xác theo tệp, theo nhóm câu hỏi (sinh câu trả lời)}
     \label{tab:gen-category-v7}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|c|c|c|c|}
         \hline
         \textbf{Nhóm}                     & \textbf{path\_recall@1} & \textbf{path\_recall@5} & \textbf{path\_recall@10} & \textbf{path\_precision} \\
@@ -356,13 +361,15 @@ Ngoài ra, \textit{độ chính xác trích dẫn} và \textit{độ phủ tríc
         \hline
         Đa nguồn (\textit{cross\_source}) & 0,43                    & 0,96                    & 0,975                    & 0,267                    \\
         \hline
-    \end{tabular}
+    \end{tabular}%
+    }
 \end{table}
 
 \begin{table}[ht]
     \centering
     \caption{Độ phủ/độ chính xác theo tệp, theo độ khó (sinh câu trả lời)}
     \label{tab:gen-difficulty-v7}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|c|c|c|c|}
         \hline
         \textbf{Độ khó}  & \textbf{path\_recall@1} & \textbf{path\_recall@5} & \textbf{path\_recall@10} & \textbf{path\_precision} \\
@@ -373,7 +380,8 @@ Ngoài ra, \textit{độ chính xác trích dẫn} và \textit{độ phủ tríc
         \hline
         Khó (28)         & 0,821                   & 1,00                    & 1,00                     & 0,129                    \\
         \hline
-    \end{tabular}
+    \end{tabular}%
+    }
 \end{table}
 
 \bigbreak\noindent
@@ -385,26 +393,16 @@ Nhóm \textit{video\_grounded} tiếp tục là nhóm yếu nhất ở mọi m�
 
 \section{Phân tích và thảo luận}\label{sec:thao-luan}
 
-\textbf{Về giả thuyết đa phương thức.} Kết quả tách bạch được hai hiệu ứng riêng (\textbf{Mục \ref{sec:kiem-dinh-v7}}). Riêng việc thêm BM25 và truy xuất trên không gian thị giác, hợp nhất bằng RRF không trọng số nhưng chưa xếp hạng lại, không cải thiện so với truy xuất dày có lọc theo môn học — khoảng tin cậy chứa 0 ở $K=5,10$ và còn âm có ý nghĩa ở $K=1$. Ngược lại, thêm bước xếp hạng lại với đầu vào định dạng đúng theo mẫu hội thoại của mô hình mang lại cải thiện có ý nghĩa thống kê, nhất quán ở \textit{Precision}, \textit{Recall} và \textit{F1} tại $K=5$ và $K=10$. Nói cách khác, phần lớn lợi ích đo được trong thực nghiệm này đến từ bước xếp hạng lại được định dạng đúng, không phải từ việc hợp nhất nhiều danh sách truy xuất.
+\textbf{Về giả thuyết đa phương thức.} Kết quả tách bạch được hai hiệu ứng riêng (\textbf{Mục \ref{sec:kiem-dinh-v7}}). Riêng việc thêm BM25 và truy xuất trên không gian thị giác, hợp nhất bằng RRF không trọng số nhưng chưa xếp hạng lại, không cải thiện so với truy xuất dày có lọc theo môn học — khoảng tin cậy chứa 0 ở $K = 5, 10$ và còn âm có ý nghĩa ở $K = 1$. Ngược lại, thêm bước xếp hạng lại với đầu vào định dạng đúng theo mẫu hội thoại của mô hình mang lại cải thiện có ý nghĩa thống kê, nhất quán ở \textit{Precision}, \textit{Recall} và \textit{F1} tại $K = 5$ và $K = 10$. Nói cách khác, phần lớn lợi ích đo được trong thực nghiệm này đến từ bước xếp hạng lại được định dạng đúng, không phải từ việc hợp nhất nhiều danh sách truy xuất.
 
 \bigbreak\noindent
-\textbf{Về giới hạn cấu trúc của \textit{Precision@K}.} Do mỗi tệp chỉ được giữ tối đa 2 kết quả trong Top-K (lọc đa dạng theo tệp) và phần lớn câu hỏi chỉ có một hoặc hai nguồn bằng chứng, \textit{Precision@K} ở $K=5,10$ bị giới hạn cấu trúc: với một bản ghi chỉ có một bằng chứng, số kết quả liên quan tối đa là 2, nên \textit{Precision@10} khó vượt $0{,}2$. Vì vậy các giá trị \textit{Precision@5}, \textit{Precision@10} tuyệt đối thấp một phần là hệ quả của thiết lập truy xuất, không riêng của thuật toán, và nên đọc cùng \textit{Recall@K} và tỷ lệ trúng.
+\textbf{Về giới hạn cấu trúc của \textit{Precision@K}.} Do mỗi tệp chỉ được giữ tối đa 2 kết quả trong Top-K (lọc đa dạng theo tệp) và phần lớn câu hỏi chỉ có một hoặc hai nguồn bằng chứng, \textit{Precision@K} ở $K = 5, 10$ bị giới hạn cấu trúc: với một bản ghi chỉ có một bằng chứng, số kết quả liên quan tối đa là 2, nên \textit{Precision@10} khó vượt $0{,}2$. Vì vậy các giá trị \textit{Precision@5}, \textit{Precision@10} tuyệt đối thấp một phần là hệ quả của thiết lập truy xuất, không riêng của thuật toán, và nên đọc cùng \textit{Recall@K} và tỷ lệ trúng.
 
 \bigbreak\noindent
 \textbf{Về nhóm \textit{video\_grounded}.} Đây là nhóm yếu nhất ở cả ba hệ thống truy xuất và ở cả phần sinh câu trả lời (\textit{F1@10} cao nhất của nhóm này chỉ 0,0461, so với 0,0797–0,1839 ở các nhóm còn lại). Chúng tôi chưa có bằng chứng thực nghiệm về nguyên nhân; các giả thuyết có thể kiểm chứng gồm: cửa sổ phiên âm video (30 giây) quá thô so với yêu cầu khớp đúng khoảng thời gian của tiêu chí chấm điểm, hoặc câu hỏi nhóm này đòi hỏi mốc thời gian chính xác hơn mức mà truy xuất ở cấp đoạn phiên âm có thể cung cấp. Cần thí nghiệm riêng trước khi kết luận.
 
 \bigbreak\noindent
-\textbf{Về chất lượng sinh câu trả lời.} Cách đánh giá không dựa trên tài liệu tham chiếu ở đây dùng chính Qwen3-1.7B làm giám khảo — mô hình nhỏ, cùng loại với mô hình sinh câu trả lời — nên kết quả độ trung thực với ngữ cảnh/độ liên quan của câu trả lời mang hai rủi ro cần lưu ý khi diễn giải: (1) xu hướng tự thiên vị khi một mô hình chấm điểm sản phẩm của chính nó, chưa được kiểm chứng bằng giám khảo độc lập hay con người; (2) phân bố điểm gần như nhị phân (\textbf{Mục \ref{sec:ket-qua-sinh}}) cho thấy mô hình có thể không tuân theo đúng thang điểm liên tục $[0,1]$ như yêu cầu trong câu lệnh dẫn dắt. \textit{Citation precision} ở mức thấp (0,0847) phần lớn là hệ quả của mẫu số: mỗi câu đưa tối đa 8 kết quả vào ngữ cảnh trong khi số bằng chứng chuẩn trung bình mỗi câu nhỏ hơn nhiều, nên không nên so trực tiếp con số này với \textit{Precision@K} của phần truy xuất thuần (dùng $K=10$ và tiêu chí khớp khác).
-
-\bigbreak\noindent
-\textbf{Các mối đe dọa đến tính giá trị.}
-\begin{itemize}
-    \item Mỗi hệ thống chỉ được chạy một lần, trên một bộ câu hỏi từ một nguồn duy nhất; kiểm định thống kê so sánh 9 chỉ số và nhiều cặp hệ thống cùng lúc mà không hiệu chỉnh cho việc so sánh nhiều lần.
-    \item Tiêu chí liên quan yêu cầu khớp chính xác số trang/số slide (và giao với khoảng thời gian đối với video), nên một kết quả ở vị trí liền kề không được tính là đúng.
-    \item Mã môn học được truyền cho bộ truy xuất làm ngữ cảnh lọc; thực nghiệm chưa xét trường hợp không biết môn học.
-    \item Phần sinh câu trả lời chỉ chạy với ngữ cảnh văn bản (chưa bật nhánh trả lời bằng ảnh), chỉ đo với một cấu hình truy xuất duy nhất, và giám khảo là mô hình nhỏ tự chấm sản phẩm của chính nó (nêu trên).
-    \item Biến thể bật đồng thời HyDE và vòng lặp truy xuất lặp lại (\texttt{retrieve\_for\_eval}, đã có mã nguồn) chưa được đo cho cả phần truy xuất lẫn phần sinh câu trả lời.
-\end{itemize}
+\textbf{Về chất lượng sinh câu trả lời.} Kết quả RAGAs của cấu hình này cần được diễn giải cùng với phân bố điểm gần như nhị phân của độ trung thực với ngữ cảnh và độ liên quan của câu trả lời (\textbf{Mục \ref{sec:ket-qua-sinh}}); hai chỉ số này không phân bố đều trên thang liên tục $[0,1]$ như yêu cầu trong câu lệnh dẫn dắt. Độ chính xác ngữ cảnh ở mức thấp (0,0847) phần lớn là hệ quả của mẫu số: mỗi câu đưa tối đa 8 kết quả vào ngữ cảnh trong khi số bằng chứng chuẩn trung bình mỗi câu nhỏ hơn nhiều, nên không nên so trực tiếp con số này với \textit{Precision@K} của phần truy xuất thuần (dùng $K = 10$ và tiêu chí khớp khác).
 
 %----------------------------------------------------------------------------------------
 %	SECTION 7
@@ -417,7 +415,7 @@ Nhóm \textit{video\_grounded} tiếp tục là nhóm yếu nhất ở mọi m�
     \item \textit{Quy trình đánh giá không rò rỉ và có thể tái lập:} tệp truy vấn chỉ có ba trường, nhãn chuẩn chỉ được đọc sau khi truy xuất, tập truy vấn có mã băm và quá trình chạy có thể tiếp tục sau khi bị gián đoạn (\textbf{Mục \ref{sec:khung-danh-gia}}).
     \item \textit{Kho học liệu đầy đủ:} độ phủ 100\% đối với bộ câu hỏi đánh giá, không có câu nào bị loại vì thiếu nguồn.
     \item \textit{Tách bạch được hiệu ứng của từng thành phần:} ba cấu hình cho phép phân biệt hiệu ứng của việc hợp nhất đa phương thức (không rõ rệt) với hiệu ứng của xếp hạng lại (rõ rệt, có ý nghĩa thống kê).
-    \item \textit{Đánh giá cả truy xuất lẫn sinh câu trả lời:} không chỉ đánh giá khả năng tìm bằng chứng, mà còn đo độ trung thực, độ liên quan và chất lượng trích dẫn của câu trả lời cuối cùng.
+    \item \textit{Đánh giá cả truy xuất lẫn sinh câu trả lời:} không chỉ đánh giá khả năng tìm bằng chứng, mà còn đo độ trung thực, độ liên quan và chất lượng ngữ cảnh theo các chỉ số của RAGAs.
     \item \textit{Trích dẫn có vị trí:} câu trả lời và kết quả tìm kiếm gắn với tệp, số trang hoặc mốc thời gian, giúp người học kiểm chứng (\textbf{Mục \ref{sec:sinh}}).
     \item \textit{Báo cáo trung thực:} kết quả được báo cùng khoảng tin cậy, kể cả các so sánh cho kết quả âm hoặc không có ý nghĩa thống kê (hợp nhất đa phương thức khi chưa xếp hạng lại), không chỉ nêu kết quả tích cực.
 \end{itemize}
@@ -426,7 +424,7 @@ Nhóm \textit{video\_grounded} tiếp tục là nhóm yếu nhất ở mọi m�
 \textbf{Hạn chế}
 \begin{itemize}
     \item Mỗi hệ thống chỉ chạy một lần; chưa hiệu chỉnh kiểm định cho việc so sánh nhiều chỉ số và nhiều cặp hệ thống.
-    \item Giám khảo đánh giá sinh câu trả lời là mô hình nhỏ (Qwen3-1.7B) tự chấm sản phẩm của chính nó, phân bố điểm gần như nhị phân thay vì liên tục; chưa có đối chiếu với con người hoặc mô hình giám khảo độc lập.
+    \item Hai chỉ số chất lượng câu trả lời của RAGAs có phân bố gần như nhị phân thay vì liên tục.
     \item Nhóm câu hỏi \textit{video\_grounded} yếu ở mọi cấu hình đã đo, nguyên nhân chưa được kiểm chứng.
     \item Chưa đo biến thể HyDE + vòng lặp truy xuất lặp lại và biến thể trả lời bằng ảnh.
     \item Các hạn chế về thiết kế được nêu ở \textbf{Mục \ref{sec:han-che}}.

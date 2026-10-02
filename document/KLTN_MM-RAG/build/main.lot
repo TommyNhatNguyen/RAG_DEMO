@@ -1,21 +1,22 @@
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Tổng hợp một số công trình liên quan}}{6}{table.1.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Các trường siêu dữ liệu được ghi cho từng đối tượng tri thức}}{19}{table.caption.12}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Kích thước đoạn và độ chồng lấp theo loại tệp (đơn vị: ký tự)}}{21}{table.caption.13}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Các mô hình của họ Qwen3 được hệ thống sử dụng}}{25}{table.caption.15}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Khoản thưởng cộng vào điểm theo loại nội dung}}{28}{table.caption.17}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Các sự kiện truyền theo luồng của điểm cuối hỏi đáp}}{31}{table.caption.18}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Các trường siêu dữ liệu được ghi cho từng đối tượng tri thức}}{21}{table.caption.12}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Kích thước đoạn và độ chồng lấp theo loại tệp (đơn vị: ký tự)}}{23}{table.caption.13}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Các mô hình của họ Qwen3 được hệ thống sử dụng}}{26}{table.caption.15}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Khoản thưởng cộng vào điểm theo loại nội dung}}{29}{table.caption.17}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Các sự kiện truyền theo luồng của điểm cuối hỏi đáp}}{32}{table.caption.18}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Số tệp đã được lập chỉ mục, theo môn học và loại tệp (độ phủ 69/69, không lỗi)}}{37}{table.caption.19}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Phân bố 400 câu hỏi theo nhóm và theo độ khó}}{37}{table.caption.20}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Cấu hình của ba hệ thống truy xuất được so sánh}}{38}{table.caption.21}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Điểm trung bình macro trên 400 câu, ba hệ thống (xem tên đầy đủ ở Bảng \ref {tab:v7-systems})}}{39}{table.caption.22}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Hiệu số và khoảng tin cậy 95\% (lấy mẫu lại ghép cặp, 400 bản ghi, 10\,000 lần lấy mẫu)}}{40}{table.caption.24}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Tỷ lệ trúng tại $K$ trên 400 câu, ba hệ thống}}{41}{table.caption.25}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces F1@10 theo nhóm câu hỏi, ba hệ thống}}{41}{table.caption.27}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces F1@10 theo độ khó, ba hệ thống}}{42}{table.caption.29}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces Kết quả sinh câu trả lời trên 400 câu, cấu hình Lai + XHL, chỉ ngữ cảnh văn bản}}{43}{table.caption.30}%
-\contentsline {table}{\numberline {4.10}{\ignorespaces Độ phủ/độ chính xác theo tệp, theo nhóm câu hỏi (sinh câu trả lời)}}{44}{table.caption.31}%
-\contentsline {table}{\numberline {4.11}{\ignorespaces Độ phủ/độ chính xác theo tệp, theo độ khó (sinh câu trả lời)}}{44}{table.caption.32}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Số tệp đã được lập chỉ mục, theo môn học và loại tệp (độ phủ 69/69, không lỗi)}}{38}{table.caption.19}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Phân bố 400 câu hỏi theo nhóm và theo độ khó}}{38}{table.caption.20}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Cấu hình của ba hệ thống truy xuất được so sánh}}{39}{table.caption.21}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Điểm trung bình macro trên 400 câu, ba hệ thống (xem tên đầy đủ ở Bảng \ref {tab:v7-systems})}}{40}{table.caption.22}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Hiệu số và khoảng tin cậy 95\% (lấy mẫu lại ghép cặp, 400 bản ghi, 10\,000 lần lấy mẫu)}}{41}{table.caption.24}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Tỷ lệ trúng tại $K$ trên 400 câu, ba hệ thống}}{42}{table.caption.25}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces F1@10 theo nhóm câu hỏi, ba hệ thống}}{43}{table.caption.27}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces F1@10 theo độ khó, ba hệ thống}}{44}{table.caption.29}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Kết quả sinh câu trả lời trên 400 câu, cấu hình Lai + XHL, chỉ ngữ cảnh văn bản}}{44}{table.caption.30}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Độ phủ/độ chính xác theo tệp, theo nhóm câu hỏi (sinh câu trả lời)}}{45}{table.caption.31}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Độ phủ/độ chính xác theo tệp, theo độ khó (sinh câu trả lời)}}{45}{table.caption.32}%
 \addvspace {10\p@ }
